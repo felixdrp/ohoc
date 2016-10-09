@@ -8,7 +8,7 @@ export default class App extends Component {
           Hello, world!!!
         </h1>
         <span>
-          First commit
+          Adding packages...ss
         </span>
       </div>
     );
