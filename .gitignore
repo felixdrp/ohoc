@@ -1,0 +1,7 @@
+node_modules
+npm-debug.log
+
+#Ignore database data and log files
+
+database/data/*
+database/log/*
