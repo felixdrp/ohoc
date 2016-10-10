@@ -32,14 +32,14 @@ var AppContainer = React.createClass({
   },
 
 // Uncomment to prevent leave message
-  componentDidMount() {
-    // debugger
-    window.addEventListener('beforeunload', this.beforeunload)
-  },
-
-  componentWillUnmount() {
-    window.removeEventListener('beforeunload', this.beforeunload)
-  },
+  // componentDidMount() {
+  //   // debugger
+  //   window.addEventListener('beforeunload', this.beforeunload)
+  // },
+  //
+  // componentWillUnmount() {
+  //   window.removeEventListener('beforeunload', this.beforeunload)
+  // },
 
   render() {
     return (
