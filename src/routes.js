@@ -16,7 +16,10 @@ import { Router, Route, IndexRoute, IndexRedirect } from 'react-router'
 import {
   // Core components
   AppContainer,
-
+  BrowseRecords,
+  RecordContainer,
+  RecordCreate,
+  RecordView,
 } from './components/'
 
 import App from './App'
@@ -27,7 +30,18 @@ import App from './App'
 var routes = (history) => (
   <Router history={history}>
     <Route path="/" component={AppContainer} >
-      <IndexRoute component={App} />
+      <IndexRoute component={BrowseRecords} />
+
+      <Route path="browser" component={BrowseRecords} />
+
+      <Route path="records" component={RecordContainer} >
+        <Route path="/record/:recordId(/:recordName)" component={RecordView} />
+      </Route>
+
+      <Route path="records" component={RecordContainer} >
+        <Route path="/controlRoom/record/create" component={RecordCreate} />
+        <Route path="/controlRoom/record/edit/:recordId(/:recordName)" component={RecordView} />
+      </Route>
     </Route>
   </Router>
 )
