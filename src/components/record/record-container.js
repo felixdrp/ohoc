@@ -6,11 +6,11 @@ export default class RecordContainer extends Component {
   render() {
     return (
       <div>
-        <h1>
+        {/* <h1>
           Registers container!!!
           {this.props.params.recordId}
           {this.props.params.recordName}
-        </h1>
+        </h1> */}
         {this.props.children}
       </div>
     );

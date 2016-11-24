@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react';
+
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import muiLMSTheme from '../muiLMSTheme';
-
 
 // This replaces the textColor value on the palette
 // and then update the keys for each component that depends on it.
@@ -26,30 +26,16 @@ injectTapEventPlugin();
  * ```
  */
 
-var AppContainer = React.createClass({
-  beforeunload(ev) {
-    return ev.returnValue = 'My reason';
-  },
+import CommonView from './common-view';
 
-// Uncomment to prevent leave message
-  // componentDidMount() {
-  //   // debugger
-  //   window.addEventListener('beforeunload', this.beforeunload)
-  // },
-  //
-  // componentWillUnmount() {
-  //   window.removeEventListener('beforeunload', this.beforeunload)
-  // },
-
+export default class AppContainer extends Component {
   render() {
     return (
      <div id="maincontainer">
        <MuiThemeProvider muiTheme={ muiTheme }>
-         {this.props.children}
-      </MuiThemeProvider>
+         <CommonView {...this.props} />
+       </MuiThemeProvider>
      </div>
     );
   }
-})
-
-export default AppContainer
+}

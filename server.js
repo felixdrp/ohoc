@@ -9,7 +9,11 @@ new WebpackDevServer(webpack(config), {
   proxy: {
     '/api': {
       target: 'http://localhost:3001',
-      pathRewrite: {'^/api' : ''}
+      // pathRewrite: {'^/api' : ''}
+    },
+    '/upload': {
+      target: 'http://localhost:3001',
+      // pathRewrite: {'^/api' : ''}
     }
   }
 }).listen(3000, 'localhost', function (err, result) {

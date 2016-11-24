@@ -20,6 +20,7 @@ import {
   RecordContainer,
   RecordCreate,
   RecordView,
+  RecordEdit,
 } from './components/'
 
 import App from './App'
@@ -35,12 +36,13 @@ var routes = (history) => (
       <Route path="browser" component={BrowseRecords} />
 
       <Route path="records" component={RecordContainer} >
+        <Route path="/record/create" component={RecordCreate} />
         <Route path="/record/:recordId(/:recordName)" component={RecordView} />
       </Route>
 
-      <Route path="records" component={RecordContainer} >
+      <Route path="controlRoom" component={RecordContainer} >
         <Route path="/controlRoom/record/create" component={RecordCreate} />
-        <Route path="/controlRoom/record/edit/:recordId(/:recordName)" component={RecordView} />
+        <Route path="/controlRoom/record/edit/:recordId(/:recordName)" component={RecordEdit} />
       </Route>
     </Route>
   </Router>

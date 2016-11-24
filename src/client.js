@@ -7,6 +7,8 @@ import { browserHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer, routerMiddleware, push  } from 'react-router-redux'
 import Routes from './routes';
 
+import templateList from './reducers/template-list';
+
 // The initial state from server-generated HTML
 // have a look to server code.
 const initialState = window.__INITIAL_STATE__ || {}
@@ -17,8 +19,8 @@ const middleware = routerMiddleware(browserHistory)
 // // Create Redux store with initial state
 const store = createStore(
   combineReducers({
-    // account,
     routing: routerReducer,
+    templateList,
     // task,
   }),
   initialState,
@@ -35,7 +37,6 @@ const history = syncHistoryWithStore(browserHistory, store)
 ReactDOM.render(
   <Provider store={store}>
     {Routes( history )}
-  </Provider>
-  ,
+  </Provider>,
   document.getElementById('root')
 );
