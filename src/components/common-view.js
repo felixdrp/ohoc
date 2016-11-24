@@ -19,10 +19,10 @@ class CommonView extends Component {
 
   render() {
     return (
-     <div id="CommonView">
+     <div id="CommonView" style={{marginLeft: 20,marginTop: 20}}>
        <h1>
-         <Link to={`/`} style={{ textDecoration: 'none' }}>
-           Kent Project
+         <Link to={`/`} style={{ textDecoration: 'none'}}>
+           Intellectual Property <br/> Oral History Project
          </Link>
        </h1>
 

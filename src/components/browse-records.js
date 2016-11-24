@@ -11,6 +11,17 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 
 
 class BrowseRecords extends Component {
+
+  categoryPhotos = {
+    "academia" : "images/PhotoAcademy.jpeg",
+    "civil service" : "images/PhotoCivilService.jpg",
+    "policy formation" : "images/PhotoPolicyFormation.jpg",
+    "publications" : "images/PhotoPublications.jpg",
+    "solicitors and agents" : "images/PhotoSolicitorsandAgents.jpg",
+    "the bar" : "images/PhotoTheBar.jpg",
+  }
+
+
   constructor(props) {
     super(props)
     this.state = {
@@ -26,7 +37,7 @@ class BrowseRecords extends Component {
       <div>
 
 
-        <h3> Browse Records </h3>
+
 
         <div>
           <TextField
@@ -38,20 +49,26 @@ class BrowseRecords extends Component {
         <div>
           {
             this.props.templateList && Object.keys(this.props.templateList).map( (e, index) => (
-              <Card
-                key={index}
-                style={{
-                  width: '20%',
-                  display: 'inline-block',
-                }}
-                expanded={false}
-                initiallyExpanded={false}
-              >
-                <CardTitle
-                  title={e}
-                  // subtitle={"Card subtitle" + e}
-                />
-              </Card>
+              <Link key={index} to={'/record/create'} style={{ textDecoration: 'none' }}>
+                <Card
+
+                  style={{
+                    width: '20%',
+                    display: 'inline-block',
+                    marginBottom: 10,
+                    marginRight: 10,
+                  }}
+                  expanded={false}
+                  initiallyExpanded={false}
+                >
+                  <CardMedia
+                    overlay={<CardTitle title={e} />}
+                  >
+                    <img style={{width : 500, height: 300}} src={"http://localhost:3001/"+this.categoryPhotos[e]} />
+                  </CardMedia>
+
+                </Card>
+              </Link>
             ))
           }
         </div>
