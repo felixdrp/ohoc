@@ -36,9 +36,6 @@ class BrowseRecords extends Component {
     return (
       <div>
 
-
-
-
         <div>
           <TextField
             hintText="Search"

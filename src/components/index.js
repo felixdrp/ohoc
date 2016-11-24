@@ -10,6 +10,9 @@ export AppContainer from './app-container'
 
 export BrowseRecords from './browse-records'
 
+export CategoriesContainer from './categories/categories-container'
+export CategoriesView from './categories/categories-view'
+
 export RecordContainer from './record/record-container'
 
 export RecordCreate from './record/record-create'
