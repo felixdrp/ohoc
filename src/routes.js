@@ -17,6 +17,8 @@ import {
   // Core components
   AppContainer,
   BrowseRecords,
+  CategoriesContainer,
+  CategoriesView,
   RecordContainer,
   RecordCreate,
   RecordView,
@@ -34,6 +36,10 @@ var routes = (history) => (
       <IndexRoute component={BrowseRecords} />
 
       <Route path="browser" component={BrowseRecords} />
+
+      <Route path="categories" component={CategoriesContainer} >
+        <Route path="/categories/list/:categorieId(/:page)" component={CategoriesView} />
+      </Route>
 
       <Route path="records" component={RecordContainer} >
         <Route path="/record/create" component={RecordCreate} />
