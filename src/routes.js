@@ -38,7 +38,7 @@ var routes = (history) => (
       <Route path="browser" component={BrowseRecords} />
 
       <Route path="categories" component={CategoriesContainer} >
-        <Route path="/categories/list/:categorieId(/:page)" component={CategoriesView} />
+        <Route path="/categories/list/:categoryId(/:page)" component={CategoriesView} />
       </Route>
 
       <Route path="records" component={RecordContainer} >

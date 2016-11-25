@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import RaisedButton from 'material-ui/RaisedButton';
 
-export default class RecordContainer extends Component {
+export default class CategoriesContainer extends Component {
   render() {
     return (
       <div>

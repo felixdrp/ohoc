@@ -4,6 +4,7 @@ import { Link } from 'react-router'
 
 import { templateListSet } from '../actions/actions';
 import fetchData from '../network/fetch-data';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 class CommonView extends Component {
   async componentWillMount() {
@@ -19,12 +20,15 @@ class CommonView extends Component {
 
   render() {
     return (
-     <div id="CommonView" style={{marginLeft: 20,marginTop: 20}}>
-       <h1>
+     <div id="CommonView" style={{marginLeft: "8%",marginTop: 20, marginRight:"8%", minWidth:1000 }}>
+       <Card>
+       <h1 style={{textAlign:"right",verticalAlign:"middle"}}>
          <Link to={`/`} style={{ textDecoration: 'none'}}>
-           Intellectual Property <br/> Oral History Project
+           <span style={{color:"black"}}>Intellectual Property</span> <br/> <span style={{color:"#3399ff"}}>Oral History Project</span>
          </Link>
        </h1>
+       </Card>
+       <hr/>
 
        {this.props.children}
      </div>
