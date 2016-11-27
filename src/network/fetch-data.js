@@ -5,16 +5,28 @@ export default class fetchData {
     this.httpClient = new HttpClient()
   }
 
-  async templateListGet() {
-    let templateList
+  async getGeneric(path) {
+    let result
     try {
-      templateList = await this.httpClient.send('', { path: '/api/templates/list' })
-      templateList = JSON.parse(templateList)
+      result = await this.httpClient.send('', { path })
+      result = JSON.parse(result)
     } catch(error) {
       console.error('fetching template list error > ' + error)
     }
 
-    return templateList
+    return result
+  }
+
+  async getAllRecords() {
+    return await getGeneric( '/api/getAllRecords' )
+  }
+
+  async getRecordsByType(type) {
+    return await getGeneric( '/api/getRecordsByType/' + type )
+  }
+
+  async templateListGet() {
+    return await getGeneric( '/api/templates/list' )
   }
 
   async createRecord(data) {
@@ -34,6 +46,29 @@ export default class fetchData {
     }
 
     return newRecordId
+  }
+
+  async getRecordData(recordId) {
+    return await getGeneric( '/api/getRecord/' + recordId )
+  }
+
+  async setRecordData(recordId, data) {
+    let result
+    let body = JSON.stringify(data)
+    try {
+      result = await this.httpClient.send(
+        body,
+        {
+          method: 'POST',
+          path: '/api/setRecord/' + recordId,
+          headers: {'content-type': 'application/json'},
+        })
+      result = JSON.parse(result)
+    } catch(error) {
+      console.error('fetching template list error > ' + error)
+    }
+
+    return result
   }
 
 }
