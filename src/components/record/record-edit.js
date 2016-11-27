@@ -19,6 +19,18 @@ class RecordEdit extends Component {
     }
   }
 
+  async updateRecord() {
+    let fetch = new fetchData();
+    // Data to upload
+    let recordData = {hola: 'a paso!!!'}
+
+    try {
+      recordData = await fetch.setRecordData(this.props.params.recordId, recordData)
+    } catch(error) {
+      console.error('fetching record update data > ' + error)
+    }
+  }
+
   render() {
     const style = {
       margin: 12,
@@ -29,7 +41,13 @@ class RecordEdit extends Component {
         <h1>
           Register View!!!
         </h1>
-        <RaisedButton label="Primary" primary={true} style={style} />
+        <RaisedButton
+          label="Primary"
+          primary={true}
+          style={style}
+          onClick={() => this.updateRecord()}
+        />
+
         <RaisedButton label="Secondary" secondary={true} style={style} />
         <span>
           Adding packages...
