@@ -9,7 +9,23 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 
 import capitalize from '../stringTools'
 
+import fetchData from '../../network/fetch-data';
+
 export default class RecordView extends Component {
+
+  async componentDidMount() {
+    let fetch = new fetchData();
+    // Load the templateList
+    let recordData
+
+    try {
+      recordData = await fetch.getRecordData(this.props.params.recordId)
+      this.setState({recordData})
+    } catch(error) {
+      console.error('fetching record data > ' + error)
+    }
+  }
+
   render() {
     const style = {
       margin: 12,

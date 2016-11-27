@@ -18,15 +18,15 @@ export default class fetchData {
   }
 
   async getAllRecords() {
-    return await getGeneric( '/api/getAllRecords' )
+    return await this.getGeneric( '/api/getAllRecords' )
   }
 
   async getRecordsByType(type) {
-    return await getGeneric( '/api/getRecordsByType/' + type )
+    return await this.getGeneric( '/api/getRecordsByType/' + type )
   }
 
   async templateListGet() {
-    return await getGeneric( '/api/templates/list' )
+    return await this.getGeneric( '/api/templates/list' )
   }
 
   async createRecord(data) {
@@ -49,7 +49,7 @@ export default class fetchData {
   }
 
   async getRecordData(recordId) {
-    return await getGeneric( '/api/getRecord/' + recordId )
+    return await this.getGeneric( '/api/getRecord/' + recordId )
   }
 
   async setRecordData(recordId, data) {
