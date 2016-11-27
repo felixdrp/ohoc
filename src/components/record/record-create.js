@@ -38,7 +38,8 @@ class RecordCreate extends Component {
     // console.log(newRecordId)
   }
 
-  handleChange = (event, index, value) => this.setState({template: value});
+  handleChangeCategorie = (event, index, value) => this.setState({template: value});
+  handleChangeSubcategorie = (event, index, value) => this.setState({subtemplate: value});
 
   render() {
     const style = {
@@ -57,7 +58,7 @@ class RecordCreate extends Component {
           errorText=""
           errorStyle={{}}
           value={this.state.template}
-          onChange={this.handleChange}
+          onChange={this.handleChangeCategorie}
         >
           {
             this.props.templateList &&
@@ -67,12 +68,37 @@ class RecordCreate extends Component {
           }
         </SelectField>
 
-        <RaisedButton
-          label="Add Record"
-          primary={true}
-          style={style}
-          onClick={ () => this.createRecord() }
-        />
+        {
+          !!this.state.template &&
+          (
+            <div>
+              <SelectField
+                floatingLabelText="Subcategories"
+                hintText="Please, select a "
+                errorText=""
+                errorStyle={{}}
+                value={this.state.subtemplate}
+                onChange={this.handleChangeSubcategorie}
+              >
+                {
+                  this.props.templateList[this.state.template].map(
+                    (element, index) => <MenuItem key={index} value={element} primaryText={element} />
+                  )
+                }
+              </SelectField>
+            </div>
+          )
+        }
+
+        <div>
+          <RaisedButton
+            label="Add Record"
+            primary={true}
+            style={style}
+            disabled={ !(!!this.state.template && !!this.state.subtemplate) }
+            onClick={ () => this.createRecord() }
+          />
+        </div>
       </div>
     );
   }

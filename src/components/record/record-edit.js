@@ -6,25 +6,19 @@ import fetchData from '../../network/fetch-data';
 import RaisedButton from 'material-ui/RaisedButton';
 
 class RecordEdit extends Component {
-  async createRecord() {
-    let state = this.state
-    // Load the templateList
-    if (!state.template) {
-      return
-    }
-
-    let newRecordId
+  async componentDidMount() {
     let fetch = new fetchData();
-    // Get and dispatch the template list
-    newRecordId = await fetch.createRecord({
-      template: state.template,
-      subtemplate: state.subtemplate,
-    })
+    // Load the templateList
+    let recordData
 
-    this.props.editNewRecord(newRecordId.recordId)
-    // console.log(newRecordId)
+    try {
+      recordData = await fetch.getRecordData(this.props.params.recordId)
+      this.setState({recordData})
+    } catch(error) {
+      console.error('fetching record data > ' + error)
+    }
   }
-  
+
   render() {
     const style = {
       margin: 12,
