@@ -21,14 +21,14 @@ class CommonView extends Component {
   render() {
     return (
      <div id="CommonView" style={{marginLeft: "8%",marginTop: 20, marginRight:"8%", minWidth:1000 }}>
-       <Card>
-       <h1 style={{textAlign:"right",verticalAlign:"middle"}}>
+       <Card style={{height:130, marginBottom:10}}>
+       <h1 style={{float:"right",marginRight:25,}}>
          <Link to={`/`} style={{ textDecoration: 'none'}}>
            <span style={{color:"black"}}>Intellectual Property</span> <br/> <span style={{color:"#3399ff"}}>Oral History Project</span>
          </Link>
        </h1>
        </Card>
-       <hr/>
+
 
        {this.props.children}
      </div>

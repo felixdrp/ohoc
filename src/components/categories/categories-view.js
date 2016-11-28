@@ -71,7 +71,7 @@ export default class CategoriesView extends Component {
 
     return (
       <Card style={{paddingBottom:20}}>
-        <CardTitle style={{marginLeft:50}}> <h2> {capitalize(this.props.params.categoryId)} </h2> </CardTitle>
+        <CardTitle style={{marginLeft:50}}> <h1> {capitalize(this.props.params.categoryId)} </h1> </CardTitle>
         <Card style={{marginLeft:50,marginRight:50}}>
           <CardText>
             {
