@@ -14,6 +14,8 @@ import CommunicationChatBubble from 'material-ui/svg-icons/image/navigate-next';
 
 import capitalize from '../stringTools'
 
+import fetchData from '../../network/fetch-data';
+
 export default class CategoriesView extends Component {
   async componentDidMount() {
     let fetch = new fetchData();
@@ -23,6 +25,7 @@ export default class CategoriesView extends Component {
     try {
       categoriesList = await fetch.getRecordsByType(this.props.params.categoryId)
       this.setState({categoriesList})
+    //  debugger;
     } catch(error) {
       console.error('fetching record data > ' + error)
     }
@@ -49,35 +52,43 @@ export default class CategoriesView extends Component {
     const style = {
       margin: 12,
     };
-    let list = [];
-    let testEntry = {
-      id : 1,
-      type : "academia",
-      subtype : "institutions",
-      data: {"featuredImage": null, "recordName": "city university", "media": {"text": [], "audio": [], "video": [], "picture": []}, "fields": [{"data": "City University", "name": "name", "type": "text"}, {"data": "City University", "name": "title", "type": "text"},
-            {"data": "Some info about City University, Lorem ipsum dolor sit amet, ius at sensibus molestiae omittantur, eos vidisse nominati ut. Quot voluptatibus duo ei, sea in detracto pericula. Mel te oblique consulatu elaboraret, mea nibh placerat conceptam an. Iriure offendit aliquando et has, nemore corpora quo ea, ei mel alienum urbanitas. His ut nibh consequat. Ut eum labore impetus, per no accumsan urbanitas deterruisset, sed voluptatum deterruisset comprehensam ei.", "name": "work", "type": "text"}
-          ]},
+
+    if ( !this.state || !this.state.categoriesList ){
+      return <div></div>
     }
 
-    let testEntry2 = {
-      id : 1,
-      type : "academia",
-      subtype : "featured people",
-      data: {"featuredImage": null, "recordName": "Boaty Mc Boatface", "media": {"text": [], "audio": [], "video": [], "picture": []}, "fields": [{"data": "City University", "name": "name", "type": "text"}, {"data": "City University", "name": "title", "type": "text"},
-            {"data": "Some info about City University, Lorem ipsum dolor sit amet, ius at sensibus molestiae omittantur, eos vidisse nominati ut. Quot voluptatibus duo ei, sea in detracto pericula. Mel te oblique consulatu elaboraret, mea nibh placerat conceptam an. Iriure offendit aliquando et has, nemore corpora quo ea, ei mel alienum urbanitas. His ut nibh consequat. Ut eum labore impetus, per no accumsan urbanitas deterruisset, sed voluptatum deterruisset comprehensam ei.", "name": "work", "type": "text"}
-          ]},
-    }
 
-    list.push(testEntry);
-    list.push(testEntry2);
-    list.push(testEntry);
-    list.push(testEntry);
-    list.push(testEntry2);
-    list.push(testEntry);
-    list.push(testEntry);
-    list.push(testEntry2);
-    list.push(testEntry2);
-    list.push(testEntry2);
+    let list = this.state.categoriesList.recordsByType;
+
+  //  debugger;
+    // let testEntry = {
+    //   id : 1,
+    //   type : "academia",
+    //   subtype : "institutions",
+    //   data: {"featuredImage": null, "recordName": "city university", "media": {"text": [], "audio": [], "video": [], "picture": []}, "fields": [{"data": "City University", "name": "name", "type": "text"}, {"data": "City University", "name": "title", "type": "text"},
+    //         {"data": "Some info about City University, Lorem ipsum dolor sit amet, ius at sensibus molestiae omittantur, eos vidisse nominati ut. Quot voluptatibus duo ei, sea in detracto pericula. Mel te oblique consulatu elaboraret, mea nibh placerat conceptam an. Iriure offendit aliquando et has, nemore corpora quo ea, ei mel alienum urbanitas. His ut nibh consequat. Ut eum labore impetus, per no accumsan urbanitas deterruisset, sed voluptatum deterruisset comprehensam ei.", "name": "work", "type": "text"}
+    //       ]},
+    // }
+    //
+    // let testEntry2 = {
+    //   id : 1,
+    //   type : "academia",
+    //   subtype : "featured people",
+    //   data: {"featuredImage": null, "recordName": "Boaty Mc Boatface", "media": {"text": [], "audio": [], "video": [], "picture": []}, "fields": [{"data": "City University", "name": "name", "type": "text"}, {"data": "City University", "name": "title", "type": "text"},
+    //         {"data": "Some info about City University, Lorem ipsum dolor sit amet, ius at sensibus molestiae omittantur, eos vidisse nominati ut. Quot voluptatibus duo ei, sea in detracto pericula. Mel te oblique consulatu elaboraret, mea nibh placerat conceptam an. Iriure offendit aliquando et has, nemore corpora quo ea, ei mel alienum urbanitas. His ut nibh consequat. Ut eum labore impetus, per no accumsan urbanitas deterruisset, sed voluptatum deterruisset comprehensam ei.", "name": "work", "type": "text"}
+    //       ]},
+    // }
+    //
+    // list.push(testEntry);
+    // list.push(testEntry2);
+    // list.push(testEntry);
+    // list.push(testEntry);
+    // list.push(testEntry2);
+    // list.push(testEntry);
+    // list.push(testEntry);
+    // list.push(testEntry2);
+    // list.push(testEntry2);
+    // list.push(testEntry2);
 
     let entriesBySubtype = this.entriesToSubtypeGroups(list);
 
@@ -97,7 +108,7 @@ export default class CategoriesView extends Component {
 
                             {
                               group.map( (entry, i) =>{
-                                return <Link to={`/record/`+entry.id+i} key={i} style={{ textDecoration: 'none'}}> <ListItem
+                                return <Link to={`/record/`+entry.id} key={i} style={{ textDecoration: 'none'}}> <ListItem
                                   primaryText={capitalize(entry.data.recordName)}
                                   leftAvatar={<Avatar src="http://localhost:3001/images/institution-default.jpg" />}
                                   rightIcon={<CommunicationChatBubble />}

@@ -31,15 +31,13 @@ export default class RecordView extends Component {
       margin: 12,
     };
 
-    let recordData =
-              {
-                id : 1,
-                type : "academia",
-                subtype : "institutions",
-                data: {"featuredImage": null, "recordName": "city university", "media": {"text": [], "audio": [], "video": [], "picture": []}, "fields": [{"data": "City University", "name": "name", "type": "text"}, {"data": "City University", "name": "title", "type": "text"},
-                      {"data": "Some info about City University, Lorem ipsum dolor sit amet, ius at sensibus molestiae omittantur, eos vidisse nominati ut. Quot voluptatibus duo ei, sea in detracto pericula. Mel te oblique consulatu elaboraret, mea nibh placerat conceptam an. Iriure offendit aliquando et has, nemore corpora quo ea, ei mel alienum urbanitas. His ut nibh consequat. Ut eum labore impetus, per no accumsan urbanitas deterruisset, sed voluptatum deterruisset comprehensam ei.", "name": "work", "type": "text"}
-                    ]},
-              }
+    if ( !this.state || !this.state.recordData ){
+      return <div></div>
+    }
+
+    let recordData  = this.state.recordData.recordById[0];
+
+
     return (
       <Card style={{padding:50, paddingTop: 30}}>
 
