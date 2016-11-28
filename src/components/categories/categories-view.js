@@ -15,6 +15,18 @@ import CommunicationChatBubble from 'material-ui/svg-icons/image/navigate-next';
 import capitalize from '../stringTools'
 
 export default class CategoriesView extends Component {
+  async componentDidMount() {
+    let fetch = new fetchData();
+    // Load the templateList
+    let categoriesList
+
+    try {
+      categoriesList = await fetch.getRecordsByType(this.props.params.categoryId)
+      this.setState({categoriesList})
+    } catch(error) {
+      console.error('fetching record data > ' + error)
+    }
+  }
 
   entriesToSubtypeGroups = (list) => {
 
