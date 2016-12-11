@@ -22,12 +22,16 @@ class RecordEdit extends Component {
     try {
 
       recordData = await fetch.getRecordData(this.props.params.recordId)
+debugger
 
-      this.setState({recordData})
-      this.setState({ submitted: false})
     } catch(error) {
       console.error('fetching record data > ' + error)
     }
+
+    this.setState({
+      recordData,
+      submitted: false
+    })
   }
 
   async updateRecord() {
@@ -93,6 +97,7 @@ class RecordEdit extends Component {
         <h1> Adding new  {currentRecord.type+" / "+currentRecord.subtype} </h1>
 
         {
+          !!currentRecord.structure && 'info' in currentRecord.structure &&
           currentRecord.structure.info.map( (item, i) => {
                   return <div key={i}> <span style={{marginRight:15}}>{capitalize(item.name)+":"}</span>
                     <TextField hintText={item.name} onChange={ (event, index, value)=>this.handleChange(event, value, index,  item.name)} />
