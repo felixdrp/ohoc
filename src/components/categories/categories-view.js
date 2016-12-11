@@ -60,36 +60,6 @@ export default class CategoriesView extends Component {
 
     let list = this.state.categoriesList.recordsByType;
 
-  //  debugger;
-    // let testEntry = {
-    //   id : 1,
-    //   type : "academia",
-    //   subtype : "institutions",
-    //   data: {"featuredImage": null, "recordName": "city university", "media": {"text": [], "audio": [], "video": [], "picture": []}, "fields": [{"data": "City University", "name": "name", "type": "text"}, {"data": "City University", "name": "title", "type": "text"},
-    //         {"data": "Some info about City University, Lorem ipsum dolor sit amet, ius at sensibus molestiae omittantur, eos vidisse nominati ut. Quot voluptatibus duo ei, sea in detracto pericula. Mel te oblique consulatu elaboraret, mea nibh placerat conceptam an. Iriure offendit aliquando et has, nemore corpora quo ea, ei mel alienum urbanitas. His ut nibh consequat. Ut eum labore impetus, per no accumsan urbanitas deterruisset, sed voluptatum deterruisset comprehensam ei.", "name": "work", "type": "text"}
-    //       ]},
-    // }
-    //
-    // let testEntry2 = {
-    //   id : 1,
-    //   type : "academia",
-    //   subtype : "featured people",
-    //   data: {"featuredImage": null, "recordName": "Boaty Mc Boatface", "media": {"text": [], "audio": [], "video": [], "picture": []}, "fields": [{"data": "City University", "name": "name", "type": "text"}, {"data": "City University", "name": "title", "type": "text"},
-    //         {"data": "Some info about City University, Lorem ipsum dolor sit amet, ius at sensibus molestiae omittantur, eos vidisse nominati ut. Quot voluptatibus duo ei, sea in detracto pericula. Mel te oblique consulatu elaboraret, mea nibh placerat conceptam an. Iriure offendit aliquando et has, nemore corpora quo ea, ei mel alienum urbanitas. His ut nibh consequat. Ut eum labore impetus, per no accumsan urbanitas deterruisset, sed voluptatum deterruisset comprehensam ei.", "name": "work", "type": "text"}
-    //       ]},
-    // }
-    //
-    // list.push(testEntry);
-    // list.push(testEntry2);
-    // list.push(testEntry);
-    // list.push(testEntry);
-    // list.push(testEntry2);
-    // list.push(testEntry);
-    // list.push(testEntry);
-    // list.push(testEntry2);
-    // list.push(testEntry2);
-    // list.push(testEntry2);
-
     let entriesBySubtype = this.entriesToSubtypeGroups(list);
 
     return (

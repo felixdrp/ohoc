@@ -22,12 +22,32 @@ class BrowseRecords extends Component {
     "the bar" : "images/PhotoTheBar.jpg",
   }
 
+  categoryOrderIndex = {
+    "academia" : 2,
+    "civil service" : 4,
+    "policy formation" : 3,
+    "publications" : 5,
+    "solicitors and agents" : 1,
+    "the bar" : 0,
+  }
+
+  copyrightNotice = {
+    "academia" : "(Courtesy of QM Archives)",
+    "civil service" : "(Courtesy of IP Office)",
+    "policy formation" : "(Courtesy of M. Freegard)",
+    "publications" : "(Courtesy of Henry Blanco White)",
+    "solicitors and agents" : "(Courtesy of Bird&Bird)",
+    "the bar" : "(Courtesy of Metropolitan Archives)",
+  }
+
 
   constructor(props) {
     super(props)
     this.state = {
     };
   }
+
+
 
   render() {
     const style = {
@@ -47,7 +67,7 @@ class BrowseRecords extends Component {
         <Card style = {{paddingTop:30,marginBottom:50,paddingBottom:10}}>
           <div style={{textAlign:"center"}} >
           {
-            this.props.templateList && Object.keys(this.props.templateList).map( (e, index) => (
+            this.props.templateList && Object.keys(this.props.templateList).sort( (a,b) => this.categoryOrderIndex[a] > this.categoryOrderIndex[b]).map( (e, index) => (
               <Link key={index} to={'categories/list/'+e} style={{ textDecoration: 'none' }}>
                 <Card
 
@@ -61,10 +81,11 @@ class BrowseRecords extends Component {
                   initiallyExpanded={false}
                 >
                   <CardMedia
-                    overlay={<CardTitle title={capitalize(e)} />}
+                    overlay={<CardTitle title={capitalize(e)} style={{margin:0,padding:4}} > <span style={{color:"white",fontSize:14}}> {this.copyrightNotice[e]}</span> </CardTitle>}
                   >
                     <img style={{width : 500, height: 300}} src={"http://localhost:3001/"+this.categoryPhotos[e]} />
                   </CardMedia>
+
 
                 </Card>
               </Link>
@@ -93,30 +114,7 @@ class BrowseRecords extends Component {
         </div>
 
         <hr style={{margin:30}}/>
-        <div style={{margin:30}}>
-
-            <span>
-              <img src="http://www.create.ac.uk/wp-content/uploads/logos/create_primary_logo_160.jpg" style={{height:100}} />
-            </span>
-
-            <span>
-              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/13/University_of_Kent_logo.svg/1280px-University_of_Kent_logo.svg.png" style={{height:100}} />
-            </span>
-
-            <span>
-              <img src="http://www.gla.ac.uk/media/media_434161_en.jpg" style={{height:100}} />
-            </span>
-
-            <span>
-              <img src="http://www.create.ac.uk/wp-content/uploads/logos/create_primary_logo_160.jpg" style={{height:100}} />
-            </span>
-
-            <span>
-              <img src="http://www.create.ac.uk/wp-content/uploads/logos/create_primary_logo_160.jpg" style={{height:100}} />
-            </span>
-
-
-        </div>
+  
 
         </Card>
 {/*
