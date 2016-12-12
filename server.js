@@ -14,6 +14,10 @@ new WebpackDevServer(webpack(config), {
     '/upload': {
       target: 'http://localhost:3001',
       // pathRewrite: {'^/api' : ''}
+    },
+    '/multimedia': {
+      target: 'http://localhost:3001',
+      // pathRewrite: {'^/api' : ''}
     }
   }
 }).listen(3000, 'localhost', function (err, result) {

@@ -10,10 +10,18 @@ import capitalize from '../stringTools'
 import RaisedButton from 'material-ui/RaisedButton';
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-
-
+import FlatButton from 'material-ui/FlatButton';
 
 class RecordEdit extends Component {
+  constructor() {
+    super()
+    this.state = {
+    };
+
+    // Used to store references.
+    this._input = {};
+  }
+
   async componentDidMount() {
     let fetch = new fetchData();
     // Load the templateList
@@ -22,7 +30,7 @@ class RecordEdit extends Component {
     try {
 
       recordData = await fetch.getRecordData(this.props.params.recordId)
-debugger
+// debugger
 
     } catch(error) {
       console.error('fetching record data > ' + error)
@@ -32,6 +40,63 @@ debugger
       recordData,
       submitted: false
     })
+  }
+
+
+  sendFiles(files) {
+    let formData = new FormData()
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/record/upload/' + this.props.params.recordId, true);
+
+    xhr.onload = function(e) {
+      console.log(xhr.response)
+      // debugger
+      // resolve(xhr.response)
+    };
+
+    xhr.onerror = function(e) {
+      // console.log(xhr.response)
+      console.error(e)
+    };
+
+    // Listen to the upload progress.
+    xhr.upload.onprogress = function(e) {
+      // if (e.lengthComputable) {
+      //   // console.log('e.loaded>> ' + e.loaded)
+      //   // console.log('%>> ' + e.total)
+      //
+      //   // Update uploadList
+      //   uploadList[uploadId].finishPercentage = (addFileNumber * 100 ) / totalFiles,
+      //   uploadList[uploadId].sizeUploaded = sizeUploaded,
+      //
+      //   // Send data to ALL the uploaders Objects
+      //   updateAllUploaders()
+      //
+      //   // If upload end
+      //   if (uploadList[uploadId].finishPercentage == 100) {
+      //     uploadList[uploadId].state = UPLOAD_STATUS_FINISHED
+      //   }
+      // }
+    };
+
+    for (let file of files) {
+      formData.append('uploadedImages[]', file);
+    }
+
+    xhr.send(formData);
+  }
+
+  submitFiles = (e) => {
+    e.nativeEvent.preventDefault();
+    const input = this._input;
+    let data
+    let files = Array.from(input.uploadList.files)
+
+    if (files.length == 0) {
+      return
+    }
+
+    this.sendFiles(files)
   }
 
   async updateRecord() {
@@ -91,6 +156,8 @@ debugger
 
     let currentRecord = this.state.recordData.recordById[0];
 
+    const input = this._input;
+
     return (
       <Card style={{padding:30}}>
 
@@ -99,10 +166,10 @@ debugger
         {
           !!currentRecord.structure && 'info' in currentRecord.structure &&
           currentRecord.structure.info.map( (item, i) => {
-                  return <div key={i}> <span style={{marginRight:15}}>{capitalize(item.name)+":"}</span>
-                    <TextField hintText={item.name} onChange={ (event, index, value)=>this.handleChange(event, value, index,  item.name)} />
-                  </div>
-                } )
+            return <div key={i}> <span style={{marginRight:15}}>{capitalize(item.name)+":"}</span>
+              <TextField hintText={item.name} onChange={ (event, index, value)=>this.handleChange(event, value, index,  item.name)} />
+            </div>
+          } )
         }
 
         <RaisedButton
@@ -111,7 +178,49 @@ debugger
           style={style}
           onClick={() => this.updateRecord()}
         />
-
+        <form
+          name="uploadForm"
+          role="form"
+          style={{
+            marginLeft: 30,
+            marginRight: 30,
+          }}
+          action={ '/api/record/upload/' + this.props.params.recordId }
+          method="POST"
+        >
+          <input
+            type="file"
+            multiple="multiple"
+            // accept="image/*"
+            name="uploadImages"
+            ref={ (c) => input.uploadList = c }
+            // onChange={ () => { this.newFilesSelected(); } }
+            style={{
+              // display: 'none',
+            }}
+          />
+          {/* <FlatButton
+            // Select files
+            id="files"
+            style={{
+            // ...style.button1,
+            backgroundColor: 'linear-gradient(135deg, red, #3F51B5)',
+            color: '#222',
+            }}
+            type="button"
+            onClick={ () => input.uploadList.click() }
+            >
+            Choose Files
+          </FlatButton> */}
+          <FlatButton
+            id="submit"
+            style={style.button1}
+            type="submit"
+            onClick={ (e) => this.submitFiles(e) }
+          >
+            Submit
+          </FlatButton>
+        </form>
       </Card>
     );
   }
