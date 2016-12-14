@@ -12,6 +12,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 
+import AddMedia from './record-addMedia'
+
 class RecordEdit extends Component {
   constructor() {
     super()
@@ -172,55 +174,28 @@ class RecordEdit extends Component {
           } )
         }
 
+        <h3>Change Featured Photo</h3>
+        <AddMedia recordId = {this.props.params.recordId}/>
+
+        <h3>Add photo</h3>
+        <AddMedia recordId = {this.props.params.recordId}/>
+
+        <h3>Add Audio Recording</h3>
+        <AddMedia recordId = {this.props.params.recordId}/>
+
+        <h3>Add Video Recording</h3>
+        <AddMedia recordId = {this.props.params.recordId}/>
+
+
+
+
         <RaisedButton
           label="Submit"
           primary={true}
           style={style}
           onClick={() => this.updateRecord()}
         />
-        <form
-          name="uploadForm"
-          role="form"
-          style={{
-            marginLeft: 30,
-            marginRight: 30,
-          }}
-          action={ '/api/record/upload/' + this.props.params.recordId }
-          method="POST"
-        >
-          <input
-            type="file"
-            multiple="multiple"
-            // accept="image/*"
-            name="uploadImages"
-            ref={ (c) => input.uploadList = c }
-            // onChange={ () => { this.newFilesSelected(); } }
-            style={{
-              // display: 'none',
-            }}
-          />
-          {/* <FlatButton
-            // Select files
-            id="files"
-            style={{
-            // ...style.button1,
-            backgroundColor: 'linear-gradient(135deg, red, #3F51B5)',
-            color: '#222',
-            }}
-            type="button"
-            onClick={ () => input.uploadList.click() }
-            >
-            Choose Files
-          </FlatButton> */}
-          <FlatButton
-            id="submit"
-            style={style.button1}
-            type="submit"
-            onClick={ (e) => this.submitFiles(e) }
-          >
-            Submit
-          </FlatButton>
-        </form>
+
       </Card>
     );
   }
