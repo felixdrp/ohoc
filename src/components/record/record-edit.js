@@ -327,7 +327,7 @@ class RecordEdit extends Component {
           </FlatButton>
         </form>
 
-        <img style={{maxWidth:500,maxHeight:500}} src={this.state.dataToSend.featuredImage ? this.state.dataToSend.featuredImage : "http://localhost:3001/images/institution-default.jpg"} />
+        <img style={{maxWidth:500,maxHeight:300,marginTop:5}} src={this.state.dataToSend.featuredImage ? this.state.dataToSend.featuredImage : "http://localhost:3001/images/institution-default.jpg"} />
 
         <br/>
         <br/>
