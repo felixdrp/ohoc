@@ -41,9 +41,19 @@ class RecordEdit extends Component {
       console.error('fetching record data > ' + error)
     }
 
+
+    var currentRecord = recordData.recordById[0];
+    var itemList = currentRecord.data.fields
+
+    var dataToSend = {}
+    for ( var a in itemList){
+      dataToSend[itemList[a].name] = itemList[a].data;
+    }
+
     this.setState({
       recordData,
-      submitted: false
+      submitted: false,
+      dataToSend,
     })
   }
 
@@ -146,7 +156,7 @@ class RecordEdit extends Component {
   * the type determines which media array to use when splicing at index i
   */
   deleteMedia = (type, i) => {
-      alert("imagine we delete "+type+" "+i)
+      //alert("imagine we delete "+type+" "+i)
 
       var currentRecord = this.state.recordData.recordById[0]
       var allowedTypes = ["image","audio","video","text"];
@@ -178,7 +188,7 @@ class RecordEdit extends Component {
 
     this.setState ({showMediaAdder : false})
 
-    console.log("sent shite: "+JSON.stringify(mediaObject))
+    //console.log("sent shite: "+JSON.stringify(mediaObject))
     if ( !mediaObject ){
         return;
     }
@@ -262,12 +272,13 @@ class RecordEdit extends Component {
 
     const input = this._input;
 
+
+
     return (
 
       <Card style={{padding:30}}>
 
         {
-
           this.state.showMediaAdder ? <AddMedia recordId = {this.props.params.recordId} mediaAdder={this.addMediaElement} mediaPreviewer={this.getPreviewer}/> : <div></div>
         }
 
@@ -285,25 +296,20 @@ class RecordEdit extends Component {
         <h3>Featured Photo</h3>
 
 
-        <h3>Photos</h3>
-
+        <span style={{fontWeight:"bolder",fontSize:18}}>Photos</span>
+        <RaisedButton
+                  label="Add photo"
+                  primary={true}
+                  style={style}
+                  onClick={() => this.toggleMultimediaAdder()}
+                />
         {
           this.getMediaPreviewers(currentRecord.data.media.picture)
         }
 
-        <RaisedButton
-          label="Add photo"
-          primary={true}
-          style={style}
-          onClick={() => this.toggleMultimediaAdder()}
-        />
 
-        <h3>Audio Recordings</h3>
 
-        {
-          this.getMediaPreviewers(currentRecord.data.media.audio, this.getPreviewer)
-        }
-
+        <span style={{fontWeight:"bolder",fontSize:18}}>Audio Recordings</span>
         <RaisedButton
           label="Add Audio Recording"
           primary={true}
@@ -311,24 +317,22 @@ class RecordEdit extends Component {
           onClick={() => this.toggleMultimediaAdder()}
         />
 
-
-        <h3>Video Recordings</h3>
-
         {
-          this.getMediaPreviewers(currentRecord.data.media.video, this.getPreviewer)
+          this.getMediaPreviewers(currentRecord.data.media.audio, this.getPreviewer)
         }
 
+
+
+        <span style={{fontWeight:"bolder",fontSize:18}}>Video Recordings</span>
         <RaisedButton
           label="Add Video Recording"
           primary={true}
           style={style}
           onClick={() => this.toggleMultimediaAdder()}
         />
-
         {
-        //<AddMedia recordId = {this.props.params.recordId}/>
+          this.getMediaPreviewers(currentRecord.data.media.video, this.getPreviewer)
         }
-
 
 
         <Card style={{marginTop:30,textAlign:"right"}}>
@@ -337,7 +341,7 @@ class RecordEdit extends Component {
           label="Cancel"
           primary={true}
           style={style}
-          onClick={() => this.updateRecord()}
+          href="http://localhost:3000/controlRoom/record/create"
         />
 
         <RaisedButton
