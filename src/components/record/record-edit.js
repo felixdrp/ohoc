@@ -13,6 +13,9 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 
 import AddMedia from './record-addMedia'
+import RecordMediaPreviewer from './record-mediaPreviewer'
+
+
 
 class RecordEdit extends Component {
   constructor() {
@@ -32,7 +35,7 @@ class RecordEdit extends Component {
     try {
 
       recordData = await fetch.getRecordData(this.props.params.recordId)
-// debugger
+
 
     } catch(error) {
       console.error('fetching record data > ' + error)
@@ -101,6 +104,8 @@ class RecordEdit extends Component {
     this.sendFiles(files)
   }
 
+
+
   async updateRecord() {
     let fetch = new fetchData();
     // Data to upload
@@ -109,7 +114,7 @@ class RecordEdit extends Component {
     let dataToSend = {
               featuredImage : null,
               recordName :  this.state.dataToSend.name,
-              media : [],
+              media : {},
               fields : [],
               };
 
@@ -121,6 +126,7 @@ class RecordEdit extends Component {
 
      }
 
+     dataToSend.media = this.state.recordData.recordById[0].data.media
 
     try {
       var recordData = await fetch.setRecordData(this.props.params.recordId, dataToSend)
@@ -128,6 +134,76 @@ class RecordEdit extends Component {
     } catch(error) {
       console.error('fetching record update data > ' + error)
     }
+  }
+
+  toggleMultimediaAdder (){
+
+      this.setState ({showMediaAdder : true})
+
+  }
+
+  /*
+  * the type determines which media array to use when splicing at index i
+  */
+  deleteMedia = (type, i) => {
+      alert("imagine we delete "+type+" "+i)
+
+      var currentRecord = this.state.recordData.recordById[0]
+      var allowedTypes = ["image","audio","video","text"];
+      var selectedType = type.split("/")[0];
+
+      if ( allowedTypes.includes(selectedType)){
+          selectedType = selectedType == "image" ? "picture" : selectedType;
+          currentRecord.data.media[selectedType].splice(i,1)
+      }
+
+      var newRecordData = this.state.recordData;
+          newRecordData.recordById[0] = currentRecord;
+      this.setState({recordData: newRecordData});
+  }
+
+  getMediaPreviewers (arrayOfMedia){
+
+    if ( Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0){ // if the array is empty there is no reason to draw the preview container at all.
+      return <div style={{width:"100%",height:200,border: "1px dashed lightgrey",backgroundColor:"lightgrey"}}>
+          {
+            arrayOfMedia.map( (element,i) => <RecordMediaPreviewer key={i} media={element} mediaPreviewer={this.getPreviewer} mediaDeleter={this.deleteMedia} index={i}/>)
+          }
+          </div>
+    }
+
+  }
+
+  addMediaElement = (mediaObject) => {
+
+    this.setState ({showMediaAdder : false})
+
+    console.log("sent shite: "+JSON.stringify(mediaObject))
+    if ( !mediaObject ){
+        return;
+    }
+
+    var currentRecord = this.state.recordData.recordById[0]
+
+    if ( Array.isArray(currentRecord.data.media) ){
+      currentRecord.data.media = {"text":[],"audio":[],"video":[],"picture":[]}
+    }
+
+    var allowedTypes = ["image","audio","video","text"];
+    var selectedType = mediaObject.type.split("/")[0];
+
+    if ( allowedTypes.includes(selectedType)){
+        selectedType = selectedType == "image" ? "picture" : selectedType;
+        var i = currentRecord.data.media[selectedType].findIndex( (element) => {return element.title == mediaObject.title && element.src == mediaObject.src}  );
+        if ( i > -1 ){
+          currentRecord.data.media[selectedType].splice(i,1)
+        }
+        currentRecord.data.media[selectedType].push(mediaObject)
+    }
+
+    var newRecordData = this.state.recordData;
+        newRecordData.recordById[0] = currentRecord;
+    this.setState({recordData: newRecordData});
   }
 
   handleChange(event, index, value, name) {
@@ -143,6 +219,25 @@ class RecordEdit extends Component {
 
   };
 
+  getPreviewer = (elem,style) =>{
+
+      if( elem.type.includes("image/")){
+         return <img style={style} src={elem.src} />
+      } else if (elem.type.includes("audio/")){
+         return <audio style={{width:"95%"}} controls src={elem.src}  />
+      }
+      return <span></span>
+
+  }
+
+  getExistingItem(itemList,name){
+    for ( var a in itemList){
+      if (itemList[a].name == name)
+        return itemList[a]
+    }
+    return {}
+  }
+
   render() {
     const style = {
       margin: 12,
@@ -156,12 +251,25 @@ class RecordEdit extends Component {
       return <div></div>
     }
 
+     console.log(JSON.stringify(this.state))
+
     let currentRecord = this.state.recordData.recordById[0];
+    //.recordData.recordById[0].data.fields
+
+    if ( !currentRecord ){
+      return <div></div>
+    }
 
     const input = this._input;
 
     return (
+
       <Card style={{padding:30}}>
+
+        {
+
+          this.state.showMediaAdder ? <AddMedia recordId = {this.props.params.recordId} mediaAdder={this.addMediaElement} mediaPreviewer={this.getPreviewer}/> : <div></div>
+        }
 
         <h1> Adding new  {currentRecord.type+" / "+currentRecord.subtype} </h1>
 
@@ -169,25 +277,68 @@ class RecordEdit extends Component {
           !!currentRecord.structure && 'info' in currentRecord.structure &&
           currentRecord.structure.info.map( (item, i) => {
             return <div key={i}> <span style={{marginRight:15}}>{capitalize(item.name)+":"}</span>
-              <TextField hintText={item.name} onChange={ (event, index, value)=>this.handleChange(event, value, index,  item.name)} />
+              <TextField hintText={item.name} defaultValue={this.getExistingItem(currentRecord.data.fields,item.name).data || ""} onChange={ (event, index, value)=>this.handleChange(event, value, index,  item.name)} />
             </div>
           } )
         }
 
-        <h3>Change Featured Photo</h3>
-        <AddMedia recordId = {this.props.params.recordId}/>
-
-        <h3>Add photo</h3>
-        <AddMedia recordId = {this.props.params.recordId}/>
-
-        <h3>Add Audio Recording</h3>
-        <AddMedia recordId = {this.props.params.recordId}/>
-
-        <h3>Add Video Recording</h3>
-        <AddMedia recordId = {this.props.params.recordId}/>
+        <h3>Featured Photo</h3>
 
 
+        <h3>Photos</h3>
 
+        {
+          this.getMediaPreviewers(currentRecord.data.media.picture)
+        }
+
+        <RaisedButton
+          label="Add photo"
+          primary={true}
+          style={style}
+          onClick={() => this.toggleMultimediaAdder()}
+        />
+
+        <h3>Audio Recordings</h3>
+
+        {
+          this.getMediaPreviewers(currentRecord.data.media.audio, this.getPreviewer)
+        }
+
+        <RaisedButton
+          label="Add Audio Recording"
+          primary={true}
+          style={style}
+          onClick={() => this.toggleMultimediaAdder()}
+        />
+
+
+        <h3>Video Recordings</h3>
+
+        {
+          this.getMediaPreviewers(currentRecord.data.media.video, this.getPreviewer)
+        }
+
+        <RaisedButton
+          label="Add Video Recording"
+          primary={true}
+          style={style}
+          onClick={() => this.toggleMultimediaAdder()}
+        />
+
+        {
+        //<AddMedia recordId = {this.props.params.recordId}/>
+        }
+
+
+
+        <Card style={{marginTop:30,textAlign:"right"}}>
+
+        <RaisedButton
+          label="Cancel"
+          primary={true}
+          style={style}
+          onClick={() => this.updateRecord()}
+        />
 
         <RaisedButton
           label="Submit"
@@ -195,6 +346,7 @@ class RecordEdit extends Component {
           style={style}
           onClick={() => this.updateRecord()}
         />
+        </Card>
 
       </Card>
     );

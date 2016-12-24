@@ -13,7 +13,6 @@ class CommonView extends Component {
     if (this.props.templateList) {
       return
     }
-
     // Get and dispatch the template list
     this.props.setTemplateList( await fetch.templateListGet() )
   }
@@ -25,7 +24,7 @@ class CommonView extends Component {
 
 
     return (
-     <div id="CommonView" style={{marginLeft: "8%",marginTop: 20, marginRight:"8%", minWidth:1000 }}>
+     <div id="CommonView" style={{marginLeft: "8%",marginTop: 20, marginRight:"8%", minWidth:1200 }}>
        <Card style={{height:130, marginBottom:10,paddingTop:15,paddingLeft:20}}>
 
        <img src="http://www.create.ac.uk/wp-content/uploads/logos/create_primary_logo_160.jpg" style={logoStyle} />
