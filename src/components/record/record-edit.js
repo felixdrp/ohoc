@@ -60,13 +60,18 @@ class RecordEdit extends Component {
 
   sendFiles(files) {
     let formData = new FormData()
+    let thisObject = this;
     let xhr = new XMLHttpRequest();
     xhr.open('POST', '/api/record/upload/' + this.props.params.recordId, true);
 
     xhr.onload = function(e) {
-      console.log(xhr.response)
-      // debugger
-      // resolve(xhr.response)
+      var fileToUpload = JSON.parse(xhr.response).upload.files[0]
+      fileToUpload.src = "http://localhost:3001/multimedia/"+fileToUpload.src;
+
+      var dataToSend = thisObject.state.dataToSend
+      dataToSend.featuredImage = fileToUpload.src
+
+      thisObject.setState({dataToSend})
     };
 
     xhr.onerror = function(e) {
@@ -122,7 +127,7 @@ class RecordEdit extends Component {
 
 
     let dataToSend = {
-              featuredImage : null,
+              featuredImage : this.state.dataToSend.featuredImage,
               recordName :  this.state.dataToSend.name,
               media : {},
               fields : [],
@@ -293,8 +298,39 @@ class RecordEdit extends Component {
           } )
         }
 
-        <h3>Featured Photo</h3>
+        <br/><span style={{fontWeight:"bolder",fontSize:18}}>Featured Photo</span>
 
+        <form
+          name="uploadForm"
+          role="form"
+          style={{
+            marginLeft: 30,
+            marginRight: 30,
+          }}
+          action={ '/api/record/upload/' + this.props.recordId }
+          method="POST"
+        >
+          <input
+            type="file"
+            multiple="multiple"
+            name="uploadImages"
+            ref={ (c) => input.uploadList = c }
+          />
+
+          <FlatButton
+            id="submit"
+            style={{backgroundColor:"#e0ebeb"}}
+            type="submit"
+            onClick={ (e) => this.submitFiles(e) }
+          >
+            Upload
+          </FlatButton>
+        </form>
+
+        <img style={{maxWidth:500,maxHeight:500}} src={this.state.dataToSend.featuredImage ? this.state.dataToSend.featuredImage : "http://localhost:3001/images/institution-default.jpg"} />
+
+        <br/>
+        <br/>
 
         <span style={{fontWeight:"bolder",fontSize:18}}>Photos</span>
         <RaisedButton
