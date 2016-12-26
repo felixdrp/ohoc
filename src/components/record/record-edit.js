@@ -47,7 +47,7 @@ class RecordEdit extends Component {
 
     var dataToSend = {}
     for ( var a in itemList){
-      dataToSend[itemList[a].name] = itemList[a].data;
+      dataToSend[itemList[a].name] = itemList[a].data.replace("<br/>","\n");
     }
 
     this.setState({
@@ -137,18 +137,21 @@ class RecordEdit extends Component {
 
        var key = Object.keys(this.state.dataToSend)[k]
 
-       dataToSend.fields.push({name: key, data : this.state.dataToSend[key], type : "text"});
+
+       var fieldData = this.state.dataToSend[key].replace(/\n/gm, "<br/>");
+
+       dataToSend.fields.push({name: key, data : fieldData, type : "text"});
 
      }
 
      dataToSend.media = this.state.recordData.recordById[0].data.media
 
-    try {
-      var recordData = await fetch.setRecordData(this.props.params.recordId, dataToSend)
-      this.setState({ submitted: true})
-    } catch(error) {
-      console.error('fetching record update data > ' + error)
-    }
+     try {
+       var recordData = await fetch.setRecordData(this.props.params.recordId, dataToSend)
+       this.setState({ submitted: true})
+     } catch(error) {
+       console.error('fetching record update data > ' + error)
+     }
   }
 
   toggleMultimediaAdder (){
@@ -204,11 +207,12 @@ class RecordEdit extends Component {
       currentRecord.data.media = {"text":[],"audio":[],"video":[],"picture":[]}
     }
 
-    var allowedTypes = ["image","audio","video","text"];
+    var allowedTypes = ["image","audio","video","text","application"];
     var selectedType = mediaObject.type.split("/")[0];
 
     if ( allowedTypes.includes(selectedType)){
         selectedType = selectedType == "image" ? "picture" : selectedType;
+        selectedType = selectedType == "application" ? "text" : selectedType;
         var i = currentRecord.data.media[selectedType].findIndex( (element) => {return element.title == mediaObject.title && element.src == mediaObject.src}  );
         if ( i > -1 ){
           currentRecord.data.media[selectedType].splice(i,1)
@@ -235,11 +239,15 @@ class RecordEdit extends Component {
   };
 
   getPreviewer = (elem,style) =>{
-
+    if ( elem.src )
       if( elem.type.includes("image/")){
          return <img style={style} src={elem.src} />
       } else if (elem.type.includes("audio/")){
          return <audio style={{width:"95%"}} controls src={elem.src}  />
+      } else if (elem.type.includes("video/")){
+         return <video style={{width:"95%"}} controls src={elem.src}  />
+      } else {
+        return <a style={{width:"95%"}} href={elem.src} target={"_blank"} >{elem.title}</a>
       }
       return <span></span>
 
@@ -292,8 +300,12 @@ class RecordEdit extends Component {
         {
           !!currentRecord.structure && 'info' in currentRecord.structure &&
           currentRecord.structure.info.map( (item, i) => {
-            return <div key={i}> <span style={{marginRight:15}}>{capitalize(item.name)+":"}</span>
-              <TextField hintText={item.name} defaultValue={this.getExistingItem(currentRecord.data.fields,item.name).data || ""} onChange={ (event, index, value)=>this.handleChange(event, value, index,  item.name)} />
+            return <div key={i}> <span style={{marginRight:15,fontWeight:"bold"}}>{capitalize(item.name)+":"}</span>
+              <TextField hintText={item.name} multiLine={true}
+              rows={1}
+              rowsMax={10}
+              style={{width:790}}
+              defaultValue={this.getExistingItem(currentRecord.data.fields,item.name).data || ""} onChange={ (event, index, value)=>this.handleChange(event, value, index,  item.name)} />
             </div>
           } )
         }
@@ -344,7 +356,7 @@ class RecordEdit extends Component {
         }
 
 
-
+        <br/>
         <span style={{fontWeight:"bolder",fontSize:18}}>Audio Recordings</span>
         <RaisedButton
           label="Add Audio Recording"
@@ -358,7 +370,7 @@ class RecordEdit extends Component {
         }
 
 
-
+        <br/>
         <span style={{fontWeight:"bolder",fontSize:18}}>Video Recordings</span>
         <RaisedButton
           label="Add Video Recording"
@@ -368,6 +380,18 @@ class RecordEdit extends Component {
         />
         {
           this.getMediaPreviewers(currentRecord.data.media.video, this.getPreviewer)
+        }
+
+        <br/>
+        <span style={{fontWeight:"bolder",fontSize:18}}>Docs and PDFs</span>
+        <RaisedButton
+          label="Add PDF or text document"
+          primary={true}
+          style={style}
+          onClick={() => this.toggleMultimediaAdder()}
+        />
+        {
+          this.getMediaPreviewers(currentRecord.data.media.text, this.getPreviewer)
         }
 
 
