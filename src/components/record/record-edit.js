@@ -305,7 +305,7 @@ class RecordEdit extends Component {
               rows={1}
               rowsMax={10}
               style={{width:790}}
-              defaultValue={this.getExistingItem(currentRecord.data.fields,item.name).data || ""} onChange={ (event, index, value)=>this.handleChange(event, value, index,  item.name)} />
+              defaultValue={this.getExistingItem(currentRecord.data.fields,item.name).data.replace(/<br\/>/gm,"\n") || ""} onChange={ (event, index, value)=>this.handleChange(event, value, index,  item.name)} />
             </div>
           } )
         }
