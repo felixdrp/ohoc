@@ -63,7 +63,7 @@ export default class RecordViewMediaElement extends Component {
             <span>Transcript/Description</span>
             <div style={{width:"100%",minHeight:300,maxHeight:350,overflowY:"scroll",border: "1px dashed lightgrey",textAlign:"center"}}>
               {
-                this.props.media.transcript.split("<br/>").map( (e) => {return <span><br/>{e}</span>}) || "transcript"
+                this.props.media.transcript.split("<br/>").map( (e,j) => {return <span key={j}><br/>{e}</span>}) || "transcript"
               }
             </div>
 

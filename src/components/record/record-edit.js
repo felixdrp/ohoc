@@ -41,14 +41,33 @@ class RecordEdit extends Component {
       console.error('fetching record data > ' + error)
     }
 
+    debugger;
 
     var currentRecord = recordData.recordById[0];
-    var itemList = currentRecord.data.fields
-
     var dataToSend = {}
-    for ( var a in itemList){
-      dataToSend[itemList[a].name] = itemList[a].data.replace("<br/>","\n");
+
+    // If it is a new record, the fields and media arrays do not exist. So we create them here:
+    if (Object.keys(currentRecord.data).length < 1 ){
+      currentRecord.data.fields = []
+
+      for( var fieldKey in currentRecord.structure.info ){
+        var infoField = currentRecord.structure.info[fieldKey]
+        currentRecord.data.fields.push({data:"", type: infoField.type, name: infoField.name})
+      }
+
+      currentRecord.data.media = JSON.parse(JSON.stringify(currentRecord.structure.media));
+
+    } else{
+      // Else if we are editing, we need to populate the dataToSend variable, since onchange may not be executed on the textfields.
+      var itemList = currentRecord.data.fields
+      for ( var a in itemList){
+        dataToSend[itemList[a].name] = itemList[a].data.replace("<br/>","\n");
+      }
     }
+
+    recordData.recordById[0] = currentRecord;
+
+
 
     this.setState({
       recordData,
@@ -278,6 +297,11 @@ class RecordEdit extends Component {
 
     let currentRecord = this.state.recordData.recordById[0];
     //.recordData.recordById[0].data.fields
+
+    if (Object.keys(currentRecord.data).length < 1 ){
+      currentRecord.data = JSON.parse(JSON.stringify(currentRecord.structure));
+    }
+
 
     if ( !currentRecord ){
       return <div></div>
