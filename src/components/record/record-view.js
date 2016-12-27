@@ -7,6 +7,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
+import ContentLinkIcon from 'material-ui/svg-icons/content/link';
 import capitalize from '../stringTools'
 
 import fetchData from '../../network/fetch-data';
@@ -38,7 +39,7 @@ export default class RecordView extends Component {
       } else if (elem.type.includes("video/")){
          return <video style={style} controls src={elem.src}  />
       } else {
-        return <a style={style} href={elem.src} target={"_blank"} >{elem.title}</a>
+        return <span style={{width:"100%",textAlign:"center"}}><br/><a style={style} href={elem.src} target={"_blank"}><ContentLinkIcon style={{width:80,height:80}}/><br/>{"Open in new tab: "+elem.title}</a></span>
       }
       return <span></span>
   }
