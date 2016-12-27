@@ -4,14 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _stringify = require('babel-runtime/core-js/json/stringify');
-
-var _stringify2 = _interopRequireDefault(_stringify);
-
-var _keys = require('babel-runtime/core-js/object/keys');
-
-var _keys2 = _interopRequireDefault(_keys);
-
 var _getIterator2 = require('babel-runtime/core-js/get-iterator');
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
@@ -19,6 +11,14 @@ var _getIterator3 = _interopRequireDefault(_getIterator2);
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
 
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
@@ -184,7 +184,7 @@ var RecordEdit = function (_Component) {
     key: 'componentDidMount',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var fetch, recordData, currentRecord, itemList, dataToSend, a;
+        var fetch, recordData, currentRecord, dataToSend, fieldKey, infoField, itemList, a;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -208,13 +208,32 @@ var RecordEdit = function (_Component) {
                 console.error('fetching record data > ' + _context.t0);
 
               case 11:
+
+                debugger;
+
                 currentRecord = recordData.recordById[0];
-                itemList = currentRecord.data.fields;
                 dataToSend = {};
 
-                for (a in itemList) {
-                  dataToSend[itemList[a].name] = itemList[a].data.replace("<br/>", "\n");
+
+                if ((0, _keys2.default)(currentRecord.data).length < 1) {
+                  currentRecord.data.fields = [];
+
+                  for (fieldKey in currentRecord.structure.info) {
+                    infoField = currentRecord.structure.info[fieldKey];
+
+                    currentRecord.data.fields.push({ data: "", type: infoField.type, name: infoField.name });
+                  }
+
+                  currentRecord.data.media = JSON.parse((0, _stringify2.default)(currentRecord.structure.media));
+                } else {
+                  itemList = currentRecord.data.fields;
+
+                  for (a in itemList) {
+                    dataToSend[itemList[a].name] = itemList[a].data.replace("<br/>", "\n");
+                  }
                 }
+
+                recordData.recordById[0] = currentRecord;
 
                 this.setState({
                   recordData: recordData,
@@ -222,7 +241,7 @@ var RecordEdit = function (_Component) {
                   dataToSend: dataToSend
                 });
 
-              case 16:
+              case 17:
               case 'end':
                 return _context.stop();
             }
@@ -423,6 +442,10 @@ var RecordEdit = function (_Component) {
       console.log((0, _stringify2.default)(this.state));
 
       var currentRecord = this.state.recordData.recordById[0];
+
+      if ((0, _keys2.default)(currentRecord.data).length < 1) {
+        currentRecord.data = JSON.parse((0, _stringify2.default)(currentRecord.structure));
+      }
 
       if (!currentRecord) {
         return _react2.default.createElement('div', null);

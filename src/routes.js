@@ -32,23 +32,23 @@ import App from './App'
 // ALERT!!!! if any change in survye routes... change also 'survey-types.js'
 var routes = (history) => (
   <Router history={history}>
-    <Route path="/" component={AppContainer} >
+    <Route path="/ohoc" component={AppContainer} >
       <IndexRoute component={BrowseRecords} />
 
       <Route path="browser" component={BrowseRecords} />
 
       <Route path="categories" component={CategoriesContainer} >
-        <Route path="/categories/list/:categoryId(/:page)" component={CategoriesView} />
+        <Route path="list/:categoryId(/:page)" component={CategoriesView} />
       </Route>
 
       <Route path="records" component={RecordContainer} >
-        <Route path="/record/create" component={RecordCreate} />
-        <Route path="/record/:recordId(/:recordName)" component={RecordView} />
+        <Route path="create" component={RecordCreate} />
+        <Route path=":recordId(/:recordName)" component={RecordView} />
       </Route>
 
       <Route path="controlRoom" component={RecordContainer} >
-        <Route path="/controlRoom/record/create" component={RecordCreate} />
-        <Route path="/controlRoom/record/edit/:recordId(/:recordName)" component={RecordEdit} />
+        <Route path="record/create" component={RecordCreate} />
+        <Route path="record/edit/:recordId(/:recordName)" component={RecordEdit} />
       </Route>
     </Route>
   </Router>

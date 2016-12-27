@@ -129,10 +129,10 @@ var RecordViewMediaElement = function (_Component) {
           _react2.default.createElement(
             'div',
             { style: { width: "100%", minHeight: 300, maxHeight: 350, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
-            this.props.media.transcript.split("<br/>").map(function (e) {
+            this.props.media.transcript.split("<br/>").map(function (e, j) {
               return _react2.default.createElement(
                 'span',
-                null,
+                { key: j },
                 _react2.default.createElement('br', null),
                 e
               );

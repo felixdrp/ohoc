@@ -94,7 +94,7 @@ var RecordView = function (_Component) {
         return _react2.default.createElement(
           'span',
           null,
-          _react2.default.createElement('img', { style: { maxWidth: 290 }, src: _this.state.recordData.recordById[0].data.featuredImage || "http://localhost:3001/images/institution-default.jpg" }),
+          _react2.default.createElement('img', { style: { maxWidth: 290, maxHeight: 210 }, src: _this.state.recordData.recordById[0].data.featuredImage || "http://localhost:3001/images/institution-default.jpg" }),
           _react2.default.createElement('audio', { style: style, controls: true, src: elem.src }),
           ' '
         );
@@ -193,9 +193,9 @@ var RecordView = function (_Component) {
           { style: { height: 300 } },
           _react2.default.createElement(
             'span',
-            null,
+            { style: { textAlign: "center" } },
             ' ',
-            _react2.default.createElement('img', { style: { height: 300, width: 450, border: "1px solid black" }, src: recordData.data.featuredImage || "http://localhost:3001/images/institution-default.jpg" }),
+            _react2.default.createElement('img', { style: { maxWidth: 450, maxHeight: 300, border: "1px solid black" }, src: recordData.data.featuredImage || "http://localhost:3001/images/institution-default.jpg" }),
             '  '
           ),
           _react2.default.createElement(
@@ -228,18 +228,14 @@ var RecordView = function (_Component) {
                   null,
                   (0, _stringTools2.default)(entry.name)
                 ),
-                _react2.default.createElement(
-                  'span',
-                  null,
-                  entry.data.split("<br/>").map(function (e) {
-                    return _react2.default.createElement(
-                      'span',
-                      null,
-                      _react2.default.createElement('br', null),
-                      e
-                    );
-                  })
-                )
+                entry.data.split("<br/>").map(function (e, j) {
+                  return _react2.default.createElement(
+                    'span',
+                    { key: j },
+                    e,
+                    _react2.default.createElement('br', null)
+                  );
+                })
               )
             );
           })
