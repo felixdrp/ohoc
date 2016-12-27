@@ -1,5 +1,7 @@
 import HttpClient from './http-client';
 
+const urlBase = '/ohoc/api/'
+
 export default class fetchData {
   constructor() {
     this.httpClient = new HttpClient()
@@ -18,15 +20,15 @@ export default class fetchData {
   }
 
   async getAllRecords() {
-    return await this.getGeneric( '/api/getAllRecords' )
+    return await this.getGeneric( urlBase + 'getAllRecords' )
   }
 
   async getRecordsByType(type) {
-    return await this.getGeneric( '/api/getRecordsByType/' + type )
+    return await this.getGeneric( urlBase + 'getRecordsByType/' + type )
   }
 
   async templateListGet() {
-    return await this.getGeneric( '/api/templates/list' )
+    return await this.getGeneric( urlBase + 'templates/list' )
   }
 
   async createRecord(data) {
@@ -37,7 +39,7 @@ export default class fetchData {
         body,
         {
           method: 'PUT',
-          path: '/api/record/create',
+          path: urlBase + 'record/create',
           headers: {'content-type': 'application/json'},
         })
       newRecordId = JSON.parse(newRecordId)
@@ -49,7 +51,7 @@ export default class fetchData {
   }
 
   async getRecordData(recordId) {
-    return await this.getGeneric( '/api/getRecord/' + recordId )
+    return await this.getGeneric( urlBase + 'getRecord/' + recordId )
   }
 
   async setRecordData(recordId, data) {
@@ -60,7 +62,7 @@ export default class fetchData {
         body,
         {
           method: 'POST',
-          path: '/api/setRecord/' + recordId,
+          path: urlBase + 'setRecord/' + recordId,
           headers: {'content-type': 'application/json'},
         })
       result = JSON.parse(result)

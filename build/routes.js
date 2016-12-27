@@ -29,25 +29,25 @@ var routes = function routes(history) {
     { history: history },
     _react2.default.createElement(
       _reactRouter.Route,
-      { path: '/', component: _components.AppContainer },
+      { path: '/ohoc', component: _components.AppContainer },
       _react2.default.createElement(_reactRouter.IndexRoute, { component: _components.BrowseRecords }),
       _react2.default.createElement(_reactRouter.Route, { path: 'browser', component: _components.BrowseRecords }),
       _react2.default.createElement(
         _reactRouter.Route,
         { path: 'categories', component: _components.CategoriesContainer },
-        _react2.default.createElement(_reactRouter.Route, { path: '/categories/list/:categoryId(/:page)', component: _components.CategoriesView })
+        _react2.default.createElement(_reactRouter.Route, { path: 'list/:categoryId(/:page)', component: _components.CategoriesView })
       ),
       _react2.default.createElement(
         _reactRouter.Route,
         { path: 'records', component: _components.RecordContainer },
-        _react2.default.createElement(_reactRouter.Route, { path: '/record/create', component: _components.RecordCreate }),
-        _react2.default.createElement(_reactRouter.Route, { path: '/record/:recordId(/:recordName)', component: _components.RecordView })
+        _react2.default.createElement(_reactRouter.Route, { path: 'create', component: _components.RecordCreate }),
+        _react2.default.createElement(_reactRouter.Route, { path: ':recordId(/:recordName)', component: _components.RecordView })
       ),
       _react2.default.createElement(
         _reactRouter.Route,
         { path: 'controlRoom', component: _components.RecordContainer },
-        _react2.default.createElement(_reactRouter.Route, { path: '/controlRoom/record/create', component: _components.RecordCreate }),
-        _react2.default.createElement(_reactRouter.Route, { path: '/controlRoom/record/edit/:recordId(/:recordName)', component: _components.RecordEdit })
+        _react2.default.createElement(_reactRouter.Route, { path: 'record/create', component: _components.RecordCreate }),
+        _react2.default.createElement(_reactRouter.Route, { path: 'record/edit/:recordId(/:recordName)', component: _components.RecordEdit })
       )
     )
   );
