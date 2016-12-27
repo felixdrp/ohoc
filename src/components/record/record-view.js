@@ -35,7 +35,7 @@ export default class RecordView extends Component {
       if( elem.type.includes("image/")){
          return <img style={style} src={elem.src} />
       } else if (elem.type.includes("audio/")){
-         return <span><img style={{maxWidth:290}} src={this.state.recordData.recordById[0].data.featuredImage || "http://localhost:3001/images/institution-default.jpg"} /><audio style={style} controls src={elem.src}  /> </span>
+         return <span><img style={{maxWidth:290,maxHeight:210}} src={this.state.recordData.recordById[0].data.featuredImage || "http://localhost:3001/images/institution-default.jpg"} /><audio style={style} controls src={elem.src}  /> </span>
       } else if (elem.type.includes("video/")){
          return <video style={style} controls src={elem.src}  />
       } else {
@@ -73,7 +73,7 @@ export default class RecordView extends Component {
 
 
         <span style ={{height:300}}>
-          <span > <img style={{height:300,width:450,border:"1px solid black"}} src={recordData.data.featuredImage || "http://localhost:3001/images/institution-default.jpg"} />  </span>
+          <span style={{textAlign:"center"}} > <img style={{maxWidth:450,maxHeight:300,border:"1px solid black"}} src={recordData.data.featuredImage || "http://localhost:3001/images/institution-default.jpg"} />  </span>
           <span style={{height:300,width:600,position:"absolute",float:"left",left:700}}>
 
               <h1>{capitalize(recordData.data.recordName)}</h1>
@@ -85,7 +85,7 @@ export default class RecordView extends Component {
         <Card style={{padding:50, paddingTop: 10, marginTop: 20}}>
         {
           recordData.data.fields.map( (entry,i) => {
-            return <div key={i}>{entry.name === "featuredImage" ? "" : <span><h2>{capitalize(entry.name)}</h2><span>{entry.data.split("<br/>").map( (e) => {return <span><br/>{e}</span>})}</span></span>}</div>
+            return <div key={i}>{entry.name === "featuredImage" ? "" : <span><h2>{capitalize(entry.name)}</h2>{entry.data.split("<br/>").map( (e,j) => {return <span key={j}>{e}<br/></span>})}</span>}</div>
           })
         }
         </Card>
