@@ -48,6 +48,8 @@ var _fetchData2 = _interopRequireDefault(_fetchData);
 
 var _Card = require('material-ui/Card');
 
+var _links = require('../links');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CommonView = function (_Component) {
@@ -123,7 +125,7 @@ var CommonView = function (_Component) {
               { style: { margin: "0 0 0 0", marginRight: 25, marginTop: 5 } },
               _react2.default.createElement(
                 _reactRouter.Link,
-                { to: '/', style: { textDecoration: 'none' } },
+                { to: _links.URL_BASE, style: { textDecoration: 'none' } },
                 _react2.default.createElement(
                   'span',
                   { style: { color: "black" } },

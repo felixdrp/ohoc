@@ -16,6 +16,8 @@ import capitalize from '../stringTools'
 
 import fetchData from '../../network/fetch-data';
 
+import {URL_VIEW_RECORD} from '../../links'
+
 export default class CategoriesView extends Component {
   async componentDidMount() {
     let fetch = new fetchData();
@@ -78,7 +80,7 @@ export default class CategoriesView extends Component {
 
                             {
                               group.map( (entry, i) =>{
-                                return <Link to={`/record/`+entry.id} key={i} style={{ textDecoration: 'none'}}> <ListItem
+                                return <Link to={URL_VIEW_RECORD + entry.id} key={i} style={{ textDecoration: 'none'}}> <ListItem
                                   primaryText={capitalize(entry.data.recordName)}
                                   leftAvatar={<Avatar src="http://localhost:3001/images/institution-default.jpg" />}
                                   rightIcon={<CommunicationChatBubble />}

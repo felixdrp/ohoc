@@ -82,6 +82,8 @@ var _fetchData = require('../../network/fetch-data');
 
 var _fetchData2 = _interopRequireDefault(_fetchData);
 
+var _links = require('../../links');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CategoriesView = function (_Component) {
@@ -209,7 +211,7 @@ var CategoriesView = function (_Component) {
                 group.map(function (entry, i) {
                   return _react2.default.createElement(
                     _reactRouter.Link,
-                    { to: '/record/' + entry.id, key: i, style: { textDecoration: 'none' } },
+                    { to: _links.URL_VIEW_RECORD + entry.id, key: i, style: { textDecoration: 'none' } },
                     ' ',
                     _react2.default.createElement(_List.ListItem, {
                       primaryText: (0, _stringTools2.default)(entry.data.recordName),

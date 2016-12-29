@@ -28,27 +28,28 @@ import {
 import App from './App'
 
 // Assign the history:
+const urlBase = "/ohoc"
 
 // ALERT!!!! if any change in survye routes... change also 'survey-types.js'
 var routes = (history) => (
   <Router history={history}>
-    <Route path="/ohoc" component={AppContainer} >
+    <Route path={urlBase} component={AppContainer} >
       <IndexRoute component={BrowseRecords} />
 
       <Route path="browser" component={BrowseRecords} />
 
       <Route path="categories" component={CategoriesContainer} >
-        <Route path="list/:categoryId(/:page)" component={CategoriesView} />
+        <Route path={urlBase + "/categories/list/:categoryId(/:page)"} component={CategoriesView} />
       </Route>
 
       <Route path="records" component={RecordContainer} >
-        <Route path="create" component={RecordCreate} />
-        <Route path=":recordId(/:recordName)" component={RecordView} />
+        <Route path={urlBase + "/record/create"} component={RecordCreate} />
+        <Route path={urlBase + "/record/:recordId(/:recordName)"} component={RecordView} />
       </Route>
 
       <Route path="controlRoom" component={RecordContainer} >
-        <Route path="record/create" component={RecordCreate} />
-        <Route path="record/edit/:recordId(/:recordName)" component={RecordEdit} />
+        <Route path={urlBase + "/controlRoom/record/create"} component={RecordCreate} />
+        <Route path={urlBase + "/controlRoom/record/edit/:recordId(/:recordName)"} component={RecordEdit} />
       </Route>
     </Route>
   </Router>

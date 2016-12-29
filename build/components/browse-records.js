@@ -58,6 +58,8 @@ var _stringTools = require('./stringTools');
 
 var _stringTools2 = _interopRequireDefault(_stringTools);
 
+var _links = require('../links');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var BrowseRecords = function (_Component) {
@@ -120,7 +122,7 @@ var BrowseRecords = function (_Component) {
             }).map(function (e, index) {
               return _react2.default.createElement(
                 _reactRouter.Link,
-                { key: index, to: 'categories/list/' + e, style: { textDecoration: 'none' } },
+                { key: index, to: _links.URL_CATEGORIES_LIST + e, style: { textDecoration: 'none' } },
                 _react2.default.createElement(
                   _Card.Card,
                   {
@@ -150,7 +152,7 @@ var BrowseRecords = function (_Component) {
                         ' '
                       )
                     },
-                    _react2.default.createElement('img', { style: { width: 500, height: 300 }, src: "http://localhost:3001/" + _this2.categoryPhotos[e] })
+                    _react2.default.createElement('img', { style: { width: 500, height: 300 }, src: _this2.categoryPhotos[e] })
                   )
                 )
               );

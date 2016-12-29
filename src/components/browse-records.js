@@ -11,6 +11,9 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 
 import capitalize from './stringTools'
 
+import {URL_CATEGORIES_LIST} from '../links'
+
+
 class BrowseRecords extends Component {
 
   categoryPhotos = {
@@ -68,7 +71,7 @@ class BrowseRecords extends Component {
           <div style={{textAlign:"center"}} >
           {
             this.props.templateList && Object.keys(this.props.templateList).sort( (a,b) => this.categoryOrderIndex[a] > this.categoryOrderIndex[b]).map( (e, index) => (
-              <Link key={index} to={'categories/list/'+e} style={{ textDecoration: 'none' }}>
+              <Link key={index} to={URL_CATEGORIES_LIST + e} style={{ textDecoration: 'none' }}>
                 <Card
 
                   style={{
@@ -83,7 +86,7 @@ class BrowseRecords extends Component {
                   <CardMedia
                     overlay={<CardTitle title={capitalize(e)} style={{margin:0,padding:4}} > <span style={{color:"white",fontSize:14}}> {this.copyrightNotice[e]}</span> </CardTitle>}
                   >
-                    <img style={{width : 500, height: 300}} src={"http://localhost:3001/"+this.categoryPhotos[e]} />
+                    <img style={{width : 500, height: 300}} src={this.categoryPhotos[e]} />
                   </CardMedia>
 
 
@@ -114,7 +117,7 @@ class BrowseRecords extends Component {
         </div>
 
         <hr style={{margin:30}}/>
-  
+
 
         </Card>
 {/*
