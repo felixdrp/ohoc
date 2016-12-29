@@ -150,7 +150,7 @@ var BrowseRecords = function (_Component) {
                         ' '
                       )
                     },
-                    _react2.default.createElement('img', { style: { width: 500, height: 300 }, src: "http://localhost:3001/" + _this2.categoryPhotos[e] })
+                    _react2.default.createElement('img', { style: { width: 500, height: 300 }, src: _this2.categoryPhotos[e] })
                   )
                 )
               );

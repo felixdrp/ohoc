@@ -370,7 +370,7 @@ var BrowseRecords = function (_Component) {
                         ' '
                       )
                     },
-                    _react2.default.createElement('img', { style: { width: 500, height: 300 }, src: "http://localhost:3001/" + _this2.categoryPhotos[e] })
+                    _react2.default.createElement('img', { style: { width: 500, height: 300 }, src: _this2.categoryPhotos[e] })
                   )
                 )
               );
@@ -2787,6 +2787,8 @@ var _httpClient2 = _interopRequireDefault(_httpClient);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var urlBase = '/ohoc/api/';
+
 var fetchData = function () {
   function fetchData() {
     (0, _classCallCheck3.default)(this, fetchData);
@@ -2847,7 +2849,7 @@ var fetchData = function () {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return this.getGeneric('/api/getAllRecords');
+                return this.getGeneric(urlBase + 'getAllRecords');
 
               case 2:
                 return _context2.abrupt('return', _context2.sent);
@@ -2875,7 +2877,7 @@ var fetchData = function () {
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return this.getGeneric('/api/getRecordsByType/' + type);
+                return this.getGeneric(urlBase + 'getRecordsByType/' + type);
 
               case 2:
                 return _context3.abrupt('return', _context3.sent);
@@ -2903,7 +2905,7 @@ var fetchData = function () {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
-                return this.getGeneric('/api/templates/list');
+                return this.getGeneric(urlBase + 'templates/list');
 
               case 2:
                 return _context4.abrupt('return', _context4.sent);
@@ -2937,7 +2939,7 @@ var fetchData = function () {
                 _context5.next = 5;
                 return this.httpClient.send(body, {
                   method: 'PUT',
-                  path: '/api/record/create',
+                  path: urlBase + 'record/create',
                   headers: { 'content-type': 'application/json' }
                 });
 
@@ -2980,7 +2982,7 @@ var fetchData = function () {
             switch (_context6.prev = _context6.next) {
               case 0:
                 _context6.next = 2;
-                return this.getGeneric('/api/getRecord/' + recordId);
+                return this.getGeneric(urlBase + 'getRecord/' + recordId);
 
               case 2:
                 return _context6.abrupt('return', _context6.sent);
@@ -3014,7 +3016,7 @@ var fetchData = function () {
                 _context7.next = 5;
                 return this.httpClient.send(body, {
                   method: 'POST',
-                  path: '/api/setRecord/' + recordId,
+                  path: urlBase + 'setRecord/' + recordId,
                   headers: { 'content-type': 'application/json' }
                 });
 
