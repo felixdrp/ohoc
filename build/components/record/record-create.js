@@ -60,6 +60,8 @@ var _fetchData = require('../../network/fetch-data');
 
 var _fetchData2 = _interopRequireDefault(_fetchData);
 
+var _links = require('../../links');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RecordCreate = function (_Component) {
@@ -212,7 +214,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     editNewRecord: function editNewRecord(newRecordId) {
-      dispatch((0, _reactRouterRedux.push)('/controlRoom/record/edit/' + newRecordId));
+      dispatch((0, _reactRouterRedux.push)(_links.URL_CONTROL_ROOM_EDIT_RECORD + newRecordId));
     }
   };
 };

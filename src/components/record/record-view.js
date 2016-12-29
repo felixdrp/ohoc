@@ -29,27 +29,27 @@ export default class RecordView extends Component {
     }
   }
 
-  getPreviewer = (elem) =>{
-    var style = {maxWidth:290,maxHeight:250}
-    if ( elem.src )
-      if( elem.type.includes("image/")){
-         return <img style={style} src={elem.src} />
-      } else if (elem.type.includes("audio/")){
-         return <span><img style={{maxWidth:290,maxHeight:210}} src={this.state.recordData.recordById[0].data.featuredImage || "http://localhost:3001/images/institution-default.jpg"} /><audio style={style} controls src={elem.src}  /> </span>
-      } else if (elem.type.includes("video/")){
-         return <video style={style} controls src={elem.src}  />
-      } else {
-        return <span style={{width:"100%",textAlign:"center"}}><br/><a style={style} href={elem.src} target={"_blank"}><ContentLinkIcon style={{width:80,height:80}}/><br/>{"Open in new tab: "+elem.title}</a></span>
-      }
-      return <span></span>
-  }
+  // getPreviewer = (elem) =>{
+  //   var style = {maxWidth:290,maxHeight:250}
+  //   if ( elem.src )
+  //     if( elem.type.includes("image/")){
+  //        return <img style={style} src={elem.src} />
+  //     } else if (elem.type.includes("audio/")){
+  //        return <span><img style={{maxWidth:290,maxHeight:210}} src={this.state.recordData.recordById[0].data.featuredImage || "http://localhost:3001/images/institution-default.jpg"} /><audio style={style} controls src={elem.src}  /> </span>
+  //     } else if (elem.type.includes("video/")){
+  //        return <video style={style} controls src={elem.src}  />
+  //     } else {
+  //       return <span style={{width:"100%",textAlign:"center"}}><br/><a style={style} href={elem.src} target={"_blank"}><ContentLinkIcon style={{width:80,height:80}}/><br/>{"Open in new tab: "+elem.title}</a></span>
+  //     }
+  //     return <span></span>
+  // }
 
   getMediaPreviewers = (arrayOfMedia) => {
 
     if ( Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0){ // if the array is empty there is no reason to draw the preview container at all.
       return <div style={{width:"100%",height:310,padding:5,border: "1px dashed lightgrey",backgroundColor:"lightgrey"}}>
           {
-            arrayOfMedia.map( (element,i) => <RecordViewMediaElement key={i} style={{maxHeight:300,maxWidth:300}} media={element} mediaPreviewer={this.getPreviewer}/>)
+            arrayOfMedia.map( (element,i) => <RecordViewMediaElement key={i} style={{maxHeight:300,maxWidth:300}} media={element}/>)
           }
           </div>
     }

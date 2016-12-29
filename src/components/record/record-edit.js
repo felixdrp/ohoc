@@ -15,6 +15,13 @@ import FlatButton from 'material-ui/FlatButton';
 import AddMedia from './record-addMedia'
 import RecordMediaPreviewer from './record-mediaPreviewer'
 
+import {
+  URL_CONTROL_ROOM_EDIT_RECORD,
+  URL_CONTROL_ROOM_CREATE_RECORD,
+  URL_BASE_MULTIMEDIA_IMAGES,
+  URL_MULTIMEDIA,
+  URL_RECORD_UPLOAD_FILE,
+} from '../../links'
 
 
 class RecordEdit extends Component {
@@ -41,7 +48,7 @@ class RecordEdit extends Component {
       console.error('fetching record data > ' + error)
     }
 
-    debugger;
+    // debugger;
 
     var currentRecord = recordData.recordById[0];
     var dataToSend = {}
@@ -61,7 +68,7 @@ class RecordEdit extends Component {
       // Else if we are editing, we need to populate the dataToSend variable, since onchange may not be executed on the textfields.
       var itemList = currentRecord.data.fields
       for ( var a in itemList){
-        dataToSend[itemList[a].name] = itemList[a].data.replace("<br/>","\n");
+        dataToSend[itemList[a].name] = itemList[a].data && itemList[a].data.replace("<br/>","\n");
       }
     }
 
@@ -81,11 +88,12 @@ class RecordEdit extends Component {
     let formData = new FormData()
     let thisObject = this;
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', '/api/record/upload/' + this.props.params.recordId, true);
+    xhr.open('POST', URL_RECORD_UPLOAD_FILE + this.props.params.recordId, true);
 
     xhr.onload = function(e) {
       var fileToUpload = JSON.parse(xhr.response).upload.files[0]
-      fileToUpload.src = "http://localhost:3001/multimedia/"+fileToUpload.src;
+      //"http://localhost:3001/multimedia/"
+      fileToUpload.src = fileToUpload.src;
 
       var dataToSend = thisObject.state.dataToSend
       dataToSend.featuredImage = fileToUpload.src
@@ -196,7 +204,7 @@ class RecordEdit extends Component {
 
       var newRecordData = this.state.recordData;
           newRecordData.recordById[0] = currentRecord;
-      this.setState({recordData: newRecordData});
+      this.setStatgetPreviewere({recordData: newRecordData});
   }
 
   getMediaPreviewers (arrayOfMedia){
@@ -204,7 +212,7 @@ class RecordEdit extends Component {
     if ( Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0){ // if the array is empty there is no reason to draw the preview container at all.
       return <div style={{width:"100%",height:200,border: "1px dashed lightgrey",backgroundColor:"lightgrey"}}>
           {
-            arrayOfMedia.map( (element,i) => <RecordMediaPreviewer key={i} media={element} mediaPreviewer={this.getPreviewer} mediaDeleter={this.deleteMedia} index={i}/>)
+            arrayOfMedia.map( (element,i) => <RecordMediaPreviewer key={i} media={element} mediaDeleter={this.deleteMedia} index={i}/>)
           }
           </div>
     }
@@ -256,28 +264,27 @@ class RecordEdit extends Component {
     this.setState({dataToSend : currentData})
 
   };
+  //
+  // getPreviewer = (elem,style) => {
+  //   if ( elem.src )
+  //     if( elem.type.includes("image/")){
+  //        return <img style={style} src={URL_MULTIMEDIA + elem.src} />
+  //     } else if (elem.type.includes("audio/")){
+  //        return <audio style={{width:"95%"}} controls src={URL_MULTIMEDIA + elem.src}  />
+  //     } else if (elem.type.includes("video/")){
+  //        return <video style={{width:"95%"}} controls src={URL_MULTIMEDIA + elem.src}  />
+  //     } else {
+  //       return <a style={{width:"95%"}} href={URL_MULTIMEDIA + elem.src} target={"_blank"} >{elem.title}</a>
+  //     }
+  //     return <span></span>
+  // }
 
-  getPreviewer = (elem,style) =>{
-    if ( elem.src )
-      if( elem.type.includes("image/")){
-         return <img style={style} src={elem.src} />
-      } else if (elem.type.includes("audio/")){
-         return <audio style={{width:"95%"}} controls src={elem.src}  />
-      } else if (elem.type.includes("video/")){
-         return <video style={{width:"95%"}} controls src={elem.src}  />
-      } else {
-        return <a style={{width:"95%"}} href={elem.src} target={"_blank"} >{elem.title}</a>
-      }
-      return <span></span>
-
-  }
-
-  getExistingItem(itemList,name){
+  getExistingItem(itemList,name) {
     for ( var a in itemList){
       if (itemList[a].name == name)
         return itemList[a]
     }
-    return {}
+    return { data: '' }
   }
 
   render() {
@@ -316,7 +323,7 @@ class RecordEdit extends Component {
       <Card style={{padding:30}}>
 
         {
-          this.state.showMediaAdder ? <AddMedia recordId = {this.props.params.recordId} mediaAdder={this.addMediaElement} mediaPreviewer={this.getPreviewer}/> : <div></div>
+          this.state.showMediaAdder ? <AddMedia recordId={this.props.params.recordId} mediaAdder={this.addMediaElement} /> : <div></div>
         }
 
         <h1> Adding new  {currentRecord.type+" / "+currentRecord.subtype} </h1>
@@ -329,7 +336,8 @@ class RecordEdit extends Component {
               rows={1}
               rowsMax={10}
               style={{width:790}}
-              defaultValue={this.getExistingItem(currentRecord.data.fields,item.name).data.replace(/<br\/>/gm,"\n") || ""} onChange={ (event, index, value)=>this.handleChange(event, value, index,  item.name)} />
+              defaultValue={ this.getExistingItem(currentRecord.data.fields,item.name).data.replace(/<br\/>/gm,"\n") || ''}
+              onChange={ (event, index, value)=>this.handleChange(event, value, index,  item.name)} />
             </div>
           } )
         }
@@ -363,7 +371,10 @@ class RecordEdit extends Component {
           </FlatButton>
         </form>
 
-        <img style={{maxWidth:500,maxHeight:300,marginTop:5}} src={this.state.dataToSend.featuredImage ? this.state.dataToSend.featuredImage : "http://localhost:3001/images/institution-default.jpg"} />
+        <img
+          style={{maxWidth:500,maxHeight:300,marginTop:5}}
+          src={this.state.dataToSend.featuredImage ? URL_MULTIMEDIA +this.state.dataToSend.featuredImage : URL_BASE_MULTIMEDIA_IMAGES + "institution-default.jpg"}
+        />
 
         <br/>
         <br/>
@@ -390,7 +401,7 @@ class RecordEdit extends Component {
         />
 
         {
-          this.getMediaPreviewers(currentRecord.data.media.audio, this.getPreviewer)
+          this.getMediaPreviewers(currentRecord.data.media.audio)
         }
 
 
@@ -403,7 +414,7 @@ class RecordEdit extends Component {
           onClick={() => this.toggleMultimediaAdder()}
         />
         {
-          this.getMediaPreviewers(currentRecord.data.media.video, this.getPreviewer)
+          this.getMediaPreviewers(currentRecord.data.media.video)
         }
 
         <br/>
@@ -415,7 +426,7 @@ class RecordEdit extends Component {
           onClick={() => this.toggleMultimediaAdder()}
         />
         {
-          this.getMediaPreviewers(currentRecord.data.media.text, this.getPreviewer)
+          this.getMediaPreviewers(currentRecord.data.media.text)
         }
 
 
@@ -425,7 +436,7 @@ class RecordEdit extends Component {
           label="Cancel"
           primary={true}
           style={style}
-          href="http://localhost:3000/controlRoom/record/create"
+          href={URL_CONTROL_ROOM_CREATE_RECORD}
         />
 
         <RaisedButton
@@ -450,7 +461,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   editNewRecord(newRecordId) {
-    dispatch(push('/controlRoom/record/edit/' + newRecordId))
+    dispatch(push(URL_CONTROL_ROOM_EDIT_RECORD + newRecordId))
   }
 })
 

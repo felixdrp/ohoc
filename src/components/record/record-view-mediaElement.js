@@ -12,6 +12,7 @@ import ClearIcon from 'material-ui/svg-icons/content/clear';
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
+import getPreviewer from './previewGenerator'
 
 import capitalize from '../stringTools'
 
@@ -80,7 +81,7 @@ export default class RecordViewMediaElement extends Component {
             <br/>
         <span>
           {
-            this.props.mediaPreviewer(this.props.media,{maxHeight:250,maxWidth:"95%"})
+            getPreviewer(this.props.media,{maxHeight:250,maxWidth:"95%"})
           }
         </span>
       </Card>

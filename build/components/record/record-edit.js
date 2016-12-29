@@ -84,6 +84,8 @@ var _recordMediaPreviewer = require('./record-mediaPreviewer');
 
 var _recordMediaPreviewer2 = _interopRequireDefault(_recordMediaPreviewer);
 
+var _links = require('../../links');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RecordEdit = function (_Component) {
@@ -120,7 +122,7 @@ var RecordEdit = function (_Component) {
 
       var newRecordData = _this.state.recordData;
       newRecordData.recordById[0] = currentRecord;
-      _this.setState({ recordData: newRecordData });
+      _this.setStatgetPreviewere({ recordData: newRecordData });
     };
 
     _this.addMediaElement = function (mediaObject) {
@@ -155,23 +157,6 @@ var RecordEdit = function (_Component) {
       var newRecordData = _this.state.recordData;
       newRecordData.recordById[0] = currentRecord;
       _this.setState({ recordData: newRecordData });
-    };
-
-    _this.getPreviewer = function (elem, style) {
-      if (elem.src) if (elem.type.includes("image/")) {
-        return _react2.default.createElement('img', { style: style, src: elem.src });
-      } else if (elem.type.includes("audio/")) {
-        return _react2.default.createElement('audio', { style: { width: "95%" }, controls: true, src: elem.src });
-      } else if (elem.type.includes("video/")) {
-        return _react2.default.createElement('video', { style: { width: "95%" }, controls: true, src: elem.src });
-      } else {
-        return _react2.default.createElement(
-          'a',
-          { style: { width: "95%" }, href: elem.src, target: "_blank" },
-          elem.title
-        );
-      }
-      return _react2.default.createElement('span', null);
     };
 
     _this.state = {};
@@ -209,7 +194,6 @@ var RecordEdit = function (_Component) {
 
               case 11:
 
-                debugger;
 
                 currentRecord = recordData.recordById[0];
                 dataToSend = {};
@@ -229,7 +213,7 @@ var RecordEdit = function (_Component) {
                   itemList = currentRecord.data.fields;
 
                   for (a in itemList) {
-                    dataToSend[itemList[a].name] = itemList[a].data.replace("<br/>", "\n");
+                    dataToSend[itemList[a].name] = itemList[a].data && itemList[a].data.replace("<br/>", "\n");
                   }
                 }
 
@@ -241,7 +225,7 @@ var RecordEdit = function (_Component) {
                   dataToSend: dataToSend
                 });
 
-              case 17:
+              case 16:
               case 'end':
                 return _context.stop();
             }
@@ -261,11 +245,11 @@ var RecordEdit = function (_Component) {
       var formData = new FormData();
       var thisObject = this;
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', '/api/record/upload/' + this.props.params.recordId, true);
+      xhr.open('POST', _links.URL_RECORD_UPLOAD_FILE + this.props.params.recordId, true);
 
       xhr.onload = function (e) {
         var fileToUpload = JSON.parse(xhr.response).upload.files[0];
-        fileToUpload.src = "http://localhost:3001/multimedia/" + fileToUpload.src;
+        fileToUpload.src = fileToUpload.src;
 
         var dataToSend = thisObject.state.dataToSend;
         dataToSend.featuredImage = fileToUpload.src;
@@ -386,7 +370,7 @@ var RecordEdit = function (_Component) {
           'div',
           { style: { width: "100%", height: 200, border: "1px dashed lightgrey", backgroundColor: "lightgrey" } },
           arrayOfMedia.map(function (element, i) {
-            return _react2.default.createElement(_recordMediaPreviewer2.default, { key: i, media: element, mediaPreviewer: _this2.getPreviewer, mediaDeleter: _this2.deleteMedia, index: i });
+            return _react2.default.createElement(_recordMediaPreviewer2.default, { key: i, media: element, mediaDeleter: _this2.deleteMedia, index: i });
           })
         );
       }
@@ -406,11 +390,13 @@ var RecordEdit = function (_Component) {
     }
   }, {
     key: 'getExistingItem',
+
+
     value: function getExistingItem(itemList, name) {
       for (var a in itemList) {
         if (itemList[a].name == name) return itemList[a];
       }
-      return {};
+      return { data: '' };
     }
   }, {
     key: 'render',
@@ -456,7 +442,7 @@ var RecordEdit = function (_Component) {
       return _react2.default.createElement(
         _Card.Card,
         { style: { padding: 30 } },
-        this.state.showMediaAdder ? _react2.default.createElement(_recordAddMedia2.default, { recordId: this.props.params.recordId, mediaAdder: this.addMediaElement, mediaPreviewer: this.getPreviewer }) : _react2.default.createElement('div', null),
+        this.state.showMediaAdder ? _react2.default.createElement(_recordAddMedia2.default, { recordId: this.props.params.recordId, mediaAdder: this.addMediaElement }) : _react2.default.createElement('div', null),
         _react2.default.createElement(
           'h1',
           null,
@@ -478,7 +464,8 @@ var RecordEdit = function (_Component) {
               rows: 1,
               rowsMax: 10,
               style: { width: 790 },
-              defaultValue: _this3.getExistingItem(currentRecord.data.fields, item.name).data.replace(/<br\/>/gm, "\n") || "", onChange: function onChange(event, index, value) {
+              defaultValue: _this3.getExistingItem(currentRecord.data.fields, item.name).data.replace(/<br\/>/gm, "\n") || '',
+              onChange: function onChange(event, index, value) {
                 return _this3.handleChange(event, value, index, item.name);
               } })
           );
@@ -522,7 +509,10 @@ var RecordEdit = function (_Component) {
             'Upload'
           )
         ),
-        _react2.default.createElement('img', { style: { maxWidth: 500, maxHeight: 300, marginTop: 5 }, src: this.state.dataToSend.featuredImage ? this.state.dataToSend.featuredImage : "http://localhost:3001/images/institution-default.jpg" }),
+        _react2.default.createElement('img', {
+          style: { maxWidth: 500, maxHeight: 300, marginTop: 5 },
+          src: this.state.dataToSend.featuredImage ? _links.URL_MULTIMEDIA + this.state.dataToSend.featuredImage : _links.URL_BASE_MULTIMEDIA_IMAGES + "institution-default.jpg"
+        }),
         _react2.default.createElement('br', null),
         _react2.default.createElement('br', null),
         _react2.default.createElement(
@@ -553,7 +543,7 @@ var RecordEdit = function (_Component) {
             return _this3.toggleMultimediaAdder();
           }
         }),
-        this.getMediaPreviewers(currentRecord.data.media.audio, this.getPreviewer),
+        this.getMediaPreviewers(currentRecord.data.media.audio),
         _react2.default.createElement('br', null),
         _react2.default.createElement(
           'span',
@@ -568,7 +558,7 @@ var RecordEdit = function (_Component) {
             return _this3.toggleMultimediaAdder();
           }
         }),
-        this.getMediaPreviewers(currentRecord.data.media.video, this.getPreviewer),
+        this.getMediaPreviewers(currentRecord.data.media.video),
         _react2.default.createElement('br', null),
         _react2.default.createElement(
           'span',
@@ -583,7 +573,7 @@ var RecordEdit = function (_Component) {
             return _this3.toggleMultimediaAdder();
           }
         }),
-        this.getMediaPreviewers(currentRecord.data.media.text, this.getPreviewer),
+        this.getMediaPreviewers(currentRecord.data.media.text),
         _react2.default.createElement(
           _Card.Card,
           { style: { marginTop: 30, textAlign: "right" } },
@@ -591,7 +581,7 @@ var RecordEdit = function (_Component) {
             label: 'Cancel',
             primary: true,
             style: style,
-            href: 'http://localhost:3000/controlRoom/record/create'
+            href: _links.URL_CONTROL_ROOM_CREATE_RECORD
           }),
           _react2.default.createElement(_RaisedButton2.default, {
             label: 'Submit',
@@ -619,7 +609,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     editNewRecord: function editNewRecord(newRecordId) {
-      dispatch(push('/controlRoom/record/edit/' + newRecordId));
+      dispatch(push(_links.URL_CONTROL_ROOM_EDIT_RECORD + newRecordId));
     }
   };
 };

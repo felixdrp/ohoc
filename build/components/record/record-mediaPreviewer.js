@@ -56,6 +56,10 @@ var _clear = require('material-ui/svg-icons/content/clear');
 
 var _clear2 = _interopRequireDefault(_clear);
 
+var _previewGenerator = require('./previewGenerator');
+
+var _previewGenerator2 = _interopRequireDefault(_previewGenerator);
+
 var _Card = require('material-ui/Card');
 
 var _stringTools = require('../stringTools');
@@ -98,7 +102,7 @@ var RecordMediaPreviewer = function (_Component) {
         _react2.default.createElement(
           'span',
           null,
-          this.props.mediaPreviewer(this.props.media, { maxHeight: 100, maxWidth: 100 })
+          (0, _previewGenerator2.default)(this.props.media, { maxHeight: 100, maxWidth: 100 })
         )
       );
     }

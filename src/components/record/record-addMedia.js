@@ -2,16 +2,26 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import fetchData from '../../network/fetch-data';
 
+import getPreviewer from './previewGenerator'
+
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 
+
+import {
+  URL_CONTROL_ROOM_EDIT_RECORD,
+  URL_BASE_MULTIMEDIA_IMAGES,
+  URL_MULTIMEDIA,
+  URL_RECORD_UPLOAD_FILE,
+} from '../../links'
+
 class RecordAddMedia extends Component {
   constructor() {
     super()
-    this.state = { previewSource : { src :"http://localhost:3001/images/institution-default.jpg", type : "image/jpeg"}
+      this.state = { previewSource : { src : URL_BASE_MULTIMEDIA_IMAGES + 'institution-default.jpg', type : "image/jpeg"}
     };
 
     // Used to store references.
@@ -27,13 +37,13 @@ class RecordAddMedia extends Component {
     let thisObject = this;
     let formData = new FormData()
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', '/api/record/upload/' + this.props.recordId, true);
+    xhr.open('POST', URL_RECORD_UPLOAD_FILE + this.props.recordId, true);
 
     xhr.onload = function(e) {
       console.log(xhr.response)
 
       var fileToUpload = JSON.parse(xhr.response).upload.files[0]
-      fileToUpload.src = "http://localhost:3001/multimedia/"+fileToUpload.src;
+      fileToUpload.src = fileToUpload.src;
 
       thisObject.setState({previewSource : fileToUpload, dataToSend: {src: fileToUpload.src, type: fileToUpload.type} });
 
@@ -125,7 +135,7 @@ class RecordAddMedia extends Component {
 
     return (
       <Dialog
-            title="Dialog With Actions"
+            title="Upload File"
             actions={actions}
             modal={true}
             open={true}
@@ -163,7 +173,7 @@ class RecordAddMedia extends Component {
         <span style={{fontWeight:"bold"}}>Media Preview: </span>
         <Card style={{textAlign:"center"}}>
         {
-          this.props.mediaPreviewer(this.state.previewSource, {height:300,maxWidth:700})
+          getPreviewer(this.state.previewSource, {height:300,maxWidth:700})
         }
         </Card>
 
@@ -197,7 +207,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   editNewRecord(newRecordId) {
-    dispatch(push('/controlRoom/record/edit/' + newRecordId))
+    dispatch(push(URL_CONTROL_ROOM_EDIT_RECORD + newRecordId))
   }
 })
 

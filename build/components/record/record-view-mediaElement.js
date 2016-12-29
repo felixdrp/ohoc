@@ -66,6 +66,10 @@ var _clear2 = _interopRequireDefault(_clear);
 
 var _Card = require('material-ui/Card');
 
+var _previewGenerator = require('./previewGenerator');
+
+var _previewGenerator2 = _interopRequireDefault(_previewGenerator);
+
 var _stringTools = require('../stringTools');
 
 var _stringTools2 = _interopRequireDefault(_stringTools);
@@ -148,7 +152,7 @@ var RecordViewMediaElement = function (_Component) {
         _react2.default.createElement(
           'span',
           null,
-          this.props.mediaPreviewer(this.props.media, { maxHeight: 250, maxWidth: "95%" })
+          (0, _previewGenerator2.default)(this.props.media, { maxHeight: 250, maxWidth: "95%" })
         )
       );
     }

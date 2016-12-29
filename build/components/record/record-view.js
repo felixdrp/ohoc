@@ -86,43 +86,14 @@ var RecordView = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = RecordView.__proto__ || (0, _getPrototypeOf2.default)(RecordView)).call.apply(_ref, [this].concat(args))), _this), _this.getPreviewer = function (elem) {
-      var style = { maxWidth: 290, maxHeight: 250 };
-      if (elem.src) if (elem.type.includes("image/")) {
-        return _react2.default.createElement('img', { style: style, src: elem.src });
-      } else if (elem.type.includes("audio/")) {
-        return _react2.default.createElement(
-          'span',
-          null,
-          _react2.default.createElement('img', { style: { maxWidth: 290, maxHeight: 210 }, src: _this.state.recordData.recordById[0].data.featuredImage || "http://localhost:3001/images/institution-default.jpg" }),
-          _react2.default.createElement('audio', { style: style, controls: true, src: elem.src }),
-          ' '
-        );
-      } else if (elem.type.includes("video/")) {
-        return _react2.default.createElement('video', { style: style, controls: true, src: elem.src });
-      } else {
-        return _react2.default.createElement(
-          'span',
-          { style: { width: "100%", textAlign: "center" } },
-          _react2.default.createElement('br', null),
-          _react2.default.createElement(
-            'a',
-            { style: style, href: elem.src, target: "_blank" },
-            _react2.default.createElement(_link2.default, { style: { width: 80, height: 80 } }),
-            _react2.default.createElement('br', null),
-            "Open in new tab: " + elem.title
-          )
-        );
-      }
-      return _react2.default.createElement('span', null);
-    }, _this.getMediaPreviewers = function (arrayOfMedia) {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = RecordView.__proto__ || (0, _getPrototypeOf2.default)(RecordView)).call.apply(_ref, [this].concat(args))), _this), _this.getMediaPreviewers = function (arrayOfMedia) {
 
       if (Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0) {
         return _react2.default.createElement(
           'div',
           { style: { width: "100%", height: 310, padding: 5, border: "1px dashed lightgrey", backgroundColor: "lightgrey" } },
           arrayOfMedia.map(function (element, i) {
-            return _react2.default.createElement(_recordViewMediaElement2.default, { key: i, style: { maxHeight: 300, maxWidth: 300 }, media: element, mediaPreviewer: _this.getPreviewer });
+            return _react2.default.createElement(_recordViewMediaElement2.default, { key: i, style: { maxHeight: 300, maxWidth: 300 }, media: element });
           })
         );
       }
@@ -172,6 +143,8 @@ var RecordView = function (_Component) {
 
       return componentDidMount;
     }()
+
+
   }, {
     key: 'render',
     value: function render() {

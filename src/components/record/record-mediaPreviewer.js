@@ -7,6 +7,7 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import EditIcon from 'material-ui/svg-icons/editor/border-color';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
+import getPreviewer from './previewGenerator'
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
@@ -42,7 +43,7 @@ export default class RecordMediaPreviewer extends Component {
             <br/>
         <span>
           {
-            this.props.mediaPreviewer(this.props.media,{maxHeight:100,maxWidth:100})
+            getPreviewer(this.props.media,{maxHeight:100,maxWidth:100})
           }
         </span>
 

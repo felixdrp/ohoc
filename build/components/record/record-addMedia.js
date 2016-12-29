@@ -54,6 +54,10 @@ var _fetchData = require('../../network/fetch-data');
 
 var _fetchData2 = _interopRequireDefault(_fetchData);
 
+var _previewGenerator = require('./previewGenerator');
+
+var _previewGenerator2 = _interopRequireDefault(_previewGenerator);
+
 var _Dialog = require('material-ui/Dialog');
 
 var _Dialog2 = _interopRequireDefault(_Dialog);
@@ -71,6 +75,8 @@ var _Card = require('material-ui/Card');
 var _FlatButton = require('material-ui/FlatButton');
 
 var _FlatButton2 = _interopRequireDefault(_FlatButton);
+
+var _links = require('../../links');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -95,7 +101,7 @@ var RecordAddMedia = function (_Component) {
       _this.sendFiles(files);
     };
 
-    _this.state = { previewSource: { src: "http://localhost:3001/images/institution-default.jpg", type: "image/jpeg" }
+    _this.state = { previewSource: { src: _links.URL_BASE_MULTIMEDIA_IMAGES + 'institution-default.jpg', type: "image/jpeg" }
     };
 
     _this._input = {};
@@ -129,13 +135,13 @@ var RecordAddMedia = function (_Component) {
       var thisObject = this;
       var formData = new FormData();
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', '/api/record/upload/' + this.props.recordId, true);
+      xhr.open('POST', _links.URL_RECORD_UPLOAD_FILE + this.props.recordId, true);
 
       xhr.onload = function (e) {
         console.log(xhr.response);
 
         var fileToUpload = JSON.parse(xhr.response).upload.files[0];
-        fileToUpload.src = "http://localhost:3001/multimedia/" + fileToUpload.src;
+        fileToUpload.src = fileToUpload.src;
 
         thisObject.setState({ previewSource: fileToUpload, dataToSend: { src: fileToUpload.src, type: fileToUpload.type } });
 
@@ -221,7 +227,7 @@ var RecordAddMedia = function (_Component) {
       return _react2.default.createElement(
         _Dialog2.default,
         {
-          title: 'Dialog With Actions',
+          title: 'Upload File',
           actions: actions,
           modal: true,
           open: true
@@ -275,7 +281,7 @@ var RecordAddMedia = function (_Component) {
           _react2.default.createElement(
             _Card.Card,
             { style: { textAlign: "center" } },
-            this.props.mediaPreviewer(this.state.previewSource, { height: 300, maxWidth: 700 })
+            (0, _previewGenerator2.default)(this.state.previewSource, { height: 300, maxWidth: 700 })
           ),
           _react2.default.createElement('br', null),
           _react2.default.createElement(
@@ -326,7 +332,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     editNewRecord: function editNewRecord(newRecordId) {
-      dispatch(push('/controlRoom/record/edit/' + newRecordId));
+      dispatch(push(_links.URL_CONTROL_ROOM_EDIT_RECORD + newRecordId));
     }
   };
 };

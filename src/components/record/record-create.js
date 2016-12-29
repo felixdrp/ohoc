@@ -8,6 +8,8 @@ import MenuItem from 'material-ui/MenuItem';
 
 import fetchData from '../../network/fetch-data';
 
+import {URL_CONTROL_ROOM_EDIT_RECORD} from '../../links'
+
 
 class RecordCreate extends Component {
   constructor(props) {
@@ -113,7 +115,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   editNewRecord(newRecordId) {
-    dispatch(push('/controlRoom/record/edit/' + newRecordId))
+    dispatch(push(URL_CONTROL_ROOM_EDIT_RECORD + newRecordId))
   }
 })
 
