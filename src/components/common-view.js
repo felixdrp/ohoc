@@ -6,6 +6,8 @@ import { templateListSet } from '../actions/actions';
 import fetchData from '../network/fetch-data';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
+import URL_BASE from '../links'
+
 class CommonView extends Component {
   async componentWillMount() {
     let fetch = new fetchData();
@@ -34,7 +36,7 @@ class CommonView extends Component {
 
        <span style={{float:"right"}}>
          <h1 style={{margin:"0 0 0 0",marginRight:25, marginTop:5}}>
-           <Link to={`/`} style={{ textDecoration: 'none'}}>
+           <Link to={URL_BASE} style={{ textDecoration: 'none'}}>
              <span style={{color:"black"}}>Intellectual Property</span> <br/> <span style={{color:"#3399ff"}}>Oral History Project</span>
            </Link>
          </h1>

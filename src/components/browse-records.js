@@ -11,6 +11,9 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 
 import capitalize from './stringTools'
 
+import URL_CATEGORIES_LIST from '../links'
+
+
 class BrowseRecords extends Component {
 
   categoryPhotos = {
@@ -68,7 +71,7 @@ class BrowseRecords extends Component {
           <div style={{textAlign:"center"}} >
           {
             this.props.templateList && Object.keys(this.props.templateList).sort( (a,b) => this.categoryOrderIndex[a] > this.categoryOrderIndex[b]).map( (e, index) => (
-              <Link key={index} to={'ohoc/categories/list/'+e} style={{ textDecoration: 'none' }}>
+              <Link key={index} to={URL_CATEGORIES_LIST + e} style={{ textDecoration: 'none' }}>
                 <Card
 
                   style={{
