@@ -6,7 +6,7 @@ import { templateListSet } from '../actions/actions';
 import fetchData from '../network/fetch-data';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
-import URL_BASE from '../links'
+import {URL_BASE} from '../links'
 
 class CommonView extends Component {
   async componentWillMount() {

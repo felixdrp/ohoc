@@ -1,6 +1,7 @@
 import HttpClient from './http-client';
 
-const urlBase = '/ohoc/api/'
+// const urlBase = '/ohoc/api/'
+const urlBase = '/api/'
 
 export default class fetchData {
   constructor() {

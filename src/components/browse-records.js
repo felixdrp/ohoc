@@ -11,7 +11,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 
 import capitalize from './stringTools'
 
-import URL_CATEGORIES_LIST from '../links'
+import {URL_CATEGORIES_LIST} from '../links'
 
 
 class BrowseRecords extends Component {

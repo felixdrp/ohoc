@@ -16,7 +16,7 @@ import capitalize from '../stringTools'
 
 import fetchData from '../../network/fetch-data';
 
-import URL_VIEW_RECORD from '../../links'
+import {URL_VIEW_RECORD} from '../../links'
 
 export default class CategoriesView extends Component {
   async componentDidMount() {
