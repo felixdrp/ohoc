@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import fetchData from '../../network/fetch-data';
 
-import getPreviewer from './previewGenerator'
+import PreviewGenerator from './preview-generator'
 
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
@@ -43,9 +43,12 @@ class RecordAddMedia extends Component {
       console.log(xhr.response)
 
       var fileToUpload = JSON.parse(xhr.response).upload.files[0]
-      fileToUpload.src = fileToUpload.src;
 
-      thisObject.setState({previewSource : fileToUpload, dataToSend: {src: fileToUpload.src, type: fileToUpload.type} });
+
+      thisObject.setState({
+        previewSource : { ...fileToUpload, src: URL_MULTIMEDIA + fileToUpload.src },
+        dataToSend: {src: fileToUpload.src, type: fileToUpload.type}
+      });
 
       console.log(JSON.stringify(thisObject.state))
       // debugger
@@ -172,9 +175,7 @@ class RecordAddMedia extends Component {
         <br/>
         <span style={{fontWeight:"bold"}}>Media Preview: </span>
         <Card style={{textAlign:"center"}}>
-        {
-          getPreviewer(this.state.previewSource, {height:300,maxWidth:700})
-        }
+          <PreviewGenerator element={this.state.previewSource} style={{height:300,maxWidth:700}} />
         </Card>
 
         <br/>

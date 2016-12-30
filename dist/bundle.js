@@ -2813,7 +2813,7 @@ var _httpClient2 = _interopRequireDefault(_httpClient);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var urlBase = '/ohoc/api/';
+var urlBase = '/api/';
 
 var fetchData = function () {
   function fetchData() {

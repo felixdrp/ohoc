@@ -12,7 +12,8 @@ import ClearIcon from 'material-ui/svg-icons/content/clear';
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
-import getPreviewer from './previewGenerator'
+// import getPreviewer from './previewGenerator'
+import PreviewGenerator from './preview-generator'
 
 import capitalize from '../stringTools'
 
@@ -56,9 +57,7 @@ export default class RecordViewMediaElement extends Component {
               open={this.state.showExtendedDialog}
             >
             <span>
-              {
-                this.props.mediaPreviewer(this.props.media,{maxHeight:250,maxWidth:"95%"})
-              }
+              <PreviewGenerator element={this.props.media} style={{maxHeight:250,maxWidth:"95%"}} />
             </span>
             <br/><br/>
             <span>Transcript/Description</span>
@@ -80,9 +79,7 @@ export default class RecordViewMediaElement extends Component {
           </span>
             <br/>
         <span>
-          {
-            getPreviewer(this.props.media,{maxHeight:250,maxWidth:"95%"})
-          }
+          <PreviewGenerator element={this.props.media} style={{maxHeight:250,maxWidth:"95%"}} />
         </span>
       </Card>
     );

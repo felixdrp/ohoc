@@ -7,10 +7,10 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import EditIcon from 'material-ui/svg-icons/editor/border-color';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
-import getPreviewer from './previewGenerator'
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
+import PreviewGenerator from './preview-generator'
 
 import capitalize from '../stringTools'
 
@@ -19,9 +19,6 @@ export default class RecordMediaPreviewer extends Component {
     super()
 
   }
-
-
-
 
   render() {
 
@@ -42,9 +39,7 @@ export default class RecordMediaPreviewer extends Component {
           </span>
             <br/>
         <span>
-          {
-            getPreviewer(this.props.media,{maxHeight:100,maxWidth:100})
-          }
+          <PreviewGenerator element={this.props.media} style={{height:100,maxWidth:100}} />
         </span>
 
 

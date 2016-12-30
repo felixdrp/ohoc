@@ -8,6 +8,10 @@ new WebpackDevServer(webpack(config), {
   hot: true,
   historyApiFallback: true,
   proxy: {
+    [urlBase + '/images']: {
+      target: 'http://localhost:3001',
+      // pathRewrite: {'^/api' : ''}
+    },
     [urlBase + '/api']: {
       target: 'http://localhost:3001',
       // pathRewrite: {'^/api' : ''}

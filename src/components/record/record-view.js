@@ -14,6 +14,10 @@ import fetchData from '../../network/fetch-data';
 
 import RecordViewMediaElement from './record-view-mediaElement'
 
+import {
+  URL_MULTIMEDIA
+} from '../../links'
+
 export default class RecordView extends Component {
 
   async componentDidMount() {
@@ -49,7 +53,15 @@ export default class RecordView extends Component {
     if ( Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0){ // if the array is empty there is no reason to draw the preview container at all.
       return <div style={{width:"100%",height:310,padding:5,border: "1px dashed lightgrey",backgroundColor:"lightgrey"}}>
           {
-            arrayOfMedia.map( (element,i) => <RecordViewMediaElement key={i} style={{maxHeight:300,maxWidth:300}} media={element}/>)
+            arrayOfMedia.map(
+              (element,i) => (
+                <RecordViewMediaElement
+                  key={i}
+                  style={{maxHeight:300,maxWidth:300}}
+                  media={{...element, src: URL_MULTIMEDIA + element.src}}
+                />
+              )
+            )
           }
           </div>
     }

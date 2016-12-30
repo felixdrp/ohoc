@@ -212,7 +212,14 @@ class RecordEdit extends Component {
     if ( Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0){ // if the array is empty there is no reason to draw the preview container at all.
       return <div style={{width:"100%",height:200,border: "1px dashed lightgrey",backgroundColor:"lightgrey"}}>
           {
-            arrayOfMedia.map( (element,i) => <RecordMediaPreviewer key={i} media={element} mediaDeleter={this.deleteMedia} index={i}/>)
+            arrayOfMedia.map( (element,i) => (
+              <RecordMediaPreviewer
+                key={i}
+                media={{...element, src: URL_MULTIMEDIA + element.src}}
+                mediaDeleter={this.deleteMedia}
+                index={i}
+              />)
+            )
           }
           </div>
     }
@@ -373,7 +380,11 @@ class RecordEdit extends Component {
 
         <img
           style={{maxWidth:500,maxHeight:300,marginTop:5}}
-          src={this.state.dataToSend.featuredImage ? URL_MULTIMEDIA +this.state.dataToSend.featuredImage : URL_BASE_MULTIMEDIA_IMAGES + "institution-default.jpg"}
+          src={
+            this.state.dataToSend.featuredImage ?
+              URL_MULTIMEDIA + this.state.dataToSend.featuredImage :
+              URL_BASE_MULTIMEDIA_IMAGES + "institution-default.jpg"
+          }
         />
 
         <br/>
