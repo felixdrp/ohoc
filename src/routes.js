@@ -17,6 +17,7 @@ import {
   // Core components
   AppContainer,
   BrowseRecords,
+  BrowserToEdit,
   CategoriesContainer,
   CategoriesView,
   RecordContainer,
@@ -48,6 +49,8 @@ var routes = (history) => (
       </Route>
 
       <Route path="controlRoom" component={RecordContainer} >
+        <IndexRoute component={BrowserToEdit} />
+
         <Route path={urlBase + "/controlRoom/record/create"} component={RecordCreate} />
         <Route path={urlBase + "/controlRoom/record/edit/:recordId(/:recordName)"} component={RecordEdit} />
       </Route>

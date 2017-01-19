@@ -11,18 +11,17 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 
 import capitalize from './stringTools'
 
-import {URL_CATEGORIES_LIST} from '../links'
-
+import { URL_CATEGORIES_LIST, URL_BASE_MULTIMEDIA_IMAGES} from '../links'
 
 class BrowseRecords extends Component {
 
   categoryPhotos = {
-    "academia" : "images/PhotoAcademy.jpeg",
-    "civil service" : "images/PhotoCivilService.jpg",
-    "policy formation" : "images/PhotoPolicyFormation.jpg",
-    "publications" : "images/PhotoPublications.jpg",
-    "solicitors and agents" : "images/PhotoSolicitorsandAgents.jpg",
-    "the bar" : "images/PhotoTheBar.jpg",
+    "academia" : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoAcademy.jpeg',
+    "civil service" : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoCivilService.jpg',
+    "policy formation" : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPolicyFormation.jpg',
+    "publications" : URL_BASE_MULTIMEDIA_IMAGES + "/PhotoPublications.jpg",
+    "solicitors and agents" : URL_BASE_MULTIMEDIA_IMAGES + "/PhotoSolicitorsandAgents.jpg",
+    "the bar" : URL_BASE_MULTIMEDIA_IMAGES + "/PhotoTheBar.jpg",
   }
 
   categoryOrderIndex = {

@@ -18,3 +18,5 @@ export RecordContainer from './record/record-container'
 export RecordCreate from './record/record-create'
 export RecordView from './record/record-view'
 export RecordEdit from './record/record-edit'
+
+export BrowserToEdit from './edition/browser-to-edit.js'
