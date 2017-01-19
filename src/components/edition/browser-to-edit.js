@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
@@ -10,6 +12,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import Avatar from 'material-ui/Avatar';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
+import FlatButton from 'material-ui/FlatButton';
 import CommunicationChatBubble from 'material-ui/svg-icons/image/navigate-next';
 
 import capitalize from '../stringTools'
@@ -22,7 +25,7 @@ import {
   URL_CONTROL_ROOM_EDIT_RECORD,
 } from '../../links'
 
-export default class BrowserToEdit extends Component {
+class BrowserToEdit extends Component {
   async componentDidMount() {
     let fetch = new fetchData();
     // Load the templateList
@@ -42,20 +45,22 @@ export default class BrowserToEdit extends Component {
     }
   }
 
-  entriesToSubtypeGroups = (list) => {
+  async createRecord(template, subtemplate) {
 
-    var groupedEntries = {}
-    for ( var entry in list){
-      entry = list[entry]
-      if( !groupedEntries[entry.subtype] ){
-        groupedEntries[entry.subtype] = []
-      }
-
-      groupedEntries[entry.subtype].push(entry)
-
+    if (!template || !subtemplate) {
+      return
     }
 
-    return groupedEntries;
+    let newRecordId
+    let fetch = new fetchData();
+    // Get and dispatch the template list
+    newRecordId = await fetch.createRecord({
+      template: template,
+      subtemplate: subtemplate,
+    })
+
+    this.props.editNewRecord(newRecordId.recordId)
+    // console.log(newRecordId)
   }
 
 
@@ -93,9 +98,13 @@ export default class BrowserToEdit extends Component {
                 </Subheader>
                 {
                   Object.keys(state.templateList[group]).map( (subType, j) => (
-                    <div key={j}>
+                    <div
+                      key={j}
+                      style={{
+                        marginLeft: 18,
+                      }}
+                    >
                       <h5
-                        key={j}
                         style={{
                           color: 'rgba(51, 51, 51, 0.6)',
                           fontWeight:"bolder",
@@ -105,6 +114,20 @@ export default class BrowserToEdit extends Component {
                         }}
                       >
                         {capitalize(state.templateList[group][subType])}
+                        <FlatButton
+                          label="Add record"
+                          primary={true}
+                          style={{
+                            marginLeft: 10,
+                          }}
+                          onClick={
+                            () => this.createRecord(
+                                    group,
+                                    state.templateList[group][subType]
+                                  )
+                          }
+                          // icon={<ActionAndroid />}
+                        />
                       </h5>
                       {
                         state.allRecordsList
@@ -141,3 +164,17 @@ export default class BrowserToEdit extends Component {
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => ({
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  editNewRecord(newRecordId) {
+    dispatch(push(URL_CONTROL_ROOM_EDIT_RECORD + newRecordId))
+  }
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BrowserToEdit);
