@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import { Link } from 'react-router'
 
@@ -12,8 +13,8 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import Avatar from 'material-ui/Avatar';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-import FlatButton from 'material-ui/FlatButton';
 import CommunicationChatBubble from 'material-ui/svg-icons/image/navigate-next';
+import Delete from 'material-ui/svg-icons/action/delete';
 
 import capitalize from '../stringTools'
 
@@ -26,7 +27,30 @@ import {
 } from '../../links'
 
 class BrowserToEdit extends Component {
+  state = { over: null };
   async componentDidMount() {
+    await this.loadRecords()
+  }
+
+  overHandler = (recordId) => { this.setState({over: recordId}) }
+  leaveHandler = (recordId) => { this.setState({over: null}) }
+  deleteRecord = async (recordId) => {
+    let fetch = new fetchData();
+    let deleteRecord
+    try {
+      deleteRecord = await fetch.deleteRecord(recordId)
+
+      this.setState({
+        over: null
+      })
+
+      await this.loadRecords()
+    } catch(error) {
+      console.error('Delete record error > ' + error)
+    }
+  }
+
+  loadRecords = async () => {
     let fetch = new fetchData();
     // Load the templateList
     let templateList, allRecordsList
@@ -130,6 +154,7 @@ class BrowserToEdit extends Component {
                         />
                       </h5>
                       {
+                        // Records List
                         state.allRecordsList
                           .filter(
                             entry => (
@@ -142,12 +167,31 @@ class BrowserToEdit extends Component {
                               to={URL_CONTROL_ROOM_EDIT_RECORD + entry.id}
                               key={i}
                               style={{ textDecoration: 'none'}}
+                              onMouseOver={() => this.overHandler(entry.id)}
+                              onMouseLeave={() => this.leaveHandler(entry.id)}
                             >
                               <ListItem
                                 primaryText={capitalize(entry.data.recordName)}
                                 leftAvatar={<Avatar src={ baseAvatarImage } />}
                                 rightIcon={<CommunicationChatBubble />}
-                              />
+                              >
+                                {
+                                  state.over == entry.id?
+                                    <span
+                                      style={{float:'right'}}
+                                      onClick={
+                                        (event) => {
+                                          console.log('delete')
+                                          event.preventDefault()
+                                          this.deleteRecord(entry.id)
+                                        }
+                                      }
+                                    >
+                                      <Delete />
+                                    </span>
+                                  : ''
+                                }
+                              </ListItem>
                             </Link>
                           )
                         )

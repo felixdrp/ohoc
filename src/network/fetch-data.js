@@ -1,7 +1,8 @@
 import HttpClient from './http-client';
+import { URL_BASE } from '../links'
 
-const urlBase = '/ohoc/api/'
-// const urlBase = '/api/'
+
+const urlBase = URL_BASE + 'api/'
 
 export default class fetchData {
   constructor() {
@@ -65,6 +66,23 @@ export default class fetchData {
           method: 'POST',
           path: urlBase + 'setRecord/' + recordId,
           headers: {'content-type': 'application/json'},
+        })
+      result = JSON.parse(result)
+    } catch(error) {
+      console.error('fetching template list error > ' + error)
+    }
+
+    return result
+  }
+
+  async deleteRecord(recordId) {
+    let result
+    try {
+      result = await this.httpClient.send(
+        'Delete Record',
+        {
+          method: 'POST',
+          path: urlBase + 'deleteRecord/' + recordId,
         })
       result = JSON.parse(result)
     } catch(error) {
