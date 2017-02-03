@@ -40,6 +40,7 @@ class RecordEdit extends Component {
     let fetch = new fetchData();
     // Load the templateList
     let recordData
+    var dataToSend = {}
 
     try {
       recordData = await fetch.getRecordData(this.props.params.recordId)
@@ -48,29 +49,30 @@ class RecordEdit extends Component {
     }
     // debugger;
 
-    var currentRecord = recordData.recordById[0];
-    var dataToSend = {}
+    recordData = recordData.recordById[0];
 
     // If it is a new record, the fields and media arrays do not exist. So we create them here:
-    if (Object.keys(currentRecord.data).length < 1 ){
-      currentRecord.data.fields = []
+    if (Object.keys(recordData.data).length < 1 ){
+      recordData.data.fields = []
 
-      for( var fieldKey in currentRecord.structure.info ){
-        var infoField = currentRecord.structure.info[fieldKey]
-        currentRecord.data.fields.push({data:"", type: infoField.type, name: infoField.name})
+      for( var fieldKey in recordData.structure.info ){
+        var infoField = recordData.structure.info[fieldKey]
+        recordData.data.fields.push({data:"", type: infoField.type, name: infoField.name})
       }
 
-      currentRecord.data.media = JSON.parse(JSON.stringify(currentRecord.structure.media));
+      recordData.data.media = JSON.parse(JSON.stringify(recordData.structure.media));
 
     } else{
       // Else if we are editing, we need to populate the dataToSend variable, since onchange may not be executed on the textfields.
-      var itemList = currentRecord.data.fields
+      var itemList = recordData.data.fields
       for ( var a in itemList){
-        dataToSend[itemList[a].name] = itemList[a].data && itemList[a].data.replace("<br/>","\n");
+        if (recordData.structure.info[a] && recordData.structure.info[a].type == 'text') {
+          dataToSend[itemList[a].name] = itemList[a].data && itemList[a].data.replace("<br/>","\n");
+        } else {
+          dataToSend[itemList[a].name] = itemList[a].data
+        }
       }
     }
-
-    recordData.recordById[0] = currentRecord;
 
     this.setState({
       recordData,
@@ -143,29 +145,37 @@ class RecordEdit extends Component {
 
   async updateRecord() {
     let fetch = new fetchData();
+    const state = this.state
     // Data to upload
 
-
     let dataToSend = {
-              featuredImage : this.state.dataToSend.featuredImage,
-              recordName :  this.state.dataToSend.name,
-              media : {},
-              fields : [],
-              };
+      featuredImage : state.dataToSend.featuredImage,
+      recordName :  state.dataToSend.name,
+      media : state.recordData.data.media,
+      fields : state.recordData.data.fields,
+    };
+    // debugger
 
-     for ( var k in Object.keys(this.state.dataToSend) ){
-       var key = Object.keys(this.state.dataToSend)[k]
-
-       var fieldData = this.state.dataToSend[key].replace(/\n/gm, "<br/>");
-
-       dataToSend.fields.push({name: key, data : fieldData, type : "text"});
-     }
-
-     dataToSend.media = this.state.recordData.recordById[0].data.media
+    dataToSend.fields = dataToSend.fields.map( (field, i) => {
+      switch (state.recordData.structure.info[i]) {
+        case 'text':
+          return { ...field, data: state.dataToSend[field.name].replace(/\n/gm, "<br/>") }
+        default:
+          return field
+      }
+    })
+    //
+    // for ( var k in Object.keys(state.dataToSend) ){
+    //   var key = Object.keys(state.dataToSend)[k]
+    //
+    //   var fieldData = state.dataToSend[key].replace(/\n/gm, "<br/>");
+    //
+    //   dataToSend.fields.push({name: key, data : fieldData, type : "text"});
+    // }
 
      try {
        var recordData = await fetch.setRecordData(this.props.params.recordId, dataToSend)
-       this.setState({ submitted: true})
+       this.setState({ submitted: true })
      } catch(error) {
        console.error('fetching record update data > ' + error)
      }
@@ -181,24 +191,21 @@ class RecordEdit extends Component {
   * the type determines which media array to use when splicing at index i
   */
   deleteMedia = (type, i) => {
-      //alert("imagine we delete "+type+" "+i)
+    //alert("imagine we delete "+type+" "+i)
 
-      var currentRecord = this.state.recordData.recordById[0]
-      var allowedTypes = ["image","audio","video","text"];
-      var selectedType = type.split("/")[0];
+    var recordData = this.state.recordData
+    var allowedTypes = ["image","audio","video","text"];
+    var selectedType = type.split("/")[0];
 
-      if ( allowedTypes.includes(selectedType)){
-          selectedType = selectedType == "image" ? "picture" : selectedType;
-          currentRecord.data.media[selectedType].splice(i,1)
-      }
+    if ( allowedTypes.includes(selectedType)){
+        selectedType = selectedType == "image" ? "picture" : selectedType;
+        recordData.data.media[selectedType].splice(i,1)
+    }
 
-      var newRecordData = this.state.recordData;
-          newRecordData.recordById[0] = currentRecord;
-      this.setStatgetPreviewere({recordData: newRecordData});
+    this.setState({ recordData });
   }
 
   getMediaPreviewers (arrayOfMedia){
-
     if ( Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0){ // if the array is empty there is no reason to draw the preview container at all.
       return (
         <div style={{width:"100%",height:200,border: "1px dashed lightgrey",backgroundColor:"lightgrey"}}>
@@ -226,10 +233,10 @@ class RecordEdit extends Component {
         return;
     }
 
-    var currentRecord = this.state.recordData.recordById[0]
+    var recordData = this.state.recordData
 
-    if ( Array.isArray(currentRecord.data.media) ){
-      currentRecord.data.media = {"text":[],"audio":[],"video":[],"picture":[]}
+    if ( Array.isArray(recordData.data.media) ){
+      recordData.data.media = {"text":[],"audio":[],"video":[],"picture":[]}
     }
 
     var allowedTypes = ["image","audio","video","text","application"];
@@ -238,36 +245,44 @@ class RecordEdit extends Component {
     if ( allowedTypes.includes(selectedType)){
         selectedType = selectedType == "image" ? "picture" : selectedType;
         selectedType = selectedType == "application" ? "text" : selectedType;
-        var i = currentRecord.data.media[selectedType].findIndex( (element) => {return element.title == mediaObject.title && element.src == mediaObject.src}  );
+        var i = recordData.data.media[selectedType].findIndex( (element) => {return element.title == mediaObject.title && element.src == mediaObject.src}  );
         if ( i > -1 ){
-          currentRecord.data.media[selectedType].splice(i,1)
+          recordData.data.media[selectedType].splice(i,1)
         }
-        currentRecord.data.media[selectedType].push(mediaObject)
+        recordData.data.media[selectedType].push(mediaObject)
     }
 
-    var newRecordData = this.state.recordData;
-        newRecordData.recordById[0] = currentRecord;
-    this.setState({recordData: newRecordData});
+    this.setState({ recordData });
   }
 
   handleChange(event, index, value, name) {
-    var currentData = this.state.dataToSend;
+    var dataToSend = this.state.dataToSend;
 
-    if ( !currentData ){
-      currentData = {}
+    if ( !dataToSend ){
+      dataToSend = {}
     }
 
-    currentData[name] = value
+    dataToSend[name] = value
 
-    this.setState({dataToSend : currentData})
+    this.setState({dataToSend : dataToSend})
   };
 
-  updateMultilineData(name, data) {
-    debugger
-    var currentData = this.state.dataToSend;
-    currentData[name] = data
+  updateMultilineData(name, index, data) {
+    var dataToSend = this.state.dataToSend;
+    var recordData = this.state.recordData;
 
-    this.setState({dataToSend : currentData, updated: Date.now()})
+    if (recordData.data.fields[index].name != name) {
+      return
+    }
+
+    dataToSend[name] = data
+    recordData.data.fields[index].data = data
+
+    this.setState({
+      dataToSend: dataToSend,
+      recordData,
+      updated: Date.now(),
+    })
   }
 
   //
@@ -308,107 +323,39 @@ class RecordEdit extends Component {
       return <div></div>
     }
 
-    console.log(JSON.stringify(this.state))
+    // console.log(JSON.stringify(this.state))
 
-    let currentRecord = this.state.recordData.recordById[0];
-    //.recordData.recordById[0].data.fields
+    let recordData = this.state.recordData;
 
-    if (Object.keys(currentRecord.data).length < 1 ){
-      currentRecord.data = JSON.parse(JSON.stringify(currentRecord.structure));
+    if (Object.keys(recordData.data).length < 1 ){
+      recordData.data = JSON.parse(JSON.stringify(recordData.structure));
     }
 
 
-    if ( !currentRecord ){
+    if ( !recordData ){
       return <div></div>
     }
 
-    if ( !!currentRecord.structure && 'info' in currentRecord.structure ) {
-      formFlexibleTemplate = currentRecord.structure.info.map( (item, i) => {
-        let data = currentRecord.data.fields[i].data || {}
-        let template = currentRecord.structure.info[i]
+    if ( !!recordData.structure && 'info' in recordData.structure ) {
+      formFlexibleTemplate = recordData.structure.info.map( (item, i) => {
+        let data = recordData.data.fields[i].data || {}
+        let template = recordData.structure.info[i]
 
         switch (item.type) {
           case 'multi_row':
-            debugger
             template = item.template
-            // template = [
-            //   {
-            //     name: 'autor',
-            //     type: 'string',
-            //     data: '',
-            //   },
-            //   {
-            //     name: 'title',
-            //     type: 'string',
-            //     data: '',
-            //   },
-            //   {
-            //     name: 'publication_info',
-            //     type: 'string',
-            //     data: '',
-            //   },
-            //   {
-            //     name: 'date',
-            //     type: 'string',
-            //     data: '',
-            //   },
-            // ]
-            // data = [
-            //   [
-            //     {
-            //       name: 'autor',
-            //       type: 'string',
-            //       data: "Saltman Engineering Co. Ltd v Campbell Engineering Co. Ltd (1948) 65 RPC 203<br/>Showerings Ltd v The Fern Brewery (1958) RPC 484",
-            //     },
-            //     {
-            //       name: 'title',
-            //       type: 'string',
-            //       data: 'Saltman Engineering Co. Ltd v Campbell Engineering Co',
-            //     },
-            //     {
-            //       name: 'publication info',
-            //       type: 'string',
-            //       data: '',
-            //     },
-            //     {
-            //       name: 'date',
-            //       type: 'string',
-            //       data: '2010',
-            //     },
-            //   ],
-            //   [
-            //     {
-            //       name: 'autor',
-            //       type: 'string',
-            //       data: "Rateau v Rolls Royce, The Times, 2 November 1966; 8",
-            //     },
-            //   ],
-            //   [
-            //     {
-            //       name: 'autor',
-            //       type: 'string',
-            //       data: "Carl Zeiss Stiftung v. Rayner and Keeler [1967] AC 853",
-            //     },
-            //   ],
-            //   [
-            //     {
-            //       name: 'autor',
-            //       type: 'string',
-            //       data: "General Tire & Rubber Co v Firestone Tyre & Rubber Co Ltd [1972] RPC 457",
-            //     },
-            //   ],
-            // ]
+
             if (data.constructor.name != 'Array') {
               data = []
             }
 
             return (
               <div key={i}>
-                <span style={{marginRight:15,fontWeight:"bold"}}>{capitalize(item.name)+":"}</span>
+                <span style={{marginRight:15, fontWeight:"bold"}}>{capitalize(item.name)+":"}</span>
                 <MultipleRowInput
                   template={template}
                   data={data}
-                  updateData={ (newData) => this.updateMultilineData(item.name, newData) }
+                  updateData={ (newData) => this.updateMultilineData(item.name, i, newData) }
                 />
               </div>
             )
@@ -422,7 +369,7 @@ class RecordEdit extends Component {
             rows={1}
             rowsMax={10}
             style={{width:790}}
-            defaultValue={ this.getExistingItem(currentRecord.data.fields,item.name).data.replace(/<br\/>/gm,"\n") || ''}
+            defaultValue={ this.getExistingItem(recordData.data.fields,item.name).data.replace(/<br\/>/gm,"\n") || ''}
             onChange={ (event, index, value)=>this.handleChange(event, value, index,  item.name)} />
           </div>
         )
@@ -437,7 +384,7 @@ class RecordEdit extends Component {
           this.state.showMediaAdder ? <AddMedia recordId={this.props.params.recordId} mediaAdder={this.addMediaElement} /> : <div></div>
         }
 
-        <h1> Adding new  {currentRecord.type + " / " + currentRecord.subtype} </h1>
+        <h1> Adding new  {recordData.type + " / " + recordData.subtype} </h1>
 
         { formFlexibleTemplate }
 
@@ -490,7 +437,7 @@ class RecordEdit extends Component {
           onClick={() => this.toggleMultimediaAdder()}
         />
         {
-          this.getMediaPreviewers(currentRecord.data.media.picture)
+          this.getMediaPreviewers(recordData.data.media.picture)
         }
 
 
@@ -504,7 +451,7 @@ class RecordEdit extends Component {
         />
 
         {
-          this.getMediaPreviewers(currentRecord.data.media.audio)
+          this.getMediaPreviewers(recordData.data.media.audio)
         }
 
 
@@ -517,7 +464,7 @@ class RecordEdit extends Component {
           onClick={() => this.toggleMultimediaAdder()}
         />
         {
-          this.getMediaPreviewers(currentRecord.data.media.video)
+          this.getMediaPreviewers(recordData.data.media.video)
         }
 
         <br/>
@@ -529,7 +476,7 @@ class RecordEdit extends Component {
           onClick={() => this.toggleMultimediaAdder()}
         />
         {
-          this.getMediaPreviewers(currentRecord.data.media.text)
+          this.getMediaPreviewers(recordData.data.media.text)
         }
 
 

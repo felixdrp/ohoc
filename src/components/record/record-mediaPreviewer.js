@@ -22,7 +22,7 @@ export default class RecordMediaPreviewer extends Component {
 
   render() {
 
-    console.log(this.props.media)
+    // console.log(this.props.media)
 
     return (
       <Card style={{padding:3, width:220, height:190,float:"left",marginLeft:5,marginTop:5}}>
