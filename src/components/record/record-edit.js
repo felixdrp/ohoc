@@ -157,9 +157,22 @@ class RecordEdit extends Component {
     // debugger
 
     dataToSend.fields = dataToSend.fields.map( (field, i) => {
-      switch (state.recordData.structure.info[i]) {
+      let temporaldata
+      let type
+
+      if (i  <= state.recordData.structure.info.length - 1) {
+        type = state.recordData.structure.info[i].type
+      } else {
+        type = field.type
+      }
+
+      switch (type) {
         case 'text':
-          return { ...field, data: state.dataToSend[field.name].replace(/\n/gm, "<br/>") }
+
+          temporaldata = state.dataToSend[field.name].replace(/\n/gm, "<br/>")
+          // debugger
+
+          return { ...field, data: temporaldata }
         default:
           return field
       }
