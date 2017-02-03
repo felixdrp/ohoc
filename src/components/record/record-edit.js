@@ -15,6 +15,8 @@ import FlatButton from 'material-ui/FlatButton';
 import AddMedia from './record-addMedia'
 import RecordMediaPreviewer from './record-mediaPreviewer'
 
+import { MultipleRowInput } from '../multiple-row-input'
+
 import {
   URL_CONTROL_ROOM_EDIT_RECORD,
   URL_CONTROL_ROOM_CREATE_RECORD,
@@ -40,14 +42,10 @@ class RecordEdit extends Component {
     let recordData
 
     try {
-
       recordData = await fetch.getRecordData(this.props.params.recordId)
-
-
     } catch(error) {
       console.error('fetching record data > ' + error)
     }
-
     // debugger;
 
     var currentRecord = recordData.recordById[0];
@@ -74,15 +72,12 @@ class RecordEdit extends Component {
 
     recordData.recordById[0] = currentRecord;
 
-
-
     this.setState({
       recordData,
       submitted: false,
       dataToSend,
     })
   }
-
 
   sendFiles(files) {
     let formData = new FormData()
@@ -146,8 +141,6 @@ class RecordEdit extends Component {
     this.sendFiles(files)
   }
 
-
-
   async updateRecord() {
     let fetch = new fetchData();
     // Data to upload
@@ -161,14 +154,11 @@ class RecordEdit extends Component {
               };
 
      for ( var k in Object.keys(this.state.dataToSend) ){
-
        var key = Object.keys(this.state.dataToSend)[k]
-
 
        var fieldData = this.state.dataToSend[key].replace(/\n/gm, "<br/>");
 
        dataToSend.fields.push({name: key, data : fieldData, type : "text"});
-
      }
 
      dataToSend.media = this.state.recordData.recordById[0].data.media
@@ -210,20 +200,21 @@ class RecordEdit extends Component {
   getMediaPreviewers (arrayOfMedia){
 
     if ( Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0){ // if the array is empty there is no reason to draw the preview container at all.
-      return <div style={{width:"100%",height:200,border: "1px dashed lightgrey",backgroundColor:"lightgrey"}}>
-          {
-            arrayOfMedia.map( (element,i) => (
-              <RecordMediaPreviewer
-                key={i}
-                media={{...element, src: URL_MULTIMEDIA + element.src}}
-                mediaDeleter={this.deleteMedia}
-                index={i}
-              />)
-            )
-          }
-          </div>
+      return (
+        <div style={{width:"100%",height:200,border: "1px dashed lightgrey",backgroundColor:"lightgrey"}}>
+        {
+          arrayOfMedia.map( (element,i) => (
+            <RecordMediaPreviewer
+              key={i}
+              media={{...element, src: URL_MULTIMEDIA + element.src}}
+              mediaDeleter={this.deleteMedia}
+              index={i}
+            />)
+          )
+        }
+        </div>
+      )
     }
-
   }
 
   addMediaElement = (mediaObject) => {
@@ -269,8 +260,16 @@ class RecordEdit extends Component {
     currentData[name] = value
 
     this.setState({dataToSend : currentData})
-
   };
+
+  updateMultilineData(name, data) {
+    debugger
+    var currentData = this.state.dataToSend;
+    currentData[name] = data
+
+    this.setState({dataToSend : currentData, updated: Date.now()})
+  }
+
   //
   // getPreviewer = (elem,style) => {
   //   if ( elem.src )
@@ -298,6 +297,8 @@ class RecordEdit extends Component {
     const style = {
       margin: 12,
     };
+    const input = this._input;
+    var formFlexibleTemplate = []
 
     if( this.state && this.state.submitted){
       return <div> <h1> New Record Submitted! </h1> </div>
@@ -307,7 +308,7 @@ class RecordEdit extends Component {
       return <div></div>
     }
 
-     console.log(JSON.stringify(this.state))
+    console.log(JSON.stringify(this.state))
 
     let currentRecord = this.state.recordData.recordById[0];
     //.recordData.recordById[0].data.fields
@@ -321,9 +322,112 @@ class RecordEdit extends Component {
       return <div></div>
     }
 
-    const input = this._input;
+    if ( !!currentRecord.structure && 'info' in currentRecord.structure ) {
+      formFlexibleTemplate = currentRecord.structure.info.map( (item, i) => {
+        let data = currentRecord.data.fields[i].data || {}
+        let template = currentRecord.structure.info[i]
 
+        switch (item.type) {
+          case 'multi_row':
+            debugger
+            template = item.template
+            // template = [
+            //   {
+            //     name: 'autor',
+            //     type: 'string',
+            //     data: '',
+            //   },
+            //   {
+            //     name: 'title',
+            //     type: 'string',
+            //     data: '',
+            //   },
+            //   {
+            //     name: 'publication_info',
+            //     type: 'string',
+            //     data: '',
+            //   },
+            //   {
+            //     name: 'date',
+            //     type: 'string',
+            //     data: '',
+            //   },
+            // ]
+            // data = [
+            //   [
+            //     {
+            //       name: 'autor',
+            //       type: 'string',
+            //       data: "Saltman Engineering Co. Ltd v Campbell Engineering Co. Ltd (1948) 65 RPC 203<br/>Showerings Ltd v The Fern Brewery (1958) RPC 484",
+            //     },
+            //     {
+            //       name: 'title',
+            //       type: 'string',
+            //       data: 'Saltman Engineering Co. Ltd v Campbell Engineering Co',
+            //     },
+            //     {
+            //       name: 'publication info',
+            //       type: 'string',
+            //       data: '',
+            //     },
+            //     {
+            //       name: 'date',
+            //       type: 'string',
+            //       data: '2010',
+            //     },
+            //   ],
+            //   [
+            //     {
+            //       name: 'autor',
+            //       type: 'string',
+            //       data: "Rateau v Rolls Royce, The Times, 2 November 1966; 8",
+            //     },
+            //   ],
+            //   [
+            //     {
+            //       name: 'autor',
+            //       type: 'string',
+            //       data: "Carl Zeiss Stiftung v. Rayner and Keeler [1967] AC 853",
+            //     },
+            //   ],
+            //   [
+            //     {
+            //       name: 'autor',
+            //       type: 'string',
+            //       data: "General Tire & Rubber Co v Firestone Tyre & Rubber Co Ltd [1972] RPC 457",
+            //     },
+            //   ],
+            // ]
+            if (data.constructor.name != 'Array') {
+              data = []
+            }
 
+            return (
+              <div key={i}>
+                <span style={{marginRight:15,fontWeight:"bold"}}>{capitalize(item.name)+":"}</span>
+                <MultipleRowInput
+                  template={template}
+                  data={data}
+                  updateData={ (newData) => this.updateMultilineData(item.name, newData) }
+                />
+              </div>
+            )
+          // default:
+
+        }
+        return (
+          <div key={i}>
+            <span style={{marginRight:15,fontWeight:"bold"}}>{capitalize(item.name)+":"}</span>
+            <TextField hintText={item.name} multiLine={true}
+            rows={1}
+            rowsMax={10}
+            style={{width:790}}
+            defaultValue={ this.getExistingItem(currentRecord.data.fields,item.name).data.replace(/<br\/>/gm,"\n") || ''}
+            onChange={ (event, index, value)=>this.handleChange(event, value, index,  item.name)} />
+          </div>
+        )
+      })
+    }
 
     return (
 
@@ -333,21 +437,9 @@ class RecordEdit extends Component {
           this.state.showMediaAdder ? <AddMedia recordId={this.props.params.recordId} mediaAdder={this.addMediaElement} /> : <div></div>
         }
 
-        <h1> Adding new  {currentRecord.type+" / "+currentRecord.subtype} </h1>
+        <h1> Adding new  {currentRecord.type + " / " + currentRecord.subtype} </h1>
 
-        {
-          !!currentRecord.structure && 'info' in currentRecord.structure &&
-          currentRecord.structure.info.map( (item, i) => {
-            return <div key={i}> <span style={{marginRight:15,fontWeight:"bold"}}>{capitalize(item.name)+":"}</span>
-              <TextField hintText={item.name} multiLine={true}
-              rows={1}
-              rowsMax={10}
-              style={{width:790}}
-              defaultValue={ this.getExistingItem(currentRecord.data.fields,item.name).data.replace(/<br\/>/gm,"\n") || ''}
-              onChange={ (event, index, value)=>this.handleChange(event, value, index,  item.name)} />
-            </div>
-          } )
-        }
+        { formFlexibleTemplate }
 
         <br/><span style={{fontWeight:"bolder",fontSize:18}}>Featured Photo</span>
 
@@ -392,11 +484,11 @@ class RecordEdit extends Component {
 
         <span style={{fontWeight:"bolder",fontSize:18}}>Photos</span>
         <RaisedButton
-                  label="Add photo"
-                  primary={true}
-                  style={style}
-                  onClick={() => this.toggleMultimediaAdder()}
-                />
+          label="Add photo"
+          primary={true}
+          style={style}
+          onClick={() => this.toggleMultimediaAdder()}
+        />
         {
           this.getMediaPreviewers(currentRecord.data.media.picture)
         }
