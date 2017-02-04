@@ -15,7 +15,8 @@ import fetchData from '../../network/fetch-data';
 import RecordViewMediaElement from './record-view-mediaElement'
 
 import {
-  URL_MULTIMEDIA
+  URL_BASE_MULTIMEDIA_IMAGES,
+  URL_MULTIMEDIA,
 } from '../../links'
 
 export default class RecordView extends Component {
@@ -27,7 +28,7 @@ export default class RecordView extends Component {
 
     try {
       recordData = await fetch.getRecordData(this.props.params.recordId)
-      this.setState({recordData})
+      this.setState({recordData: recordData.recordById[0]})
     } catch(error) {
       console.error('fetching record data > ' + error)
     }
@@ -49,23 +50,32 @@ export default class RecordView extends Component {
   // }
 
   getMediaPreviewers = (arrayOfMedia) => {
-
-    if ( Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0){ // if the array is empty there is no reason to draw the preview container at all.
-      return <div style={{width:"100%",height:310,padding:5,border: "1px dashed lightgrey",backgroundColor:"lightgrey"}}>
-          {
-            arrayOfMedia.map(
-              (element,i) => (
-                <RecordViewMediaElement
-                  key={i}
-                  style={{maxHeight:300,maxWidth:300}}
-                  media={{...element, src: URL_MULTIMEDIA + element.src}}
-                />
-              )
+    // if the array is empty there is no reason to draw the preview container at all.
+    if ( Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0){
+      return (
+        <div style={{width:"100%",height:310,padding:5,border: "1px dashed lightgrey",backgroundColor:"lightgrey"}}>
+        {
+          arrayOfMedia.map(
+            (element,i) => (
+              <RecordViewMediaElement
+                key={i}
+                style={{maxHeight:300,maxWidth:300}}
+                media={{...element, src: URL_MULTIMEDIA + element.src}}
+              />
             )
-          }
-          </div>
+          )
+        }
+        </div>
+      )
     }
+  }
 
+  sectionTitle = (title) => {
+    return (
+      <span style={{fontWeight:"bolder",fontSize:18}}>
+        {title}
+      </span>
+    )
   }
 
   render() {
@@ -77,15 +87,66 @@ export default class RecordView extends Component {
       return <div></div>
     }
 
-    let recordData  = this.state.recordData.recordById[0];
+    const baseImage = URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg'
 
+    let recordData  = this.state.recordData;
+    // debugger
+
+    let fieldsFlex = recordData.data.fields.map( (entry,i) => {
+      let template
+      let title = <h2>{capitalize(entry.name)}</h2>
+
+      switch (entry.type) {
+        case 'multi_row':
+          template = entry.template
+
+          // if (data.constructor.name != 'Array') {
+          //   data = []
+          // }
+          return (
+            <div key={i}>
+              { title }
+              <div>
+                
+              </div>
+            </div>
+          )
+
+        case 'rich_text':
+        return (
+          <div key={i}>
+            { title }
+            <div dangerouslySetInnerHTML={{__html: entry.data}} />
+          </div>
+        )
+
+        default:
+          return (
+            <div key={i}>
+            {
+              entry.name === "featuredImage"?
+                '' : <div>{title} <span>{entry.data}</span></div>
+            }
+            </div>
+          )
+      }
+    })
 
     return (
       <Card style={{padding:50, paddingTop: 30}}>
 
 
         <span style ={{height:300}}>
-          <span style={{textAlign:"center"}} > <img style={{maxWidth:450,maxHeight:300,border:"1px solid black"}} src={recordData.data.featuredImage || "http://localhost:3001/images/institution-default.jpg"} />  </span>
+          <span style={{textAlign:"center"}} >
+            <img
+              style={{maxWidth:450,maxHeight:300,border:"1px solid black"}}
+              src={
+                 recordData.data.featuredImage?
+                   URL_MULTIMEDIA + recordData.data.featuredImage:
+                   baseImage
+              }
+            />
+          </span>
           <span style={{height:300,width:600,position:"absolute",float:"left",left:700}}>
 
               <h1>{capitalize(recordData.data.recordName)}</h1>
@@ -95,33 +156,29 @@ export default class RecordView extends Component {
         </span>
 
         <Card style={{padding:50, paddingTop: 10, marginTop: 20}}>
-        {
-          recordData.data.fields.map( (entry,i) => {
-            return <div key={i}>{entry.name === "featuredImage"? '' : <span><h2>{capitalize(entry.name)}</h2>{entry.data}</span>}</div>
-          })
-        }
+          { fieldsFlex }
         </Card>
 
         <br/>
-        <span style={{fontWeight:"bolder",fontSize:18}}>Image Gallery</span>
+        { this.sectionTitle('Image Gallery') }
         {
           this.getMediaPreviewers(recordData.data.media.picture)
         }
 
         <br/>
-        <span style={{fontWeight:"bolder",fontSize:18}}>Audio Gallery</span>
+        { this.sectionTitle('Audio Gallery') }
         {
           this.getMediaPreviewers(recordData.data.media.audio)
         }
 
         <br/>
-        <span style={{fontWeight:"bolder",fontSize:18}}>Video Gallery</span>
+        { this.sectionTitle('Video Gallery') }
         {
           this.getMediaPreviewers(recordData.data.media.video)
         }
 
         <br/>
-        <span style={{fontWeight:"bolder",fontSize:18}}>Text and PDF files</span>
+        { this.sectionTitle('Text and PDF files') }
         {
           this.getMediaPreviewers(recordData.data.media.text)
         }

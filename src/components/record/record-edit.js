@@ -179,10 +179,12 @@ class RecordEdit extends Component {
           } else {
             temporaldata = ''
           }
-          return { ...field, data: temporaldata }
+          return { ...field, data: temporaldata, type }
         case 'rich_text':
           temporaldata = state.dataToSend[field.name]
-          return { ...field, data: temporaldata }
+          return { ...field, data: temporaldata, type }
+        case 'multi_row':
+          return { ...field, type }
         default:
           return field
       }
