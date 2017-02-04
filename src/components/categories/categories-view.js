@@ -16,7 +16,11 @@ import capitalize from '../stringTools'
 
 import fetchData from '../../network/fetch-data';
 
-import {URL_VIEW_RECORD, URL_BASE_MULTIMEDIA_IMAGES} from '../../links'
+import {
+  URL_VIEW_RECORD,
+  URL_BASE_MULTIMEDIA_IMAGES,
+  URL_MULTIMEDIA,
+} from '../../links'
 
 export default class CategoriesView extends Component {
   async componentDidMount() {
@@ -54,7 +58,7 @@ export default class CategoriesView extends Component {
     const style = {
       margin: 12,
     };
-    
+
     const baseAvatarImage = URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg'
 
     if ( !this.state || !this.state.categoriesList ){
@@ -84,7 +88,11 @@ export default class CategoriesView extends Component {
                               group.map( (entry, i) =>{
                                 return <Link to={URL_VIEW_RECORD + entry.id} key={i} style={{ textDecoration: 'none'}}> <ListItem
                                   primaryText={capitalize(entry.data.recordName)}
-                                  leftAvatar={<Avatar src={ baseAvatarImage } />}
+                                  leftAvatar={
+                                    <Avatar
+                                      src={ entry.data.featuredImage? URL_MULTIMEDIA + entry.data.featuredImage: baseAvatarImage }
+                                    />
+                                  }
                                   rightIcon={<CommunicationChatBubble />}
                                 /> </Link>
                               })

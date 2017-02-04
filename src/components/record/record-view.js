@@ -97,7 +97,7 @@ export default class RecordView extends Component {
         <Card style={{padding:50, paddingTop: 10, marginTop: 20}}>
         {
           recordData.data.fields.map( (entry,i) => {
-            return <div key={i}>{entry.name === "featuredImage" ? "" : <span><h2>{capitalize(entry.name)}</h2>{entry.data.split("<br/>").map( (e,j) => {return <span key={j}>{e}<br/></span>})}</span>}</div>
+            return <div key={i}>{entry.name === "featuredImage"? '' : <span><h2>{capitalize(entry.name)}</h2>{entry.data}</span>}</div>
           })
         }
         </Card>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import fetchData from '../../network/fetch-data';
 import TextField from 'material-ui/TextField';
-
+import RichTextEditor from 'react-rte';
 
 import capitalize from '../stringTools'
 
@@ -30,6 +30,9 @@ class RecordEdit extends Component {
   constructor() {
     super()
     this.state = {
+      value: '',
+      // value: RichTextEditor.createEmptyValue(),
+      // value: RichTextEditor.createValueFromString(markup, 'html'),
     };
 
     // Used to store references.
@@ -64,6 +67,9 @@ class RecordEdit extends Component {
 
     } else{
       // Else if we are editing, we need to populate the dataToSend variable, since onchange may not be executed on the textfields.
+      // Load featuredImage
+      dataToSend['featuredImage'] = recordData.data.featuredImage
+      // load fields
       var itemList = recordData.data.fields
       for ( var a in itemList){
         if (recordData.structure.info[a] && recordData.structure.info[a].type == 'text') {
@@ -168,23 +174,19 @@ class RecordEdit extends Component {
 
       switch (type) {
         case 'text':
-
-          temporaldata = state.dataToSend[field.name].replace(/\n/gm, "<br/>")
-          // debugger
-
+          if (state.dataToSend[field.name]) {
+            temporaldata = state.dataToSend[field.name].replace(/\n/gm, "<br/>")
+          } else {
+            temporaldata = ''
+          }
+          return { ...field, data: temporaldata }
+        case 'rich_text':
+          temporaldata = state.dataToSend[field.name]
           return { ...field, data: temporaldata }
         default:
           return field
       }
     })
-    //
-    // for ( var k in Object.keys(state.dataToSend) ){
-    //   var key = Object.keys(state.dataToSend)[k]
-    //
-    //   var fieldData = state.dataToSend[key].replace(/\n/gm, "<br/>");
-    //
-    //   dataToSend.fields.push({name: key, data : fieldData, type : "text"});
-    // }
 
      try {
        var recordData = await fetch.setRecordData(this.props.params.recordId, dataToSend)
@@ -280,6 +282,18 @@ class RecordEdit extends Component {
     this.setState({dataToSend : dataToSend})
   };
 
+  onChangeRichText = (index, name, value) => {
+    this._input[index] = value
+    var dataToSend = this.state.dataToSend;
+
+    if ( !dataToSend ){
+      dataToSend = {}
+    }
+
+    dataToSend[name] = value.toString('html')
+    this.setState({dataToSend : dataToSend})
+  };
+
   updateMultilineData(name, index, data) {
     var dataToSend = this.state.dataToSend;
     var recordData = this.state.recordData;
@@ -371,6 +385,27 @@ class RecordEdit extends Component {
                   updateData={ (newData) => this.updateMultilineData(item.name, i, newData) }
                 />
               </div>
+            )
+
+          case 'rich_text':
+            // Initial load if data is empty.
+            if (!input[i]) {
+              if (recordData.data.fields[i].data) {
+                input[i] = RichTextEditor.createValueFromString(data, 'html')
+              } else {
+                input[i] = RichTextEditor.createValueFromString('', 'html')
+              }
+            }
+
+            return (
+              <div key={i}>
+                <span style={{marginRight:15, fontWeight:"bold"}}>{capitalize(item.name)+":"}</span>
+                <RichTextEditor
+                  value={input[i]}
+                  onChange={(value) => this.onChangeRichText(i, item.name, value)}
+                />
+              </div>
+
             )
           // default:
 

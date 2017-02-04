@@ -23,6 +23,7 @@ import fetchData from '../../network/fetch-data';
 import {
   URL_VIEW_RECORD,
   URL_BASE_MULTIMEDIA_IMAGES,
+  URL_MULTIMEDIA,
   URL_CONTROL_ROOM_EDIT_RECORD,
 } from '../../links'
 
@@ -172,7 +173,11 @@ class BrowserToEdit extends Component {
                             >
                               <ListItem
                                 primaryText={capitalize(entry.data.recordName)}
-                                leftAvatar={<Avatar src={ baseAvatarImage } />}
+                                leftAvatar={
+                                  <Avatar
+                                    src={ entry.data.featuredImage? URL_MULTIMEDIA + entry.data.featuredImage: baseAvatarImage } 
+                                  />
+                                }
                                 rightIcon={<CommunicationChatBubble />}
                               >
                                 {

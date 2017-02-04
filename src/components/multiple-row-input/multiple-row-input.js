@@ -17,6 +17,10 @@ export default class MultipleRowInput extends Component {
 
   _input = {}
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return JSON.stringify(nextProps.data) != JSON.stringify(this.props.data)
+  }
+
   addLine = () => {
     this.props.updateData( [...this.props.data, this.props.template] )
   }
