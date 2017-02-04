@@ -90,24 +90,50 @@ export default class RecordView extends Component {
     const baseImage = URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg'
 
     let recordData  = this.state.recordData;
-    // debugger
 
     let fieldsFlex = recordData.data.fields.map( (entry,i) => {
-      let template
+      let multiRows
       let title = <h2>{capitalize(entry.name)}</h2>
 
       switch (entry.type) {
         case 'multi_row':
-          template = entry.template
+          multiRows = entry.data.map( (row, rowIndex) => {
+            let rowProcessed = row.map( (cell, j) => {
+              let styleBasic = {
+                marginRight: 15,
+              }
 
-          // if (data.constructor.name != 'Array') {
-          //   data = []
-          // }
+              switch (cell.name) {
+                // case
+                case 'name':
+                  return <span key={j} style={{...styleBasic}}>{cell.data}</span>
+                case 'date':
+                  return <span key={j} style={{...styleBasic}}>{cell.data}</span>
+                case 'reference':
+                  return <span key={j} style={{...styleBasic}}>{cell.data}</span>
+                // references
+                case 'autor':
+                  return <span key={j} style={{...styleBasic}}>{cell.data}</span>
+                case 'title':
+                  return <span key={j} style={{...styleBasic}}>{cell.data}</span>
+                case 'publication info':
+                  return <span key={j} style={{...styleBasic}}>{cell.data}</span>
+
+                default:
+                  return <span key={j} style={{...styleBasic}}>{cell.data}</span>
+              }
+            })
+
+            return <div key={rowIndex}>{rowProcessed}</div>
+          })
+
+          // debugger
+
           return (
             <div key={i}>
               { title }
               <div>
-                
+                {multiRows}
               </div>
             </div>
           )
