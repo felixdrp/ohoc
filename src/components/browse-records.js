@@ -67,6 +67,10 @@ class BrowseRecords extends Component {
         </div> */}
 
         <Card style = {{paddingTop:30,marginBottom:50,paddingBottom:10}}>
+          <div style={{marginTop:5,marginLeft:80,marginBottom:50,fontSize:35, fontWeight:"bold"}}>
+            <span style={{color:"black"}}>Intellectual Property :</span> <span style={{color:"#155196"}}>Oral History Project</span>
+          </div>
+
           <div style={{textAlign:"center"}} >
           {
             this.props.templateList && Object.keys(this.props.templateList).sort( (a,b) => this.categoryOrderIndex[a] > this.categoryOrderIndex[b]).map( (e, index) => (
@@ -78,6 +82,7 @@ class BrowseRecords extends Component {
                     display: 'inline-block',
                     marginBottom: 10,
                     marginRight: 10,
+                    height: 300,
                   }}
                   expanded={false}
                   initiallyExpanded={false}
@@ -85,7 +90,7 @@ class BrowseRecords extends Component {
                   <CardMedia
                     overlay={<CardTitle title={capitalize(e)} style={{margin:0,padding:4}} > <span style={{color:"white",fontSize:14}}> {this.copyrightNotice[e]}</span> </CardTitle>}
                   >
-                    <img style={{width : 500, height: 300}} src={this.categoryPhotos[e]} />
+                    <img style={{height : 300}} src={this.categoryPhotos[e]} />
                   </CardMedia>
 
 
@@ -95,26 +100,22 @@ class BrowseRecords extends Component {
           }
           </div>
 
-          <h2 style={{paddingTop:50, paddingLeft:50}}>Some text about the page?</h2>
 
-          <div style={{paddingLeft:50,paddingRight:50}}>
-          Lorem ipsum dolor sit amet, pri paulo tamquam perpetua ei, purto laudem aliquam ut vis! Debet graeci epicuri ei cum, ius at iuvaret inimicus tractatos? Wisi alienum mediocritatem per id, an nam accusamus eloquentiam, an persecuti philosophia nec. Ei quo laoreet salutandi, eum petentium eloquentiam ut, te labore quaerendum has. Te option oporteat duo.
+        <div style={{marginLeft:60,fontSize:20}}>
+          <div style={{marginTop:50,paddingLeft:80,paddingRight:50, width:"85%", textAlign:"justify"}}>
 
-          Tantas putant fabulas cum eu, sit ne amet summo? Et inani decore cum, ne propriae adipisci sed. Nostro numquam mea id, pro et veniam populo essent! Erat quodsi sea ad, sea lucilius constituto efficiantur te.
+              There are many layers and paths in the recent history of British intellectual property, particularly in its development throughout the second half of the twentieth century. These were important decades in which the subject became a full academic discipline; the offices in Munich and Alicante were established; the Patent Office moved to Wales or the Patent Bar was renamed as the Intellectual Property Bar.
+              This project is an attempt to trace these and many other histories by recording recollections of those who participated in one way or another in them. Current and retired academics, barristers, solicitors, policy makers, activists and agents recall here their background and reflect on the personal and professional challenges and encounters. Moreover, they talk about what they see now, in retrospect, as the main changes in the law and practice of British intellectual property.
+              The project is funded by a grant from CREATe (University of Glasgow) and the interviews were carried out by Jose Bellido (University of Kent) and Lionel Bently (University of Cambridge).
+            <br/><br/>
 
-          Atqui quaeque delenit ius eu. Saepe verterem consequat et sed, libris legimus ex his? Dolore nominati sea at, elitr nominavi efficiantur nam at. Mundi timeam latine usu ex.
-
-          Laudem nominati eu mei, noster splendide adolescens sit at, nonumes neglegentur complectitur ad sea. Quidam recusabo mea ne, hinc suscipit te vix, everti epicurei in vel. Et vocent invenire vel, detraxit referrentur vituperatoribus eam ut, ea blandit adipisci eam? An eos solum fabulas! Ad per laudem accumsan instructior, usu at tota invidunt adversarium, ad eos placerat dignissim. Usu detraxit partiendo torquatos te, cibo idque honestatis ne eam. Lorem homero an eam?
-
-          Mea ex doming menandri. Stet labitur intellegat in mei, purto fuisset te has? Ut duo soluta vocibus senserit. Ad per mnesarchum cotidieque, duo ut inermis explicari constituam! Ea eam legere intellegam delicatissimi, modus semper sea no, aeterno eruditi quo an? No audiam eripuit facilisis vel, at his tantas ridens commune.
-
-          Case hendrerit ex vim, his eu rebum definiebas? Ea est eirmod consectetuer. Affert invenire duo ei. Usu eu dicant vivendo, ad ius etiam minim definitiones, duo vocent inciderint no. Timeam imperdiet mei te, nec id periculis disputando, luptatum appellantur pro at? Ad sed consul bonorum necessitatibus, liber elitr quaerendum ad est.
-
-          At ocurreret prodesset est, hinc essent philosophia mel ut. Te indoctum accusamus vix? Vis eu aeterno elaboraret suscipiantur. Usu esse autem et!
-
-          Ne nec recteque elaboraret, mei ex eros mentitum salutatus. No sea solet alterum, ut ius utinam repudiandae complectitur. An usu deserunt gubergren, pri in summo aliquid recusabo. Pri cu posse choro, ei vis congue repudiare? Duo in graeco virtute civibus, no est definiebas inciderint.
+            <b>Contact details:</b>
+            <div style={{margin:20}}>
+              Dr José Bellido, University of Kent <a href="mailto:j.a.bellido@kent.ac.uk">j.a.bellido@kent.ac.uk</a> and <br/>
+              Professor Lionel Bently, University of Cambridge <a href="mailto:lb329@cam.ac.uk">​lb329@cam.ac.uk</a>
+            </div>
+          </div>
         </div>
-
         <hr style={{margin:30}}/>
 
 

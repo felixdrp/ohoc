@@ -12,6 +12,7 @@ export BrowseRecords from './browse-records'
 
 export CategoriesContainer from './categories/categories-container'
 export CategoriesView from './categories/categories-view'
+export SubCategoriesView from './categories/subcategories-view'
 
 export RecordContainer from './record/record-container'
 

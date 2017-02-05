@@ -22,12 +22,12 @@ class CommonView extends Component {
 
 
   render() {
-    let logoStyle = {height: 70,marginTop:15,marginLeft:5}
+    let logoStyle = {height: 50,marginTop:15,marginLeft:5}
 
 
     return (
-     <div id="CommonView" style={{marginLeft: "8%",marginTop: 20, marginRight:"8%", minWidth:1200 }}>
-       <Card style={{height:130, marginBottom:10,paddingTop:15,paddingLeft:20}}>
+     <div id="CommonView" style={{marginLeft: "8%",marginTop: 10, marginRight:"8%", minWidth:1450 }}>
+       <Card style={{height:100, marginBottom:10,paddingTop:15,paddingLeft:20}}>
 
        <img src="http://www.create.ac.uk/wp-content/uploads/logos/create_primary_logo_160.jpg" style={logoStyle} />
        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/13/University_of_Kent_logo.svg/1280px-University_of_Kent_logo.svg.png" style={logoStyle}/>
@@ -35,11 +35,11 @@ class CommonView extends Component {
        <img src="http://www.cipil.law.cam.ac.uk/sites/www.law.cam.ac.uk/files/images/www.cipil.law.cam.ac.uk/legacy/images/logo_cipil_3.gif" style={logoStyle} />
 
        <span style={{float:"right"}}>
-         <h1 style={{margin:"0 0 0 0",marginRight:25, marginTop:5}}>
+         <h2 style={{margin:"0 0 0 0",marginRight:25, marginTop:5}}>
            <Link to={URL_BASE} style={{ textDecoration: 'none'}}>
-             <span style={{color:"black"}}>Intellectual Property</span> <br/> <span style={{color:"#3399ff"}}>Oral History Project</span>
+             <span style={{color:"black"}}>Intellectual Property</span> <br/> <span style={{color:"#155196"}}>Oral History Project</span>
            </Link>
-         </h1>
+         </h2>
        </span>
 
        </Card>

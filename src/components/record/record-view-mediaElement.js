@@ -24,9 +24,11 @@ export default class RecordViewMediaElement extends Component {
   }
 
   openExtendedView = () =>{
+    let allowedToShowDialog = ["video","picture"]
 
-    //alert("JOODEERR")
-    this.setState({showExtendedDialog: true})
+    if (allowedToShowDialog.includes(this.props.type) ){
+      this.setState({showExtendedDialog: true})
+    }
   }
 
   render() {
@@ -46,12 +48,14 @@ export default class RecordViewMediaElement extends Component {
       // />,
     ];
 
+
     return (
 
-      <Card style={{padding:3, maxWidth:300, height:300,float:"left",marginLeft:5,marginTop:5}} onClick={this.openExtendedView}>
+      <Card style={{padding:3, maxWidth:300, height:300,float:"left",marginLeft:5,marginTop:5,display: "inline-block"}} onClick={this.openExtendedView}>
+
 
         <Dialog
-              title={this.props.media.title || "dialog"}
+              title={this.props.media.title || ""}
               actions={actions}
               modal={true}
               open={this.state.showExtendedDialog}
@@ -65,7 +69,7 @@ export default class RecordViewMediaElement extends Component {
               {
                 this.props.media.transcript?
                   this.props.media.transcript.split("<br/>").map( (e,j) => <span key={j}> <br/> {e} </span> ):
-                  "transcript"
+                  ""
               }
             </div>
 
@@ -74,7 +78,7 @@ export default class RecordViewMediaElement extends Component {
          {/* <IconButton style={{float:"right"}} onClick={() => this.props.mediaDeleter(this.props.media.type,this.props.index)}>
             <ClearIcon />
           </IconButton> */}
-          <span style={{maxWidth:"100%"}}>
+          <span style={{maxWidth:"100%",fontWeight:"bold"}}>
             {
               this.props.media.title
             }
@@ -83,6 +87,17 @@ export default class RecordViewMediaElement extends Component {
         <span>
           <PreviewGenerator element={this.props.media} style={{maxHeight:250,maxWidth:"95%"}} />
         </span>
+        <br/>
+        { (this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video"))  ? <span style={{fontWeight:"bold"}}>Transcript</span> : ""}
+
+        { (this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video")) ?
+              <div style = {{width:"100%", height:200, overflowY:"scroll",border: "1px dashed lightgrey",textAlign:"center"}}>
+                {
+                  this.props.media.transcript ? this.props.media.transcript.split("<br/>").map( (e,j) => <span key={j}> <br/> {e} </span> ): ""
+                }
+              </div> : <div></div>
+
+        }
       </Card>
     );
   }

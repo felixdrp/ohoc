@@ -23,7 +23,7 @@ export default class RecordView extends Component {
 
   async componentDidMount() {
     let fetch = new fetchData();
-    // Load the templateList
+    // Load the templateListdialog
     let recordData
 
     try {
@@ -49,12 +49,24 @@ export default class RecordView extends Component {
   //     return <span></span>
   // }
 
-  getMediaPreviewers = (arrayOfMedia) => {
+  getMediaPreviewers = (arrayOfMedia,type) => {
     // if the array is empty there is no reason to draw the preview container at all.
     if ( Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0){
       return (
-        <div style={{width:"100%",height:310,padding:5,border: "1px dashed lightgrey",backgroundColor:"lightgrey"}}>
+        <div style={{width:"100%",height:310,marginTop:10,adding:5,border: "1px dashed lightgrey",backgroundColor:"lightgrey",overflowY:"scroll"}}>
         {
+          arrayOfMedia.map(
+            (element,i) => (
+              <RecordViewMediaElement
+                key={i}
+                style={{maxHeight:300,maxWidth:300}}
+                media={{...element, src: URL_MULTIMEDIA + element.src}}
+                type={type}
+              />
+            )
+          )
+        }
+        {/* {
           arrayOfMedia.map(
             (element,i) => (
               <RecordViewMediaElement
@@ -65,6 +77,17 @@ export default class RecordView extends Component {
             )
           )
         }
+        {
+          arrayOfMedia.map(
+            (element,i) => (
+              <RecordViewMediaElement
+                key={i}
+                style={{maxHeight:300,maxWidth:300}}
+                media={{...element, src: URL_MULTIMEDIA + element.src}}
+              />
+            )
+          )
+        } */}
         </div>
       )
     }
@@ -72,10 +95,21 @@ export default class RecordView extends Component {
 
   sectionTitle = (title) => {
     return (
-      <span style={{fontWeight:"bolder",fontSize:18}}>
+      <span style={{fontWeight:"bolder",fontSize:20}}>
         {title}
       </span>
     )
+  }
+
+  prepareLine = (name,title,data) => {
+    switch (name){
+      case 'featuredImage':
+        return <div></div>;
+      case 'name':
+        return <div><h1>{data}</h1></div>
+      default:
+        return <div>{title}<span style={{marginLeft:10}}>{data}</span></div>
+    }
   }
 
   render() {
@@ -93,7 +127,11 @@ export default class RecordView extends Component {
 
     let fieldsFlex = recordData.data.fields.map( (entry,i) => {
       let multiRows
-      let title = <h2>{capitalize(entry.name)}</h2>
+
+      let fieldsToHide = ["biography","name"]
+
+      let title = fieldsToHide.includes(entry.name) ? "" : <h2>{capitalize(entry.name)}</h2>
+
 
       switch (entry.type) {
         case 'multi_row':
@@ -106,7 +144,7 @@ export default class RecordView extends Component {
               switch (cell.name) {
                 // case
                 case 'name':
-                  return <span key={j} style={{...styleBasic}}>{cell.data}</span>
+                  return <span key={j} style={{...styleBasic,fontStyle:"italic"}}>{cell.data}</span>
                 case 'date':
                   return <span key={j} style={{...styleBasic}}>{cell.data}</span>
                 case 'reference':
@@ -124,10 +162,9 @@ export default class RecordView extends Component {
               }
             })
 
-            return <div key={rowIndex}>{rowProcessed}</div>
+            return <div style={{marginLeft:10}} key={rowIndex}>{rowProcessed}</div>
           })
 
-          // debugger
 
           return (
             <div key={i}>
@@ -142,73 +179,70 @@ export default class RecordView extends Component {
         return (
           <div key={i}>
             { title }
-            <div dangerouslySetInnerHTML={{__html: entry.data}} />
+            <div style={{marginLeft:10}} dangerouslySetInnerHTML={{__html: entry.data}} />
           </div>
         )
 
         default:
+        //  debugger
           return (
             <div key={i}>
-            {
-              entry.name === "featuredImage"?
-                '' : <div>{title} <span>{entry.data}</span></div>
-            }
+              { this.prepareLine(entry.name,title,entry.data) }
             </div>
           )
       }
     })
 
     return (
-      <Card style={{padding:50, paddingTop: 30}}>
+      <Card style={{padding:50,paddingRight:0, paddingTop: 30}}>
 
 
-        <span style ={{height:300}}>
-          <span style={{textAlign:"center"}} >
-            <img
+        <span style ={{height:300,display: "inline-block", verticalAlign: "top" }}>
+          <img
               style={{maxWidth:450,maxHeight:300,border:"1px solid black"}}
               src={
-                 recordData.data.featuredImage?
+                 recordData.data.featuredImage ?
                    URL_MULTIMEDIA + recordData.data.featuredImage:
                    baseImage
               }
             />
-          </span>
-          <span style={{height:300,width:600,position:"absolute",float:"left",left:700}}>
-
-              <h1>{capitalize(recordData.data.recordName)}</h1>
-              <h3>{capitalize(recordData.type)+"/"+capitalize(recordData.subtype)}</h3>
-
-          </span>
         </span>
 
-        <Card style={{padding:50, paddingTop: 10, marginTop: 20}}>
+                  {/* <span style={{height:300,width:600,position:"absolute",float:"left",left:700}}>
+
+                      <h1>{capitalize(recordData.data.recordName)}</h1>
+                      <h3>{capitalize(recordData.type)+"/"+capitalize(recordData.subtype)}</h3>
+
+                  </span> */}
+
+        <span style={{padding:50, paddingTop: 0, width:600,display: "inline-block", verticalAlign: "top"}}>
           { fieldsFlex }
-        </Card>
+        </span>
 
-        <br/>
-        { this.sectionTitle('Image Gallery') }
-        {
-          this.getMediaPreviewers(recordData.data.media.picture)
-        }
+        <span style={{padding:0, paddingTop: 0, width:400,display: "inline-block", verticalAlign: "top", float:"right", position:"relative",right:50}}>
+          { recordData.data.media.picture.length > 0 ? this.sectionTitle('Image Gallery') : "" }
+          {
+            this.getMediaPreviewers(recordData.data.media.picture,"picture")
+          }
 
-        <br/>
-        { this.sectionTitle('Audio Gallery') }
-        {
-          this.getMediaPreviewers(recordData.data.media.audio)
-        }
+          <br/>
+          { recordData.data.media.audio.length > 0 ? this.sectionTitle('Audio Gallery') : "" }
+          {
+            this.getMediaPreviewers(recordData.data.media.audio,"audio")
+          }
 
-        <br/>
-        { this.sectionTitle('Video Gallery') }
-        {
-          this.getMediaPreviewers(recordData.data.media.video)
-        }
+          <br/>
+          { recordData.data.media.video.length > 0 ? this.sectionTitle('Video Gallery') : ""  }
+          {
+            this.getMediaPreviewers(recordData.data.media.video,"video")
+          }
 
-        <br/>
-        { this.sectionTitle('Text and PDF files') }
-        {
-          this.getMediaPreviewers(recordData.data.media.text)
-        }
-
+          <br/>
+          { recordData.data.media.text.length > 0 ? this.sectionTitle('Text and PDF files') : ""  }
+          {
+            this.getMediaPreviewers(recordData.data.media.text,"text")
+          }
+        </span>
       </Card>
     );
   }

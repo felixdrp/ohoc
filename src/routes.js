@@ -20,6 +20,7 @@ import {
   BrowserToEdit,
   CategoriesContainer,
   CategoriesView,
+  SubCategoriesView,
   RecordContainer,
   RecordCreate,
   RecordView,
@@ -28,8 +29,12 @@ import {
 
 import App from './App'
 
+import {
+  URL_BASE,
+} from './links'
+
 // Assign the history:
-const urlBase = "/ohoc"
+const urlBase = URL_BASE
 
 // ALERT!!!! if any change in survye routes... change also 'survey-types.js'
 var routes = (history) => (
@@ -40,7 +45,8 @@ var routes = (history) => (
       <Route path="browser" component={BrowseRecords} />
 
       <Route path="categories" component={CategoriesContainer} >
-        <Route path={urlBase + "/categories/list/:categoryId(/:page)"} component={CategoriesView} />
+        <Route path={urlBase + "/categories/list/:categoryId"} component={CategoriesView} />
+        <Route path={urlBase + "/categories/list/:categoryId/:subcategoryId"} component={SubCategoriesView} />
       </Route>
 
       <Route path="records" component={RecordContainer} >
