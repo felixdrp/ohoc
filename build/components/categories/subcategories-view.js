@@ -70,7 +70,13 @@ var _navigateNext = require('material-ui/svg-icons/image/navigate-next');
 
 var _navigateNext2 = _interopRequireDefault(_navigateNext);
 
-var _GridList = require('material-ui/GridList');
+var _gridview = require('./gridview');
+
+var _gridview2 = _interopRequireDefault(_gridview);
+
+var _listview = require('./listview');
+
+var _listview2 = _interopRequireDefault(_listview);
 
 var _stringTools = require('../stringTools');
 
@@ -84,21 +90,21 @@ var _links = require('../../links');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var CategoriesView = function (_Component) {
-  (0, _inherits3.default)(CategoriesView, _Component);
+var SubCategoriesView = function (_Component) {
+  (0, _inherits3.default)(SubCategoriesView, _Component);
 
-  function CategoriesView() {
+  function SubCategoriesView() {
     var _ref;
 
     var _temp, _this, _ret;
 
-    (0, _classCallCheck3.default)(this, CategoriesView);
+    (0, _classCallCheck3.default)(this, SubCategoriesView);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = CategoriesView.__proto__ || (0, _getPrototypeOf2.default)(CategoriesView)).call.apply(_ref, [this].concat(args))), _this), _this.entriesToSubtypeGroups = function (list) {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = SubCategoriesView.__proto__ || (0, _getPrototypeOf2.default)(SubCategoriesView)).call.apply(_ref, [this].concat(args))), _this), _this.entriesToSubtypeGroups = function (list) {
 
       var groupedEntries = {};
       for (var entry in list) {
@@ -111,29 +117,10 @@ var CategoriesView = function (_Component) {
       }
 
       return groupedEntries;
-    }, _this.prepareTiles = function (entries) {
-      var tiles = [];
-
-      var subtypesInTiles = [];
-
-      for (var a in entries) {
-
-        if (!subtypesInTiles.includes(entries[a].subtype)) {
-
-          tiles.push({
-            img: _links.URL_BASE_MULTIMEDIA_IMAGES + 'institution-default.jpg',
-            title: (0, _stringTools2.default)(entries[a].subtype),
-            src: _links.URL_CATEGORIES_LIST + _this.props.params.categoryId + "/" + entries[a].subtype
-          });
-
-          subtypesInTiles.push(entries[a].subtype);
-        }
-      }
-      return tiles;
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
-  (0, _createClass3.default)(CategoriesView, [{
+  (0, _createClass3.default)(SubCategoriesView, [{
     key: 'componentDidMount',
     value: function () {
       var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -183,77 +170,46 @@ var CategoriesView = function (_Component) {
         margin: 12
       };
 
-      var baseAvatarImage = _links.URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg';
-
       if (!this.state || !this.state.categoriesList) {
         return _react2.default.createElement('div', null);
       }
 
-      var styles = {
-        root: {
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-around'
-        },
-        gridList: {
-
-          overflowY: 'auto'
-        }
-      };
-
       var list = this.state.categoriesList.recordsByType;
-      var tilesData = this.prepareTiles(list);
+
+      var entriesBySubtype = this.entriesToSubtypeGroups(list);
+      var selectedSubCategory = entriesBySubtype[this.props.params.subcategoryId];
+
+      if (!selectedSubCategory) {
+        return _react2.default.createElement('div', null);
+      }
+
+      var showAsGrid = true;
 
       return _react2.default.createElement(
         _Card.Card,
         { style: { paddingBottom: 30, minHeight: 600 } },
         _react2.default.createElement(
           _Card.CardTitle,
-          { style: { marginLeft: 50 } },
+          { style: { marginLeft: 40 } },
           ' ',
           _react2.default.createElement(
             'h1',
             null,
             ' ',
-            (0, _stringTools2.default)(this.props.params.categoryId),
+            (0, _stringTools2.default)(this.props.params.subcategoryId),
             ' '
           ),
           ' '
         ),
         _react2.default.createElement(
           _Card.Card,
-          { style: { marginLeft: 50, marginRight: 50 } },
-          _react2.default.createElement(
-            _Card.CardText,
-            null,
-            _react2.default.createElement(
-              _GridList.GridList,
-              {
-                cols: 3,
-                style: styles.gridList
-              },
-              tilesData.map(function (tile, i) {
-                return _react2.default.createElement(
-                  _reactRouter.Link,
-                  { key: i, to: tile.src, style: { textDecoration: 'none' } },
-                  _react2.default.createElement(
-                    _GridList.GridTile,
-                    {
-                      key: tile.img,
-                      title: tile.title,
-                      subtitle: ""
-                    },
-                    _react2.default.createElement('img', { src: tile.img ? tile.img : baseAvatarImage })
-                  )
-                );
-              })
-            )
-          )
+          { style: { marginLeft: 50, marginRight: 50, padding: 5 } },
+          _react2.default.createElement(_gridview2.default, { subcategoryId: this.props.params.subcategoryId, entries: selectedSubCategory })
         )
       );
     }
   }]);
-  return CategoriesView;
+  return SubCategoriesView;
 }(_react.Component);
 
-exports.default = CategoriesView;
+exports.default = SubCategoriesView;

@@ -28,9 +28,11 @@ var _httpClient = require('./http-client');
 
 var _httpClient2 = _interopRequireDefault(_httpClient);
 
+var _links = require('../links');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var urlBase = '/api/';
+var urlBase = _links.URL_BASE + '/api/';
 
 var fetchData = function () {
   function fetchData() {
@@ -292,6 +294,53 @@ var fetchData = function () {
       }
 
       return setRecordData;
+    }()
+  }, {
+    key: 'deleteRecord',
+    value: function () {
+      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(recordId) {
+        var result;
+        return _regenerator2.default.wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                result = void 0;
+                _context8.prev = 1;
+                _context8.next = 4;
+                return this.httpClient.send('Delete Record', {
+                  method: 'POST',
+                  path: urlBase + 'deleteRecord/' + recordId
+                });
+
+              case 4:
+                result = _context8.sent;
+
+                result = JSON.parse(result);
+                _context8.next = 11;
+                break;
+
+              case 8:
+                _context8.prev = 8;
+                _context8.t0 = _context8['catch'](1);
+
+                console.error('fetching template list error > ' + _context8.t0);
+
+              case 11:
+                return _context8.abrupt('return', result);
+
+              case 12:
+              case 'end':
+                return _context8.stop();
+            }
+          }
+        }, _callee8, this, [[1, 8]]);
+      }));
+
+      function deleteRecord(_x7) {
+        return _ref8.apply(this, arguments);
+      }
+
+      return deleteRecord;
     }()
   }]);
   return fetchData;

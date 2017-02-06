@@ -12,6 +12,10 @@ var _stringify = require('babel-runtime/core-js/json/stringify');
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -54,7 +58,7 @@ var _fetchData = require('../../network/fetch-data');
 
 var _fetchData2 = _interopRequireDefault(_fetchData);
 
-var _previewGenerator = require('./previewGenerator');
+var _previewGenerator = require('./preview-generator');
 
 var _previewGenerator2 = _interopRequireDefault(_previewGenerator);
 
@@ -141,9 +145,11 @@ var RecordAddMedia = function (_Component) {
         console.log(xhr.response);
 
         var fileToUpload = JSON.parse(xhr.response).upload.files[0];
-        fileToUpload.src = fileToUpload.src;
 
-        thisObject.setState({ previewSource: fileToUpload, dataToSend: { src: fileToUpload.src, type: fileToUpload.type } });
+        thisObject.setState({
+          previewSource: (0, _extends3.default)({}, fileToUpload, { src: _links.URL_MULTIMEDIA + fileToUpload.src }),
+          dataToSend: { src: fileToUpload.src, type: fileToUpload.type }
+        });
 
         console.log((0, _stringify2.default)(thisObject.state));
       };
@@ -281,7 +287,7 @@ var RecordAddMedia = function (_Component) {
           _react2.default.createElement(
             _Card.Card,
             { style: { textAlign: "center" } },
-            (0, _previewGenerator2.default)(this.state.previewSource, { height: 300, maxWidth: 700 })
+            _react2.default.createElement(_previewGenerator2.default, { element: this.state.previewSource, style: { height: 300, maxWidth: 700 } })
           ),
           _react2.default.createElement('br', null),
           _react2.default.createElement(

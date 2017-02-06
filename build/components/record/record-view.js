@@ -12,6 +12,10 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -66,9 +70,15 @@ var _fetchData = require('../../network/fetch-data');
 
 var _fetchData2 = _interopRequireDefault(_fetchData);
 
+var _nukaCarousel = require('nuka-carousel');
+
+var _nukaCarousel2 = _interopRequireDefault(_nukaCarousel);
+
 var _recordViewMediaElement = require('./record-view-mediaElement');
 
 var _recordViewMediaElement2 = _interopRequireDefault(_recordViewMediaElement);
+
+var _links = require('../../links');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -86,16 +96,67 @@ var RecordView = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = RecordView.__proto__ || (0, _getPrototypeOf2.default)(RecordView)).call.apply(_ref, [this].concat(args))), _this), _this.getMediaPreviewers = function (arrayOfMedia) {
-
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = RecordView.__proto__ || (0, _getPrototypeOf2.default)(RecordView)).call.apply(_ref, [this].concat(args))), _this), _this.getMediaPreviewers = function (arrayOfMedia, type) {
       if (Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0) {
+
+        var allImages = [];
+
+        arrayOfMedia.map(function (element, i) {
+          return allImages.push(_react2.default.createElement(
+            'div',
+            { style: { width: 400, height: 310, textAlign: "center" } },
+            _react2.default.createElement(_recordViewMediaElement2.default, {
+              key: i,
+              style: { maxHeight: 300, maxWidth: 400 },
+              media: (0, _extends3.default)({}, element, { src: _links.URL_MULTIMEDIA + element.src }),
+              type: type
+            })
+          ));
+        });
+
         return _react2.default.createElement(
           'div',
-          { style: { width: "100%", height: 310, padding: 5, border: "1px dashed lightgrey", backgroundColor: "lightgrey" } },
-          arrayOfMedia.map(function (element, i) {
-            return _react2.default.createElement(_recordViewMediaElement2.default, { key: i, style: { maxHeight: 300, maxWidth: 300 }, media: element });
-          })
+          { style: { width: 400, height: 310, marginTop: 10, adding: 5, border: "1px dashed lightgrey", backgroundColor: "lightgrey" } },
+          _react2.default.createElement(
+            _nukaCarousel2.default,
+            null,
+            allImages
+          )
         );
+      }
+
+      return _react2.default.createElement('div', null);
+    }, _this.sectionTitle = function (title) {
+      return _react2.default.createElement(
+        'span',
+        { style: { fontWeight: "bolder", fontSize: 20 } },
+        title
+      );
+    }, _this.prepareLine = function (name, title, data) {
+      switch (name) {
+        case 'featuredImage':
+          return _react2.default.createElement('div', null);
+        case 'name':
+          return _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              'h2',
+              null,
+              data
+            )
+          );
+        default:
+          return _react2.default.createElement(
+            'div',
+            null,
+            title,
+            _react2.default.createElement(
+              'span',
+              { style: { marginLeft: 10 } },
+              data
+            )
+          );
       }
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
@@ -119,7 +180,7 @@ var RecordView = function (_Component) {
               case 5:
                 recordData = _context.sent;
 
-                this.setState({ recordData: recordData });
+                this.setState({ recordData: recordData.recordById[0] });
                 _context.next = 12;
                 break;
 
@@ -148,6 +209,8 @@ var RecordView = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var style = {
         margin: 12
       };
@@ -156,91 +219,138 @@ var RecordView = function (_Component) {
         return _react2.default.createElement('div', null);
       }
 
-      var recordData = this.state.recordData.recordById[0];
+      var baseImage = _links.URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg';
 
-      return _react2.default.createElement(
-        _Card.Card,
-        { style: { padding: 50, paddingTop: 30 } },
-        _react2.default.createElement(
-          'span',
-          { style: { height: 300 } },
-          _react2.default.createElement(
-            'span',
-            { style: { textAlign: "center" } },
-            ' ',
-            _react2.default.createElement('img', { style: { maxWidth: 450, maxHeight: 300, border: "1px solid black" }, src: recordData.data.featuredImage || "http://localhost:3001/images/institution-default.jpg" }),
-            '  '
-          ),
-          _react2.default.createElement(
-            'span',
-            { style: { height: 300, width: 600, position: "absolute", float: "left", left: 700 } },
-            _react2.default.createElement(
-              'h1',
-              null,
-              (0, _stringTools2.default)(recordData.data.recordName)
-            ),
-            _react2.default.createElement(
-              'h3',
-              null,
-              (0, _stringTools2.default)(recordData.type) + "/" + (0, _stringTools2.default)(recordData.subtype)
-            )
-          )
-        ),
-        _react2.default.createElement(
-          _Card.Card,
-          { style: { padding: 50, paddingTop: 10, marginTop: 20 } },
-          recordData.data.fields.map(function (entry, i) {
+      var recordData = this.state.recordData;
+
+      var fieldsFlex = recordData.data.fields.map(function (entry, i) {
+        var multiRows = void 0;
+
+        var fieldsToHide = ["biography", "name"];
+
+        var title = fieldsToHide.includes(entry.name) ? "" : _react2.default.createElement(
+          'h3',
+          null,
+          (0, _stringTools2.default)(entry.name)
+        );
+
+        switch (entry.type) {
+          case 'multi_row':
+            multiRows = entry.data.map(function (row, rowIndex) {
+              var rowProcessed = row.map(function (cell, j) {
+                var styleBasic = {
+                  marginRight: 15
+                };
+
+                switch (cell.name) {
+                  case 'name':
+                    return _react2.default.createElement(
+                      'span',
+                      { key: j, style: (0, _extends3.default)({}, styleBasic, { fontStyle: "italic" }) },
+                      cell.data
+                    );
+                  case 'date':
+                    return _react2.default.createElement(
+                      'span',
+                      { key: j, style: (0, _extends3.default)({}, styleBasic) },
+                      cell.data
+                    );
+                  case 'reference':
+                    return _react2.default.createElement(
+                      'span',
+                      { key: j, style: (0, _extends3.default)({}, styleBasic) },
+                      cell.data
+                    );
+                  case 'autor':
+                    return _react2.default.createElement(
+                      'span',
+                      { key: j, style: (0, _extends3.default)({}, styleBasic) },
+                      cell.data
+                    );
+                  case 'title':
+                    return _react2.default.createElement(
+                      'span',
+                      { key: j, style: (0, _extends3.default)({}, styleBasic, { fontStyle: "italic" }) },
+                      cell.data
+                    );
+                  case 'publication info':
+                    return _react2.default.createElement(
+                      'span',
+                      { key: j, style: (0, _extends3.default)({}, styleBasic) },
+                      cell.data
+                    );
+
+                  default:
+                    return _react2.default.createElement(
+                      'span',
+                      { key: j, style: (0, _extends3.default)({}, styleBasic) },
+                      cell.data
+                    );
+                }
+              });
+
+              return _react2.default.createElement(
+                'div',
+                { style: { marginLeft: 10 }, key: rowIndex },
+                rowProcessed
+              );
+            });
+
             return _react2.default.createElement(
               'div',
               { key: i },
-              entry.name === "featuredImage" ? "" : _react2.default.createElement(
-                'span',
+              title,
+              _react2.default.createElement(
+                'div',
                 null,
-                _react2.default.createElement(
-                  'h2',
-                  null,
-                  (0, _stringTools2.default)(entry.name)
-                ),
-                entry.data.split("<br/>").map(function (e, j) {
-                  return _react2.default.createElement(
-                    'span',
-                    { key: j },
-                    e,
-                    _react2.default.createElement('br', null)
-                  );
-                })
+                multiRows
               )
             );
+
+          case 'rich_text':
+            return _react2.default.createElement(
+              'div',
+              { key: i },
+              title,
+              _react2.default.createElement('div', { style: { marginLeft: 10 }, dangerouslySetInnerHTML: { __html: entry.data } })
+            );
+
+          default:
+            return _react2.default.createElement(
+              'div',
+              { key: i },
+              _this2.prepareLine(entry.name, title, entry.data)
+            );
+        }
+      });
+
+      return _react2.default.createElement(
+        _Card.Card,
+        { style: { padding: 50, paddingRight: 0, paddingTop: 30 } },
+        _react2.default.createElement(
+          'span',
+          { style: { height: 300, display: "inline-block", verticalAlign: "top" } },
+          _react2.default.createElement('img', {
+            style: { maxWidth: 450, maxHeight: 300, border: "1px solid black" },
+            src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage
           })
         ),
-        _react2.default.createElement('br', null),
         _react2.default.createElement(
           'span',
-          { style: { fontWeight: "bolder", fontSize: 18 } },
-          'Image Gallery'
+          { style: { padding: 50, paddingTop: 0, width: 600, display: "inline-block", verticalAlign: "top" } },
+          fieldsFlex
         ),
-        this.getMediaPreviewers(recordData.data.media.picture),
-        _react2.default.createElement('br', null),
         _react2.default.createElement(
           'span',
-          { style: { fontWeight: "bolder", fontSize: 18 } },
-          'Audio Gallery'
-        ),
-        this.getMediaPreviewers(recordData.data.media.audio),
-        _react2.default.createElement('br', null),
-        _react2.default.createElement(
-          'span',
-          { style: { fontWeight: "bolder", fontSize: 18 } },
-          'Video Gallery'
-        ),
-        this.getMediaPreviewers(recordData.data.media.video),
-        _react2.default.createElement('br', null),
-        _react2.default.createElement(
-          'span',
-          { style: { fontWeight: "bolder", fontSize: 18 } },
-          'Text and PDF files'
-        ),
-        this.getMediaPreviewers(recordData.data.media.text)
+          { style: { padding: 0, paddingTop: 0, width: 400, display: "inline-block", verticalAlign: "top", float: "right", position: "relative", right: 50 } },
+          this.getMediaPreviewers(recordData.data.media.picture, "picture"),
+          _react2.default.createElement('br', null),
+          this.getMediaPreviewers(recordData.data.media.audio, "audio"),
+          _react2.default.createElement('br', null),
+          this.getMediaPreviewers(recordData.data.media.video, "video"),
+          _react2.default.createElement('br', null),
+          this.getMediaPreviewers(recordData.data.media.text, "text")
+        )
       );
     }
   }]);

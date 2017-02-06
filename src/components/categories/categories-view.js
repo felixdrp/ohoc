@@ -121,7 +121,7 @@ export default class CategoriesView extends Component {
                           <GridTile
                             key={tile.img}
                             title={tile.title}
-                            subtitle={"stuff"}
+                            subtitle={""}
                           >
                             <img src={tile.img ? tile.img : baseAvatarImage} />
                           </GridTile>

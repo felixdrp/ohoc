@@ -86,7 +86,7 @@ export default class GridView extends Component {
                     <GridTile
                       key={tile.img}
                       title={tile.title}
-                      subtitle={"stuff"}
+                      subtitle={""}
                     >
                       <img src={tile.img ? URL_MULTIMEDIA + tile.img: baseAvatarImage} />
                     </GridTile>

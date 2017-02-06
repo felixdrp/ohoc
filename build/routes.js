@@ -16,13 +16,15 @@ var _App = require('./App');
 
 var _App2 = _interopRequireDefault(_App);
 
+var _links = require('./links');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var urlBase = _links.URL_BASE;
 
 
 
 
-var urlBase = "/ohoc";
 
 var routes = function routes(history) {
   return _react2.default.createElement(
@@ -36,7 +38,8 @@ var routes = function routes(history) {
       _react2.default.createElement(
         _reactRouter.Route,
         { path: 'categories', component: _components.CategoriesContainer },
-        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "/categories/list/:categoryId(/:page)", component: _components.CategoriesView })
+        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "/categories/list/:categoryId", component: _components.CategoriesView }),
+        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "/categories/list/:categoryId/:subcategoryId", component: _components.SubCategoriesView })
       ),
       _react2.default.createElement(
         _reactRouter.Route,
@@ -47,6 +50,7 @@ var routes = function routes(history) {
       _react2.default.createElement(
         _reactRouter.Route,
         { path: 'controlRoom', component: _components.RecordContainer },
+        _react2.default.createElement(_reactRouter.IndexRoute, { component: _components.BrowserToEdit }),
         _react2.default.createElement(_reactRouter.Route, { path: urlBase + "/controlRoom/record/create", component: _components.RecordCreate }),
         _react2.default.createElement(_reactRouter.Route, { path: urlBase + "/controlRoom/record/edit/:recordId(/:recordName)", component: _components.RecordEdit })
       )

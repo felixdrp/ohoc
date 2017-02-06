@@ -78,11 +78,12 @@ class BrowseRecords extends Component {
                 <Card
 
                   style={{
-                    width: '30%',
+                    width: 400,
                     display: 'inline-block',
                     marginBottom: 10,
                     marginRight: 10,
-                    height: 300,
+                    height: 250,
+                    backgroundColor: "#cccccc",
                   }}
                   expanded={false}
                   initiallyExpanded={false}
@@ -90,7 +91,7 @@ class BrowseRecords extends Component {
                   <CardMedia
                     overlay={<CardTitle title={capitalize(e)} style={{margin:0,padding:4}} > <span style={{color:"white",fontSize:14}}> {this.copyrightNotice[e]}</span> </CardTitle>}
                   >
-                    <img style={{height : 300}} src={this.categoryPhotos[e]} />
+                    <span style={{width:400,height:250}}><img style={{maxHeight: 250,maxWidth:400}} src={this.categoryPhotos[e]} /></span>
                   </CardMedia>
 
 
@@ -101,19 +102,19 @@ class BrowseRecords extends Component {
           </div>
 
 
-        <div style={{marginLeft:60,fontSize:20}}>
+        <div style={{marginLeft:60,fontSize:18}}>
           <div style={{marginTop:50,paddingLeft:80,paddingRight:50, width:"85%", textAlign:"justify"}}>
 
-              There are many layers and paths in the recent history of British intellectual property, particularly in its development throughout the second half of the twentieth century. These were important decades in which the subject became a full academic discipline; the offices in Munich and Alicante were established; the Patent Office moved to Wales or the Patent Bar was renamed as the Intellectual Property Bar.
-              This project is an attempt to trace these and many other histories by recording recollections of those who participated in one way or another in them. Current and retired academics, barristers, solicitors, policy makers, activists and agents recall here their background and reflect on the personal and professional challenges and encounters. Moreover, they talk about what they see now, in retrospect, as the main changes in the law and practice of British intellectual property.
-              The project is funded by a grant from CREATe (University of Glasgow) and the interviews were carried out by Jose Bellido (University of Kent) and Lionel Bently (University of Cambridge).
+              There are many layers and paths in the recent history of British intellectual property, particularly in its development throughout the second half of the twentieth century. These were important decades in which the subject became a full academic discipline; international offices in Munich and Alicante were established; the domestic Patent Office moved to Wales and the Patent Bar was renamed as the Intellectual Property Bar. This project is an attempt to trace these and many other histories by recording recollections of those who participated in one way or another in them. Current and retired academics, barristers, solicitors, policy makers, activists and agents recall here their background and reflect on the personal and professional challenges and encounters. Moreover, they talk about what they see now, in retrospect, as the main changes in the law and practice of British intellectual property. The project is funded by a grant from CREATe (University of Glasgow) and the interviews were carried out by Jose Bellido (University of Kent) and Lionel Bently (University of Cambridge).
             <br/><br/>
 
+            <span style={{fontSize:15}}>
             <b>Contact details:</b>
             <div style={{margin:20}}>
               Dr José Bellido, University of Kent <a href="mailto:j.a.bellido@kent.ac.uk">j.a.bellido@kent.ac.uk</a> and <br/>
               Professor Lionel Bently, University of Cambridge <a href="mailto:lb329@cam.ac.uk">​lb329@cam.ac.uk</a>
             </div>
+            </span>
           </div>
         </div>
         <hr style={{margin:30}}/>

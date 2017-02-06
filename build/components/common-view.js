@@ -105,14 +105,14 @@ var CommonView = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var logoStyle = { height: 70, marginTop: 15, marginLeft: 5 };
+      var logoStyle = { height: 50, marginTop: 15, marginLeft: 5 };
 
       return _react2.default.createElement(
         'div',
-        { id: 'CommonView', style: { marginLeft: "8%", marginTop: 20, marginRight: "8%", minWidth: 1200 } },
+        { id: 'CommonView', style: { marginLeft: "8%", marginTop: 10, marginRight: "8%", minWidth: 1450 } },
         _react2.default.createElement(
           _Card.Card,
-          { style: { height: 130, marginBottom: 10, paddingTop: 15, paddingLeft: 20 } },
+          { style: { height: 100, marginBottom: 10, paddingTop: 15, paddingLeft: 20 } },
           _react2.default.createElement('img', { src: 'http://www.create.ac.uk/wp-content/uploads/logos/create_primary_logo_160.jpg', style: logoStyle }),
           _react2.default.createElement('img', { src: 'https://upload.wikimedia.org/wikipedia/en/thumb/1/13/University_of_Kent_logo.svg/1280px-University_of_Kent_logo.svg.png', style: logoStyle }),
           _react2.default.createElement('img', { src: 'http://www.gla.ac.uk/media/media_434161_en.jpg', style: logoStyle }),
@@ -121,7 +121,7 @@ var CommonView = function (_Component) {
             'span',
             { style: { float: "right" } },
             _react2.default.createElement(
-              'h1',
+              'h2',
               { style: { margin: "0 0 0 0", marginRight: 25, marginTop: 5 } },
               _react2.default.createElement(
                 _reactRouter.Link,
@@ -136,7 +136,7 @@ var CommonView = function (_Component) {
                 ' ',
                 _react2.default.createElement(
                   'span',
-                  { style: { color: "#3399ff" } },
+                  { style: { color: "#155196" } },
                   'Oral History Project'
                 )
               )

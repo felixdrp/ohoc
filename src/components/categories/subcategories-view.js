@@ -81,7 +81,7 @@ export default class SubCategoriesView extends Component {
 
     return (
       <Card style={{paddingBottom:30, minHeight:600}}>
-        <CardTitle style={{marginLeft:40}}> <h1> {capitalize(this.props.params.categoryId)+" / "+capitalize(this.props.params.subcategoryId)} </h1> </CardTitle>
+        <CardTitle style={{marginLeft:40}}> <h1> {capitalize(this.props.params.subcategoryId)} </h1> </CardTitle>
         <Card style={{marginLeft:50,marginRight:50,padding:5}}>
 
           {/* <ListView subcategoryId = {this.props.params.subcategoryId} entries = {selectedSubCategory} /> */}

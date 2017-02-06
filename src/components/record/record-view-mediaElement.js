@@ -40,18 +40,12 @@ export default class RecordViewMediaElement extends Component {
         primary={true}
         onTouchTap={() => this.setState({showExtendedDialog: false})}
       />,
-      // <FlatButton
-      //   label="Submit"
-      //   primary={true}
-      //   disabled={false}
-      //   // onTouchTap={(e) => this.props.mediaAdder(this.state.dataToSend)}
-      // />,
     ];
 
 
     return (
 
-      <Card style={{padding:3, maxWidth:300, height:300,float:"left",marginLeft:5,marginTop:5,display: "inline-block"}} onClick={this.openExtendedView}>
+      <Card style={{padding:3, maxWidth:400, height:300,marginLeft:5,marginTop:5,display: "inline-block"}} onClick={this.openExtendedView}>
 
 
         <Dialog
@@ -59,13 +53,14 @@ export default class RecordViewMediaElement extends Component {
               actions={actions}
               modal={true}
               open={this.state.showExtendedDialog}
+              style={{textAlign:"center"}}
             >
             <span>
-              <PreviewGenerator element={this.props.media} style={{maxHeight:250,maxWidth:"95%"}} />
+              <PreviewGenerator element={this.props.media} style={{maxHeight:450,maxWidth:"95%"}} />
             </span>
             <br/><br/>
-            <span>Transcript/Description</span>
-            <div style={{width:"100%",minHeight:300,maxHeight:350,overflowY:"scroll",border: "1px dashed lightgrey",textAlign:"center"}}>
+            <span>Description</span>
+            <div style={{width:"100%",minHeight:200,maxHeight:250,overflowY:"scroll",border: "1px dashed lightgrey",textAlign:"center"}}>
               {
                 this.props.media.transcript?
                   this.props.media.transcript.split("<br/>").map( (e,j) => <span key={j}> <br/> {e} </span> ):
@@ -78,12 +73,12 @@ export default class RecordViewMediaElement extends Component {
          {/* <IconButton style={{float:"right"}} onClick={() => this.props.mediaDeleter(this.props.media.type,this.props.index)}>
             <ClearIcon />
           </IconButton> */}
-          <span style={{maxWidth:"100%",fontWeight:"bold"}}>
-            {
-              this.props.media.title
-            }
-          </span>
-            <br/>
+        <span style={{maxWidth:"100%",fontWeight:"bold"}}>
+          {
+            this.props.media.title
+          }
+        </span>
+        <br/>
         <span>
           <PreviewGenerator element={this.props.media} style={{maxHeight:250,maxWidth:"95%"}} />
         </span>

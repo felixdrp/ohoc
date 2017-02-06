@@ -71,12 +71,12 @@ var BrowseRecords = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (BrowseRecords.__proto__ || (0, _getPrototypeOf2.default)(BrowseRecords)).call(this, props));
 
     _this.categoryPhotos = {
-      "academia": "images/PhotoAcademy.jpeg",
-      "civil service": "images/PhotoCivilService.jpg",
-      "policy formation": "images/PhotoPolicyFormation.jpg",
-      "publications": "images/PhotoPublications.jpg",
-      "solicitors and agents": "images/PhotoSolicitorsandAgents.jpg",
-      "the bar": "images/PhotoTheBar.jpg"
+      "academia": _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoAcademy.jpeg',
+      "civil service": _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoCivilService.jpg',
+      "policy formation": _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPolicyFormation.jpg',
+      "publications": _links.URL_BASE_MULTIMEDIA_IMAGES + "/PhotoPublications.jpg",
+      "solicitors and agents": _links.URL_BASE_MULTIMEDIA_IMAGES + "/PhotoSolicitorsandAgents.jpg",
+      "the bar": _links.URL_BASE_MULTIMEDIA_IMAGES + "/PhotoTheBar.jpg"
     };
     _this.categoryOrderIndex = {
       "academia": 2,
@@ -116,6 +116,21 @@ var BrowseRecords = function (_Component) {
           { style: { paddingTop: 30, marginBottom: 50, paddingBottom: 10 } },
           _react2.default.createElement(
             'div',
+            { style: { marginTop: 5, marginLeft: 80, marginBottom: 50, fontSize: 35, fontWeight: "bold" } },
+            _react2.default.createElement(
+              'span',
+              { style: { color: "black" } },
+              'Intellectual Property :'
+            ),
+            ' ',
+            _react2.default.createElement(
+              'span',
+              { style: { color: "#155196" } },
+              'Oral History Project'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
             { style: { textAlign: "center" } },
             this.props.templateList && (0, _keys2.default)(this.props.templateList).sort(function (a, b) {
               return _this2.categoryOrderIndex[a] > _this2.categoryOrderIndex[b];
@@ -128,10 +143,12 @@ var BrowseRecords = function (_Component) {
                   {
 
                     style: {
-                      width: '30%',
+                      width: 400,
                       display: 'inline-block',
                       marginBottom: 10,
-                      marginRight: 10
+                      marginRight: 10,
+                      height: 250,
+                      backgroundColor: "#cccccc"
                     },
                     expanded: false,
                     initiallyExpanded: false
@@ -152,21 +169,53 @@ var BrowseRecords = function (_Component) {
                         ' '
                       )
                     },
-                    _react2.default.createElement('img', { style: { width: 500, height: 300 }, src: _this2.categoryPhotos[e] })
+                    _react2.default.createElement(
+                      'span',
+                      { style: { width: 400, height: 250 } },
+                      _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 400 }, src: _this2.categoryPhotos[e] })
+                    )
                   )
                 )
               );
             })
           ),
           _react2.default.createElement(
-            'h2',
-            { style: { paddingTop: 50, paddingLeft: 50 } },
-            'Some text about the page?'
-          ),
-          _react2.default.createElement(
             'div',
-            { style: { paddingLeft: 50, paddingRight: 50 } },
-            'Lorem ipsum dolor sit amet, pri paulo tamquam perpetua ei, purto laudem aliquam ut vis! Debet graeci epicuri ei cum, ius at iuvaret inimicus tractatos? Wisi alienum mediocritatem per id, an nam accusamus eloquentiam, an persecuti philosophia nec. Ei quo laoreet salutandi, eum petentium eloquentiam ut, te labore quaerendum has. Te option oporteat duo. Tantas putant fabulas cum eu, sit ne amet summo? Et inani decore cum, ne propriae adipisci sed. Nostro numquam mea id, pro et veniam populo essent! Erat quodsi sea ad, sea lucilius constituto efficiantur te. Atqui quaeque delenit ius eu. Saepe verterem consequat et sed, libris legimus ex his? Dolore nominati sea at, elitr nominavi efficiantur nam at. Mundi timeam latine usu ex. Laudem nominati eu mei, noster splendide adolescens sit at, nonumes neglegentur complectitur ad sea. Quidam recusabo mea ne, hinc suscipit te vix, everti epicurei in vel. Et vocent invenire vel, detraxit referrentur vituperatoribus eam ut, ea blandit adipisci eam? An eos solum fabulas! Ad per laudem accumsan instructior, usu at tota invidunt adversarium, ad eos placerat dignissim. Usu detraxit partiendo torquatos te, cibo idque honestatis ne eam. Lorem homero an eam? Mea ex doming menandri. Stet labitur intellegat in mei, purto fuisset te has? Ut duo soluta vocibus senserit. Ad per mnesarchum cotidieque, duo ut inermis explicari constituam! Ea eam legere intellegam delicatissimi, modus semper sea no, aeterno eruditi quo an? No audiam eripuit facilisis vel, at his tantas ridens commune. Case hendrerit ex vim, his eu rebum definiebas? Ea est eirmod consectetuer. Affert invenire duo ei. Usu eu dicant vivendo, ad ius etiam minim definitiones, duo vocent inciderint no. Timeam imperdiet mei te, nec id periculis disputando, luptatum appellantur pro at? Ad sed consul bonorum necessitatibus, liber elitr quaerendum ad est. At ocurreret prodesset est, hinc essent philosophia mel ut. Te indoctum accusamus vix? Vis eu aeterno elaboraret suscipiantur. Usu esse autem et! Ne nec recteque elaboraret, mei ex eros mentitum salutatus. No sea solet alterum, ut ius utinam repudiandae complectitur. An usu deserunt gubergren, pri in summo aliquid recusabo. Pri cu posse choro, ei vis congue repudiare? Duo in graeco virtute civibus, no est definiebas inciderint.'
+            { style: { marginLeft: 60, fontSize: 18 } },
+            _react2.default.createElement(
+              'div',
+              { style: { marginTop: 50, paddingLeft: 80, paddingRight: 50, width: "85%", textAlign: "justify" } },
+              'There are many layers and paths in the recent history of British intellectual property, particularly in its development throughout the second half of the twentieth century. These were important decades in which the subject became a full academic discipline; international offices in Munich and Alicante were established; the domestic Patent Office moved to Wales and the Patent Bar was renamed as the Intellectual Property Bar. This project is an attempt to trace these and many other histories by recording recollections of those who participated in one way or another in them. Current and retired academics, barristers, solicitors, policy makers, activists and agents recall here their background and reflect on the personal and professional challenges and encounters. Moreover, they talk about what they see now, in retrospect, as the main changes in the law and practice of British intellectual property. The project is funded by a grant from CREATe (University of Glasgow) and the interviews were carried out by Jose Bellido (University of Kent) and Lionel Bently (University of Cambridge).',
+              _react2.default.createElement('br', null),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement(
+                'span',
+                { style: { fontSize: 15 } },
+                _react2.default.createElement(
+                  'b',
+                  null,
+                  'Contact details:'
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { style: { margin: 20 } },
+                  'Dr Jos\xE9 Bellido, University of Kent ',
+                  _react2.default.createElement(
+                    'a',
+                    { href: 'mailto:j.a.bellido@kent.ac.uk' },
+                    'j.a.bellido@kent.ac.uk'
+                  ),
+                  ' and ',
+                  _react2.default.createElement('br', null),
+                  'Professor Lionel Bently, University of Cambridge ',
+                  _react2.default.createElement(
+                    'a',
+                    { href: 'mailto:lb329@cam.ac.uk' },
+                    '\u200Blb329@cam.ac.uk'
+                  )
+                )
+              )
+            )
           ),
           _react2.default.createElement('hr', { style: { margin: 30 } })
         )

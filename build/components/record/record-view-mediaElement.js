@@ -66,7 +66,7 @@ var _clear2 = _interopRequireDefault(_clear);
 
 var _Card = require('material-ui/Card');
 
-var _previewGenerator = require('./previewGenerator');
+var _previewGenerator = require('./preview-generator');
 
 var _previewGenerator2 = _interopRequireDefault(_previewGenerator);
 
@@ -85,8 +85,11 @@ var RecordViewMediaElement = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (RecordViewMediaElement.__proto__ || (0, _getPrototypeOf2.default)(RecordViewMediaElement)).call(this));
 
     _this.openExtendedView = function () {
+      var allowedToShowDialog = ["video", "picture"];
 
-      _this.setState({ showExtendedDialog: true });
+      if (allowedToShowDialog.includes(_this.props.type)) {
+        _this.setState({ showExtendedDialog: true });
+      }
     };
 
     _this.state = { showExtendedDialog: false };
@@ -109,51 +112,76 @@ var RecordViewMediaElement = function (_Component) {
 
       return _react2.default.createElement(
         _Card.Card,
-        { style: { padding: 3, maxWidth: 300, height: 300, float: "left", marginLeft: 5, marginTop: 5 }, onClick: this.openExtendedView },
+        { style: { padding: 3, maxWidth: 400, height: 300, marginLeft: 5, marginTop: 5, display: "inline-block" }, onClick: this.openExtendedView },
         _react2.default.createElement(
           _Dialog2.default,
           {
-            title: this.props.media.title || "dialog",
+            title: this.props.media.title || "",
             actions: actions,
             modal: true,
-            open: this.state.showExtendedDialog
+            open: this.state.showExtendedDialog,
+            style: { textAlign: "center" }
           },
           _react2.default.createElement(
             'span',
             null,
-            this.props.mediaPreviewer(this.props.media, { maxHeight: 250, maxWidth: "95%" })
+            _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 450, maxWidth: "95%" } })
           ),
           _react2.default.createElement('br', null),
           _react2.default.createElement('br', null),
           _react2.default.createElement(
             'span',
             null,
-            'Transcript/Description'
+            'Description'
           ),
           _react2.default.createElement(
             'div',
-            { style: { width: "100%", minHeight: 300, maxHeight: 350, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
-            this.props.media.transcript.split("<br/>").map(function (e, j) {
+            { style: { width: "100%", minHeight: 200, maxHeight: 250, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
+            this.props.media.transcript ? this.props.media.transcript.split("<br/>").map(function (e, j) {
               return _react2.default.createElement(
                 'span',
                 { key: j },
+                ' ',
                 _react2.default.createElement('br', null),
-                e
+                ' ',
+                e,
+                ' '
               );
-            }) || "transcript"
+            }) : ""
           )
         ),
         _react2.default.createElement(
           'span',
-          { style: { maxWidth: "100%" } },
+          { style: { maxWidth: "100%", fontWeight: "bold" } },
           this.props.media.title
         ),
         _react2.default.createElement('br', null),
         _react2.default.createElement(
           'span',
           null,
-          (0, _previewGenerator2.default)(this.props.media, { maxHeight: 250, maxWidth: "95%" })
-        )
+          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 250, maxWidth: "95%" } })
+        ),
+        _react2.default.createElement('br', null),
+        this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(
+          'span',
+          { style: { fontWeight: "bold" } },
+          'Transcript'
+        ) : "",
+        this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(
+          'div',
+          { style: { width: "100%", height: 200, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
+          this.props.media.transcript ? this.props.media.transcript.split("<br/>").map(function (e, j) {
+            return _react2.default.createElement(
+              'span',
+              { key: j },
+              ' ',
+              _react2.default.createElement('br', null),
+              ' ',
+              e,
+              ' '
+            );
+          }) : ""
+        ) : _react2.default.createElement('div', null)
       );
     }
   }]);

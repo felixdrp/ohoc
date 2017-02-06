@@ -12,6 +12,8 @@ import capitalize from '../stringTools'
 
 import fetchData from '../../network/fetch-data';
 
+import Carousel from 'nuka-carousel';
+
 import RecordViewMediaElement from './record-view-mediaElement'
 
 import {
@@ -52,45 +54,31 @@ export default class RecordView extends Component {
   getMediaPreviewers = (arrayOfMedia,type) => {
     // if the array is empty there is no reason to draw the preview container at all.
     if ( Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0){
-      return (
-        <div style={{width:"100%",height:310,marginTop:10,adding:5,border: "1px dashed lightgrey",backgroundColor:"lightgrey",overflowY:"scroll"}}>
-        {
-          arrayOfMedia.map(
-            (element,i) => (
+
+        var allImages = []
+
+        arrayOfMedia.map(
+          (element,i) => (
+            allImages.push(<div style={{width:400,height:310,textAlign:"center"}} >
               <RecordViewMediaElement
                 key={i}
-                style={{maxHeight:300,maxWidth:300}}
+                style={{maxHeight:300,maxWidth:400}}
                 media={{...element, src: URL_MULTIMEDIA + element.src}}
                 type={type}
               />
-            )
+            </div>)
           )
-        }
-        {/* {
-          arrayOfMedia.map(
-            (element,i) => (
-              <RecordViewMediaElement
-                key={i}
-                style={{maxHeight:300,maxWidth:300}}
-                media={{...element, src: URL_MULTIMEDIA + element.src}}
-              />
-            )
-          )
-        }
-        {
-          arrayOfMedia.map(
-            (element,i) => (
-              <RecordViewMediaElement
-                key={i}
-                style={{maxHeight:300,maxWidth:300}}
-                media={{...element, src: URL_MULTIMEDIA + element.src}}
-              />
-            )
-          )
-        } */}
-        </div>
-      )
+        )
+
+        return (<div style={{width:400,height:310,marginTop:10,adding:5,border: "1px dashed lightgrey",backgroundColor:"lightgrey"}}>
+                  <Carousel>
+                        {allImages}
+
+                  </Carousel>
+                </div>)
     }
+
+    return <div></div>
   }
 
   sectionTitle = (title) => {
@@ -106,7 +94,7 @@ export default class RecordView extends Component {
       case 'featuredImage':
         return <div></div>;
       case 'name':
-        return <div><h1>{data}</h1></div>
+        return <div><h2>{data}</h2></div>
       default:
         return <div>{title}<span style={{marginLeft:10}}>{data}</span></div>
     }
@@ -130,7 +118,7 @@ export default class RecordView extends Component {
 
       let fieldsToHide = ["biography","name"]
 
-      let title = fieldsToHide.includes(entry.name) ? "" : <h2>{capitalize(entry.name)}</h2>
+      let title = fieldsToHide.includes(entry.name) ? "" : <h3>{capitalize(entry.name)}</h3>
 
 
       switch (entry.type) {
@@ -153,7 +141,7 @@ export default class RecordView extends Component {
                 case 'autor':
                   return <span key={j} style={{...styleBasic}}>{cell.data}</span>
                 case 'title':
-                  return <span key={j} style={{...styleBasic}}>{cell.data}</span>
+                  return <span key={j} style={{...styleBasic,fontStyle:"italic"}}>{cell.data}</span>
                 case 'publication info':
                   return <span key={j} style={{...styleBasic}}>{cell.data}</span>
 
@@ -220,25 +208,25 @@ export default class RecordView extends Component {
         </span>
 
         <span style={{padding:0, paddingTop: 0, width:400,display: "inline-block", verticalAlign: "top", float:"right", position:"relative",right:50}}>
-          { recordData.data.media.picture.length > 0 ? this.sectionTitle('Image Gallery') : "" }
+          {/* { recordData.data.media.picture.length > 0 ? this.sectionTitle('Image Gallery') : "" } */}
           {
             this.getMediaPreviewers(recordData.data.media.picture,"picture")
           }
 
           <br/>
-          { recordData.data.media.audio.length > 0 ? this.sectionTitle('Audio Gallery') : "" }
+          {/* { recordData.data.media.audio.length > 0 ? this.sectionTitle('Audio Gallery') : "" } */}
           {
             this.getMediaPreviewers(recordData.data.media.audio,"audio")
           }
 
           <br/>
-          { recordData.data.media.video.length > 0 ? this.sectionTitle('Video Gallery') : ""  }
+          {/* { recordData.data.media.video.length > 0 ? this.sectionTitle('Video Gallery') : ""  } */}
           {
             this.getMediaPreviewers(recordData.data.media.video,"video")
           }
 
           <br/>
-          { recordData.data.media.text.length > 0 ? this.sectionTitle('Text and PDF files') : ""  }
+          {/* { recordData.data.media.text.length > 0 ? this.sectionTitle('Text and PDF files') : ""  } */}
           {
             this.getMediaPreviewers(recordData.data.media.text,"text")
           }

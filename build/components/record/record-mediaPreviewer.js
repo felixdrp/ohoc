@@ -56,11 +56,11 @@ var _clear = require('material-ui/svg-icons/content/clear');
 
 var _clear2 = _interopRequireDefault(_clear);
 
-var _previewGenerator = require('./previewGenerator');
+var _Card = require('material-ui/Card');
+
+var _previewGenerator = require('./preview-generator');
 
 var _previewGenerator2 = _interopRequireDefault(_previewGenerator);
-
-var _Card = require('material-ui/Card');
 
 var _stringTools = require('../stringTools');
 
@@ -81,7 +81,6 @@ var RecordMediaPreviewer = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      console.log(this.props.media);
 
       return _react2.default.createElement(
         _Card.Card,
@@ -102,7 +101,7 @@ var RecordMediaPreviewer = function (_Component) {
         _react2.default.createElement(
           'span',
           null,
-          (0, _previewGenerator2.default)(this.props.media, { maxHeight: 100, maxWidth: 100 })
+          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { height: 100, maxWidth: 100 } })
         )
       );
     }
