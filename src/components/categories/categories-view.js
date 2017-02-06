@@ -26,6 +26,30 @@ import {
 } from '../../links'
 
 export default class CategoriesView extends Component {
+
+
+
+    subCategoryData = {
+      "Practice" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Practice/Grays Inn Gateway.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
+      "The Bench" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Bench/PortadaBench.jpg' , orderIndex : 2, copyrightNotice : "(Courtesy of...)" },
+      "Solicitors and Agents" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Solicitors and Agents/GraysInnSquare001BirdandBird.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
+      "Textbooks" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Textbooks/Photograph1.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
+      "Barristers" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Barristers/barristers.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
+      "Treatises" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Treatises/ShelleyOnPatents.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
+      "Clerks" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Clerks/PortadaClerks.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
+      "Universities & Polytechnics " : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Academia/PortadaAcademia.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
+      "Law Reports" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Law Reports/FSPLR.png' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
+      "Chambers" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Chambers/6PumpCourtTres.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
+      "Groups and Associations" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Groups and Associations/JB_Photos16_0010.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
+      "EIPR" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/EIPR/PropertyReview.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
+      "Civil Service" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Civil Service/PatentOfficeLibrary.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
+      "Magazines" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Magazines/TW_0002.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
+      "Campaigns" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Campaigns/PublicLendingRight2.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
+    }
+
+
+
+
   async componentDidMount() {
     let fetch = new fetchData();
     // Load the templateList
@@ -67,7 +91,7 @@ export default class CategoriesView extends Component {
 
           tiles.push({
             img: URL_BASE_MULTIMEDIA_IMAGES + 'institution-default.jpg',
-            title: capitalize(entries[a].subtype),
+            title: entries[a].subtype,
             src: URL_CATEGORIES_LIST + this.props.params.categoryId+ "/" + entries[a].subtype,
           });
 
@@ -114,50 +138,22 @@ export default class CategoriesView extends Component {
                   <GridList
                       cols={3}
                       style={styles.gridList}
+                      cellHeight={250}
                     >
                       {/* <Subheader>{capitalize(this.props.subcategoryId)}</Subheader> */}
                       {tilesData.map((tile,i) => (
                         <Link key={i} to={tile.src} style={{ textDecoration: 'none'}}>
                           <GridTile
-                            key={tile.img}
+
                             title={tile.title}
-                            subtitle={""}
+                            subtitle={this.subCategoryData[tile.title] ? this.subCategoryData[tile.title].copyrightNotice : ""}
                           >
-                            <img src={tile.img ? tile.img : baseAvatarImage} />
+                            <div style={{textAlign:"center",backgroundColor:"#cccccc"}}><img style={{maxHeight: 250}} src={ this.subCategoryData[tile.title] ? this.subCategoryData[tile.title].src : baseAvatarImage} /></div>
                           </GridTile>
                         </Link>
                       ))}
                     </GridList>
 
-            {/* {
-              Object.keys(entriesBySubtype).map( (group,g) =>{
-
-                  group = entriesBySubtype[group]
-
-
-                      return <List key={g}>
-                        <Subheader style={{fontWeight:"bolder"}}>{capitalize(Object.keys(entriesBySubtype)[g])}</Subheader>
-
-                            {
-                              group.map( (entry, i) =>{
-                                return <Link to={URL_VIEW_RECORD + entry.id} key={i} style={{ textDecoration: 'none'}}> <ListItem
-                                  primaryText={capitalize(entry.data.recordName)}
-                                  leftAvatar={
-
-                                    <img style={avatarStyle}
-                                      src={ entry.data.featuredImage? URL_MULTIMEDIA + entry.data.featuredImage: baseAvatarImage }
-                                    />
-                                  }
-                                  rightIcon={<CommunicationChatBubble />}
-                                /> </Link>
-                              })
-
-                            }
-
-                        </List>
-
-            } )
-          } */}
           </CardText>
         </Card>
       </Card>

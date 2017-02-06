@@ -27,6 +27,8 @@ import {
 } from '../../links'
 
 export default class SubCategoriesView extends Component {
+
+
   async componentDidMount() {
     let fetch = new fetchData();
     // Load the templateList
