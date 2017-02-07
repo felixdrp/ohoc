@@ -70,29 +70,15 @@ var BrowseRecords = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (BrowseRecords.__proto__ || (0, _getPrototypeOf2.default)(BrowseRecords)).call(this, props));
 
-    _this.categoryPhotos = {
-      "academia": _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoAcademy.jpeg',
-      "civil service": _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoCivilService.jpg',
-      "policy formation": _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPolicyFormation.jpg',
-      "publications": _links.URL_BASE_MULTIMEDIA_IMAGES + "/PhotoPublications.jpg",
-      "solicitors and agents": _links.URL_BASE_MULTIMEDIA_IMAGES + "/PhotoSolicitorsandAgents.jpg",
-      "the bar": _links.URL_BASE_MULTIMEDIA_IMAGES + "/PhotoTheBar.jpg"
-    };
-    _this.categoryOrderIndex = {
-      "academia": 2,
-      "civil service": 4,
-      "policy formation": 3,
-      "publications": 5,
-      "solicitors and agents": 1,
-      "the bar": 0
-    };
-    _this.copyrightNotice = {
-      "academia": "(Courtesy of QM Archives)",
-      "civil service": "(Courtesy of IP Office)",
-      "policy formation": "(Courtesy of M. Freegard)",
-      "publications": "(Courtesy of Henry Blanco White)",
-      "solicitors and agents": "(Courtesy of Bird&Bird)",
-      "the bar": "(Courtesy of Metropolitan Archives)"
+    _this.categoryData = {
+      "academia": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoAcademy.jpeg',
+        orderIndex: 2,
+        copyrightNotice: "(Courtesy of QM Archives)" },
+      "civil service": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoCivilService.jpg', orderIndex: 4, copyrightNotice: "(Courtesy of IP Office)" },
+      "policy formation": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPolicyFormation.jpg', orderIndex: 3, copyrightNotice: "(Courtesy of M. Freegard)" },
+      "publications": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPublications.jpg', orderIndex: 5, copyrightNotice: "(Courtesy of Henry Blanco White)" },
+      "solicitors and agents": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoSolicitorsandAgents.jpg', orderIndex: 1, copyrightNotice: "(Courtesy of Bird&Bird)" },
+      "the bar": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoTheBar.jpg', orderIndex: 0, copyrightNotice: "(Courtesy of Metropolitan Archives)" }
     };
 
     _this.state = {};
@@ -113,27 +99,12 @@ var BrowseRecords = function (_Component) {
         null,
         _react2.default.createElement(
           _Card.Card,
-          { style: { paddingTop: 30, marginBottom: 50, paddingBottom: 10 } },
-          _react2.default.createElement(
-            'div',
-            { style: { marginTop: 5, marginLeft: 80, marginBottom: 50, fontSize: 35, fontWeight: "bold" } },
-            _react2.default.createElement(
-              'span',
-              { style: { color: "black" } },
-              'Intellectual Property :'
-            ),
-            ' ',
-            _react2.default.createElement(
-              'span',
-              { style: { color: "#155196" } },
-              'Oral History Project'
-            )
-          ),
+          { style: { paddingTop: 20, marginBottom: 50, paddingBottom: 10 } },
           _react2.default.createElement(
             'div',
             { style: { textAlign: "center" } },
             this.props.templateList && (0, _keys2.default)(this.props.templateList).sort(function (a, b) {
-              return _this2.categoryOrderIndex[a] > _this2.categoryOrderIndex[b];
+              return _this2.categoryData[a].orderIndex > _this2.categoryData[b].orderIndex;
             }).map(function (e, index) {
               return _react2.default.createElement(
                 _reactRouter.Link,
@@ -143,7 +114,7 @@ var BrowseRecords = function (_Component) {
                   {
 
                     style: {
-                      width: 400,
+                      width: "25%",
                       display: 'inline-block',
                       marginBottom: 10,
                       marginRight: 10,
@@ -164,7 +135,7 @@ var BrowseRecords = function (_Component) {
                           'span',
                           { style: { color: "white", fontSize: 14 } },
                           ' ',
-                          _this2.copyrightNotice[e]
+                          _this2.categoryData[e].copyrightNotice
                         ),
                         ' '
                       )
@@ -172,7 +143,7 @@ var BrowseRecords = function (_Component) {
                     _react2.default.createElement(
                       'span',
                       { style: { width: 400, height: 250 } },
-                      _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 400 }, src: _this2.categoryPhotos[e] })
+                      _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 400 }, src: _this2.categoryData[e].src })
                     )
                   )
                 )
@@ -184,7 +155,7 @@ var BrowseRecords = function (_Component) {
             { style: { marginLeft: 60, fontSize: 18 } },
             _react2.default.createElement(
               'div',
-              { style: { marginTop: 50, paddingLeft: 80, paddingRight: 50, width: "85%", textAlign: "justify" } },
+              { style: { marginTop: 30, paddingLeft: 80, paddingRight: 50, width: "85%", textAlign: "justify" } },
               'There are many layers and paths in the recent history of British intellectual property, particularly in its development throughout the second half of the twentieth century. These were important decades in which the subject became a full academic discipline; international offices in Munich and Alicante were established; the domestic Patent Office moved to Wales and the Patent Bar was renamed as the Intellectual Property Bar. This project is an attempt to trace these and many other histories by recording recollections of those who participated in one way or another in them. Current and retired academics, barristers, solicitors, policy makers, activists and agents recall here their background and reflect on the personal and professional challenges and encounters. Moreover, they talk about what they see now, in retrospect, as the main changes in the law and practice of British intellectual property. The project is funded by a grant from CREATe (University of Glasgow) and the interviews were carried out by Jose Bellido (University of Kent) and Lionel Bently (University of Cambridge).',
               _react2.default.createElement('br', null),
               _react2.default.createElement('br', null),
@@ -199,15 +170,13 @@ var BrowseRecords = function (_Component) {
                 _react2.default.createElement(
                   'div',
                   { style: { margin: 20 } },
-                  'Dr Jos\xE9 Bellido, University of Kent ',
+                  'Jos\xE9 Bellido, University of Kent ',
                   _react2.default.createElement(
                     'a',
                     { href: 'mailto:j.a.bellido@kent.ac.uk' },
                     'j.a.bellido@kent.ac.uk'
                   ),
-                  ' and ',
-                  _react2.default.createElement('br', null),
-                  'Professor Lionel Bently, University of Cambridge ',
+                  ' and Lionel Bently, University of Cambridge ',
                   _react2.default.createElement(
                     'a',
                     { href: 'mailto:lb329@cam.ac.uk' },

@@ -98,7 +98,23 @@ var CategoriesView = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = CategoriesView.__proto__ || (0, _getPrototypeOf2.default)(CategoriesView)).call.apply(_ref, [this].concat(args))), _this), _this.entriesToSubtypeGroups = function (list) {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = CategoriesView.__proto__ || (0, _getPrototypeOf2.default)(CategoriesView)).call.apply(_ref, [this].concat(args))), _this), _this.subCategoryData = {
+      "Practice": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Practice/Grays Inn Gateway.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "The Bench": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Bench/PortadaBench.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Solicitors and Agents": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Solicitors and Agents/GraysInnSquare001BirdandBird.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Textbooks": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Textbooks/Photograph1.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Barristers": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Barristers/barristers.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Treatises": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Treatises/ShelleyOnPatents.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Clerks": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Clerks/PortadaClerks.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Universities & Polytechnics ": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Academia/PortadaAcademia.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Law Reports": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Law Reports/FSPLR.png', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Chambers": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Chambers/6PumpCourtTres.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Groups and Associations": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Groups and Associations/JB_Photos16_0010.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "EIPR": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/EIPR/PropertyReview.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Civil Service": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Civil Service/PatentOfficeLibrary.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Magazines": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Magazines/TW_0002.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Campaigns": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Campaigns/PublicLendingRight2.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" }
+    }, _this.entriesToSubtypeGroups = function (list) {
 
       var groupedEntries = {};
       for (var entry in list) {
@@ -122,7 +138,7 @@ var CategoriesView = function (_Component) {
 
           tiles.push({
             img: _links.URL_BASE_MULTIMEDIA_IMAGES + 'institution-default.jpg',
-            title: (0, _stringTools2.default)(entries[a].subtype),
+            title: entries[a].subtype,
             src: _links.URL_CATEGORIES_LIST + _this.props.params.categoryId + "/" + entries[a].subtype
           });
 
@@ -179,6 +195,8 @@ var CategoriesView = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var style = {
         margin: 12
       };
@@ -230,7 +248,8 @@ var CategoriesView = function (_Component) {
               _GridList.GridList,
               {
                 cols: 3,
-                style: styles.gridList
+                style: styles.gridList,
+                cellHeight: 250
               },
               tilesData.map(function (tile, i) {
                 return _react2.default.createElement(
@@ -239,11 +258,15 @@ var CategoriesView = function (_Component) {
                   _react2.default.createElement(
                     _GridList.GridTile,
                     {
-                      key: tile.img,
+
                       title: tile.title,
-                      subtitle: ""
+                      subtitle: _this2.subCategoryData[tile.title] ? _this2.subCategoryData[tile.title].copyrightNotice : ""
                     },
-                    _react2.default.createElement('img', { src: tile.img ? tile.img : baseAvatarImage })
+                    _react2.default.createElement(
+                      'div',
+                      { style: { textAlign: "center", backgroundColor: "#cccccc" } },
+                      _react2.default.createElement('img', { style: { maxHeight: 250 }, src: _this2.subCategoryData[tile.title] ? _this2.subCategoryData[tile.title].src : baseAvatarImage })
+                    )
                   )
                 );
               })

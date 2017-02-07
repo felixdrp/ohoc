@@ -290,29 +290,15 @@ var BrowseRecords = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (BrowseRecords.__proto__ || (0, _getPrototypeOf2.default)(BrowseRecords)).call(this, props));
 
-    _this.categoryPhotos = {
-      "academia": _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoAcademy.jpeg',
-      "civil service": _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoCivilService.jpg',
-      "policy formation": _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPolicyFormation.jpg',
-      "publications": _links.URL_BASE_MULTIMEDIA_IMAGES + "/PhotoPublications.jpg",
-      "solicitors and agents": _links.URL_BASE_MULTIMEDIA_IMAGES + "/PhotoSolicitorsandAgents.jpg",
-      "the bar": _links.URL_BASE_MULTIMEDIA_IMAGES + "/PhotoTheBar.jpg"
-    };
-    _this.categoryOrderIndex = {
-      "academia": 2,
-      "civil service": 4,
-      "policy formation": 3,
-      "publications": 5,
-      "solicitors and agents": 1,
-      "the bar": 0
-    };
-    _this.copyrightNotice = {
-      "academia": "(Courtesy of QM Archives)",
-      "civil service": "(Courtesy of IP Office)",
-      "policy formation": "(Courtesy of M. Freegard)",
-      "publications": "(Courtesy of Henry Blanco White)",
-      "solicitors and agents": "(Courtesy of Bird&Bird)",
-      "the bar": "(Courtesy of Metropolitan Archives)"
+    _this.categoryData = {
+      "academia": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoAcademy.jpeg',
+        orderIndex: 2,
+        copyrightNotice: "(Courtesy of QM Archives)" },
+      "civil service": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoCivilService.jpg', orderIndex: 4, copyrightNotice: "(Courtesy of IP Office)" },
+      "policy formation": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPolicyFormation.jpg', orderIndex: 3, copyrightNotice: "(Courtesy of M. Freegard)" },
+      "publications": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPublications.jpg', orderIndex: 5, copyrightNotice: "(Courtesy of Henry Blanco White)" },
+      "solicitors and agents": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoSolicitorsandAgents.jpg', orderIndex: 1, copyrightNotice: "(Courtesy of Bird&Bird)" },
+      "the bar": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoTheBar.jpg', orderIndex: 0, copyrightNotice: "(Courtesy of Metropolitan Archives)" }
     };
 
     _this.state = {};
@@ -333,27 +319,12 @@ var BrowseRecords = function (_Component) {
         null,
         _react2.default.createElement(
           _Card.Card,
-          { style: { paddingTop: 30, marginBottom: 50, paddingBottom: 10 } },
-          _react2.default.createElement(
-            'div',
-            { style: { marginTop: 5, marginLeft: 80, marginBottom: 50, fontSize: 35, fontWeight: "bold" } },
-            _react2.default.createElement(
-              'span',
-              { style: { color: "black" } },
-              'Intellectual Property :'
-            ),
-            ' ',
-            _react2.default.createElement(
-              'span',
-              { style: { color: "#155196" } },
-              'Oral History Project'
-            )
-          ),
+          { style: { paddingTop: 20, marginBottom: 50, paddingBottom: 10 } },
           _react2.default.createElement(
             'div',
             { style: { textAlign: "center" } },
             this.props.templateList && (0, _keys2.default)(this.props.templateList).sort(function (a, b) {
-              return _this2.categoryOrderIndex[a] > _this2.categoryOrderIndex[b];
+              return _this2.categoryData[a].orderIndex > _this2.categoryData[b].orderIndex;
             }).map(function (e, index) {
               return _react2.default.createElement(
                 _reactRouter.Link,
@@ -363,7 +334,7 @@ var BrowseRecords = function (_Component) {
                   {
 
                     style: {
-                      width: 400,
+                      width: "25%",
                       display: 'inline-block',
                       marginBottom: 10,
                       marginRight: 10,
@@ -384,7 +355,7 @@ var BrowseRecords = function (_Component) {
                           'span',
                           { style: { color: "white", fontSize: 14 } },
                           ' ',
-                          _this2.copyrightNotice[e]
+                          _this2.categoryData[e].copyrightNotice
                         ),
                         ' '
                       )
@@ -392,7 +363,7 @@ var BrowseRecords = function (_Component) {
                     _react2.default.createElement(
                       'span',
                       { style: { width: 400, height: 250 } },
-                      _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 400 }, src: _this2.categoryPhotos[e] })
+                      _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 400 }, src: _this2.categoryData[e].src })
                     )
                   )
                 )
@@ -404,7 +375,7 @@ var BrowseRecords = function (_Component) {
             { style: { marginLeft: 60, fontSize: 18 } },
             _react2.default.createElement(
               'div',
-              { style: { marginTop: 50, paddingLeft: 80, paddingRight: 50, width: "85%", textAlign: "justify" } },
+              { style: { marginTop: 30, paddingLeft: 80, paddingRight: 50, width: "85%", textAlign: "justify" } },
               'There are many layers and paths in the recent history of British intellectual property, particularly in its development throughout the second half of the twentieth century. These were important decades in which the subject became a full academic discipline; international offices in Munich and Alicante were established; the domestic Patent Office moved to Wales and the Patent Bar was renamed as the Intellectual Property Bar. This project is an attempt to trace these and many other histories by recording recollections of those who participated in one way or another in them. Current and retired academics, barristers, solicitors, policy makers, activists and agents recall here their background and reflect on the personal and professional challenges and encounters. Moreover, they talk about what they see now, in retrospect, as the main changes in the law and practice of British intellectual property. The project is funded by a grant from CREATe (University of Glasgow) and the interviews were carried out by Jose Bellido (University of Kent) and Lionel Bently (University of Cambridge).',
               _react2.default.createElement('br', null),
               _react2.default.createElement('br', null),
@@ -419,15 +390,13 @@ var BrowseRecords = function (_Component) {
                 _react2.default.createElement(
                   'div',
                   { style: { margin: 20 } },
-                  'Dr Jos\xE9 Bellido, University of Kent ',
+                  'Jos\xE9 Bellido, University of Kent ',
                   _react2.default.createElement(
                     'a',
                     { href: 'mailto:j.a.bellido@kent.ac.uk' },
                     'j.a.bellido@kent.ac.uk'
                   ),
-                  ' and ',
-                  _react2.default.createElement('br', null),
-                  'Professor Lionel Bently, University of Cambridge ',
+                  ' and Lionel Bently, University of Cambridge ',
                   _react2.default.createElement(
                     'a',
                     { href: 'mailto:lb329@cam.ac.uk' },
@@ -618,7 +587,23 @@ var CategoriesView = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = CategoriesView.__proto__ || (0, _getPrototypeOf2.default)(CategoriesView)).call.apply(_ref, [this].concat(args))), _this), _this.entriesToSubtypeGroups = function (list) {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = CategoriesView.__proto__ || (0, _getPrototypeOf2.default)(CategoriesView)).call.apply(_ref, [this].concat(args))), _this), _this.subCategoryData = {
+      "Practice": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Practice/Grays Inn Gateway.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "The Bench": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Bench/PortadaBench.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Solicitors and Agents": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Solicitors and Agents/GraysInnSquare001BirdandBird.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Textbooks": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Textbooks/Photograph1.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Barristers": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Barristers/barristers.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Treatises": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Treatises/ShelleyOnPatents.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Clerks": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Clerks/PortadaClerks.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Universities & Polytechnics ": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Academia/PortadaAcademia.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Law Reports": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Law Reports/FSPLR.png', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Chambers": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Chambers/6PumpCourtTres.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Groups and Associations": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Groups and Associations/JB_Photos16_0010.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "EIPR": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/EIPR/PropertyReview.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Civil Service": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Civil Service/PatentOfficeLibrary.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Magazines": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Magazines/TW_0002.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" },
+      "Campaigns": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Campaigns/PublicLendingRight2.jpg', orderIndex: 2, copyrightNotice: "(Courtesy of...)" }
+    }, _this.entriesToSubtypeGroups = function (list) {
 
       var groupedEntries = {};
       for (var entry in list) {
@@ -642,7 +627,7 @@ var CategoriesView = function (_Component) {
 
           tiles.push({
             img: _links.URL_BASE_MULTIMEDIA_IMAGES + 'institution-default.jpg',
-            title: (0, _stringTools2.default)(entries[a].subtype),
+            title: entries[a].subtype,
             src: _links.URL_CATEGORIES_LIST + _this.props.params.categoryId + "/" + entries[a].subtype
           });
 
@@ -699,6 +684,8 @@ var CategoriesView = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var style = {
         margin: 12
       };
@@ -750,7 +737,8 @@ var CategoriesView = function (_Component) {
               _GridList.GridList,
               {
                 cols: 3,
-                style: styles.gridList
+                style: styles.gridList,
+                cellHeight: 250
               },
               tilesData.map(function (tile, i) {
                 return _react2.default.createElement(
@@ -759,11 +747,15 @@ var CategoriesView = function (_Component) {
                   _react2.default.createElement(
                     _GridList.GridTile,
                     {
-                      key: tile.img,
+
                       title: tile.title,
-                      subtitle: ""
+                      subtitle: _this2.subCategoryData[tile.title] ? _this2.subCategoryData[tile.title].copyrightNotice : ""
                     },
-                    _react2.default.createElement('img', { src: tile.img ? tile.img : baseAvatarImage })
+                    _react2.default.createElement(
+                      'div',
+                      { style: { textAlign: "center", backgroundColor: "#cccccc" } },
+                      _react2.default.createElement('img', { style: { maxHeight: 250 }, src: _this2.subCategoryData[tile.title] ? _this2.subCategoryData[tile.title].src : baseAvatarImage })
+                    )
                   )
                 );
               })
@@ -1399,7 +1391,7 @@ var CommonView = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { id: 'CommonView', style: { marginLeft: "8%", marginTop: 10, marginRight: "8%", minWidth: 1450 } },
+        { id: 'CommonView', style: { marginLeft: "8%", marginTop: 10, marginRight: "8%", minWidth: 1500 } },
         _react2.default.createElement(
           _Card.Card,
           { style: { height: 100, marginBottom: 10, paddingTop: 15, paddingLeft: 20 } },
@@ -74029,6 +74021,7 @@ module.exports = warning;
 },{}],582:[function(require,module,exports){
 'use strict'
 
+exports.byteLength = byteLength
 exports.toByteArray = toByteArray
 exports.fromByteArray = fromByteArray
 
@@ -74036,23 +74029,17 @@ var lookup = []
 var revLookup = []
 var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
 
-function init () {
-  var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-  for (var i = 0, len = code.length; i < len; ++i) {
-    lookup[i] = code[i]
-    revLookup[code.charCodeAt(i)] = i
-  }
-
-  revLookup['-'.charCodeAt(0)] = 62
-  revLookup['_'.charCodeAt(0)] = 63
+var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+for (var i = 0, len = code.length; i < len; ++i) {
+  lookup[i] = code[i]
+  revLookup[code.charCodeAt(i)] = i
 }
 
-init()
+revLookup['-'.charCodeAt(0)] = 62
+revLookup['_'.charCodeAt(0)] = 63
 
-function toByteArray (b64) {
-  var i, j, l, tmp, placeHolders, arr
+function placeHoldersCount (b64) {
   var len = b64.length
-
   if (len % 4 > 0) {
     throw new Error('Invalid string. Length must be a multiple of 4')
   }
@@ -74062,9 +74049,19 @@ function toByteArray (b64) {
   // represent one byte
   // if there is only one, then the three characters before it represent 2 bytes
   // this is just a cheap hack to not do indexOf twice
-  placeHolders = b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
+  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
+}
 
+function byteLength (b64) {
   // base64 is 4/3 + up to two characters of the original data
+  return b64.length * 3 / 4 - placeHoldersCount(b64)
+}
+
+function toByteArray (b64) {
+  var i, j, l, tmp, placeHolders, arr
+  var len = b64.length
+  placeHolders = placeHoldersCount(b64)
+
   arr = new Arr(len * 3 / 4 - placeHolders)
 
   // if there are placeholders, only get up to the last complete 4 chars
@@ -77727,6 +77724,10 @@ var processNextTick = require('process-nextick-args');
 var isArray = require('isarray');
 /*</replacement>*/
 
+/*<replacement>*/
+var Duplex;
+/*</replacement>*/
+
 Readable.ReadableState = ReadableState;
 
 /*<replacement>*/
@@ -77774,6 +77775,8 @@ var StringDecoder;
 util.inherits(Readable, Stream);
 
 function prependListener(emitter, event, fn) {
+  // Sadly this is not cacheable as some libraries bundle their own
+  // event emitter implementation with them.
   if (typeof emitter.prependListener === 'function') {
     return emitter.prependListener(event, fn);
   } else {
@@ -77785,7 +77788,6 @@ function prependListener(emitter, event, fn) {
   }
 }
 
-var Duplex;
 function ReadableState(options, stream) {
   Duplex = Duplex || require('./_stream_duplex');
 
@@ -77855,7 +77857,6 @@ function ReadableState(options, stream) {
   }
 }
 
-var Duplex;
 function Readable(options) {
   Duplex = Duplex || require('./_stream_duplex');
 
@@ -78178,7 +78179,7 @@ function maybeReadMore_(stream, state) {
 // for virtual (non-string, non-buffer) streams, "length" is somewhat
 // arbitrary, and perhaps not very meaningful.
 Readable.prototype._read = function (n) {
-  this.emit('error', new Error('not implemented'));
+  this.emit('error', new Error('_read() is not implemented'));
 };
 
 Readable.prototype.pipe = function (dest, pipeOpts) {
@@ -78356,16 +78357,16 @@ Readable.prototype.unpipe = function (dest) {
     state.pipesCount = 0;
     state.flowing = false;
 
-    for (var _i = 0; _i < len; _i++) {
-      dests[_i].emit('unpipe', this);
+    for (var i = 0; i < len; i++) {
+      dests[i].emit('unpipe', this);
     }return this;
   }
 
   // try to find the right one.
-  var i = indexOf(state.pipes, dest);
-  if (i === -1) return this;
+  var index = indexOf(state.pipes, dest);
+  if (index === -1) return this;
 
-  state.pipes.splice(i, 1);
+  state.pipes.splice(index, 1);
   state.pipesCount -= 1;
   if (state.pipesCount === 1) state.pipes = state.pipes[0];
 
@@ -78750,7 +78751,6 @@ function Transform(options) {
 
   this._transformState = new TransformState(this);
 
-  // when the writable side finishes, then flush out anything remaining.
   var stream = this;
 
   // start out asking for a readable event once data is transformed.
@@ -78767,9 +78767,10 @@ function Transform(options) {
     if (typeof options.flush === 'function') this._flush = options.flush;
   }
 
+  // When the writable side finishes, then flush out anything remaining.
   this.once('prefinish', function () {
-    if (typeof this._flush === 'function') this._flush(function (er) {
-      done(stream, er);
+    if (typeof this._flush === 'function') this._flush(function (er, data) {
+      done(stream, er, data);
     });else done(stream);
   });
 }
@@ -78790,7 +78791,7 @@ Transform.prototype.push = function (chunk, encoding) {
 // an error, then that'll put the hurt on the whole operation.  If you
 // never call cb(), then you'll never get another chunk.
 Transform.prototype._transform = function (chunk, encoding, cb) {
-  throw new Error('Not implemented');
+  throw new Error('_transform() is not implemented');
 };
 
 Transform.prototype._write = function (chunk, encoding, cb) {
@@ -78820,8 +78821,10 @@ Transform.prototype._read = function (n) {
   }
 };
 
-function done(stream, er) {
+function done(stream, er, data) {
   if (er) return stream.emit('error', er);
+
+  if (data !== null && data !== undefined) stream.push(data);
 
   // if there's nothing in the write buffer, then that means
   // that nothing more will ever be provided
@@ -78850,6 +78853,10 @@ var processNextTick = require('process-nextick-args');
 
 /*<replacement>*/
 var asyncWrite = !process.browser && ['v0.10', 'v0.9.'].indexOf(process.version.slice(0, 5)) > -1 ? setImmediate : processNextTick;
+/*</replacement>*/
+
+/*<replacement>*/
+var Duplex;
 /*</replacement>*/
 
 Writable.WritableState = WritableState;
@@ -78892,7 +78899,6 @@ function WriteReq(chunk, encoding, cb) {
   this.next = null;
 }
 
-var Duplex;
 function WritableState(options, stream) {
   Duplex = Duplex || require('./_stream_duplex');
 
@@ -78914,6 +78920,7 @@ function WritableState(options, stream) {
   // cast to ints.
   this.highWaterMark = ~ ~this.highWaterMark;
 
+  // drain event flag.
   this.needDrain = false;
   // at the start of calling end()
   this.ending = false;
@@ -78988,7 +78995,7 @@ function WritableState(options, stream) {
   this.corkedRequestsFree = new CorkedRequest(this);
 }
 
-WritableState.prototype.getBuffer = function writableStateGetBuffer() {
+WritableState.prototype.getBuffer = function getBuffer() {
   var current = this.bufferedRequest;
   var out = [];
   while (current) {
@@ -79008,13 +79015,37 @@ WritableState.prototype.getBuffer = function writableStateGetBuffer() {
   } catch (_) {}
 })();
 
-var Duplex;
+// Test _writableState for inheritance to account for Duplex streams,
+// whose prototype chain only points to Readable.
+var realHasInstance;
+if (typeof Symbol === 'function' && Symbol.hasInstance && typeof Function.prototype[Symbol.hasInstance] === 'function') {
+  realHasInstance = Function.prototype[Symbol.hasInstance];
+  Object.defineProperty(Writable, Symbol.hasInstance, {
+    value: function (object) {
+      if (realHasInstance.call(this, object)) return true;
+
+      return object && object._writableState instanceof WritableState;
+    }
+  });
+} else {
+  realHasInstance = function (object) {
+    return object instanceof this;
+  };
+}
+
 function Writable(options) {
   Duplex = Duplex || require('./_stream_duplex');
 
-  // Writable ctor is applied to Duplexes, though they're not
-  // instanceof Writable, they're instanceof Readable.
-  if (!(this instanceof Writable) && !(this instanceof Duplex)) return new Writable(options);
+  // Writable ctor is applied to Duplexes, too.
+  // `realHasInstance` is necessary because using plain `instanceof`
+  // would return false, as no `_writableState` property is attached.
+
+  // Trying to use the custom `instanceof` for Writable here will also break the
+  // Node.js LazyTransform implementation, which has a non-trivial getter for
+  // `_writableState` that would lead to infinite recursion.
+  if (!realHasInstance.call(Writable, this) && !(this instanceof Duplex)) {
+    return new Writable(options);
+  }
 
   this._writableState = new WritableState(options, this);
 
@@ -79274,7 +79305,7 @@ function clearBuffer(stream, state) {
 }
 
 Writable.prototype._write = function (chunk, encoding, cb) {
-  cb(new Error('not implemented'));
+  cb(new Error('_write() is not implemented'));
 };
 
 Writable.prototype._writev = null;
@@ -79541,9 +79572,9 @@ try {
 } catch (e) {}
 
 var xhr = new global.XMLHttpRequest()
-// If location.host is empty, e.g. if this page/worker was loaded
-// from a Blob, then use example.com to avoid an error
-xhr.open('GET', global.location.host ? '/' : 'https://example.com')
+// If XDomainRequest is available (ie only, where xhr might not work
+// cross domain), use the page location. Otherwise use example.com
+xhr.open('GET', global.XDomainRequest ? '/' : 'https://example.com')
 
 function checkTypeSupport (type) {
 	try {
@@ -79585,8 +79616,8 @@ var toArrayBuffer = require('to-arraybuffer')
 var IncomingMessage = response.IncomingMessage
 var rStates = response.readyStates
 
-function decideMode (preferBinary) {
-	if (capability.fetch) {
+function decideMode (preferBinary, useFetch) {
+	if (capability.fetch && useFetch) {
 		return 'fetch'
 	} else if (capability.mozchunkedarraybuffer) {
 		return 'moz-chunked-arraybuffer'
@@ -79615,7 +79646,12 @@ var ClientRequest = module.exports = function (opts) {
 	})
 
 	var preferBinary
-	if (opts.mode === 'prefer-streaming') {
+	var useFetch = true
+	if (opts.mode === 'disable-fetch') {
+		// If the use of XHR should be preferred and includes preserving the 'content-type' header
+		useFetch = false
+		preferBinary = true
+	} else if (opts.mode === 'prefer-streaming') {
 		// If streaming is a high priority but binary compatibility and
 		// the accuracy of the 'content-type' header aren't
 		preferBinary = false
@@ -79628,7 +79664,7 @@ var ClientRequest = module.exports = function (opts) {
 	} else {
 		throw new Error('Invalid value for opts.mode')
 	}
-	self._mode = decideMode(preferBinary)
+	self._mode = decideMode(preferBinary, useFetch)
 
 	self.on('finish', function () {
 		self._onFinish()
@@ -79671,7 +79707,7 @@ ClientRequest.prototype._onFinish = function () {
 
 	var headersObj = self._headers
 	var body
-	if (opts.method === 'POST' || opts.method === 'PUT' || opts.method === 'PATCH') {
+	if (opts.method === 'POST' || opts.method === 'PUT' || opts.method === 'PATCH' || opts.method === 'MERGE') {
 		if (capability.blobConstructor) {
 			body = new global.Blob(self._body.map(function (buffer) {
 				return toArrayBuffer(buffer)
@@ -79893,12 +79929,12 @@ var IncomingMessage = exports.IncomingMessage = function (xhr, response, mode) {
 		self.url = response.url
 		self.statusCode = response.status
 		self.statusMessage = response.statusText
-		// backwards compatible version of for (<item> of <iterable>):
-		// for (var <item>,_i,_it = <iterable>[Symbol.iterator](); <item> = (_i = _it.next()).value,!_i.done;)
-		for (var header, _i, _it = response.headers[Symbol.iterator](); header = (_i = _it.next()).value, !_i.done;) {
-			self.headers[header[0].toLowerCase()] = header[1]
-			self.rawHeaders.push(header[0], header[1])
-		}
+		
+		response.headers.forEach(function(header, key){
+			self.headers[key.toLowerCase()] = header
+			self.rawHeaders.push(key, header)
+		})
+
 
 		// TODO: this doesn't respect backpressure. Once WritableStream is available, this can be fixed
 		var reader = response.body.getReader()
@@ -80002,7 +80038,7 @@ IncomingMessage.prototype._onXHRProgress = function () {
 			}
 			break
 		case 'arraybuffer':
-			if (xhr.readyState !== rStates.DONE)
+			if (xhr.readyState !== rStates.DONE || !xhr.response)
 				break
 			response = xhr.response
 			self.push(new Buffer(new Uint8Array(response)))

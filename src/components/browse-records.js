@@ -54,14 +54,14 @@ class BrowseRecords extends Component {
             <span style={{color:"black"}}>Intellectual Property :</span> <span style={{color:"#155196"}}>Oral History Project</span>
           </div> */}
 
-          <div style={{textAlign:"center",paddingLeft:"10%",paddingRight:"10%"}} >
+          <div style={{textAlign:"center"}} >
           {
             this.props.templateList && Object.keys(this.props.templateList).sort( (a,b) => this.categoryData[a].orderIndex > this.categoryData[b].orderIndex).map( (e, index) => (
               <Link key={index} to={URL_CATEGORIES_LIST + e} style={{ textDecoration: 'none' }}>
                 <Card
 
                   style={{
-                    width: 400,
+                    width: "25%",
                     display: 'inline-block',
                     marginBottom: 10,
                     marginRight: 10,
@@ -94,14 +94,12 @@ class BrowseRecords extends Component {
             <span style={{fontSize:15}}>
             <b>Contact details:</b>
             <div style={{margin:20}}>
-              Dr José Bellido, University of Kent <a href="mailto:j.a.bellido@kent.ac.uk">j.a.bellido@kent.ac.uk</a> and <br/>
-              Professor Lionel Bently, University of Cambridge <a href="mailto:lb329@cam.ac.uk">​lb329@cam.ac.uk</a>
+            José Bellido, University of Kent <a href="mailto:j.a.bellido@kent.ac.uk">j.a.bellido@kent.ac.uk</a> and Lionel Bently, University of Cambridge <a href="mailto:lb329@cam.ac.uk">​lb329@cam.ac.uk</a>
             </div>
             </span>
           </div>
         </div>
         <hr style={{margin:30}}/>
-
 
         </Card>
 {/*

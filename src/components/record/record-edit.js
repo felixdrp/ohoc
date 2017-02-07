@@ -154,44 +154,60 @@ class RecordEdit extends Component {
     const state = this.state
     // Data to upload
 
-    let dataToSend = {
+
+
+    let prepareDataToSend = {
       featuredImage : state.dataToSend.featuredImage,
       recordName :  state.dataToSend.name,
       media : state.recordData.data.media,
-      fields : state.recordData.data.fields,
+      fields : [],
     };
-    // debugger
 
-    dataToSend.fields = dataToSend.fields.map( (field, i) => {
-      let temporaldata
-      let type
+    //  debugger
 
-      if (i  <= state.recordData.structure.info.length - 1) {
-        type = state.recordData.structure.info[i].type
-      } else {
-        type = field.type
-      }
+    prepareDataToSend.fields = Object.keys(state.dataToSend).map( (name, i) => {
+          let temporaldata
+          let type
 
-      switch (type) {
-        case 'text':
-          if (state.dataToSend[field.name]) {
-            temporaldata = state.dataToSend[field.name].replace(/\n/gm, "<br/>")
-          } else {
-            temporaldata = ''
+
+          // if (i  <= state.recordData.structure.info.length - 1) {
+          //   type = state.recordData.structure.info[i].type
+          // } else {
+          //   type = field.type
+          // }
+          // debugger
+          //let type
+          for ( var a in state.recordData.structure.info){
+            if ( state.recordData.structure.info[a].name === name){
+                 type = state.recordData.structure.info[a].type
+                 break;
+            }
           }
-          return { ...field, data: temporaldata, type }
-        case 'rich_text':
-          temporaldata = state.dataToSend[field.name]
-          return { ...field, data: temporaldata, type }
-        case 'multi_row':
-          return { ...field, type }
-        default:
+
+
+
+          let field = {name: name, type: type, data: state.dataToSend[name]}
           return field
-      }
-    })
+          // switch (type) {
+          //   case 'text':
+          //     if (state.dataToSend[field.name]) {
+          //       temporaldata = state.dataToSend[field.name].replace(/\n/gm, "<br/>")
+          //     } else {
+          //       temporaldata = ''
+          //     }
+          //     return { ...field, data: temporaldata, type }
+          //   case 'rich_text':
+          //     temporaldata = state.dataToSend[field.name]
+          //     return { ...field, data: temporaldata, type }
+          //   case 'multi_row':
+          //     return { ...field, type }
+          //   default:
+          //     return field
+          // }
+     })
 
      try {
-       var recordData = await fetch.setRecordData(this.props.params.recordId, dataToSend)
+       var recordData = await fetch.setRecordData(this.props.params.recordId, prepareDataToSend)
        this.setState({ submitted: true })
      } catch(error) {
        console.error('fetching record update data > ' + error)
@@ -300,12 +316,35 @@ class RecordEdit extends Component {
     var dataToSend = this.state.dataToSend;
     var recordData = this.state.recordData;
 
-    if (recordData.data.fields[index].name != name) {
-      return
-    }
+    // if (recordData.data.fields[index].name != name) {
+    //   return
+    // }
+
 
     dataToSend[name] = data
-    recordData.data.fields[index].data = data
+
+    var foundIt = false;
+    for ( var a in recordData.data.fields){
+
+       if ( recordData.data.fields[a].name === name){
+            recordData.data.fields[a].data = data
+            foundIt = true;
+            break;
+       }
+    }
+
+    if (!foundIt){
+        let getType
+        for ( var a in recordData.structure.info){
+          if ( recordData.structure.info[a].name === name){
+               getType = recordData.structure.info[a].type
+               break;
+          }
+        }
+        recordData.data.fields.push({name : name, data : data, type: getType })
+    }
+
+
 
     this.setState({
       dataToSend: dataToSend,
@@ -367,8 +406,20 @@ class RecordEdit extends Component {
 
     if ( !!recordData.structure && 'info' in recordData.structure ) {
       formFlexibleTemplate = recordData.structure.info.map( (item, i) => {
-        let data = recordData.data.fields[i].data || {}
+
         let template = recordData.structure.info[i]
+
+        let data = {}
+        let dataEmpty = true
+        for (var a in recordData.data.fields){
+          if ( recordData.data.fields[a].name === recordData.structure.info[i].name){
+            data = recordData.data.fields[a].data
+            dataEmpty = false
+            //debugger
+          }
+        }
+
+        //let data = recordData.data.fields[i].data || {}
 
         switch (item.type) {
           case 'multi_row':
@@ -392,7 +443,7 @@ class RecordEdit extends Component {
           case 'rich_text':
             // Initial load if data is empty.
             if (!input[i]) {
-              if (recordData.data.fields[i].data) {
+              if (!dataEmpty) {
                 input[i] = RichTextEditor.createValueFromString(data, 'html')
               } else {
                 input[i] = RichTextEditor.createValueFromString('', 'html')
