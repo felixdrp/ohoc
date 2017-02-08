@@ -232,11 +232,7 @@ var RecordEdit = function (_Component) {
                   itemList = recordData.data.fields;
 
                   for (a in itemList) {
-                    if (recordData.structure.info[a] && recordData.structure.info[a].type == 'text') {
-                      dataToSend[itemList[a].name] = itemList[a].data && itemList[a].data.replace("<br/>", "\n");
-                    } else {
-                      dataToSend[itemList[a].name] = itemList[a].data;
-                    }
+                    dataToSend[itemList[a].name] = itemList[a].data;
                   }
                 }
 
@@ -316,7 +312,7 @@ var RecordEdit = function (_Component) {
     key: 'updateRecord',
     value: function () {
       var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-        var fetch, state, dataToSend, recordData;
+        var fetch, state, prepareDataToSend, recordData;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -324,44 +320,33 @@ var RecordEdit = function (_Component) {
                 fetch = new _fetchData2.default();
                 state = this.state;
 
-                dataToSend = {
+
+                prepareDataToSend = {
                   featuredImage: state.dataToSend.featuredImage,
                   recordName: state.dataToSend.name,
                   media: state.recordData.data.media,
-                  fields: state.recordData.data.fields
+                  fields: []
                 };
 
-                dataToSend.fields = dataToSend.fields.map(function (field, i) {
+
+                prepareDataToSend.fields = (0, _keys2.default)(state.dataToSend).map(function (name, i) {
                   var temporaldata = void 0;
                   var type = void 0;
 
-                  if (i <= state.recordData.structure.info.length - 1) {
-                    type = state.recordData.structure.info[i].type;
-                  } else {
-                    type = field.type;
+                  for (var a in state.recordData.structure.info) {
+                    if (state.recordData.structure.info[a].name === name) {
+                      type = state.recordData.structure.info[a].type;
+                      break;
+                    }
                   }
 
-                  switch (type) {
-                    case 'text':
-                      if (state.dataToSend[field.name]) {
-                        temporaldata = state.dataToSend[field.name].replace(/\n/gm, "<br/>");
-                      } else {
-                        temporaldata = '';
-                      }
-                      return (0, _extends3.default)({}, field, { data: temporaldata, type: type });
-                    case 'rich_text':
-                      temporaldata = state.dataToSend[field.name];
-                      return (0, _extends3.default)({}, field, { data: temporaldata, type: type });
-                    case 'multi_row':
-                      return (0, _extends3.default)({}, field, { type: type });
-                    default:
-                      return field;
-                  }
+                  var field = { name: name, type: type, data: state.dataToSend[name] };
+                  return field;
                 });
 
                 _context2.prev = 4;
                 _context2.next = 7;
-                return fetch.setRecordData(this.props.params.recordId, dataToSend);
+                return fetch.setRecordData(this.props.params.recordId, prepareDataToSend);
 
               case 7:
                 recordData = _context2.sent;
@@ -437,12 +422,30 @@ var RecordEdit = function (_Component) {
       var dataToSend = this.state.dataToSend;
       var recordData = this.state.recordData;
 
-      if (recordData.data.fields[index].name != name) {
-        return;
-      }
+
 
       dataToSend[name] = data;
-      recordData.data.fields[index].data = data;
+
+      var foundIt = false;
+      for (var a in recordData.data.fields) {
+
+        if (recordData.data.fields[a].name === name) {
+          recordData.data.fields[a].data = data;
+          foundIt = true;
+          break;
+        }
+      }
+
+      if (!foundIt) {
+        var getType = void 0;
+        for (var a in recordData.structure.info) {
+          if (recordData.structure.info[a].name === name) {
+            getType = recordData.structure.info[a].type;
+            break;
+          }
+        }
+        recordData.data.fields.push({ name: name, data: data, type: getType });
+      }
 
       this.setState({
         dataToSend: dataToSend,
@@ -450,8 +453,6 @@ var RecordEdit = function (_Component) {
         updated: Date.now()
       });
     }
-
-
   }, {
     key: 'getExistingItem',
     value: function getExistingItem(itemList, name) {
@@ -489,7 +490,6 @@ var RecordEdit = function (_Component) {
         return _react2.default.createElement('div', null);
       }
 
-
       var recordData = this.state.recordData;
 
       if ((0, _keys2.default)(recordData.data).length < 1) {
@@ -502,8 +502,18 @@ var RecordEdit = function (_Component) {
 
       if (!!recordData.structure && 'info' in recordData.structure) {
         formFlexibleTemplate = recordData.structure.info.map(function (item, i) {
-          var data = recordData.data.fields[i].data || {};
+
           var template = recordData.structure.info[i];
+
+          var data = {};
+          var dataEmpty = true;
+          for (var a in recordData.data.fields) {
+            if (recordData.data.fields[a].name === recordData.structure.info[i].name) {
+              data = recordData.data.fields[a].data;
+              dataEmpty = false;
+            }
+          }
+
 
           switch (item.type) {
             case 'multi_row':
@@ -532,7 +542,7 @@ var RecordEdit = function (_Component) {
 
             case 'rich_text':
               if (!input[i]) {
-                if (recordData.data.fields[i].data) {
+                if (!dataEmpty) {
                   input[i] = _reactRte2.default.createValueFromString(data, 'html');
                 } else {
                   input[i] = _reactRte2.default.createValueFromString('', 'html');
@@ -579,7 +589,7 @@ var RecordEdit = function (_Component) {
       return _react2.default.createElement(
         _Card.Card,
         { style: { padding: 30 } },
-        this.state.showMediaAdder ? _react2.default.createElement(_recordAddMedia2.default, { recordId: this.props.params.recordId, mediaAdder: this.addMediaElement }) : _react2.default.createElement('div', null),
+        this.state.showMediaAdder ? _react2.default.createElement(_recordAddMedia2.default, { recordId: this.props.params.recordId, mediaAdder: this.addMediaElement, prevData: {} }) : _react2.default.createElement('div', null),
         _react2.default.createElement(
           'h1',
           null,

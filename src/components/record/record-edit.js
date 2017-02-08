@@ -72,11 +72,11 @@ class RecordEdit extends Component {
       // load fields
       var itemList = recordData.data.fields
       for ( var a in itemList){
-        if (recordData.structure.info[a] && recordData.structure.info[a].type == 'text') {
-          dataToSend[itemList[a].name] = itemList[a].data && itemList[a].data.replace("<br/>","\n");
-        } else {
+        // if (recordData.structure.info[a] && recordData.structure.info[a].type == 'text') {
+        //   dataToSend[itemList[a].name] = itemList[a].data && itemList[a].data.replace("<br/>","\n");
+        // } else {
           dataToSend[itemList[a].name] = itemList[a].data
-        }
+        // }
       }
     }
 
@@ -163,20 +163,10 @@ class RecordEdit extends Component {
       fields : [],
     };
 
-    //  debugger
-
     prepareDataToSend.fields = Object.keys(state.dataToSend).map( (name, i) => {
           let temporaldata
           let type
 
-
-          // if (i  <= state.recordData.structure.info.length - 1) {
-          //   type = state.recordData.structure.info[i].type
-          // } else {
-          //   type = field.type
-          // }
-          // debugger
-          //let type
           for ( var a in state.recordData.structure.info){
             if ( state.recordData.structure.info[a].name === name){
                  type = state.recordData.structure.info[a].type
@@ -184,26 +174,8 @@ class RecordEdit extends Component {
             }
           }
 
-
-
           let field = {name: name, type: type, data: state.dataToSend[name]}
           return field
-          // switch (type) {
-          //   case 'text':
-          //     if (state.dataToSend[field.name]) {
-          //       temporaldata = state.dataToSend[field.name].replace(/\n/gm, "<br/>")
-          //     } else {
-          //       temporaldata = ''
-          //     }
-          //     return { ...field, data: temporaldata, type }
-          //   case 'rich_text':
-          //     temporaldata = state.dataToSend[field.name]
-          //     return { ...field, data: temporaldata, type }
-          //   case 'multi_row':
-          //     return { ...field, type }
-          //   default:
-          //     return field
-          // }
      })
 
      try {
@@ -237,6 +209,7 @@ class RecordEdit extends Component {
 
     this.setState({ recordData });
   }
+
 
   getMediaPreviewers (arrayOfMedia){
     if ( Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0){ // if the array is empty there is no reason to draw the preview container at all.
@@ -353,21 +326,6 @@ class RecordEdit extends Component {
     })
   }
 
-  //
-  // getPreviewer = (elem,style) => {
-  //   if ( elem.src )
-  //     if( elem.type.includes("image/")){
-  //        return <img style={style} src={URL_MULTIMEDIA + elem.src} />
-  //     } else if (elem.type.includes("audio/")){
-  //        return <audio style={{width:"95%"}} controls src={URL_MULTIMEDIA + elem.src}  />
-  //     } else if (elem.type.includes("video/")){
-  //        return <video style={{width:"95%"}} controls src={URL_MULTIMEDIA + elem.src}  />
-  //     } else {
-  //       return <a style={{width:"95%"}} href={URL_MULTIMEDIA + elem.src} target={"_blank"} >{elem.title}</a>
-  //     }
-  //     return <span></span>
-  // }
-
   getExistingItem(itemList,name) {
     for ( var a in itemList){
       if (itemList[a].name == name)
@@ -390,8 +348,6 @@ class RecordEdit extends Component {
     if ( !this.state || !this.state.recordData ){
       return <div></div>
     }
-
-    // console.log(JSON.stringify(this.state))
 
     let recordData = this.state.recordData;
 
@@ -482,7 +438,7 @@ class RecordEdit extends Component {
       <Card style={{padding:30}}>
 
         {
-          this.state.showMediaAdder ? <AddMedia recordId={this.props.params.recordId} mediaAdder={this.addMediaElement} /> : <div></div>
+          this.state.showMediaAdder ? <AddMedia recordId={this.props.params.recordId} mediaAdder={this.addMediaElement} prevData={{}}/> : <div></div>
         }
 
         <h1> Adding new  {recordData.type + " / " + recordData.subtype} </h1>

@@ -48,7 +48,7 @@ export default class GridView extends Component {
 
         tiles.push({
           img: entries[a].data.featuredImage,
-          title: capitalize(entries[a].data.recordName),
+          title: entries[a].data.recordName,
           src: URL_VIEW_RECORD + entries[a].id,
         });
 

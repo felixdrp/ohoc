@@ -16,6 +16,10 @@ import CommunicationChatBubble from 'material-ui/svg-icons/image/navigate-next';
 import {GridList, GridTile} from 'material-ui/GridList';
 import capitalize from '../stringTools'
 
+
+import GridView  from './gridview';
+import ListView  from './listview';
+
 import fetchData from '../../network/fetch-data';
 
 import {
@@ -30,21 +34,21 @@ export default class CategoriesView extends Component {
 
 
     subCategoryData = {
-      "Practice" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Practice/Grays Inn Gateway.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
-      "The Bench" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Bench/PortadaBench.jpg' , orderIndex : 2, copyrightNotice : "(Courtesy of...)" },
-      "Solicitors and Agents" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Solicitors and Agents/GraysInnSquare001BirdandBird.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
-      "Textbooks" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Textbooks/Photograph1.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
-      "Barristers" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Barristers/barristers.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
-      "Treatises" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Treatises/ShelleyOnPatents.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
-      "Clerks" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Clerks/PortadaClerks.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
-      "Universities & Polytechnics " : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Academia/PortadaAcademia.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
-      "Law Reports" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Law Reports/FSPLR.png' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
-      "Chambers" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Chambers/6PumpCourtTres.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
-      "Groups and Associations" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Groups and Associations/JB_Photos16_0010.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
-      "EIPR" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/EIPR/PropertyReview.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
-      "Civil Service" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Civil Service/PatentOfficeLibrary.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
-      "Magazines" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Magazines/TW_0002.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
-      "Campaigns" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Campaigns/PublicLendingRight2.jpg' ,orderIndex : 2,copyrightNotice : "(Courtesy of...)" },
+      "Practice" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Practice/Grays Inn Gateway.jpg' ,orderIndex : 2,copyrightNotice : "" },
+      "The Bench" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Bench/PortadaBench.jpg' , orderIndex : 2, copyrightNotice : "" },
+      "Solicitors and Agents" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Solicitors and Agents/GraysInnSquare001BirdandBird.jpg' ,orderIndex : 2,copyrightNotice : "" },
+      "Textbooks" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Textbooks/Photograph1.jpg' ,orderIndex : 2,copyrightNotice : "" },
+      "Barristers" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Barristers/barristers.jpg' ,orderIndex : 2,copyrightNotice : "" },
+      "Treatises" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Treatises/ShelleyOnPatents.jpg' ,orderIndex : 2,copyrightNotice : "" },
+      "Clerks" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Clerks/PortadaClerks.jpg' ,orderIndex : 2,copyrightNotice : "" },
+      "Universities & Polytechnics " : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Academia/PortadaAcademia.jpg' ,orderIndex : 2,copyrightNotice : "" },
+      "Law Reports" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Law Reports/FSPLR.png' ,orderIndex : 2,copyrightNotice : "" },
+      "Chambers" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Chambers/6PumpCourtTres.jpg' ,orderIndex : 2,copyrightNotice : "" },
+      "Groups and Associations" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Groups and Associations/JB_Photos16_0010.jpg' ,orderIndex : 2,copyrightNotice : "" },
+      "EIPR" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/EIPR/PropertyReview.jpg' ,orderIndex : 2,copyrightNotice : "" },
+      "Civil Service" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Civil Service/PatentOfficeLibrary.jpg' ,orderIndex : 2,copyrightNotice : "" },
+      "Magazines" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Magazines/TW_0002.jpg' ,orderIndex : 2,copyrightNotice : "" },
+      "Campaigns" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Campaigns/PublicLendingRight2.jpg' ,orderIndex : 2,copyrightNotice : "" },
     }
 
 
@@ -125,38 +129,64 @@ export default class CategoriesView extends Component {
           },
         };
 
-
     let list = this.state.categoriesList.recordsByType;
     let tilesData = this.prepareTiles(list)
 
 
-    return (
-      <Card style={{paddingBottom:30, minHeight:600}}>
-        <CardTitle style={{marginLeft:50}}> <h1> {capitalize(this.props.params.categoryId)} </h1> </CardTitle>
-        <Card style={{marginLeft:50,marginRight:50}}>
-          <CardText>
-                  <GridList
-                      cols={3}
-                      style={styles.gridList}
-                      cellHeight={250}
-                    >
-                      {/* <Subheader>{capitalize(this.props.subcategoryId)}</Subheader> */}
-                      {tilesData.map((tile,i) => (
-                        <Link key={i} to={tile.src} style={{ textDecoration: 'none'}}>
-                          <GridTile
+    // this block is to identify the number of subcategories only.
+    let subtypes = {}
+    for ( var l in list ){
+      subtypes[list[l].subtype] = ""
+    }
+    var onlyOneCategory = Object.keys(subtypes).length == 1;
 
-                            title={tile.title}
-                            subtitle={this.subCategoryData[tile.title] ? this.subCategoryData[tile.title].copyrightNotice : ""}
-                          >
-                            <div style={{textAlign:"center",backgroundColor:"#cccccc"}}><img style={{maxHeight: 250}} src={ this.subCategoryData[tile.title] ? this.subCategoryData[tile.title].src : baseAvatarImage} /></div>
-                          </GridTile>
-                        </Link>
-                      ))}
-                    </GridList>
 
-          </CardText>
+    // if there is a single category, or we have explicitly selected a subcategory, then we show the records as a grid.
+    if ( onlyOneCategory || this.props.params.subcategoryId ){
+
+      let entriesBySubtype = this.entriesToSubtypeGroups(list);
+      let selectedType = this.props.params.subcategoryId ? this.props.params.subcategoryId : Object.keys(subtypes)[0]
+      let selectedSubCategory =  entriesBySubtype[selectedType]
+      let showAsGrid = true
+
+      return (
+        <Card style={{paddingBottom:30, minHeight:600}}>
+          <CardTitle style={{marginLeft:40}}> <h1> {capitalize(this.props.params.subcategoryId)} </h1> </CardTitle>
+          <Card style={{marginLeft:50,marginRight:50,padding:5}}>
+            <GridView subcategoryId = {this.props.params.subcategoryId} entries = {selectedSubCategory} />
+          </Card>
         </Card>
-      </Card>
-    );
+      );
+
+    } else { // Here categories are shown if multiple subcategories are present in the data.
+        return (
+          <Card style={{paddingBottom:30, minHeight:600}}>
+            <CardTitle style={{marginLeft:50}}> <h1> {capitalize(this.props.params.categoryId)} </h1> </CardTitle>
+            <Card style={{marginLeft:50,marginRight:50}}>
+              <CardText>
+                      <GridList
+                          cols={3}
+                          style={styles.gridList}
+                          cellHeight={250}
+                        >
+                          {/* <Subheader>{capitalize(this.props.subcategoryId)}</Subheader> */}
+                          {tilesData.map((tile,i) => (
+                            <Link key={i} to={tile.src} style={{ textDecoration: 'none'}}>
+                              <GridTile
+
+                                title={tile.title}
+                                subtitle={this.subCategoryData[tile.title] ? this.subCategoryData[tile.title].copyrightNotice : ""}
+                              >
+                                <div style={{textAlign:"center",backgroundColor:"#cccccc"}}><img style={{maxHeight: 250}} src={ this.subCategoryData[tile.title] ? this.subCategoryData[tile.title].src : baseAvatarImage} /></div>
+                              </GridTile>
+                            </Link>
+                          ))}
+                        </GridList>
+
+              </CardText>
+            </Card>
+          </Card>
+        );
+    }
   }
 }

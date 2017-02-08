@@ -21,11 +21,17 @@ import {
 class RecordAddMedia extends Component {
   constructor() {
     super()
-      this.state = { previewSource : { src : URL_BASE_MULTIMEDIA_IMAGES + 'institution-default.jpg', type : "image/jpeg"}
+      this.state = {
+        previewSource : { src : URL_BASE_MULTIMEDIA_IMAGES + 'institution-default.jpg', type : "image/jpeg"},
+        dataToSend : {}
     };
 
     // Used to store references.
     this._input = {};
+  }
+
+  componentWillReceiveProps = (newProps) => {
+    this.setState({ dataToSend : this.props.prevData})
   }
 
   async componentDidMount() {
@@ -179,6 +185,12 @@ class RecordAddMedia extends Component {
         </Card>
 
         <br/>
+
+        <span style={{fontWeight:"bold"}}>Copyright notice: </span><TextField
+          hintText="Copyright Notice"
+          onChange={ (event, index, value)=>this.handleChange(event, value, index, "copyright")}
+        /><br />
+
         <span style={{fontWeight:"bold"}}>Title: </span><TextField
           hintText="Media Title"
           onChange={ (event, index, value)=>this.handleChange(event, value, index, "title")}

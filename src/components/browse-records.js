@@ -72,7 +72,7 @@ class BrowseRecords extends Component {
                   initiallyExpanded={false}
                 >
                   <CardMedia
-                    overlay={<CardTitle title={capitalize(e)} style={{margin:0,padding:4}} > <span style={{color:"white",fontSize:14}}> {this.categoryData[e].copyrightNotice}</span> </CardTitle>}
+                    overlay={<CardTitle title={capitalize(e)} style={{margin:0,padding:4}} > <span style={{color:"white",fontSize:10}}> {this.categoryData[e].copyrightNotice}</span> </CardTitle>}
                   >
                     <span style={{width:400,height:250}}><img style={{maxHeight: 250,maxWidth:400}} src={this.categoryData[e].src} /></span>
                   </CardMedia>

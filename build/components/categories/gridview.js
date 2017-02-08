@@ -105,7 +105,7 @@ var GridView = function (_Component) {
 
         tiles.push({
           img: entries[a].data.featuredImage,
-          title: (0, _stringTools2.default)(entries[a].data.recordName),
+          title: entries[a].data.recordName,
           src: _links.URL_VIEW_RECORD + entries[a].id
         });
 

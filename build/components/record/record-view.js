@@ -174,28 +174,31 @@ var RecordView = function (_Component) {
 
                 recordData = void 0;
                 _context.prev = 2;
-                _context.next = 5;
+
+                debugger;
+                _context.next = 6;
                 return fetch.getRecordData(this.props.params.recordId);
 
-              case 5:
+              case 6:
                 recordData = _context.sent;
 
+                debugger;
                 this.setState({ recordData: recordData.recordById[0] });
-                _context.next = 12;
+                _context.next = 14;
                 break;
 
-              case 9:
-                _context.prev = 9;
+              case 11:
+                _context.prev = 11;
                 _context.t0 = _context['catch'](2);
 
                 console.error('fetching record data > ' + _context.t0);
 
-              case 12:
+              case 14:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[2, 9]]);
+        }, _callee, this, [[2, 11]]);
       }));
 
       function componentDidMount() {
@@ -236,6 +239,10 @@ var RecordView = function (_Component) {
 
         switch (entry.type) {
           case 'multi_row':
+
+            if (entry.data === "") {
+              entry.data = [];
+            }
             multiRows = entry.data.map(function (row, rowIndex) {
               var rowProcessed = row.map(function (cell, j) {
                 var styleBasic = {
@@ -331,7 +338,7 @@ var RecordView = function (_Component) {
           'span',
           { style: { height: 300, display: "inline-block", verticalAlign: "top" } },
           _react2.default.createElement('img', {
-            style: { maxWidth: 450, maxHeight: 300, border: "1px solid black" },
+            style: { maxWidth: 345, maxHeight: 300, border: "1px solid black" },
             src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage
           })
         ),

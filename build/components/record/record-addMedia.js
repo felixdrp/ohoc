@@ -92,6 +92,10 @@ var RecordAddMedia = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (RecordAddMedia.__proto__ || (0, _getPrototypeOf2.default)(RecordAddMedia)).call(this));
 
+    _this.componentWillReceiveProps = function (newProps) {
+      _this.setState({ dataToSend: _this.props.prevData });
+    };
+
     _this.submitFiles = function (e) {
       e.nativeEvent.preventDefault();
       var input = _this._input;
@@ -105,7 +109,9 @@ var RecordAddMedia = function (_Component) {
       _this.sendFiles(files);
     };
 
-    _this.state = { previewSource: { src: _links.URL_BASE_MULTIMEDIA_IMAGES + 'institution-default.jpg', type: "image/jpeg" }
+    _this.state = {
+      previewSource: { src: _links.URL_BASE_MULTIMEDIA_IMAGES + 'institution-default.jpg', type: "image/jpeg" },
+      dataToSend: {}
     };
 
     _this._input = {};
@@ -289,6 +295,18 @@ var RecordAddMedia = function (_Component) {
             { style: { textAlign: "center" } },
             _react2.default.createElement(_previewGenerator2.default, { element: this.state.previewSource, style: { height: 300, maxWidth: 700 } })
           ),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'span',
+            { style: { fontWeight: "bold" } },
+            'Copyright notice: '
+          ),
+          _react2.default.createElement(_TextField2.default, {
+            hintText: 'Copyright Notice',
+            onChange: function onChange(event, index, value) {
+              return _this2.handleChange(event, value, index, "copyright");
+            }
+          }),
           _react2.default.createElement('br', null),
           _react2.default.createElement(
             'span',

@@ -26,7 +26,7 @@ class CommonView extends Component {
 
 
     return (
-     <div id="CommonView" style={{marginLeft: "8%",marginTop: 10, marginRight:"8%", minWidth:1500 }}>
+     <div id="CommonView" style={{marginLeft: "8%", marginRight:"8%", minWidth:1500 }}>
        <Card style={{height:100, marginBottom:10,paddingTop:15,paddingLeft:20}}>
 
        <img src="http://www.create.ac.uk/wp-content/uploads/logos/create_primary_logo_160.jpg" style={logoStyle} />

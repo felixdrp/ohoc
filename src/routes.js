@@ -46,7 +46,7 @@ var routes = (history) => (
 
       <Route path="categories" component={CategoriesContainer} >
         <Route path={urlBase + "/categories/list/:categoryId"} component={CategoriesView} />
-        <Route path={urlBase + "/categories/list/:categoryId/:subcategoryId"} component={SubCategoriesView} />
+        <Route path={urlBase + "/categories/list/:categoryId/:subcategoryId"} component={CategoriesView} />
       </Route>
 
       <Route path="records" component={RecordContainer} >

@@ -29,7 +29,9 @@ export default class RecordView extends Component {
     let recordData
 
     try {
+      debugger
       recordData = await fetch.getRecordData(this.props.params.recordId)
+      debugger
       this.setState({recordData: recordData.recordById[0]})
     } catch(error) {
       console.error('fetching record data > ' + error)
@@ -123,6 +125,10 @@ export default class RecordView extends Component {
 
       switch (entry.type) {
         case 'multi_row':
+      
+          if ( entry.data === "" ){
+            entry.data = []
+          }
           multiRows = entry.data.map( (row, rowIndex) => {
             let rowProcessed = row.map( (cell, j) => {
               let styleBasic = {
@@ -187,7 +193,7 @@ export default class RecordView extends Component {
 
         <span style ={{height:300,display: "inline-block", verticalAlign: "top" }}>
           <img
-              style={{maxWidth:450,maxHeight:300,border:"1px solid black"}}
+              style={{maxWidth:345,maxHeight:300,border:"1px solid black"}}
               src={
                  recordData.data.featuredImage ?
                    URL_MULTIMEDIA + recordData.data.featuredImage:
