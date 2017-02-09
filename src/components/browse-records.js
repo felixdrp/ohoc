@@ -74,7 +74,7 @@ class BrowseRecords extends Component {
                   <CardMedia
                     overlay={<CardTitle title={capitalize(e)} style={{margin:0,padding:4}} > <span style={{color:"white",fontSize:10}}> {this.categoryData[e].copyrightNotice}</span> </CardTitle>}
                   >
-                    <span style={{width:400,height:250}}><img style={{maxHeight: 250,maxWidth:400}} src={this.categoryData[e].src} /></span>
+                    <span style={{width:400,height:250}}><img style={{maxHeight: 250 ,maxWidth:"100%"}} src={this.categoryData[e].src} /></span>
                   </CardMedia>
 
 
@@ -99,8 +99,6 @@ class BrowseRecords extends Component {
             </span>
           </div>
         </div>
-        <hr style={{margin:30}}/>
-
         </Card>
 {/*
         <Link to={'/record/create'} style={{ textDecoration: 'none' }}>

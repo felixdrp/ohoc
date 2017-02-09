@@ -39,7 +39,7 @@ var routes = function routes(history) {
         _reactRouter.Route,
         { path: 'categories', component: _components.CategoriesContainer },
         _react2.default.createElement(_reactRouter.Route, { path: urlBase + "/categories/list/:categoryId", component: _components.CategoriesView }),
-        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "/categories/list/:categoryId/:subcategoryId", component: _components.SubCategoriesView })
+        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "/categories/list/:categoryId/:subcategoryId", component: _components.CategoriesView })
       ),
       _react2.default.createElement(
         _reactRouter.Route,

@@ -353,7 +353,7 @@ var BrowseRecords = function (_Component) {
                         ' ',
                         _react2.default.createElement(
                           'span',
-                          { style: { color: "white", fontSize: 14 } },
+                          { style: { color: "white", fontSize: 10 } },
                           ' ',
                           _this2.categoryData[e].copyrightNotice
                         ),
@@ -363,7 +363,7 @@ var BrowseRecords = function (_Component) {
                     _react2.default.createElement(
                       'span',
                       { style: { width: 400, height: 250 } },
-                      _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 400 }, src: _this2.categoryData[e].src })
+                      _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: "100%" }, src: _this2.categoryData[e].src })
                     )
                   )
                 )
@@ -405,8 +405,7 @@ var BrowseRecords = function (_Component) {
                 )
               )
             )
-          ),
-          _react2.default.createElement('hr', { style: { margin: 30 } })
+          )
         )
       );
     }
@@ -493,6 +492,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -564,6 +567,14 @@ var _GridList = require('material-ui/GridList');
 var _stringTools = require('../stringTools');
 
 var _stringTools2 = _interopRequireDefault(_stringTools);
+
+var _gridview = require('./gridview');
+
+var _gridview2 = _interopRequireDefault(_gridview);
+
+var _listview = require('./listview');
+
+var _listview2 = _interopRequireDefault(_listview);
 
 var _fetchData = require('../../network/fetch-data');
 
@@ -711,65 +722,102 @@ var CategoriesView = function (_Component) {
       var list = this.state.categoriesList.recordsByType;
       var tilesData = this.prepareTiles(list);
 
-      return _react2.default.createElement(
-        _Card.Card,
-        { style: { paddingBottom: 30, minHeight: 600 } },
-        _react2.default.createElement(
-          _Card.CardTitle,
-          { style: { marginLeft: 50 } },
-          ' ',
+      var subtypes = {};
+      for (var l in list) {
+        subtypes[list[l].subtype] = "";
+      }
+      var onlyOneCategory = (0, _keys2.default)(subtypes).length == 1;
+
+      if (onlyOneCategory || this.props.params.subcategoryId) {
+
+        var entriesBySubtype = this.entriesToSubtypeGroups(list);
+        var selectedType = this.props.params.subcategoryId ? this.props.params.subcategoryId : (0, _keys2.default)(subtypes)[0];
+        var selectedSubCategory = entriesBySubtype[selectedType];
+        var showAsGrid = true;
+
+        return _react2.default.createElement(
+          _Card.Card,
+          { style: { paddingBottom: 30, minHeight: 600 } },
           _react2.default.createElement(
-            'h1',
-            null,
+            _Card.CardTitle,
+            { style: { marginLeft: 40 } },
             ' ',
-            (0, _stringTools2.default)(this.props.params.categoryId),
+            _react2.default.createElement(
+              'h1',
+              null,
+              ' ',
+              (0, _stringTools2.default)(this.props.params.subcategoryId),
+              ' '
+            ),
             ' '
           ),
-          ' '
-        ),
-        _react2.default.createElement(
-          _Card.Card,
-          { style: { marginLeft: 50, marginRight: 50 } },
           _react2.default.createElement(
-            _Card.CardText,
-            null,
+            _Card.Card,
+            { style: { marginLeft: 50, marginRight: 50, padding: 5 } },
+            _react2.default.createElement(_gridview2.default, { subcategoryId: this.props.params.subcategoryId, entries: selectedSubCategory })
+          )
+        );
+      } else {
+        return _react2.default.createElement(
+          _Card.Card,
+          { style: { paddingBottom: 30, minHeight: 600 } },
+          _react2.default.createElement(
+            _Card.CardTitle,
+            { style: { marginLeft: 50 } },
+            ' ',
             _react2.default.createElement(
-              _GridList.GridList,
-              {
-                cols: 3,
-                style: styles.gridList,
-                cellHeight: 250
-              },
-              tilesData.map(function (tile, i) {
-                return _react2.default.createElement(
-                  _reactRouter.Link,
-                  { key: i, to: tile.src, style: { textDecoration: 'none' } },
-                  _react2.default.createElement(
-                    _GridList.GridTile,
-                    {
-
-                      title: tile.title,
-                      subtitle: _this2.subCategoryData[tile.title] ? _this2.subCategoryData[tile.title].copyrightNotice : ""
-                    },
+              'h1',
+              null,
+              ' ',
+              (0, _stringTools2.default)(this.props.params.categoryId),
+              ' '
+            ),
+            ' '
+          ),
+          _react2.default.createElement(
+            _Card.Card,
+            { style: { marginLeft: 50, marginRight: 50 } },
+            _react2.default.createElement(
+              _Card.CardText,
+              null,
+              _react2.default.createElement(
+                _GridList.GridList,
+                {
+                  cols: 3,
+                  style: styles.gridList,
+                  cellHeight: 250
+                },
+                tilesData.map(function (tile, i) {
+                  return _react2.default.createElement(
+                    _reactRouter.Link,
+                    { key: i, to: tile.src, style: { textDecoration: 'none' } },
                     _react2.default.createElement(
-                      'div',
-                      { style: { textAlign: "center", backgroundColor: "#cccccc" } },
-                      _react2.default.createElement('img', { style: { maxHeight: 250 }, src: _this2.subCategoryData[tile.title] ? _this2.subCategoryData[tile.title].src : baseAvatarImage })
+                      _GridList.GridTile,
+                      {
+
+                        title: tile.title,
+                        subtitle: _this2.subCategoryData[tile.title] ? _this2.subCategoryData[tile.title].copyrightNotice : ""
+                      },
+                      _react2.default.createElement(
+                        'div',
+                        { style: { textAlign: "center", backgroundColor: "#cccccc" } },
+                        _react2.default.createElement('img', { style: { maxHeight: 250 }, src: _this2.subCategoryData[tile.title] ? _this2.subCategoryData[tile.title].src : baseAvatarImage })
+                      )
                     )
-                  )
-                );
-              })
+                  );
+                })
+              )
             )
           )
-        )
-      );
+        );
+      }
     }
   }]);
   return CategoriesView;
 }(_react.Component);
 
 exports.default = CategoriesView;
-},{"../../links":25,"../../network/fetch-data":27,"../stringTools":24,"babel-runtime/core-js/object/get-prototype-of":37,"babel-runtime/helpers/asyncToGenerator":43,"babel-runtime/helpers/classCallCheck":44,"babel-runtime/helpers/createClass":45,"babel-runtime/helpers/inherits":48,"babel-runtime/helpers/possibleConstructorReturn":50,"babel-runtime/regenerator":54,"material-ui/Avatar":250,"material-ui/Card":258,"material-ui/GridList":270,"material-ui/List":276,"material-ui/MenuItem":281,"material-ui/RaisedButton":288,"material-ui/SelectField":290,"material-ui/Subheader":292,"material-ui/TextField":300,"material-ui/svg-icons/image/navigate-next":329,"react":555,"react-router":395}],8:[function(require,module,exports){
+},{"../../links":25,"../../network/fetch-data":27,"../stringTools":24,"./gridview":8,"./listview":9,"babel-runtime/core-js/object/get-prototype-of":37,"babel-runtime/core-js/object/keys":38,"babel-runtime/helpers/asyncToGenerator":43,"babel-runtime/helpers/classCallCheck":44,"babel-runtime/helpers/createClass":45,"babel-runtime/helpers/inherits":48,"babel-runtime/helpers/possibleConstructorReturn":50,"babel-runtime/regenerator":54,"material-ui/Avatar":250,"material-ui/Card":258,"material-ui/GridList":270,"material-ui/List":276,"material-ui/MenuItem":281,"material-ui/RaisedButton":288,"material-ui/SelectField":290,"material-ui/Subheader":292,"material-ui/TextField":300,"material-ui/svg-icons/image/navigate-next":329,"react":555,"react-router":395}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1387,24 +1435,23 @@ var CommonView = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var logoStyle = { height: 50, marginTop: 15, marginLeft: 5 };
+      var logoStyle = { height: 50, marginTop: 10, marginLeft: 5 };
 
       return _react2.default.createElement(
         'div',
         { id: 'CommonView', style: { marginLeft: "8%", marginRight: "8%", minWidth: 1500 } },
         _react2.default.createElement(
           _Card.Card,
-          { style: { height: 100, marginBottom: 10, paddingTop: 15, paddingLeft: 20 } },
-          _react2.default.createElement('img', { src: 'http://www.create.ac.uk/wp-content/uploads/logos/create_primary_logo_160.jpg', style: logoStyle }),
-          _react2.default.createElement('img', { src: 'https://upload.wikimedia.org/wikipedia/en/thumb/1/13/University_of_Kent_logo.svg/1280px-University_of_Kent_logo.svg.png', style: logoStyle }),
-          _react2.default.createElement('img', { src: 'http://www.gla.ac.uk/media/media_434161_en.jpg', style: logoStyle }),
-          _react2.default.createElement('img', { src: 'http://www.cipil.law.cam.ac.uk/sites/www.law.cam.ac.uk/files/images/www.cipil.law.cam.ac.uk/legacy/images/logo_cipil_3.gif', style: logoStyle }),
+          { style: { height: 100, marginBottom: 10, paddingTop: 20, paddingLeft: 20 } },
+          _react2.default.createElement('img', { src: 'https://upload.wikimedia.org/wikipedia/en/thumb/1/13/University_of_Kent_logo.svg/1280px-University_of_Kent_logo.svg.png', style: { height: 55, marginTop: 0, marginLeft: 5 } }),
+          _react2.default.createElement('img', { src: 'https://www.cam.ac.uk/sites/www.cam.ac.uk/files/inner-images/logo.jpg', style: { height: 50, marginTop: 0, marginLeft: 5 } }),
+          _react2.default.createElement('img', { src: 'http://www.cipil.law.cam.ac.uk/sites/www.law.cam.ac.uk/files/images/www.cipil.law.cam.ac.uk/legacy/images/logo_cipil_3.gif', style: { height: 50, marginTop: 0, marginLeft: 5 } }),
           _react2.default.createElement(
             'span',
             { style: { float: "right" } },
             _react2.default.createElement(
               'h2',
-              { style: { margin: "0 0 0 0", marginRight: 25, marginTop: 5 } },
+              { style: { margin: "0 0 0 0", marginRight: 25, marginTop: -5 } },
               _react2.default.createElement(
                 _reactRouter.Link,
                 { to: _links.URL_BASE, style: { textDecoration: 'none' } },
@@ -1425,7 +1472,26 @@ var CommonView = function (_Component) {
             )
           )
         ),
-        this.props.children
+        this.props.children,
+        _react2.default.createElement(
+          _Card.Card,
+          { style: { padding: 20, paddingTop: 1, marginTop: -40 } },
+          _react2.default.createElement(
+            'h3',
+            null,
+            'Copyright statement'
+          ),
+          _react2.default.createElement(
+            'span',
+            { style: { fontSize: 14, lineHeight: 0 } },
+            'You may copy and distribute the translations and commentaries in this resource, or parts of such translations and commentaries, in any medium, for non-commercial purposes as long as the authorship of the commentaries and translations is acknowledged, and you indicate the source as Bently & Kretschmer (eds), Primary Sources on Copyright (1450-1900) (www.copyrighthistory.org). You may not publish these documents for any commercial purposes, including charging a fee for providing access to these documents via a network. This licence does not affect your statutory rights of fair dealing. Although the original documents in this database are in the public domain, we are unable to grant you the right to reproduce or duplicate some of these documents in so far as the images or scans are protected by copyright or we have only been able to reproduce them here by giving contractual undertakings. For the status of any particular images, please consult the information relating to copyright in the bibliographic records.',
+            _react2.default.createElement('br', null),
+            _react2.default.createElement('br', null),
+            _react2.default.createElement('hr', null)
+          ),
+          _react2.default.createElement('img', { src: 'http://www.create.ac.uk/wp-content/uploads/logos/create_primary_logo_160.jpg', style: logoStyle }),
+          _react2.default.createElement('img', { src: 'http://www.gla.ac.uk/media/media_434161_en.jpg', style: logoStyle })
+        )
       );
     }
   }]);
@@ -4018,6 +4084,7 @@ var RecordView = function (_Component) {
         title
       );
     }, _this.prepareLine = function (name, title, data) {
+
       switch (name) {
         case 'featuredImage':
           return _react2.default.createElement('div', null);
@@ -4059,31 +4126,29 @@ var RecordView = function (_Component) {
 
                 recordData = void 0;
                 _context.prev = 2;
-
-                debugger;
-                _context.next = 6;
+                _context.next = 5;
                 return fetch.getRecordData(this.props.params.recordId);
 
-              case 6:
+              case 5:
                 recordData = _context.sent;
 
-                debugger;
+
                 this.setState({ recordData: recordData.recordById[0] });
-                _context.next = 14;
+                _context.next = 12;
                 break;
 
-              case 11:
-                _context.prev = 11;
+              case 9:
+                _context.prev = 9;
                 _context.t0 = _context['catch'](2);
 
                 console.error('fetching record data > ' + _context.t0);
 
-              case 14:
+              case 12:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[2, 11]]);
+        }, _callee, this, [[2, 9]]);
       }));
 
       function componentDidMount() {
@@ -4111,16 +4176,30 @@ var RecordView = function (_Component) {
 
       var recordData = this.state.recordData;
 
+      var copyrightNotice = "";
+
+      for (var f in recordData.data.fields) {
+
+        if (recordData.data.fields[f].name === "featured copyright notice") {
+          copyrightNotice = recordData.data.fields[f].data;
+          break;
+        }
+      }
+
       var fieldsFlex = recordData.data.fields.map(function (entry, i) {
         var multiRows = void 0;
 
-        var fieldsToHide = ["biography", "name"];
+        var fieldsToHide = ["biography", "name", ""];
 
         var title = fieldsToHide.includes(entry.name) ? "" : _react2.default.createElement(
           'h3',
           null,
           (0, _stringTools2.default)(entry.name)
         );
+
+        if (!entry.data || entry.name == "featured copyright notice") {
+          return _react2.default.createElement('div', { key: i });
+        }
 
         switch (entry.type) {
           case 'multi_row':
@@ -4222,10 +4301,24 @@ var RecordView = function (_Component) {
         _react2.default.createElement(
           'span',
           { style: { height: 300, display: "inline-block", verticalAlign: "top" } },
-          _react2.default.createElement('img', {
-            style: { maxWidth: 345, maxHeight: 300, border: "1px solid black" },
-            src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage
-          })
+          _react2.default.createElement(
+            _Card.Card,
+            {
+              style: { maxWidth: 345, maxHeight: 300, border: "1px solid black" },
+              src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage
+            },
+            _react2.default.createElement(
+              _Card.CardMedia,
+              {
+                overlay: _react2.default.createElement(_Card.CardTitle, { title: copyrightNotice, style: { margin: 0, padding: 0, height: 40 }, titleStyle: { fontSize: 10, lineHeight: 1, padding: 5 } })
+              },
+              _react2.default.createElement(
+                'span',
+                { style: { width: 400, height: 250 } },
+                _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 400 }, src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage })
+              )
+            )
+          )
         ),
         _react2.default.createElement(
           'span',
@@ -4803,7 +4896,7 @@ var routes = function routes(history) {
         _reactRouter.Route,
         { path: 'categories', component: _components.CategoriesContainer },
         _react2.default.createElement(_reactRouter.Route, { path: urlBase + "/categories/list/:categoryId", component: _components.CategoriesView }),
-        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "/categories/list/:categoryId/:subcategoryId", component: _components.SubCategoriesView })
+        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "/categories/list/:categoryId/:subcategoryId", component: _components.CategoriesView })
       ),
       _react2.default.createElement(
         _reactRouter.Route,

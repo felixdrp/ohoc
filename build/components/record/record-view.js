@@ -133,6 +133,7 @@ var RecordView = function (_Component) {
         title
       );
     }, _this.prepareLine = function (name, title, data) {
+
       switch (name) {
         case 'featuredImage':
           return _react2.default.createElement('div', null);
@@ -174,31 +175,29 @@ var RecordView = function (_Component) {
 
                 recordData = void 0;
                 _context.prev = 2;
-
-                debugger;
-                _context.next = 6;
+                _context.next = 5;
                 return fetch.getRecordData(this.props.params.recordId);
 
-              case 6:
+              case 5:
                 recordData = _context.sent;
 
-                debugger;
+
                 this.setState({ recordData: recordData.recordById[0] });
-                _context.next = 14;
+                _context.next = 12;
                 break;
 
-              case 11:
-                _context.prev = 11;
+              case 9:
+                _context.prev = 9;
                 _context.t0 = _context['catch'](2);
 
                 console.error('fetching record data > ' + _context.t0);
 
-              case 14:
+              case 12:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[2, 11]]);
+        }, _callee, this, [[2, 9]]);
       }));
 
       function componentDidMount() {
@@ -226,16 +225,30 @@ var RecordView = function (_Component) {
 
       var recordData = this.state.recordData;
 
+      var copyrightNotice = "";
+
+      for (var f in recordData.data.fields) {
+
+        if (recordData.data.fields[f].name === "featured copyright notice") {
+          copyrightNotice = recordData.data.fields[f].data;
+          break;
+        }
+      }
+
       var fieldsFlex = recordData.data.fields.map(function (entry, i) {
         var multiRows = void 0;
 
-        var fieldsToHide = ["biography", "name"];
+        var fieldsToHide = ["biography", "name", ""];
 
         var title = fieldsToHide.includes(entry.name) ? "" : _react2.default.createElement(
           'h3',
           null,
           (0, _stringTools2.default)(entry.name)
         );
+
+        if (!entry.data || entry.name == "featured copyright notice") {
+          return _react2.default.createElement('div', { key: i });
+        }
 
         switch (entry.type) {
           case 'multi_row':
@@ -337,10 +350,24 @@ var RecordView = function (_Component) {
         _react2.default.createElement(
           'span',
           { style: { height: 300, display: "inline-block", verticalAlign: "top" } },
-          _react2.default.createElement('img', {
-            style: { maxWidth: 345, maxHeight: 300, border: "1px solid black" },
-            src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage
-          })
+          _react2.default.createElement(
+            _Card.Card,
+            {
+              style: { maxWidth: 345, maxHeight: 300, border: "1px solid black" },
+              src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage
+            },
+            _react2.default.createElement(
+              _Card.CardMedia,
+              {
+                overlay: _react2.default.createElement(_Card.CardTitle, { title: copyrightNotice, style: { margin: 0, padding: 0, height: 40 }, titleStyle: { fontSize: 10, lineHeight: 1, padding: 5 } })
+              },
+              _react2.default.createElement(
+                'span',
+                { style: { width: 400, height: 250 } },
+                _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 400 }, src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage })
+              )
+            )
+          )
         ),
         _react2.default.createElement(
           'span',

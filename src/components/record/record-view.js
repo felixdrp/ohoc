@@ -29,9 +29,9 @@ export default class RecordView extends Component {
     let recordData
 
     try {
-      debugger
+
       recordData = await fetch.getRecordData(this.props.params.recordId)
-      debugger
+
       this.setState({recordData: recordData.recordById[0]})
     } catch(error) {
       console.error('fetching record data > ' + error)
@@ -92,6 +92,8 @@ export default class RecordView extends Component {
   }
 
   prepareLine = (name,title,data) => {
+
+
     switch (name){
       case 'featuredImage':
         return <div></div>;
@@ -115,17 +117,31 @@ export default class RecordView extends Component {
 
     let recordData  = this.state.recordData;
 
+    let copyrightNotice = ""
+
+    for ( var f in recordData.data.fields ){
+
+      if ( recordData.data.fields[f].name === "featured copyright notice" ){
+          copyrightNotice = recordData.data.fields[f].data
+          break
+      }
+
+    }
+
     let fieldsFlex = recordData.data.fields.map( (entry,i) => {
       let multiRows
 
-      let fieldsToHide = ["biography","name"]
+      let fieldsToHide = ["biography","name",""]
 
       let title = fieldsToHide.includes(entry.name) ? "" : <h3>{capitalize(entry.name)}</h3>
 
+      if ( !entry.data || entry.name == "featured copyright notice"){ // If there is no data, we do not want to print the titles/names of the fields
+        return <div key={i}></div>
+      }
 
       switch (entry.type) {
         case 'multi_row':
-      
+
           if ( entry.data === "" ){
             entry.data = []
           }
@@ -192,14 +208,26 @@ export default class RecordView extends Component {
 
 
         <span style ={{height:300,display: "inline-block", verticalAlign: "top" }}>
-          <img
+          <Card
               style={{maxWidth:345,maxHeight:300,border:"1px solid black"}}
               src={
                  recordData.data.featuredImage ?
                    URL_MULTIMEDIA + recordData.data.featuredImage:
                    baseImage
               }
-            />
+          >
+            <CardMedia
+              overlay={<CardTitle title={copyrightNotice} style={{margin:0,padding:0,height:40}} titleStyle={{fontSize:10,lineHeight: 1,padding:5}} ></CardTitle>}
+            >
+              <span style={{width:400,height:250}}><img style={{maxHeight: 250,maxWidth:400}} src={
+                   recordData.data.featuredImage ?
+                   URL_MULTIMEDIA + recordData.data.featuredImage:
+                   baseImage
+              } /></span>
+            </CardMedia>
+
+
+          </Card>
         </span>
 
                   {/* <span style={{height:300,width:600,position:"absolute",float:"left",left:700}}>

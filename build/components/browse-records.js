@@ -133,7 +133,7 @@ var BrowseRecords = function (_Component) {
                         ' ',
                         _react2.default.createElement(
                           'span',
-                          { style: { color: "white", fontSize: 14 } },
+                          { style: { color: "white", fontSize: 10 } },
                           ' ',
                           _this2.categoryData[e].copyrightNotice
                         ),
@@ -143,7 +143,7 @@ var BrowseRecords = function (_Component) {
                     _react2.default.createElement(
                       'span',
                       { style: { width: 400, height: 250 } },
-                      _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 400 }, src: _this2.categoryData[e].src })
+                      _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: "100%" }, src: _this2.categoryData[e].src })
                     )
                   )
                 )
@@ -185,8 +185,7 @@ var BrowseRecords = function (_Component) {
                 )
               )
             )
-          ),
-          _react2.default.createElement('hr', { style: { margin: 30 } })
+          )
         )
       );
     }

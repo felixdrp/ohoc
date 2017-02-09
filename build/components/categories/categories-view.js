@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -75,6 +79,14 @@ var _GridList = require('material-ui/GridList');
 var _stringTools = require('../stringTools');
 
 var _stringTools2 = _interopRequireDefault(_stringTools);
+
+var _gridview = require('./gridview');
+
+var _gridview2 = _interopRequireDefault(_gridview);
+
+var _listview = require('./listview');
+
+var _listview2 = _interopRequireDefault(_listview);
 
 var _fetchData = require('../../network/fetch-data');
 
@@ -222,58 +234,95 @@ var CategoriesView = function (_Component) {
       var list = this.state.categoriesList.recordsByType;
       var tilesData = this.prepareTiles(list);
 
-      return _react2.default.createElement(
-        _Card.Card,
-        { style: { paddingBottom: 30, minHeight: 600 } },
-        _react2.default.createElement(
-          _Card.CardTitle,
-          { style: { marginLeft: 50 } },
-          ' ',
+      var subtypes = {};
+      for (var l in list) {
+        subtypes[list[l].subtype] = "";
+      }
+      var onlyOneCategory = (0, _keys2.default)(subtypes).length == 1;
+
+      if (onlyOneCategory || this.props.params.subcategoryId) {
+
+        var entriesBySubtype = this.entriesToSubtypeGroups(list);
+        var selectedType = this.props.params.subcategoryId ? this.props.params.subcategoryId : (0, _keys2.default)(subtypes)[0];
+        var selectedSubCategory = entriesBySubtype[selectedType];
+        var showAsGrid = true;
+
+        return _react2.default.createElement(
+          _Card.Card,
+          { style: { paddingBottom: 30, minHeight: 600 } },
           _react2.default.createElement(
-            'h1',
-            null,
+            _Card.CardTitle,
+            { style: { marginLeft: 40 } },
             ' ',
-            (0, _stringTools2.default)(this.props.params.categoryId),
+            _react2.default.createElement(
+              'h1',
+              null,
+              ' ',
+              (0, _stringTools2.default)(this.props.params.subcategoryId),
+              ' '
+            ),
             ' '
           ),
-          ' '
-        ),
-        _react2.default.createElement(
-          _Card.Card,
-          { style: { marginLeft: 50, marginRight: 50 } },
           _react2.default.createElement(
-            _Card.CardText,
-            null,
+            _Card.Card,
+            { style: { marginLeft: 50, marginRight: 50, padding: 5 } },
+            _react2.default.createElement(_gridview2.default, { subcategoryId: this.props.params.subcategoryId, entries: selectedSubCategory })
+          )
+        );
+      } else {
+        return _react2.default.createElement(
+          _Card.Card,
+          { style: { paddingBottom: 30, minHeight: 600 } },
+          _react2.default.createElement(
+            _Card.CardTitle,
+            { style: { marginLeft: 50 } },
+            ' ',
             _react2.default.createElement(
-              _GridList.GridList,
-              {
-                cols: 3,
-                style: styles.gridList,
-                cellHeight: 250
-              },
-              tilesData.map(function (tile, i) {
-                return _react2.default.createElement(
-                  _reactRouter.Link,
-                  { key: i, to: tile.src, style: { textDecoration: 'none' } },
-                  _react2.default.createElement(
-                    _GridList.GridTile,
-                    {
-
-                      title: tile.title,
-                      subtitle: _this2.subCategoryData[tile.title] ? _this2.subCategoryData[tile.title].copyrightNotice : ""
-                    },
+              'h1',
+              null,
+              ' ',
+              (0, _stringTools2.default)(this.props.params.categoryId),
+              ' '
+            ),
+            ' '
+          ),
+          _react2.default.createElement(
+            _Card.Card,
+            { style: { marginLeft: 50, marginRight: 50 } },
+            _react2.default.createElement(
+              _Card.CardText,
+              null,
+              _react2.default.createElement(
+                _GridList.GridList,
+                {
+                  cols: 3,
+                  style: styles.gridList,
+                  cellHeight: 250
+                },
+                tilesData.map(function (tile, i) {
+                  return _react2.default.createElement(
+                    _reactRouter.Link,
+                    { key: i, to: tile.src, style: { textDecoration: 'none' } },
                     _react2.default.createElement(
-                      'div',
-                      { style: { textAlign: "center", backgroundColor: "#cccccc" } },
-                      _react2.default.createElement('img', { style: { maxHeight: 250 }, src: _this2.subCategoryData[tile.title] ? _this2.subCategoryData[tile.title].src : baseAvatarImage })
+                      _GridList.GridTile,
+                      {
+
+                        title: tile.title,
+                        subtitle: _this2.subCategoryData[tile.title] ? _this2.subCategoryData[tile.title].copyrightNotice : ""
+                      },
+                      _react2.default.createElement(
+                        'div',
+                        { style: { textAlign: "center", backgroundColor: "#cccccc" } },
+                        _react2.default.createElement('img', { style: { maxHeight: 250 }, src: _this2.subCategoryData[tile.title] ? _this2.subCategoryData[tile.title].src : baseAvatarImage })
+                      )
                     )
-                  )
-                );
-              })
+                  );
+                })
+              )
             )
           )
-        )
-      );
+        );
+      }
     }
   }]);
   return CategoriesView;
