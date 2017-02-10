@@ -45,7 +45,7 @@ class CommonView extends Component {
        </Card>
        {this.props.children}
 
-       <Card style={{padding:20,paddingTop:1,marginTop:-40}}>
+       <Card style={{padding:20,paddingTop:1,marginTop:5}}>
         <h3>Copyright statement</h3>
         <span style={{fontSize:14,lineHeight:0}}>
         You may copy and distribute the translations and commentaries in this resource, or parts of such translations and commentaries, in any medium,	for non-commercial purposes as long as the authorship of the commentaries and translations is acknowledged, and you indicate the source as Bently & Kretschmer (eds), Primary Sources on Copyright (1450-1900) (www.copyrighthistory.org).

@@ -17,12 +17,15 @@ import RecordMediaPreviewer from './record-mediaPreviewer'
 
 import { MultipleRowInput } from '../multiple-row-input'
 
+import { Link } from 'react-router'
+
 import {
   URL_CONTROL_ROOM_EDIT_RECORD,
   URL_CONTROL_ROOM_CREATE_RECORD,
   URL_BASE_MULTIMEDIA_IMAGES,
   URL_MULTIMEDIA,
   URL_RECORD_UPLOAD_FILE,
+  URL_CONTROL_ROOM,
 } from '../../links'
 
 
@@ -51,6 +54,10 @@ class RecordEdit extends Component {
       console.error('fetching record data > ' + error)
     }
     // debugger;
+
+    if ( recordData === undefined ){
+      return
+    }
 
     recordData = recordData.recordById[0];
 
@@ -188,7 +195,7 @@ class RecordEdit extends Component {
 
   toggleMultimediaAdder (){
 
-      this.setState ({showMediaAdder : true})
+      this.setState ({showMediaAdder : true, previousData : {} })
 
   }
 
@@ -210,6 +217,14 @@ class RecordEdit extends Component {
     this.setState({ recordData });
   }
 
+  /*
+  * the type determines which media array to use when splicing at index i
+  */
+  updateMedia = (type, i, data) => {
+    this.setState({showMediaAdder : true, previousData : data });
+  }
+
+
 
   getMediaPreviewers (arrayOfMedia){
     if ( Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0){ // if the array is empty there is no reason to draw the preview container at all.
@@ -221,6 +236,7 @@ class RecordEdit extends Component {
               key={i}
               media={{...element, src: URL_MULTIMEDIA + element.src}}
               mediaDeleter={this.deleteMedia}
+              mediaUpdater={this.updateMedia}
               index={i}
             />)
           )
@@ -239,6 +255,8 @@ class RecordEdit extends Component {
         return;
     }
 
+    mediaObject.src = mediaObject.src.replace(URL_MULTIMEDIA, "")
+
     var recordData = this.state.recordData
 
     if ( Array.isArray(recordData.data.media) ){
@@ -251,7 +269,12 @@ class RecordEdit extends Component {
     if ( allowedTypes.includes(selectedType)){
         selectedType = selectedType == "image" ? "picture" : selectedType;
         selectedType = selectedType == "application" ? "text" : selectedType;
-        var i = recordData.data.media[selectedType].findIndex( (element) => {return element.title == mediaObject.title && element.src == mediaObject.src}  );
+        var i = recordData.data.media[selectedType].findIndex(
+
+          (element) => { return mediaObject.src == element.src }
+
+        );
+
         if ( i > -1 ){
           recordData.data.media[selectedType].splice(i,1)
         }
@@ -342,7 +365,9 @@ class RecordEdit extends Component {
     var formFlexibleTemplate = []
 
     if( this.state && this.state.submitted){
-      return <div> <h1> New Record Submitted! </h1> </div>
+      return <div> <h1> New Record Submitted! </h1>
+                  <Link to={URL_CONTROL_ROOM}> <h2> Back to Control Room... </h2></Link>
+            </div>
     }
 
     if ( !this.state || !this.state.recordData ){
@@ -437,11 +462,10 @@ class RecordEdit extends Component {
 
       <Card style={{padding:30}}>
 
-        {
-          this.state.showMediaAdder ? <AddMedia recordId={this.props.params.recordId} mediaAdder={this.addMediaElement} prevData={{}}/> : <div></div>
-        }
 
-        <h1> Adding new  {recordData.type + " / " + recordData.subtype} </h1>
+        <AddMedia enableEditor={this.state.showMediaAdder} recordId={this.props.params.recordId} mediaAdder={this.addMediaElement} prevData={this.state.previousData}/>
+
+        <h1> Adding/Editing  {recordData.type + " / " + recordData.subtype} </h1>
 
         { formFlexibleTemplate }
 
@@ -543,7 +567,7 @@ class RecordEdit extends Component {
           label="Cancel"
           primary={true}
           style={style}
-          href={URL_CONTROL_ROOM_CREATE_RECORD}
+          href={URL_CONTROL_ROOM}
         />
 
         <RaisedButton

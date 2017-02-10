@@ -49,7 +49,7 @@ class BrowseRecords extends Component {
           <br />
         </div> */}
 
-        <Card style = {{paddingTop:20,marginBottom:50,paddingBottom:10}}>
+        <Card style = {{paddingTop:20,paddingBottom:10}}>
           {/* <div style={{marginTop:5,marginLeft:80,marginBottom:50,fontSize:35, fontWeight:"bold"}}>
             <span style={{color:"black"}}>Intellectual Property :</span> <span style={{color:"#155196"}}>Oral History Project</span>
           </div> */}
@@ -88,7 +88,7 @@ class BrowseRecords extends Component {
         <div style={{marginLeft:60,fontSize:18}}>
           <div style={{marginTop:30,paddingLeft:80,paddingRight:50, width:"85%", textAlign:"justify"}}>
 
-              There are many layers and paths in the recent history of British intellectual property, particularly in its development throughout the second half of the twentieth century. These were important decades in which the subject became a full academic discipline; international offices in Munich and Alicante were established; the domestic Patent Office moved to Wales and the Patent Bar was renamed as the Intellectual Property Bar. This project is an attempt to trace these and many other histories by recording recollections of those who participated in one way or another in them. Current and retired academics, barristers, solicitors, policy makers, activists and agents recall here their background and reflect on the personal and professional challenges and encounters. Moreover, they talk about what they see now, in retrospect, as the main changes in the law and practice of British intellectual property. The project is funded by a grant from CREATe (University of Glasgow) and the interviews were carried out by Jose Bellido (University of Kent) and Lionel Bently (University of Cambridge).
+              The twentieth-century has been a largely unexplored historical period, often consigned to brief references in textbooks or newspapers, and it is our aim to explore the different and dynamic ways in which intellectual property has  evolved in the United Kingdom in recent years. Using personal recollections, artefacts and opinions of those who participated in the making of intellectual property in their different professional capacities as barristers, clerks, civil servants or lecturers this project will augment historical understanding of intellectual property through the creation of a digital archive of open and publicly accessible material that records, preserves and transcribes oral interviews with intellectual property practitioners, lobbyists and civil servants. The archive will be of value to anyone with an interest in contemporary legal history and intellectual property.​
             <br/><br/>
 
             <span style={{fontSize:15}}>

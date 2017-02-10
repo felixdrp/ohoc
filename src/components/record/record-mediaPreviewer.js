@@ -26,9 +26,9 @@ export default class RecordMediaPreviewer extends Component {
 
     return (
       <Card style={{padding:3, width:220, height:190,float:"left",marginLeft:5,marginTop:5}}>
-        {/* <IconButton style={{margin:0,padding:0,width:30,float:"right"}}>
+         <IconButton style={{margin:0,padding:0,width:30,float:"right"}} onClick={() => this.props.mediaUpdater(this.props.media.type,this.props.index,this.props.media)}>
            <EditIcon />
-         </IconButton> */}
+         </IconButton>
          <IconButton style={{float:"right"}} onClick={() => this.props.mediaDeleter(this.props.media.type,this.props.index)}>
             <ClearIcon />
           </IconButton>

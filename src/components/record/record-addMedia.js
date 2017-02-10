@@ -9,6 +9,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import CircularProgress from 'material-ui/LinearProgress';
 
 
 import {
@@ -23,7 +24,8 @@ class RecordAddMedia extends Component {
     super()
       this.state = {
         previewSource : { src : URL_BASE_MULTIMEDIA_IMAGES + 'institution-default.jpg', type : "image/jpeg"},
-        dataToSend : {}
+        dataToSend : {},
+        mediaUploaded: false
     };
 
     // Used to store references.
@@ -31,11 +33,24 @@ class RecordAddMedia extends Component {
   }
 
   componentWillReceiveProps = (newProps) => {
-    this.setState({ dataToSend : this.props.prevData})
+    //newProps.prevData.transcript = newProps.prevData.transcript.replace("<br/>", )
+
+    this.setState({ dataToSend : newProps.prevData,mediaUploaded:true, previewSource: {src : newProps.prevData.src, type: newProps.prevData.type } })
+
   }
 
   async componentDidMount() {
 
+  }
+
+  progress = (completed) =>  {
+    if (completed >= 100) {
+      this.setState({completed: 100, mediaUploaded:true});
+
+    } else {
+      this.setState({completed, mediaUploaded:false});
+
+    }
   }
 
 
@@ -56,7 +71,7 @@ class RecordAddMedia extends Component {
         dataToSend: {src: fileToUpload.src, type: fileToUpload.type}
       });
 
-      console.log(JSON.stringify(thisObject.state))
+      //console.log(JSON.stringify(thisObject.state))
       // debugger
       // resolve(xhr.response)
     };
@@ -68,9 +83,13 @@ class RecordAddMedia extends Component {
 
     // Listen to the upload progress.
     xhr.upload.onprogress = function(e) {
-      // if (e.lengthComputable) {
-      //   // console.log('e.loaded>> ' + e.loaded)
-      //   // console.log('%>> ' + e.total)
+      if (e.lengthComputable) {
+        console.log('e.loaded>> ' + e.loaded)
+        console.log('%>> ' + e.total)
+
+        console.log((e.loaded/e.total)*100)
+
+        thisObject.progress((e.loaded/e.total)*100)
       //
       //   // Update uploadList
       //   uploadList[uploadId].finishPercentage = (addFileNumber * 100 ) / totalFiles,
@@ -83,7 +102,7 @@ class RecordAddMedia extends Component {
       //   if (uploadList[uploadId].finishPercentage == 100) {
       //     uploadList[uploadId].state = UPLOAD_STATUS_FINISHED
       //   }
-      // }
+      }
     };
 
     for (let file of files) {
@@ -114,13 +133,19 @@ class RecordAddMedia extends Component {
     if ( !currentData ){
       currentData = {}
     }
-    currentData[name] = value.replace(/\n/gm, "<br/>");
+    currentData[name] = value //.replace(/\n/gm, "<br/>");
 
+    console.log(currentData)
     this.setState({dataToSend : currentData})
 
   };
 
   render() {
+
+    if ( !this.props.enableEditor ){
+      return <div></div>
+    }
+
 
     if ( !this.props.recordId ){
       return <Card style={{padding:30}}> </Card>
@@ -137,7 +162,7 @@ class RecordAddMedia extends Component {
       <FlatButton
         label="Submit"
         primary={true}
-        disabled={false}
+        disabled={(!this.state.mediaUploaded)}
         onTouchTap={(e) => this.props.mediaAdder(this.state.dataToSend)}
       />,
     ];
@@ -148,6 +173,7 @@ class RecordAddMedia extends Component {
             actions={actions}
             modal={true}
             open={true}
+
           >
       <Card style={{padding:5}}>
         <Card style={{padding:0}}>
@@ -176,6 +202,14 @@ class RecordAddMedia extends Component {
             >
               Upload
             </FlatButton>
+
+            <CircularProgress
+              mode="determinate"
+              value={this.state.completed}
+              size={25}
+              color={"#76FF03"}
+            />
+
           </form>
         </Card>
         <br/>
@@ -189,20 +223,23 @@ class RecordAddMedia extends Component {
         <span style={{fontWeight:"bold"}}>Copyright notice: </span><TextField
           hintText="Copyright Notice"
           onChange={ (event, index, value)=>this.handleChange(event, value, index, "copyright")}
+          value = {this.state.dataToSend.copyright }
         /><br />
 
         <span style={{fontWeight:"bold"}}>Title: </span><TextField
           hintText="Media Title"
           onChange={ (event, index, value)=>this.handleChange(event, value, index, "title")}
+          value = {this.state.dataToSend.title }
         /><br />
 
         <span style={{fontWeight:"bold"}}>Transcript: </span> <TextField
          hintText="Transcript Goes Here if applicable"
          multiLine={true}
          rows={5}
-         rowsMax={10}
-         style={{width:790,border: "1px dashed lightgrey"}}
+         rowsMax={5}
+         style={{width:"100%",border: "1px dashed lightgrey"}}
          onChange={ (event, index, value)=>this.handleChange(event, value, index, "transcript")}
+         value = { this.state.dataToSend.transcript }
         /><br /><br />
 
       </Card>

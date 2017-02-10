@@ -4,7 +4,9 @@ export default function PreviewGenerator(props)
 {
   let {element, style} = props
   let elem = element
-  if ( elem.src ) {
+
+
+  if ( elem && elem.src ) {
     if ( elem.type.includes("image/") ) {
        return <img style={style} src={elem.src} />
     } else if (elem.type.includes("audio/")){
