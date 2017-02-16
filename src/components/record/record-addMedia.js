@@ -11,6 +11,9 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/LinearProgress';
 
+import RichTextEditor from 'react-rte';
+// import {Editor, EditorState} from 'draft-js';
+
 
 import {
   URL_CONTROL_ROOM_EDIT_RECORD,
@@ -25,7 +28,8 @@ class RecordAddMedia extends Component {
       this.state = {
         previewSource : { src : URL_BASE_MULTIMEDIA_IMAGES + 'institution-default.jpg', type : "image/jpeg"},
         dataToSend : {},
-        mediaUploaded: false
+        mediaUploaded: false,
+        transcriptBuffer: RichTextEditor.createEmptyValue()
     };
 
     // Used to store references.
@@ -33,10 +37,18 @@ class RecordAddMedia extends Component {
   }
 
   componentWillReceiveProps = (newProps) => {
-    //newProps.prevData.transcript = newProps.prevData.transcript.replace("<br/>", )
 
-    this.setState({ dataToSend : newProps.prevData,mediaUploaded:true, previewSource: {src : newProps.prevData.src, type: newProps.prevData.type } })
+    var transcript = newProps.prevData.transcript
 
+    if ( transcript ){
+      transcript = RichTextEditor.createValueFromString(transcript, 'html')
+    } else { //then just initialise it.
+      transcript = RichTextEditor.createEmptyValue()
+    }
+
+
+
+    this.setState({ transcriptBuffer: transcript, dataToSend : newProps.prevData, mediaUploaded:true, previewSource: {src : newProps.prevData.src, type: newProps.prevData.type } })
   }
 
   async componentDidMount() {
@@ -67,9 +79,16 @@ class RecordAddMedia extends Component {
 
 
       thisObject.setState({
-        previewSource : { ...fileToUpload, src: URL_MULTIMEDIA + fileToUpload.src },
-        dataToSend: {src: fileToUpload.src, type: fileToUpload.type}
+        previewSource : { ...fileToUpload, src: URL_MULTIMEDIA + fileToUpload.src }
+
       });
+
+      debugger
+      var dat = thisObject.state.dataToSend
+          dat.src = fileToUpload.src
+          dat.type = fileToUpload.type
+          thisObject.setState({dataToSend : dat})
+      //dataToSend: {src: fileToUpload.src, type: fileToUpload.type}
 
       //console.log(JSON.stringify(thisObject.state))
       // debugger
@@ -125,7 +144,10 @@ class RecordAddMedia extends Component {
     this.sendFiles(files)
   }
 
+  onChangeTranscriptText = (value, name) => {
 
+      this.setState({transcriptBuffer : value})
+  };
 
   handleChange(event, index, value, name) {
     var currentData = this.state.dataToSend;
@@ -139,6 +161,11 @@ class RecordAddMedia extends Component {
     this.setState({dataToSend : currentData})
 
   };
+
+  prepareDataToSend( data ) {
+    data.transcript = this.state.transcriptBuffer.toString('html')
+    this.props.mediaAdder(data)
+  }
 
   render() {
 
@@ -163,7 +190,7 @@ class RecordAddMedia extends Component {
         label="Submit"
         primary={true}
         disabled={(!this.state.mediaUploaded)}
-        onTouchTap={(e) => this.props.mediaAdder(this.state.dataToSend)}
+        onTouchTap={(e) =>  this.prepareDataToSend( this.state.dataToSend )}
       />,
     ];
 
@@ -175,7 +202,17 @@ class RecordAddMedia extends Component {
             open={true}
 
           >
-      <Card style={{padding:5}}>
+        <style>{"\
+                 .rte-editor{\
+                   height:100px;\
+                   overflow-y:'scroll';\
+                   margin-bottom:10px;\
+                   padding-bottom:10px;\
+                 }\
+               "}</style>
+
+
+      <Card style={{padding:5,height:727,overflowY:"scroll"}}>
         <Card style={{padding:0}}>
           <form
             name="uploadForm"
@@ -232,7 +269,17 @@ class RecordAddMedia extends Component {
           value = {this.state.dataToSend.title }
         /><br />
 
-        <span style={{fontWeight:"bold"}}>Transcript: </span> <TextField
+        <span style={{fontWeight:"bold"}}>Transcript: </span>
+
+        <RichTextEditor
+          editorClassName="rte-editor"
+          autoFocus={true}
+          value={this.state.transcriptBuffer}
+          onChange={(value)=>this.onChangeTranscriptText(value, "transcript") }
+        />
+
+
+        {/* <TextField
          hintText="Transcript Goes Here if applicable"
          multiLine={true}
          rows={5}
@@ -240,7 +287,9 @@ class RecordAddMedia extends Component {
          style={{width:"100%",border: "1px dashed lightgrey"}}
          onChange={ (event, index, value)=>this.handleChange(event, value, index, "transcript")}
          value = { this.state.dataToSend.transcript }
-        /><br /><br />
+        /> */}
+
+        <br /><br />
 
       </Card>
       </Dialog>

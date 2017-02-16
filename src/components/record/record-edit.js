@@ -161,7 +161,7 @@ class RecordEdit extends Component {
     const state = this.state
     // Data to upload
 
-
+    debugger;
 
     let prepareDataToSend = {
       featuredImage : state.dataToSend.featuredImage,
@@ -247,7 +247,7 @@ class RecordEdit extends Component {
   }
 
   addMediaElement = (mediaObject) => {
-
+    debugger
     this.setState ({showMediaAdder : false})
 
     //console.log("sent shite: "+JSON.stringify(mediaObject))

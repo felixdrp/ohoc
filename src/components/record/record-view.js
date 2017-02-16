@@ -98,7 +98,7 @@ export default class RecordView extends Component {
       case 'featuredImage':
         return <div></div>;
       case 'name':
-        return <div><h2>{data}</h2></div>
+        return <div><h3 style={{fontSize:18}}>{data}</h3></div>
       default:
         return <div>{title}<span style={{marginLeft:10}}>{data}</span></div>
     }
@@ -133,7 +133,7 @@ export default class RecordView extends Component {
 
       let fieldsToHide = ["biography","name",""]
 
-      let title = fieldsToHide.includes(entry.name) ? "" : <h3>{capitalize(entry.name)}</h3>
+      let title = fieldsToHide.includes(entry.name) ? "" : <h3 style={{fontSize:17}}>{capitalize(entry.name)}</h3>
 
       if ( !entry.data || entry.name == "featured copyright notice"){ // If there is no data, we do not want to print the titles/names of the fields
         return <div key={i}></div>

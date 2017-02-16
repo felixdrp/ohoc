@@ -61,7 +61,7 @@ class BrowseRecords extends Component {
                 <Card
 
                   style={{
-                    width: "25%",
+                    width: "26%",
                     display: 'inline-block',
                     marginBottom: 10,
                     marginRight: 10,
@@ -85,8 +85,8 @@ class BrowseRecords extends Component {
           </div>
 
 
-        <div style={{marginLeft:60,fontSize:18}}>
-          <div style={{marginTop:30,paddingLeft:80,paddingRight:50, width:"85%", textAlign:"justify"}}>
+        <div style={{marginLeft:"10%",fontSize:18}}>
+          <div style={{marginTop:30,paddingLeft:0,paddingRight:50, width:"88%", textAlign:"justify"}}>
 
               The twentieth-century has been a largely unexplored historical period, often consigned to brief references in textbooks or newspapers, and it is our aim to explore the different and dynamic ways in which intellectual property has  evolved in the United Kingdom in recent years. Using personal recollections, artefacts and opinions of those who participated in the making of intellectual property in their different professional capacities as barristers, clerks, civil servants or lecturers this project will augment historical understanding of intellectual property through the creation of a digital archive of open and publicly accessible material that records, preserves and transcribes oral interviews with intellectual property practitioners, lobbyists and civil servants. The archive will be of value to anyone with an interest in contemporary legal history and intellectual property.​
             <br/><br/>
