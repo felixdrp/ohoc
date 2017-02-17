@@ -48,9 +48,7 @@ class CommonView extends Component {
        <Card style={{padding:20,paddingTop:1,marginTop:5}}>
         <h3>Copyright statement</h3>
         <span style={{fontSize:14,lineHeight:0}}>
-        You may copy and distribute the translations and commentaries in this resource, or parts of such translations and commentaries, in any medium,	for non-commercial purposes as long as the authorship of the commentaries and translations is acknowledged, and you indicate the source as Bently & Kretschmer (eds), Primary Sources on Copyright (1450-1900) (www.copyrighthistory.org).
-        You may not publish these documents for any commercial purposes, including charging a fee for providing access to these documents via a network. This licence does not affect your statutory rights of fair dealing.
-        Although the original documents in this database are in the public domain, we are unable to grant you the right to reproduce or duplicate some of these documents in so far as the images or scans are protected by copyright or we have only been able to reproduce them here by giving contractual undertakings. For the status of any particular images, please consult the information relating to copyright in the bibliographic records.
+        You may copy and distribute the transcriptions and commentaries in this resource, or parts of such transcriptions and commentaries, in any medium, for non-commercial purposes as long as the source is acknowledged, and you indicate it as Bellido & Bently (eds), Intellectual Property- Oral History Project (<a href={"http://www.iporalhistory.co.uk"}>www.iporalhistory.co.uk</a>). You may not publish any document and photograph for any commercial purposes, including charging a fee for providing access to these documents amd photographs via a network. This licence does not affect your statutory rights of fair dealing. We are unable to grant you the right to reproduce or duplicate some of these photographs or documents in so far as the images or scans are protected by copyright or we have only been able to reproduce them here by giving contractual undertakings. 
         <br/><br/>
         <hr/>
         </span>

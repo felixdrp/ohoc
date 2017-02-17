@@ -162,7 +162,7 @@ export default class RecordView extends Component {
           multiRows = entry.data.map( (row, rowIndex) => {
             let rowProcessed = row.map( (cell, j) => {
               let styleBasic = {
-                marginRight: 15,
+                marginRight: 3,
               }
 
               switch (cell.name) {
@@ -202,15 +202,13 @@ export default class RecordView extends Component {
         case 'rich_text':
         return (
           <div key={i}>
-            { title }
+            {title}
             {this.richTextToState(entry.data)}
-
             {/* <div style={{marginLeft:10}} dangerouslySetInnerHTML={{__html: entry.data}} /> */}
           </div>
         )
 
         default:
-        //  debugger
           return (
             <div key={i}>
               { this.prepareLine(entry.name,title,entry.data) }
@@ -253,7 +251,7 @@ export default class RecordView extends Component {
 
                   </span> */}
 
-        <span style={{padding:50, paddingTop: 0, width:600,display: "inline-block", verticalAlign: "top"}}>
+        <span style={{padding:50, paddingTop: 0, width:800,display: "inline-block", verticalAlign: "top"}}>
           { fieldsFlex }
         </span>
 
