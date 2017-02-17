@@ -11,8 +11,10 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/LinearProgress';
 
-import RichTextEditor from 'react-rte';
-// import {Editor, EditorState} from 'draft-js';
+// import RichTextEditor from 'react-rte';
+import { EditorState, convertFromHTML,convertFromRaw,convertToRaw, ContentState} from 'draft-js';
+import Editor from 'draft-js-plugins-editor'; // eslint-disable-line import/no-unresolved
+import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin'; // eslint-disable-line import/no-unresolved
 
 
 import {
@@ -22,6 +24,10 @@ import {
   URL_RECORD_UPLOAD_FILE,
 } from '../../links'
 
+import 'draft-js-inline-toolbar-plugin/lib/plugin.css';
+const inlineToolbarPlugin = createInlineToolbarPlugin();
+const { InlineToolbar } = inlineToolbarPlugin;
+
 class RecordAddMedia extends Component {
   constructor() {
     super()
@@ -29,7 +35,7 @@ class RecordAddMedia extends Component {
         previewSource : { src : URL_BASE_MULTIMEDIA_IMAGES + 'institution-default.jpg', type : "image/jpeg"},
         dataToSend : {},
         mediaUploaded: false,
-        transcriptBuffer: RichTextEditor.createEmptyValue()
+        transcriptBuffer: EditorState.createEmpty()
     };
 
     // Used to store references.
@@ -41,9 +47,27 @@ class RecordAddMedia extends Component {
     var transcript = newProps.prevData.transcript
 
     if ( transcript ){
-      transcript = RichTextEditor.createValueFromString(transcript, 'html')
+      try{ // Should be a contentState from raw
+        transcript = EditorState.createWithContent(convertFromRaw(JSON.parse(transcript)))
+
+      } catch (e) { //it may be html
+        var blocksFromHTML = convertFromHTML(transcript)
+        var state = ContentState.createFromBlockArray(
+                      blocksFromHTML.contentBlocks,
+                      blocksFromHTML.entityMap
+                    );
+        transcript = EditorState.createWithContent(state)
+      }
+
+      // debugger;
+      // var blocksFromHTML = convertFromHTML(transcript)
+      // var state = ContentState.createFromBlockArray(
+      //   blocksFromHTML.contentBlocks,
+      //   blocksFromHTML.entityMap
+      // );
+      // transcript = EditorState.createWithContent(state) //RichTextEditor.createValueFromString(transcript, 'html')
     } else { //then just initialise it.
-      transcript = RichTextEditor.createEmptyValue()
+      transcript = EditorState.createEmpty()
     }
 
 
@@ -83,7 +107,7 @@ class RecordAddMedia extends Component {
 
       });
 
-      debugger
+      // debugger
       var dat = thisObject.state.dataToSend
           dat.src = fileToUpload.src
           dat.type = fileToUpload.type
@@ -127,7 +151,6 @@ class RecordAddMedia extends Component {
     for (let file of files) {
       formData.append('uploadedImages[]', file);
     }
-
     xhr.send(formData);
   }
 
@@ -162,8 +185,14 @@ class RecordAddMedia extends Component {
 
   };
 
+
+  focus = () => {
+    // debugger;
+    this.editor.focus();
+  };
+
   prepareDataToSend( data ) {
-    data.transcript = this.state.transcriptBuffer.toString('html')
+    data.transcript = JSON.stringify(convertToRaw(this.state.transcriptBuffer.getCurrentContent()))
     this.props.mediaAdder(data)
   }
 
@@ -271,14 +300,21 @@ class RecordAddMedia extends Component {
 
         <span style={{fontWeight:"bold"}}>Transcript: </span>
 
-        <RichTextEditor
+        {/* <RichTextEditor
           editorClassName="rte-editor"
           autoFocus={true}
           value={this.state.transcriptBuffer}
           onChange={(value)=>this.onChangeTranscriptText(value, "transcript") }
-        />
-
-
+        /> */}
+        <div style={{marginLeft:20,marginTop:15,paddingBottom:5,borderBottom:"1px solid #cccccc",height:300,overflowY:"scroll"}} onClick={this.focus}>
+          <Editor editorState={this.state.transcriptBuffer}
+              onChange={(value)=>this.onChangeTranscriptText(value, "transcript")}
+              plugins={[inlineToolbarPlugin]}
+              ref={(element) => { this.editor = element; }}
+              placeholder={"Start typing here..."}
+          />
+          <InlineToolbar />
+        </div>
         {/* <TextField
          hintText="Transcript Goes Here if applicable"
          multiLine={true}

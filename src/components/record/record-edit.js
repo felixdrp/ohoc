@@ -3,7 +3,10 @@ import { connect } from 'react-redux'
 
 import fetchData from '../../network/fetch-data';
 import TextField from 'material-ui/TextField';
-import RichTextEditor from 'react-rte';
+
+import { EditorState, convertFromRaw, convertToRaw, convertFromHTML, ContentState} from 'draft-js';
+import Editor from 'draft-js-plugins-editor'; // eslint-disable-line import/no-unresolved
+import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin'; // eslint-disable-line import/no-unresolved
 
 import capitalize from '../stringTools'
 
@@ -19,6 +22,8 @@ import { MultipleRowInput } from '../multiple-row-input'
 
 import { Link } from 'react-router'
 
+import 'draft-js-inline-toolbar-plugin/lib/plugin.css'; // eslint-disable-line import/no-unresolved
+
 import {
   URL_CONTROL_ROOM_EDIT_RECORD,
   URL_CONTROL_ROOM_CREATE_RECORD,
@@ -28,6 +33,10 @@ import {
   URL_CONTROL_ROOM,
 } from '../../links'
 
+const inlineToolbarPlugin = createInlineToolbarPlugin();
+const { InlineToolbar } = inlineToolbarPlugin;
+
+//const sideToolbarPlugin = createSideToolbarPlugin();
 
 class RecordEdit extends Component {
   constructor() {
@@ -161,7 +170,7 @@ class RecordEdit extends Component {
     const state = this.state
     // Data to upload
 
-    debugger;
+    // debugger;
 
     let prepareDataToSend = {
       featuredImage : state.dataToSend.featuredImage,
@@ -181,7 +190,16 @@ class RecordEdit extends Component {
             }
           }
 
-          let field = {name: name, type: type, data: state.dataToSend[name]}
+          var data = state.dataToSend[name]
+
+          if ( type === "rich_text"){
+            var currentContentState = data.getCurrentContent()
+            var rawContentState = convertToRaw(currentContentState)
+            data = JSON.stringify(rawContentState)
+          }
+
+          let field = {name: name, type: type, data: data}
+
           return field
      })
 
@@ -247,7 +265,7 @@ class RecordEdit extends Component {
   }
 
   addMediaElement = (mediaObject) => {
-    debugger
+    // debugger
     this.setState ({showMediaAdder : false})
 
     //console.log("sent shite: "+JSON.stringify(mediaObject))
@@ -278,11 +296,17 @@ class RecordEdit extends Component {
         if ( i > -1 ){
           recordData.data.media[selectedType].splice(i,1)
         }
+        // debugger;
         recordData.data.media[selectedType].push(mediaObject)
     }
 
     this.setState({ recordData });
   }
+
+  focus = () => {
+    // debugger;
+    this.editor.focus();
+  };
 
   handleChange(event, index, value, name) {
     var dataToSend = this.state.dataToSend;
@@ -304,7 +328,7 @@ class RecordEdit extends Component {
       dataToSend = {}
     }
 
-    dataToSend[name] = value.toString('html')
+    dataToSend[name] = value; // conversion for storage
     this.setState({dataToSend : dataToSend})
   };
 
@@ -396,6 +420,11 @@ class RecordEdit extends Component {
           if ( recordData.data.fields[a].name === recordData.structure.info[i].name){
             data = recordData.data.fields[a].data
             dataEmpty = false
+          //  debugger
+            if ( !data ){
+              dataEmpty = true
+            }
+
             //debugger
           }
         }
@@ -422,22 +451,47 @@ class RecordEdit extends Component {
             )
 
           case 'rich_text':
-            // Initial load if data is empty.
+
             if (!input[i]) {
               if (!dataEmpty) {
-                input[i] = RichTextEditor.createValueFromString(data, 'html')
-              } else {
-                input[i] = RichTextEditor.createValueFromString('', 'html')
+
+                // debugger
+                if ( typeof data == "string" && data.length > 0){
+                  try{ // Should be a contentState from raw
+                    input[i] = EditorState.createWithContent(convertFromRaw(JSON.parse(data)))
+
+                  } catch (e) { //it may be html
+                    var blocksFromHTML = convertFromHTML(data)
+                    var state = ContentState.createFromBlockArray(
+                                  blocksFromHTML.contentBlocks,
+                                  blocksFromHTML.entityMap
+                                );
+                    input[i] = EditorState.createWithContent(state)
+                  }
+
+                } else {
+                  input[i] = EditorState.createWithContent(convertFromRaw(data))
+                }
+
+                 //RichTextEditor.createValueFromString(transcript, 'html')
+              } else { //then just initialise it.
+                input[i] = EditorState.createEmpty()
               }
             }
 
             return (
               <div key={i}>
                 <span style={{marginRight:15, fontWeight:"bold"}}>{capitalize(item.name)+":"}</span>
-                <RichTextEditor
-                  value={input[i]}
-                  onChange={(value) => this.onChangeRichText(i, item.name, value)}
-                />
+                <div style={{marginLeft:20,marginTop:15,paddingBottom:5,borderBottom:"1px solid #cccccc",height:300,overflowY:"scroll"}} onClick={this.focus}>
+                  <Editor editorState={input[i]}
+                          onChange={(value) => this.onChangeRichText(i, item.name, value)}
+                          plugins={[inlineToolbarPlugin]}
+                          ref={(element) => { this.editor = element; }}
+                          placeholder={item.name}
+                          
+                  />
+                   <InlineToolbar />
+                </div>
               </div>
 
             )
@@ -460,8 +514,8 @@ class RecordEdit extends Component {
 
     return (
 
-      <Card style={{padding:30}}>
 
+      <Card style={{padding:30}}>
 
         <AddMedia enableEditor={this.state.showMediaAdder} recordId={this.props.params.recordId} mediaAdder={this.addMediaElement} prevData={this.state.previousData}/>
 
