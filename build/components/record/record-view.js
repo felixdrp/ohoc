@@ -78,6 +78,12 @@ var _recordViewMediaElement = require('./record-view-mediaElement');
 
 var _recordViewMediaElement2 = _interopRequireDefault(_recordViewMediaElement);
 
+var _draftJs = require('draft-js');
+
+var _draftJsPluginsEditor = require('draft-js-plugins-editor');
+
+var _draftJsPluginsEditor2 = _interopRequireDefault(_draftJsPluginsEditor);
+
 var _links = require('../../links');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -132,6 +138,17 @@ var RecordView = function (_Component) {
         { style: { fontWeight: "bolder", fontSize: 20 } },
         title
       );
+    }, _this.richTextToState = function (textStateFromDB) {
+      var stateToReturn;
+      try {
+        stateToReturn = _draftJs.EditorState.createWithContent((0, _draftJs.convertFromRaw)(JSON.parse(textStateFromDB)));
+        stateToReturn = _react2.default.createElement(_draftJsPluginsEditor2.default, { editorState: stateToReturn, onChange: function onChange(value) {
+            return null;
+          } });
+      } catch (e) {
+        stateToReturn = _react2.default.createElement('div', { style: { marginLeft: 10 }, dangerouslySetInnerHTML: { __html: textStateFromDB } });
+      }
+      return stateToReturn;
     }, _this.prepareLine = function (name, title, data) {
 
       switch (name) {
@@ -259,7 +276,7 @@ var RecordView = function (_Component) {
             multiRows = entry.data.map(function (row, rowIndex) {
               var rowProcessed = row.map(function (cell, j) {
                 var styleBasic = {
-                  marginRight: 15
+                  marginRight: 3
                 };
 
                 switch (cell.name) {
@@ -332,7 +349,7 @@ var RecordView = function (_Component) {
               'div',
               { key: i },
               title,
-              _react2.default.createElement('div', { style: { marginLeft: 10 }, dangerouslySetInnerHTML: { __html: entry.data } })
+              _this2.richTextToState(entry.data)
             );
 
           default:
@@ -371,7 +388,7 @@ var RecordView = function (_Component) {
         ),
         _react2.default.createElement(
           'span',
-          { style: { padding: 50, paddingTop: 0, width: 600, display: "inline-block", verticalAlign: "top" } },
+          { style: { padding: 50, paddingTop: 0, width: 800, display: "inline-block", verticalAlign: "top" } },
           fieldsFlex
         ),
         _react2.default.createElement(

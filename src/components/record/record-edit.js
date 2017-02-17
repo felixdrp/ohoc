@@ -31,6 +31,7 @@ import {
   URL_MULTIMEDIA,
   URL_RECORD_UPLOAD_FILE,
   URL_CONTROL_ROOM,
+  URL_VIEW_RECORD,
 } from '../../links'
 
 const inlineToolbarPlugin = createInlineToolbarPlugin();
@@ -389,9 +390,12 @@ class RecordEdit extends Component {
     var formFlexibleTemplate = []
 
     if( this.state && this.state.submitted){
-      return <div> <h1> New Record Submitted! </h1>
+      return <Card style={{padding:20}}><div> <h1> New Record Submitted! </h1>
+
+                  <Link to={URL_VIEW_RECORD+this.props.params.recordId} target="_blank"> <h2> View changes... </h2></Link>
+
                   <Link to={URL_CONTROL_ROOM}> <h2> Back to Control Room... </h2></Link>
-            </div>
+            </div></Card>
     }
 
     if ( !this.state || !this.state.recordData ){
@@ -488,7 +492,7 @@ class RecordEdit extends Component {
                           plugins={[inlineToolbarPlugin]}
                           ref={(element) => { this.editor = element; }}
                           placeholder={item.name}
-                          
+
                   />
                    <InlineToolbar />
                 </div>

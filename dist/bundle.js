@@ -1482,7 +1482,13 @@ var CommonView = function (_Component) {
           _react2.default.createElement(
             'span',
             { style: { fontSize: 14, lineHeight: 0 } },
-            'You may copy and distribute the translations and commentaries in this resource, or parts of such translations and commentaries, in any medium, for non-commercial purposes as long as the authorship of the commentaries and translations is acknowledged, and you indicate the source as Bently & Kretschmer (eds), Primary Sources on Copyright (1450-1900) (www.copyrighthistory.org). You may not publish these documents for any commercial purposes, including charging a fee for providing access to these documents via a network. This licence does not affect your statutory rights of fair dealing. Although the original documents in this database are in the public domain, we are unable to grant you the right to reproduce or duplicate some of these documents in so far as the images or scans are protected by copyright or we have only been able to reproduce them here by giving contractual undertakings. For the status of any particular images, please consult the information relating to copyright in the bibliographic records.',
+            'You may copy and distribute the transcriptions and commentaries in this resource, or parts of such transcriptions and commentaries, in any medium, for non-commercial purposes as long as the source is acknowledged, and you indicate it as Bellido & Bently (eds), Intellectual Property- Oral History Project (',
+            _react2.default.createElement(
+              'a',
+              { href: "http://www.iporalhistory.co.uk" },
+              'www.iporalhistory.co.uk'
+            ),
+            '). You may not publish any document and photograph for any commercial purposes, including charging a fee for providing access to these documents amd photographs via a network. This licence does not affect your statutory rights of fair dealing. We are unable to grant you the right to reproduce or duplicate some of these photographs or documents in so far as the images or scans are protected by copyright or we have only been able to reproduce them here by giving contractual undertakings.',
             _react2.default.createElement('br', null),
             _react2.default.createElement('br', null),
             _react2.default.createElement('hr', null)
@@ -4223,6 +4229,12 @@ var _recordViewMediaElement = require('./record-view-mediaElement');
 
 var _recordViewMediaElement2 = _interopRequireDefault(_recordViewMediaElement);
 
+var _draftJs = require('draft-js');
+
+var _draftJsPluginsEditor = require('draft-js-plugins-editor');
+
+var _draftJsPluginsEditor2 = _interopRequireDefault(_draftJsPluginsEditor);
+
 var _links = require('../../links');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -4277,6 +4289,17 @@ var RecordView = function (_Component) {
         { style: { fontWeight: "bolder", fontSize: 20 } },
         title
       );
+    }, _this.richTextToState = function (textStateFromDB) {
+      var stateToReturn;
+      try {
+        stateToReturn = _draftJs.EditorState.createWithContent((0, _draftJs.convertFromRaw)(JSON.parse(textStateFromDB)));
+        stateToReturn = _react2.default.createElement(_draftJsPluginsEditor2.default, { editorState: stateToReturn, onChange: function onChange(value) {
+            return null;
+          } });
+      } catch (e) {
+        stateToReturn = _react2.default.createElement('div', { style: { marginLeft: 10 }, dangerouslySetInnerHTML: { __html: textStateFromDB } });
+      }
+      return stateToReturn;
     }, _this.prepareLine = function (name, title, data) {
 
       switch (name) {
@@ -4404,7 +4427,7 @@ var RecordView = function (_Component) {
             multiRows = entry.data.map(function (row, rowIndex) {
               var rowProcessed = row.map(function (cell, j) {
                 var styleBasic = {
-                  marginRight: 15
+                  marginRight: 3
                 };
 
                 switch (cell.name) {
@@ -4477,7 +4500,7 @@ var RecordView = function (_Component) {
               'div',
               { key: i },
               title,
-              _react2.default.createElement('div', { style: { marginLeft: 10 }, dangerouslySetInnerHTML: { __html: entry.data } })
+              _this2.richTextToState(entry.data)
             );
 
           default:
@@ -4516,7 +4539,7 @@ var RecordView = function (_Component) {
         ),
         _react2.default.createElement(
           'span',
-          { style: { padding: 50, paddingTop: 0, width: 600, display: "inline-block", verticalAlign: "top" } },
+          { style: { padding: 50, paddingTop: 0, width: 800, display: "inline-block", verticalAlign: "top" } },
           fieldsFlex
         ),
         _react2.default.createElement(
@@ -4537,7 +4560,7 @@ var RecordView = function (_Component) {
 }(_react.Component);
 
 exports.default = RecordView;
-},{"../../links":25,"../../network/fetch-data":27,"../stringTools":24,"./record-view-mediaElement":22,"babel-runtime/core-js/object/get-prototype-of":37,"babel-runtime/helpers/asyncToGenerator":43,"babel-runtime/helpers/classCallCheck":44,"babel-runtime/helpers/createClass":45,"babel-runtime/helpers/extends":47,"babel-runtime/helpers/inherits":48,"babel-runtime/helpers/possibleConstructorReturn":50,"babel-runtime/regenerator":54,"material-ui/Card":420,"material-ui/MenuItem":445,"material-ui/RaisedButton":452,"material-ui/SelectField":454,"material-ui/TextField":464,"material-ui/svg-icons/content/link":489,"nuka-carousel":509,"react":726}],24:[function(require,module,exports){
+},{"../../links":25,"../../network/fetch-data":27,"../stringTools":24,"./record-view-mediaElement":22,"babel-runtime/core-js/object/get-prototype-of":37,"babel-runtime/helpers/asyncToGenerator":43,"babel-runtime/helpers/classCallCheck":44,"babel-runtime/helpers/createClass":45,"babel-runtime/helpers/extends":47,"babel-runtime/helpers/inherits":48,"babel-runtime/helpers/possibleConstructorReturn":50,"babel-runtime/regenerator":54,"draft-js":202,"draft-js-plugins-editor":189,"material-ui/Card":420,"material-ui/MenuItem":445,"material-ui/RaisedButton":452,"material-ui/SelectField":454,"material-ui/TextField":464,"material-ui/svg-icons/content/link":489,"nuka-carousel":509,"react":726}],24:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
