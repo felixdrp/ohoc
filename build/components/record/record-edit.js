@@ -66,9 +66,15 @@ var _TextField = require('material-ui/TextField');
 
 var _TextField2 = _interopRequireDefault(_TextField);
 
-var _reactRte = require('react-rte');
+var _draftJs = require('draft-js');
 
-var _reactRte2 = _interopRequireDefault(_reactRte);
+var _draftJsPluginsEditor = require('draft-js-plugins-editor');
+
+var _draftJsPluginsEditor2 = _interopRequireDefault(_draftJsPluginsEditor);
+
+var _draftJsInlineToolbarPlugin = require('draft-js-inline-toolbar-plugin');
+
+var _draftJsInlineToolbarPlugin2 = _interopRequireDefault(_draftJsInlineToolbarPlugin);
 
 var _stringTools = require('../stringTools');
 
@@ -94,9 +100,19 @@ var _recordMediaPreviewer2 = _interopRequireDefault(_recordMediaPreviewer);
 
 var _multipleRowInput = require('../multiple-row-input');
 
+var _reactRouter = require('react-router');
+
+require('draft-js-inline-toolbar-plugin/lib/plugin.css');
+
 var _links = require('../../links');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+
+var inlineToolbarPlugin = (0, _draftJsInlineToolbarPlugin2.default)(); 
+
+var InlineToolbar = inlineToolbarPlugin.InlineToolbar;
+
 
 var RecordEdit = function (_Component) {
   (0, _inherits3.default)(RecordEdit, _Component);
@@ -133,13 +149,18 @@ var RecordEdit = function (_Component) {
       _this.setState({ recordData: recordData });
     };
 
-    _this.addMediaElement = function (mediaObject) {
+    _this.updateMedia = function (type, i, data) {
+      _this.setState({ showMediaAdder: true, previousData: data });
+    };
 
+    _this.addMediaElement = function (mediaObject) {
       _this.setState({ showMediaAdder: false });
 
       if (!mediaObject) {
         return;
       }
+
+      mediaObject.src = mediaObject.src.replace(_links.URL_MULTIMEDIA, "");
 
       var recordData = _this.state.recordData;
 
@@ -154,8 +175,9 @@ var RecordEdit = function (_Component) {
         selectedType = selectedType == "image" ? "picture" : selectedType;
         selectedType = selectedType == "application" ? "text" : selectedType;
         var i = recordData.data.media[selectedType].findIndex(function (element) {
-          return element.title == mediaObject.title && element.src == mediaObject.src;
+          return mediaObject.src == element.src;
         });
+
         if (i > -1) {
           recordData.data.media[selectedType].splice(i, 1);
         }
@@ -163,6 +185,10 @@ var RecordEdit = function (_Component) {
       }
 
       _this.setState({ recordData: recordData });
+    };
+
+    _this.focus = function () {
+      _this.editor.focus();
     };
 
     _this.onChangeRichText = function (index, name, value) {
@@ -173,7 +199,7 @@ var RecordEdit = function (_Component) {
         dataToSend = {};
       }
 
-      dataToSend[name] = value.toString('html');
+      dataToSend[name] = value; 
       _this.setState({ dataToSend: dataToSend });
     };
 
@@ -214,6 +240,14 @@ var RecordEdit = function (_Component) {
                 console.error('fetching record data > ' + _context.t0);
 
               case 12:
+                if (!(recordData === undefined)) {
+                  _context.next = 14;
+                  break;
+                }
+
+                return _context.abrupt('return');
+
+              case 14:
 
                 recordData = recordData.recordById[0];
 
@@ -242,7 +276,7 @@ var RecordEdit = function (_Component) {
                   dataToSend: dataToSend
                 });
 
-              case 15:
+              case 17:
               case 'end':
                 return _context.stop();
             }
@@ -340,7 +374,16 @@ var RecordEdit = function (_Component) {
                     }
                   }
 
-                  var field = { name: name, type: type, data: state.dataToSend[name] };
+                  var data = state.dataToSend[name];
+
+                  if (type === "rich_text") {
+                    var currentContentState = data.getCurrentContent();
+                    var rawContentState = (0, _draftJs.convertToRaw)(currentContentState);
+                    data = (0, _stringify2.default)(rawContentState);
+                  }
+
+                  var field = { name: name, type: type, data: data };
+
                   return field;
                 });
 
@@ -379,8 +422,10 @@ var RecordEdit = function (_Component) {
     key: 'toggleMultimediaAdder',
     value: function toggleMultimediaAdder() {
 
-      this.setState({ showMediaAdder: true });
+      this.setState({ showMediaAdder: true, previousData: {} });
     }
+
+
 
 
   }, {
@@ -397,6 +442,7 @@ var RecordEdit = function (_Component) {
               key: i,
               media: (0, _extends3.default)({}, element, { src: _links.URL_MULTIMEDIA + element.src }),
               mediaDeleter: _this2.deleteMedia,
+              mediaUpdater: _this2.updateMedia,
               index: i
             });
           })
@@ -482,7 +528,16 @@ var RecordEdit = function (_Component) {
             null,
             ' New Record Submitted! '
           ),
-          ' '
+          _react2.default.createElement(
+            _reactRouter.Link,
+            { to: _links.URL_CONTROL_ROOM },
+            ' ',
+            _react2.default.createElement(
+              'h2',
+              null,
+              ' Back to Control Room... '
+            )
+          )
         );
       }
 
@@ -511,6 +566,10 @@ var RecordEdit = function (_Component) {
             if (recordData.data.fields[a].name === recordData.structure.info[i].name) {
               data = recordData.data.fields[a].data;
               dataEmpty = false;
+              if (!data) {
+                dataEmpty = true;
+              }
+
             }
           }
 
@@ -541,11 +600,24 @@ var RecordEdit = function (_Component) {
               );
 
             case 'rich_text':
+
               if (!input[i]) {
                 if (!dataEmpty) {
-                  input[i] = _reactRte2.default.createValueFromString(data, 'html');
+
+                  if (typeof data == "string" && data.length > 0) {
+                    try {
+                      input[i] = _draftJs.EditorState.createWithContent((0, _draftJs.convertFromRaw)(JSON.parse(data)));
+                    } catch (e) {
+                      var blocksFromHTML = (0, _draftJs.convertFromHTML)(data);
+                      var state = _draftJs.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
+                      input[i] = _draftJs.EditorState.createWithContent(state);
+                    }
+                  } else {
+                    input[i] = _draftJs.EditorState.createWithContent((0, _draftJs.convertFromRaw)(data));
+                  }
+
                 } else {
-                  input[i] = _reactRte2.default.createValueFromString('', 'html');
+                  input[i] = _draftJs.EditorState.createEmpty();
                 }
               }
 
@@ -557,12 +629,22 @@ var RecordEdit = function (_Component) {
                   { style: { marginRight: 15, fontWeight: "bold" } },
                   (0, _stringTools2.default)(item.name) + ":"
                 ),
-                _react2.default.createElement(_reactRte2.default, {
-                  value: input[i],
-                  onChange: function onChange(value) {
-                    return _this3.onChangeRichText(i, item.name, value);
-                  }
-                })
+                _react2.default.createElement(
+                  'div',
+                  { style: { marginLeft: 20, marginTop: 15, paddingBottom: 5, borderBottom: "1px solid #cccccc", height: 300, overflowY: "scroll" }, onClick: _this3.focus },
+                  _react2.default.createElement(_draftJsPluginsEditor2.default, { editorState: input[i],
+                    onChange: function onChange(value) {
+                      return _this3.onChangeRichText(i, item.name, value);
+                    },
+                    plugins: [inlineToolbarPlugin],
+                    ref: function ref(element) {
+                      _this3.editor = element;
+                    },
+                    placeholder: item.name
+
+                  }),
+                  _react2.default.createElement(InlineToolbar, null)
+                )
               );
 
           }
@@ -589,11 +671,11 @@ var RecordEdit = function (_Component) {
       return _react2.default.createElement(
         _Card.Card,
         { style: { padding: 30 } },
-        this.state.showMediaAdder ? _react2.default.createElement(_recordAddMedia2.default, { recordId: this.props.params.recordId, mediaAdder: this.addMediaElement, prevData: {} }) : _react2.default.createElement('div', null),
+        _react2.default.createElement(_recordAddMedia2.default, { enableEditor: this.state.showMediaAdder, recordId: this.props.params.recordId, mediaAdder: this.addMediaElement, prevData: this.state.previousData }),
         _react2.default.createElement(
           'h1',
           null,
-          ' Adding new  ',
+          ' Adding/Editing  ',
           recordData.type + " / " + recordData.subtype,
           ' '
         ),
@@ -709,7 +791,7 @@ var RecordEdit = function (_Component) {
             label: 'Cancel',
             primary: true,
             style: style,
-            href: _links.URL_CONTROL_ROOM_CREATE_RECORD
+            href: _links.URL_CONTROL_ROOM
           }),
           _react2.default.createElement(_RaisedButton2.default, {
             label: 'Submit',

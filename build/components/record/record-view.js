@@ -142,8 +142,8 @@ var RecordView = function (_Component) {
             'div',
             null,
             _react2.default.createElement(
-              'h2',
-              null,
+              'h3',
+              { style: { fontSize: 18 } },
               data
             )
           );
@@ -242,7 +242,7 @@ var RecordView = function (_Component) {
 
         var title = fieldsToHide.includes(entry.name) ? "" : _react2.default.createElement(
           'h3',
-          null,
+          { style: { fontSize: 17 } },
           (0, _stringTools2.default)(entry.name)
         );
 

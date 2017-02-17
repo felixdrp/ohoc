@@ -16,7 +16,8 @@ function PreviewGenerator(props) {
       style = props.style;
 
   var elem = element;
-  if (elem.src) {
+
+  if (elem && elem.src) {
     if (elem.type.includes("image/")) {
       return _react2.default.createElement("img", { style: style, src: elem.src });
     } else if (elem.type.includes("audio/")) {

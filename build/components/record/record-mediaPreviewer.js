@@ -87,6 +87,13 @@ var RecordMediaPreviewer = function (_Component) {
         { style: { padding: 3, width: 220, height: 190, float: "left", marginLeft: 5, marginTop: 5 } },
         _react2.default.createElement(
           _IconButton2.default,
+          { style: { margin: 0, padding: 0, width: 30, float: "right" }, onClick: function onClick() {
+              return _this2.props.mediaUpdater(_this2.props.media.type, _this2.props.index, _this2.props.media);
+            } },
+          _react2.default.createElement(_borderColor2.default, null)
+        ),
+        _react2.default.createElement(
+          _IconButton2.default,
           { style: { float: "right" }, onClick: function onClick() {
               return _this2.props.mediaDeleter(_this2.props.media.type, _this2.props.index);
             } },

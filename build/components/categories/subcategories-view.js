@@ -44,8 +44,6 @@ var _TextField = require('material-ui/TextField');
 
 var _TextField2 = _interopRequireDefault(_TextField);
 
-var _reactRouter = require('react-router');
-
 var _SelectField = require('material-ui/SelectField');
 
 var _SelectField2 = _interopRequireDefault(_SelectField);

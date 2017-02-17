@@ -145,7 +145,7 @@ var CommonView = function (_Component) {
         this.props.children,
         _react2.default.createElement(
           _Card.Card,
-          { style: { padding: 20, paddingTop: 1, marginTop: -40 } },
+          { style: { padding: 20, paddingTop: 1, marginTop: 5 } },
           _react2.default.createElement(
             'h3',
             null,

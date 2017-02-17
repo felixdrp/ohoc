@@ -46,6 +46,7 @@
   "dependencies": {
     "babel-polyfill": "^6.16.0",
     "babili": "0.0.10",
+    "browserify-css": "^0.10.0",
     "draft-js-inline-toolbar-plugin": "^2.0.0-beta9",
     "draft-js-plugins-editor": "^2.0.0-beta9",
     "draft-js-side-toolbar-plugin": "^2.0.0-beta9",
