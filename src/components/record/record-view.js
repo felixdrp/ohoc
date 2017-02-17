@@ -16,6 +16,11 @@ import Carousel from 'nuka-carousel';
 
 import RecordViewMediaElement from './record-view-mediaElement'
 
+import { EditorState, convertFromRaw, convertToRaw, convertFromHTML, ContentState} from 'draft-js';
+import Editor from 'draft-js-plugins-editor';
+
+
+
 import {
   URL_BASE_MULTIMEDIA_IMAGES,
   URL_MULTIMEDIA,
@@ -90,7 +95,16 @@ export default class RecordView extends Component {
       </span>
     )
   }
-
+  richTextToState = (textStateFromDB) => {
+    var stateToReturn
+    try {
+      stateToReturn = EditorState.createWithContent(convertFromRaw(JSON.parse(textStateFromDB)))
+      stateToReturn = <Editor editorState={stateToReturn} onChange={(value) => {return null}} />
+    } catch (e){
+      stateToReturn = <div style={{marginLeft:10}} dangerouslySetInnerHTML={{__html: textStateFromDB}} />
+    }
+    return stateToReturn
+  }
   prepareLine = (name,title,data) => {
 
 
@@ -189,7 +203,9 @@ export default class RecordView extends Component {
         return (
           <div key={i}>
             { title }
-            <div style={{marginLeft:10}} dangerouslySetInnerHTML={{__html: entry.data}} />
+            {this.richTextToState(entry.data)}
+
+            {/* <div style={{marginLeft:10}} dangerouslySetInnerHTML={{__html: entry.data}} /> */}
           </div>
         )
 
