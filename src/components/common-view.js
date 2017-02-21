@@ -18,7 +18,12 @@ class CommonView extends Component {
     // Get and dispatch the template list
     this.props.setTemplateList( await fetch.templateListGet() )
   }
-
+  constructor() {
+    super()
+    this.state = {
+      isAMobile: (navigator.userAgent.indexOf('Mobile') > -1)? true : false,
+    };
+  }
 
 
   render() {
@@ -26,7 +31,7 @@ class CommonView extends Component {
 
 
     return (
-     <div id="CommonView" style={{marginLeft: "8%", marginRight:"8%", minWidth:1500 }}>
+     <div id="CommonView" style={{marginLeft: this.state.isAMobile ? "5%" : "10%", maxWidth:"80%", minWidth:870 }}>
        <Card style={{height:100, marginBottom:10,paddingTop:20,paddingLeft:20}}>
 
        {/* <img src="http://www.create.ac.uk/wp-content/uploads/logos/create_primary_logo_160.jpg" style={logoStyle} /> */}
@@ -48,7 +53,7 @@ class CommonView extends Component {
        <Card style={{padding:20,paddingTop:1,marginTop:5}}>
         <h3>Copyright statement</h3>
         <span style={{fontSize:14,lineHeight:0}}>
-        You may copy and distribute the transcriptions and commentaries in this resource, or parts of such transcriptions and commentaries, in any medium, for non-commercial purposes as long as the source is acknowledged, and you indicate it as Bellido & Bently (eds), Intellectual Property- Oral History Project (<a href={"http://www.iporalhistory.co.uk"}>www.iporalhistory.co.uk</a>). You may not publish any document and photograph for any commercial purposes, including charging a fee for providing access to these documents amd photographs via a network. This licence does not affect your statutory rights of fair dealing. We are unable to grant you the right to reproduce or duplicate some of these photographs or documents in so far as the images or scans are protected by copyright or we have only been able to reproduce them here by giving contractual undertakings. 
+        You may copy and distribute the transcriptions and commentaries in this resource, or parts of such transcriptions and commentaries, in any medium, for non-commercial purposes as long as the source is acknowledged, and you indicate it as Bellido & Bently (eds), Intellectual Property- Oral History Project (<a href={"http://www.iporalhistory.co.uk"}>www.iporalhistory.co.uk</a>). You may not publish any document and photograph for any commercial purposes, including charging a fee for providing access to these documents amd photographs via a network. This licence does not affect your statutory rights of fair dealing. We are unable to grant you the right to reproduce or duplicate some of these photographs or documents in so far as the images or scans are protected by copyright or we have only been able to reproduce them here by giving contractual undertakings.
         <br/><br/>
         <hr/>
         </span>

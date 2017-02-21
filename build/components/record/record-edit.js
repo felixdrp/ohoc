@@ -520,22 +520,36 @@ var RecordEdit = function (_Component) {
 
       if (this.state && this.state.submitted) {
         return _react2.default.createElement(
-          'div',
-          null,
-          ' ',
+          _Card.Card,
+          { style: { padding: 20 } },
           _react2.default.createElement(
-            'h1',
+            'div',
             null,
-            ' New Record Submitted! '
-          ),
-          _react2.default.createElement(
-            _reactRouter.Link,
-            { to: _links.URL_CONTROL_ROOM },
             ' ',
             _react2.default.createElement(
-              'h2',
+              'h1',
               null,
-              ' Back to Control Room... '
+              ' New Record Submitted! '
+            ),
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: _links.URL_VIEW_RECORD + this.props.params.recordId, target: '_blank' },
+              ' ',
+              _react2.default.createElement(
+                'h2',
+                null,
+                ' View changes... '
+              )
+            ),
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: _links.URL_CONTROL_ROOM },
+              ' ',
+              _react2.default.createElement(
+                'h2',
+                null,
+                ' Back to Control Room... '
+              )
             )
           )
         );

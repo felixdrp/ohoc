@@ -36,19 +36,22 @@ export default class CategoriesView extends Component {
     subCategoryData = {
       "Practice" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Practice/Grays Inn Gateway.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "The Bench" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Bench/PortadaBench.jpg' , orderIndex : 2, copyrightNotice : "" },
+      "Barristers" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Barristers/barristers.jpg' ,orderIndex : 1,copyrightNotice : "" },
+      "Clerks" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Clerks/PortadaClerks.jpg' ,orderIndex : 2,copyrightNotice : "" },
+      "Chambers" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Chambers/6PumpCourtTres.jpg' ,orderIndex : 2,copyrightNotice : "" },
+      "Sketches in Court" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Sketches in Court/Sketches.png' ,orderIndex : 3,copyrightNotice : "" },
+
       "Solicitors and Agents" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Solicitors and Agents/GraysInnSquare001BirdandBird.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "Textbooks" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Textbooks/Photograph1.jpg' ,orderIndex : 2,copyrightNotice : "" },
-      "Barristers" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Barristers/barristers.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "Treatises" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Treatises/ShelleyOnPatents.jpg' ,orderIndex : 2,copyrightNotice : "" },
-      "Clerks" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Clerks/PortadaClerks.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "Universities & Polytechnics " : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Academia/PortadaAcademia.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "Law Reports" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Law Reports/FSPLR.png' ,orderIndex : 2,copyrightNotice : "" },
-      "Chambers" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Chambers/6PumpCourtTres.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "Groups and Associations" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Groups and Associations/JB_Photos16_0010.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "EIPR" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/EIPR/PropertyReview.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "Civil Service" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Civil Service/PatentOfficeLibrary.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "Magazines" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Magazines/TW_0002.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "Campaigns" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Campaigns/PublicLendingRight2.jpg' ,orderIndex : 2,copyrightNotice : "" },
+
     }
 
 

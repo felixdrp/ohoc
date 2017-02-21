@@ -21,6 +21,8 @@ import Editor from 'draft-js-plugins-editor';
 
 
 
+
+
 import {
   URL_BASE_MULTIMEDIA_IMAGES,
   URL_MULTIMEDIA,
@@ -43,20 +45,6 @@ export default class RecordView extends Component {
     }
   }
 
-  // getPreviewer = (elem) =>{
-  //   var style = {maxWidth:290,maxHeight:250}
-  //   if ( elem.src )
-  //     if( elem.type.includes("image/")){
-  //        return <img style={style} src={elem.src} />
-  //     } else if (elem.type.includes("audio/")){
-  //        return <span><img style={{maxWidth:290,maxHeight:210}} src={this.state.recordData.recordById[0].data.featuredImage || "http://localhost:3001/images/institution-default.jpg"} /><audio style={style} controls src={elem.src}  /> </span>
-  //     } else if (elem.type.includes("video/")){
-  //        return <video style={style} controls src={elem.src}  />
-  //     } else {
-  //       return <span style={{width:"100%",textAlign:"center"}}><br/><a style={style} href={elem.src} target={"_blank"}><ContentLinkIcon style={{width:80,height:80}}/><br/>{"Open in new tab: "+elem.title}</a></span>
-  //     }
-  //     return <span></span>
-  // }
 
   getMediaPreviewers = (arrayOfMedia,type) => {
     // if the array is empty there is no reason to draw the preview container at all.
@@ -66,7 +54,7 @@ export default class RecordView extends Component {
 
         arrayOfMedia.map(
           (element,i) => (
-            allImages.push(<div style={{width:400,height:310,textAlign:"center"}} >
+            allImages.push(<div key={i} style={{width:"100%",height:310,textAlign:"center"}} >
               <RecordViewMediaElement
                 key={i}
                 style={{maxHeight:300,maxWidth:400}}
@@ -77,7 +65,7 @@ export default class RecordView extends Component {
           )
         )
 
-        return (<div style={{width:400,height:310,marginTop:10,adding:5,border: "1px dashed lightgrey",backgroundColor:"lightgrey"}}>
+        return (<div style={{width:400,height:310,marginTop:0,adding:5,border: "1px dashed lightgrey",backgroundColor:"lightgrey"}}>
                   <Carousel>
                         {allImages}
 
@@ -95,16 +83,18 @@ export default class RecordView extends Component {
       </span>
     )
   }
-  richTextToState = (textStateFromDB) => {
-    var stateToReturn
+
+  richTextToComponent = (textStateFromDB) => {
+    var componentToReturn
     try {
-      stateToReturn = EditorState.createWithContent(convertFromRaw(JSON.parse(textStateFromDB)))
-      stateToReturn = <Editor editorState={stateToReturn} onChange={(value) => {return null}} />
+      componentToReturn = EditorState.createWithContent(convertFromRaw(JSON.parse(textStateFromDB)))
+      componentToReturn = <Editor editorState={componentToReturn} onChange={(value) => {return null}} />
     } catch (e){
-      stateToReturn = <div style={{marginLeft:10}} dangerouslySetInnerHTML={{__html: textStateFromDB}} />
+      componentToReturn = <div style={{marginLeft:10}} dangerouslySetInnerHTML={{__html: textStateFromDB}} />
     }
-    return stateToReturn
+    return componentToReturn
   }
+
   prepareLine = (name,title,data) => {
 
 
@@ -114,7 +104,7 @@ export default class RecordView extends Component {
       case 'name':
         return <div><h3 style={{fontSize:18}}>{data}</h3></div>
       default:
-        return <div>{title}<span style={{marginLeft:10}}>{data}</span></div>
+        return <div>{title}<span style={{marginLeft:0}}>{data}</span></div>
     }
   }
 
@@ -159,10 +149,17 @@ export default class RecordView extends Component {
           if ( entry.data === "" ){
             entry.data = []
           }
+
+          //Should be an array, but there was some old data that was a string. So we handle that with the following return.
+          if ( typeof entry.data === 'string'){
+            return <span> {entry.data} </span>
+          }
+
+          // debugger;
           multiRows = entry.data.map( (row, rowIndex) => {
             let rowProcessed = row.map( (cell, j) => {
               let styleBasic = {
-                marginRight: 3,
+                marginRight: 0,
               }
 
               switch (cell.name) {
@@ -186,7 +183,7 @@ export default class RecordView extends Component {
               }
             })
 
-            return <div style={{marginLeft:10}} key={rowIndex}>{rowProcessed}</div>
+            return <div style={{marginLeft:0}} key={rowIndex}>{rowProcessed}</div>
           })
 
 
@@ -203,7 +200,7 @@ export default class RecordView extends Component {
         return (
           <div key={i}>
             {title}
-            {this.richTextToState(entry.data)}
+            {this.richTextToComponent(entry.data)}
             {/* <div style={{marginLeft:10}} dangerouslySetInnerHTML={{__html: entry.data}} /> */}
           </div>
         )
@@ -218,67 +215,66 @@ export default class RecordView extends Component {
     })
 
     return (
-      <Card style={{padding:50,paddingRight:0, paddingTop: 30}}>
+      <Card style={{padding:30}}>
+          <style>{"\
+                 .public-DraftEditor-content div{\
+                   word-wrap:normal;\
+                 }\
+               "}</style>
+
+          <span style={{ width:"100%", display: "inline-block", verticalAlign: "top"}}>
+
+            <span style ={{maxHeight:300, display: "inline-block", verticalAlign: "top", float:"left",margin:5,marginRight:10}}>
+              <Card
+                  style={{maxWidth:345,border:"1px solid black"}}
+                  src={
+                     recordData.data.featuredImage ?
+                       URL_MULTIMEDIA + recordData.data.featuredImage:
+                       baseImage
+                  }
+              >
+                <CardMedia
+                  overlay={<CardTitle title={copyrightNotice} style={{margin:0,padding:0,height:40}} titleStyle={{fontSize:10,lineHeight: 1,padding:5}} ></CardTitle>}
+                >
+                  <span style={{width:345,height:250}}><img style={{maxHeight: 250,maxWidth:343}} src={
+                       recordData.data.featuredImage ?
+                       URL_MULTIMEDIA + recordData.data.featuredImage:
+                       baseImage
+                  } /></span>
+                </CardMedia>
+              </Card>
+            </span>
 
 
-        <span style ={{height:300,display: "inline-block", verticalAlign: "top" }}>
-          <Card
-              style={{maxWidth:345,maxHeight:300,border:"1px solid black"}}
-              src={
-                 recordData.data.featuredImage ?
-                   URL_MULTIMEDIA + recordData.data.featuredImage:
-                   baseImage
+            <span style={{maxWidth:"50%", display: "inline-block", verticalAlign: "top", float:"right",marginLeft:20}}>
+              {/* { recordData.data.media.picture.length > 0 ? this.sectionTitle('Image Gallery') : "" } */}
+              {
+                this.getMediaPreviewers(recordData.data.media.picture,"picture")
               }
-          >
-            <CardMedia
-              overlay={<CardTitle title={copyrightNotice} style={{margin:0,padding:0,height:40}} titleStyle={{fontSize:10,lineHeight: 1,padding:5}} ></CardTitle>}
-            >
-              <span style={{width:400,height:250}}><img style={{maxHeight: 250,maxWidth:400}} src={
-                   recordData.data.featuredImage ?
-                   URL_MULTIMEDIA + recordData.data.featuredImage:
-                   baseImage
-              } /></span>
-            </CardMedia>
 
+              <br/>
+              {/* { recordData.data.media.audio.length > 0 ? this.sectionTitle('Audio Gallery') : "" } */}
+              {
+                this.getMediaPreviewers(recordData.data.media.audio,"audio")
+              }
 
-          </Card>
-        </span>
+              <br/>
+              {/* { recordData.data.media.video.length > 0 ? this.sectionTitle('Video Gallery') : ""  } */}
+              {
+                this.getMediaPreviewers(recordData.data.media.video,"video")
+              }
 
-                  {/* <span style={{height:300,width:600,position:"absolute",float:"left",left:700}}>
+              <br/>
+              {/* { recordData.data.media.text.length > 0 ? this.sectionTitle('Text and PDF files') : ""  } */}
+              {
+                this.getMediaPreviewers(recordData.data.media.text,"text")
+              }
+            </span>
 
-                      <h1>{capitalize(recordData.data.recordName)}</h1>
-                      <h3>{capitalize(recordData.type)+"/"+capitalize(recordData.subtype)}</h3>
-
-                  </span> */}
-
-        <span style={{padding:50, paddingTop: 0, width:800,display: "inline-block", verticalAlign: "top"}}>
-          { fieldsFlex }
-        </span>
-
-        <span style={{padding:0, paddingTop: 0, width:400,display: "inline-block", verticalAlign: "top", float:"right", position:"relative",right:50}}>
-          {/* { recordData.data.media.picture.length > 0 ? this.sectionTitle('Image Gallery') : "" } */}
-          {
-            this.getMediaPreviewers(recordData.data.media.picture,"picture")
-          }
-
-          <br/>
-          {/* { recordData.data.media.audio.length > 0 ? this.sectionTitle('Audio Gallery') : "" } */}
-          {
-            this.getMediaPreviewers(recordData.data.media.audio,"audio")
-          }
-
-          <br/>
-          {/* { recordData.data.media.video.length > 0 ? this.sectionTitle('Video Gallery') : ""  } */}
-          {
-            this.getMediaPreviewers(recordData.data.media.video,"video")
-          }
-
-          <br/>
-          {/* { recordData.data.media.text.length > 0 ? this.sectionTitle('Text and PDF files') : ""  } */}
-          {
-            this.getMediaPreviewers(recordData.data.media.text,"text")
-          }
-        </span>
+            <span style={{width:"80%"}}>
+            { fieldsFlex }
+            </span>
+          </span>
       </Card>
     );
   }

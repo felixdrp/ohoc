@@ -110,7 +110,7 @@ var RecordView = function (_Component) {
         arrayOfMedia.map(function (element, i) {
           return allImages.push(_react2.default.createElement(
             'div',
-            { style: { width: 400, height: 310, textAlign: "center" } },
+            { key: i, style: { width: 400, height: 310, textAlign: "center" } },
             _react2.default.createElement(_recordViewMediaElement2.default, {
               key: i,
               style: { maxHeight: 300, maxWidth: 400 },
@@ -122,7 +122,7 @@ var RecordView = function (_Component) {
 
         return _react2.default.createElement(
           'div',
-          { style: { width: 400, height: 310, marginTop: 10, adding: 5, border: "1px dashed lightgrey", backgroundColor: "lightgrey" } },
+          { style: { width: 400, height: 310, marginTop: 0, adding: 5, border: "1px dashed lightgrey", backgroundColor: "lightgrey" } },
           _react2.default.createElement(
             _nukaCarousel2.default,
             null,
@@ -138,17 +138,17 @@ var RecordView = function (_Component) {
         { style: { fontWeight: "bolder", fontSize: 20 } },
         title
       );
-    }, _this.richTextToState = function (textStateFromDB) {
-      var stateToReturn;
+    }, _this.richTextToComponent = function (textStateFromDB) {
+      var componentToReturn;
       try {
-        stateToReturn = _draftJs.EditorState.createWithContent((0, _draftJs.convertFromRaw)(JSON.parse(textStateFromDB)));
-        stateToReturn = _react2.default.createElement(_draftJsPluginsEditor2.default, { editorState: stateToReturn, onChange: function onChange(value) {
+        componentToReturn = _draftJs.EditorState.createWithContent((0, _draftJs.convertFromRaw)(JSON.parse(textStateFromDB)));
+        componentToReturn = _react2.default.createElement(_draftJsPluginsEditor2.default, { editorState: componentToReturn, onChange: function onChange(value) {
             return null;
           } });
       } catch (e) {
-        stateToReturn = _react2.default.createElement('div', { style: { marginLeft: 10 }, dangerouslySetInnerHTML: { __html: textStateFromDB } });
+        componentToReturn = _react2.default.createElement('div', { style: { marginLeft: 10 }, dangerouslySetInnerHTML: { __html: textStateFromDB } });
       }
-      return stateToReturn;
+      return componentToReturn;
     }, _this.prepareLine = function (name, title, data) {
 
       switch (name) {
@@ -349,7 +349,7 @@ var RecordView = function (_Component) {
               'div',
               { key: i },
               title,
-              _this2.richTextToState(entry.data)
+              _this2.richTextToComponent(entry.data)
             );
 
           default:
@@ -380,15 +380,15 @@ var RecordView = function (_Component) {
               },
               _react2.default.createElement(
                 'span',
-                { style: { width: 400, height: 250 } },
-                _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 400 }, src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage })
+                { style: { width: 345, height: 250 } },
+                _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 343 }, src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage })
               )
             )
           )
         ),
         _react2.default.createElement(
           'span',
-          { style: { padding: 50, paddingTop: 0, width: 800, display: "inline-block", verticalAlign: "top" } },
+          { style: { padding: 50, paddingTop: 0, width: 750, display: "inline-block", verticalAlign: "top" } },
           fieldsFlex
         ),
         _react2.default.createElement(

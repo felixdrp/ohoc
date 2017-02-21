@@ -12,6 +12,9 @@ import ClearIcon from 'material-ui/svg-icons/content/clear';
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
+import { EditorState, convertFromRaw, convertToRaw, convertFromHTML, ContentState} from 'draft-js';
+import Editor from 'draft-js-plugins-editor';
+
 // import getPreviewer from './previewGenerator'
 import PreviewGenerator from './preview-generator'
 
@@ -30,6 +33,20 @@ export default class RecordViewMediaElement extends Component {
       this.setState({showExtendedDialog: true})
     }
   }
+
+
+  richTextToComponent = (textStateFromDB) => {
+      var componentToReturn
+
+      try {
+        componentToReturn = EditorState.createWithContent(convertFromRaw(JSON.parse(textStateFromDB)))
+        componentToReturn = <Editor editorState={componentToReturn} onChange={(value) => {return null}} />
+      } catch (e){
+        console.log(e)
+        componentToReturn = <div style={{marginLeft:10}} dangerouslySetInnerHTML={{__html: textStateFromDB}} />
+      }
+      return componentToReturn
+    }
 
   render() {
 
@@ -62,9 +79,7 @@ export default class RecordViewMediaElement extends Component {
             <span>Description</span>
             <div style={{width:"100%",minHeight:200,maxHeight:250,overflowY:"scroll",border: "1px dashed lightgrey",textAlign:"center"}}>
               {
-                this.props.media.transcript?
-                  this.props.media.transcript.split("<br/>").map( (e,j) => <span key={j}> <br/> {e} </span> ):
-                  ""
+                this.props.media.transcript ? this.richTextToComponent(this.props.media.transcript) : <span></span>
               }
             </div>
 
@@ -73,7 +88,7 @@ export default class RecordViewMediaElement extends Component {
          {/* <IconButton style={{float:"right"}} onClick={() => this.props.mediaDeleter(this.props.media.type,this.props.index)}>
             <ClearIcon />
           </IconButton> */}
-        <span style={{maxWidth:"100%",fontWeight:"bold"}}>
+        <span style={{maxWidth:"100%",fontSize:15}}>
           {
             this.props.media.title
           }
@@ -88,7 +103,7 @@ export default class RecordViewMediaElement extends Component {
         { (this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video")) ?
               <div style = {{width:"100%", height:200, overflowY:"scroll",border: "1px dashed lightgrey",textAlign:"center"}}>
                 {
-                  this.props.media.transcript ? this.props.media.transcript.split("<br/>").map( (e,j) => <span key={j}> <br/> {e} </span> ): ""
+                  this.props.media.transcript ? this.richTextToComponent(this.props.media.transcript) : <span></span>
                 }
               </div> : <div></div>
 

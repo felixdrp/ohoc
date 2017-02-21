@@ -109,7 +109,7 @@ var CommonView = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { id: 'CommonView', style: { marginLeft: "8%", marginRight: "8%", minWidth: 1500 } },
+        { id: 'CommonView', style: { marginLeft: "5%", minWidth: 1666, maxWidth: "90%" } },
         _react2.default.createElement(
           _Card.Card,
           { style: { height: 100, marginBottom: 10, paddingTop: 20, paddingLeft: 20 } },

@@ -66,6 +66,12 @@ var _clear2 = _interopRequireDefault(_clear);
 
 var _Card = require('material-ui/Card');
 
+var _draftJs = require('draft-js');
+
+var _draftJsPluginsEditor = require('draft-js-plugins-editor');
+
+var _draftJsPluginsEditor2 = _interopRequireDefault(_draftJsPluginsEditor);
+
 var _previewGenerator = require('./preview-generator');
 
 var _previewGenerator2 = _interopRequireDefault(_previewGenerator);
@@ -90,6 +96,21 @@ var RecordViewMediaElement = function (_Component) {
       if (allowedToShowDialog.includes(_this.props.type)) {
         _this.setState({ showExtendedDialog: true });
       }
+    };
+
+    _this.richTextToComponent = function (textStateFromDB) {
+      var componentToReturn;
+
+      try {
+        componentToReturn = _draftJs.EditorState.createWithContent((0, _draftJs.convertFromRaw)(JSON.parse(textStateFromDB)));
+        componentToReturn = _react2.default.createElement(_draftJsPluginsEditor2.default, { editorState: componentToReturn, onChange: function onChange(value) {
+            return null;
+          } });
+      } catch (e) {
+        console.log(e);
+        componentToReturn = _react2.default.createElement('div', { style: { marginLeft: 10 }, dangerouslySetInnerHTML: { __html: textStateFromDB } });
+      }
+      return componentToReturn;
     };
 
     _this.state = { showExtendedDialog: false };
@@ -137,17 +158,7 @@ var RecordViewMediaElement = function (_Component) {
           _react2.default.createElement(
             'div',
             { style: { width: "100%", minHeight: 200, maxHeight: 250, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
-            this.props.media.transcript ? this.props.media.transcript.split("<br/>").map(function (e, j) {
-              return _react2.default.createElement(
-                'span',
-                { key: j },
-                ' ',
-                _react2.default.createElement('br', null),
-                ' ',
-                e,
-                ' '
-              );
-            }) : ""
+            this.props.media.transcript ? this.richTextToComponent(this.props.media.transcript) : _react2.default.createElement('span', null)
           )
         ),
         _react2.default.createElement(
@@ -170,17 +181,7 @@ var RecordViewMediaElement = function (_Component) {
         this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(
           'div',
           { style: { width: "100%", height: 200, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
-          this.props.media.transcript ? this.props.media.transcript.split("<br/>").map(function (e, j) {
-            return _react2.default.createElement(
-              'span',
-              { key: j },
-              ' ',
-              _react2.default.createElement('br', null),
-              ' ',
-              e,
-              ' '
-            );
-          }) : ""
+          this.props.media.transcript ? this.richTextToComponent(this.props.media.transcript) : _react2.default.createElement('span', null)
         ) : _react2.default.createElement('div', null)
       );
     }

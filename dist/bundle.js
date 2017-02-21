@@ -1437,7 +1437,7 @@ var CommonView = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { id: 'CommonView', style: { marginLeft: "8%", marginRight: "8%", minWidth: 1500 } },
+        { id: 'CommonView', style: { marginLeft: "5%", minWidth: 1666, maxWidth: "90%" } },
         _react2.default.createElement(
           _Card.Card,
           { style: { height: 100, marginBottom: 10, paddingTop: 20, paddingLeft: 20 } },
@@ -3531,22 +3531,36 @@ var RecordEdit = function (_Component) {
 
       if (this.state && this.state.submitted) {
         return _react2.default.createElement(
-          'div',
-          null,
-          ' ',
+          _Card.Card,
+          { style: { padding: 20 } },
           _react2.default.createElement(
-            'h1',
+            'div',
             null,
-            ' New Record Submitted! '
-          ),
-          _react2.default.createElement(
-            _reactRouter.Link,
-            { to: _links.URL_CONTROL_ROOM },
             ' ',
             _react2.default.createElement(
-              'h2',
+              'h1',
               null,
-              ' Back to Control Room... '
+              ' New Record Submitted! '
+            ),
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: _links.URL_VIEW_RECORD + this.props.params.recordId, target: '_blank' },
+              ' ',
+              _react2.default.createElement(
+                'h2',
+                null,
+                ' View changes... '
+              )
+            ),
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: _links.URL_CONTROL_ROOM },
+              ' ',
+              _react2.default.createElement(
+                'h2',
+                null,
+                ' Back to Control Room... '
+              )
             )
           )
         );
@@ -4025,6 +4039,12 @@ var _clear2 = _interopRequireDefault(_clear);
 
 var _Card = require('material-ui/Card');
 
+var _draftJs = require('draft-js');
+
+var _draftJsPluginsEditor = require('draft-js-plugins-editor');
+
+var _draftJsPluginsEditor2 = _interopRequireDefault(_draftJsPluginsEditor);
+
 var _previewGenerator = require('./preview-generator');
 
 var _previewGenerator2 = _interopRequireDefault(_previewGenerator);
@@ -4049,6 +4069,21 @@ var RecordViewMediaElement = function (_Component) {
       if (allowedToShowDialog.includes(_this.props.type)) {
         _this.setState({ showExtendedDialog: true });
       }
+    };
+
+    _this.richTextToComponent = function (textStateFromDB) {
+      var componentToReturn;
+
+      try {
+        componentToReturn = _draftJs.EditorState.createWithContent((0, _draftJs.convertFromRaw)(JSON.parse(textStateFromDB)));
+        componentToReturn = _react2.default.createElement(_draftJsPluginsEditor2.default, { editorState: componentToReturn, onChange: function onChange(value) {
+            return null;
+          } });
+      } catch (e) {
+        console.log(e);
+        componentToReturn = _react2.default.createElement('div', { style: { marginLeft: 10 }, dangerouslySetInnerHTML: { __html: textStateFromDB } });
+      }
+      return componentToReturn;
     };
 
     _this.state = { showExtendedDialog: false };
@@ -4096,17 +4131,7 @@ var RecordViewMediaElement = function (_Component) {
           _react2.default.createElement(
             'div',
             { style: { width: "100%", minHeight: 200, maxHeight: 250, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
-            this.props.media.transcript ? this.props.media.transcript.split("<br/>").map(function (e, j) {
-              return _react2.default.createElement(
-                'span',
-                { key: j },
-                ' ',
-                _react2.default.createElement('br', null),
-                ' ',
-                e,
-                ' '
-              );
-            }) : ""
+            this.props.media.transcript ? this.richTextToComponent(this.props.media.transcript) : _react2.default.createElement('span', null)
           )
         ),
         _react2.default.createElement(
@@ -4129,17 +4154,7 @@ var RecordViewMediaElement = function (_Component) {
         this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(
           'div',
           { style: { width: "100%", height: 200, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
-          this.props.media.transcript ? this.props.media.transcript.split("<br/>").map(function (e, j) {
-            return _react2.default.createElement(
-              'span',
-              { key: j },
-              ' ',
-              _react2.default.createElement('br', null),
-              ' ',
-              e,
-              ' '
-            );
-          }) : ""
+          this.props.media.transcript ? this.richTextToComponent(this.props.media.transcript) : _react2.default.createElement('span', null)
         ) : _react2.default.createElement('div', null)
       );
     }
@@ -4148,7 +4163,7 @@ var RecordViewMediaElement = function (_Component) {
 }(_react.Component);
 
 exports.default = RecordViewMediaElement;
-},{"../stringTools":24,"./preview-generator":16,"babel-runtime/core-js/object/get-prototype-of":37,"babel-runtime/helpers/classCallCheck":44,"babel-runtime/helpers/createClass":45,"babel-runtime/helpers/inherits":48,"babel-runtime/helpers/possibleConstructorReturn":50,"material-ui/Card":420,"material-ui/Dialog":422,"material-ui/FlatButton":427,"material-ui/IconButton":434,"material-ui/MenuItem":445,"material-ui/RaisedButton":452,"material-ui/SelectField":454,"material-ui/TextField":464,"material-ui/svg-icons/content/clear":488,"material-ui/svg-icons/editor/border-color":490,"react":726}],23:[function(require,module,exports){
+},{"../stringTools":24,"./preview-generator":16,"babel-runtime/core-js/object/get-prototype-of":37,"babel-runtime/helpers/classCallCheck":44,"babel-runtime/helpers/createClass":45,"babel-runtime/helpers/inherits":48,"babel-runtime/helpers/possibleConstructorReturn":50,"draft-js":202,"draft-js-plugins-editor":189,"material-ui/Card":420,"material-ui/Dialog":422,"material-ui/FlatButton":427,"material-ui/IconButton":434,"material-ui/MenuItem":445,"material-ui/RaisedButton":452,"material-ui/SelectField":454,"material-ui/TextField":464,"material-ui/svg-icons/content/clear":488,"material-ui/svg-icons/editor/border-color":490,"react":726}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4261,7 +4276,7 @@ var RecordView = function (_Component) {
         arrayOfMedia.map(function (element, i) {
           return allImages.push(_react2.default.createElement(
             'div',
-            { style: { width: 400, height: 310, textAlign: "center" } },
+            { key: i, style: { width: 400, height: 310, textAlign: "center" } },
             _react2.default.createElement(_recordViewMediaElement2.default, {
               key: i,
               style: { maxHeight: 300, maxWidth: 400 },
@@ -4273,7 +4288,7 @@ var RecordView = function (_Component) {
 
         return _react2.default.createElement(
           'div',
-          { style: { width: 400, height: 310, marginTop: 10, adding: 5, border: "1px dashed lightgrey", backgroundColor: "lightgrey" } },
+          { style: { width: 400, height: 310, marginTop: 0, adding: 5, border: "1px dashed lightgrey", backgroundColor: "lightgrey" } },
           _react2.default.createElement(
             _nukaCarousel2.default,
             null,
@@ -4289,17 +4304,17 @@ var RecordView = function (_Component) {
         { style: { fontWeight: "bolder", fontSize: 20 } },
         title
       );
-    }, _this.richTextToState = function (textStateFromDB) {
-      var stateToReturn;
+    }, _this.richTextToComponent = function (textStateFromDB) {
+      var componentToReturn;
       try {
-        stateToReturn = _draftJs.EditorState.createWithContent((0, _draftJs.convertFromRaw)(JSON.parse(textStateFromDB)));
-        stateToReturn = _react2.default.createElement(_draftJsPluginsEditor2.default, { editorState: stateToReturn, onChange: function onChange(value) {
+        componentToReturn = _draftJs.EditorState.createWithContent((0, _draftJs.convertFromRaw)(JSON.parse(textStateFromDB)));
+        componentToReturn = _react2.default.createElement(_draftJsPluginsEditor2.default, { editorState: componentToReturn, onChange: function onChange(value) {
             return null;
           } });
       } catch (e) {
-        stateToReturn = _react2.default.createElement('div', { style: { marginLeft: 10 }, dangerouslySetInnerHTML: { __html: textStateFromDB } });
+        componentToReturn = _react2.default.createElement('div', { style: { marginLeft: 10 }, dangerouslySetInnerHTML: { __html: textStateFromDB } });
       }
-      return stateToReturn;
+      return componentToReturn;
     }, _this.prepareLine = function (name, title, data) {
 
       switch (name) {
@@ -4500,7 +4515,7 @@ var RecordView = function (_Component) {
               'div',
               { key: i },
               title,
-              _this2.richTextToState(entry.data)
+              _this2.richTextToComponent(entry.data)
             );
 
           default:
@@ -4531,15 +4546,15 @@ var RecordView = function (_Component) {
               },
               _react2.default.createElement(
                 'span',
-                { style: { width: 400, height: 250 } },
-                _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 400 }, src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage })
+                { style: { width: 345, height: 250 } },
+                _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 343 }, src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage })
               )
             )
           )
         ),
         _react2.default.createElement(
           'span',
-          { style: { padding: 50, paddingTop: 0, width: 800, display: "inline-block", verticalAlign: "top" } },
+          { style: { padding: 50, paddingTop: 0, width: 750, display: "inline-block", verticalAlign: "top" } },
           fieldsFlex
         ),
         _react2.default.createElement(

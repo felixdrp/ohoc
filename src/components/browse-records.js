@@ -11,6 +11,8 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 
 import capitalize from './stringTools'
 
+import {GridList, GridTile} from 'material-ui/GridList';
+
 import { URL_CATEGORIES_LIST, URL_BASE_MULTIMEDIA_IMAGES} from '../links'
 
 class BrowseRecords extends Component {
@@ -29,10 +31,9 @@ class BrowseRecords extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      isAMobile: (navigator.userAgent.indexOf('Mobile') > -1)? true : false,
     };
   }
-
-
 
   render() {
     const style = {
@@ -41,49 +42,31 @@ class BrowseRecords extends Component {
 
     return (
       <div>
-
-        {/* <div>
-          <TextField
-            hintText="Search"
-          />
-          <br />
-        </div> */}
-
         <Card style = {{paddingTop:20,paddingBottom:10}}>
-          {/* <div style={{marginTop:5,marginLeft:80,marginBottom:50,fontSize:35, fontWeight:"bold"}}>
-            <span style={{color:"black"}}>Intellectual Property :</span> <span style={{color:"#155196"}}>Oral History Project</span>
-          </div> */}
-
           <div style={{textAlign:"center"}} >
+            <GridList
+                     cols={this.state.isAMobile ? 2 : 3}
+                     cellHeight={250}
+                     style={{width:"80%",marginLeft:"10%"}}
+                   >
           {
-            this.props.templateList && Object.keys(this.props.templateList).sort( (a,b) => this.categoryData[a].orderIndex > this.categoryData[b].orderIndex).map( (e, index) => (
-              <Link key={index} to={URL_CATEGORIES_LIST + e} style={{ textDecoration: 'none' }}>
-                <Card
-
-                  style={{
-                    width: "26%",
-                    display: 'inline-block',
-                    marginBottom: 10,
-                    marginRight: 10,
-                    height: 250,
-                    backgroundColor: "#cccccc",
-                  }}
-                  expanded={false}
-                  initiallyExpanded={false}
-                >
-                  <CardMedia
-                    overlay={<CardTitle title={capitalize(e)} style={{margin:0,padding:4}} > <span style={{color:"white",fontSize:10}}> {this.categoryData[e].copyrightNotice}</span> </CardTitle>}
-                  >
-                    <span style={{width:400,height:250}}><img style={{maxHeight: 250 ,maxWidth:"100%"}} src={this.categoryData[e].src} /></span>
-                  </CardMedia>
-
-
-                </Card>
-              </Link>
-            ))
+            this.props.templateList && Object.keys(this.props.templateList).sort( (a,b) => this.categoryData[a].orderIndex > this.categoryData[b].orderIndex).map(
+                (e, index) => (
+                    <Link key={index} to={URL_CATEGORIES_LIST + e} style={{ textDecoration: 'none'}}>
+                      <GridTile
+                        key={index}
+                        title={e}
+                        subtitle={this.categoryData[e].copyrightNotice}
+                        style={{backgroundColor:"rgb(204, 204, 204)"}}
+                      >
+                        <span style={{width:"100%",height:"100%",textAlign:"center",verticalAlign:"middle"}}><img style={{width:"100%"}} src={this.categoryData[e].src ? this.categoryData[e].src : baseAvatarImage} /></span>
+                      </GridTile>
+                    </Link>
+              )
+            )
           }
+            </GridList>
           </div>
-
 
         <div style={{marginLeft:"10%",fontSize:18}}>
           <div style={{marginTop:30,paddingLeft:0,paddingRight:50, width:"88%", textAlign:"justify"}}>
@@ -93,9 +76,9 @@ class BrowseRecords extends Component {
 
             <span style={{fontSize:15}}>
             <b>Contact details:</b>
-            <div style={{margin:20}}>
+            <span style={{marginLeft:10}}>
             José Bellido, University of Kent <a href="mailto:j.a.bellido@kent.ac.uk">j.a.bellido@kent.ac.uk</a> and Lionel Bently, University of Cambridge <a href="mailto:lb329@cam.ac.uk">​lb329@cam.ac.uk</a>
-            </div>
+            </span>
             </span>
           </div>
         </div>
