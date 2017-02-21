@@ -19,7 +19,7 @@ import RecordViewMediaElement from './record-view-mediaElement'
 import { EditorState, convertFromRaw, convertToRaw, convertFromHTML, ContentState} from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
 
-
+import Measure from 'react-measure';
 
 
 
@@ -29,6 +29,12 @@ import {
 } from '../../links'
 
 export default class RecordView extends Component {
+  state = {
+      dimensions: {
+        width: -1,
+        height: -1
+      }
+    }
 
   async componentDidMount() {
     let fetch = new fetchData();
@@ -117,7 +123,7 @@ export default class RecordView extends Component {
       return <div></div>
     }
 
-    const baseImage = URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg'
+    const baseImage = URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg' // This is the image used by default when we have no image to show.
 
     let recordData  = this.state.recordData;
 
@@ -132,7 +138,15 @@ export default class RecordView extends Component {
 
     }
 
-    let fieldsFlex = recordData.data.fields.map( (entry,i) => {
+    // debugger;
+    let fieldsFlex = recordData.structure.info.map( (entry,i) => { // We look in the template structure so we follow the order in which the different fields appear in the template.
+
+      for ( var a in recordData.data.fields ){ // Here we find the data in the record for the element in the template. Not the opposite because then we cannot guarantee the order of the fields.
+        if ( recordData.data.fields[a].name == entry.name){
+          entry = recordData.data.fields[a];
+        }
+      }
+
       let multiRows
 
       let fieldsToHide = ["biography","name",""]
@@ -183,7 +197,7 @@ export default class RecordView extends Component {
               }
             })
 
-            return <div style={{marginLeft:0}} key={rowIndex}>{rowProcessed}</div>
+            return <div style={{marginLeft:5}} key={rowIndex}>{rowProcessed}</div>
           })
 
 
@@ -224,7 +238,7 @@ export default class RecordView extends Component {
 
           <span style={{ width:"100%", display: "inline-block", verticalAlign: "top"}}>
 
-            <span style ={{maxHeight:300, display: "inline-block", verticalAlign: "top", float:"left",margin:5,marginRight:10}}>
+            <span style ={{maxHeight:300,width:350, maxWidth:350, display: "inline-block", verticalAlign: "top", float:"left",margin:5,marginRight:10,textAlign:"center"}}>
               <Card
                   style={{maxWidth:345,border:"1px solid black"}}
                   src={
@@ -271,9 +285,18 @@ export default class RecordView extends Component {
               }
             </span>
 
-            <span style={{width:"80%"}}>
-            { fieldsFlex }
-            </span>
+            <Measure
+              onMeasure={(dimensions) => {
+                this.setState({dimensions})
+              }}
+            >
+              <div style={{
+                    paddingLeft: this.state.dimensions.width < (600+450) ? 0 : 365,
+                    marginTop: this.state.dimensions.width > (600+450) ? 0 : 290,
+                    wordWrap:"normal"}}>
+                { fieldsFlex }
+              </div>
+          </Measure>
           </span>
       </Card>
     );
