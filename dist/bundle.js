@@ -2368,7 +2368,8 @@ var RecordAddMedia = function (_Component) {
         transcript = _draftJs.EditorState.createEmpty();
       }
 
-      _this.setState({ transcriptBuffer: transcript, dataToSend: newProps.prevData, mediaUploaded: true, previewSource: { src: newProps.prevData.src, type: newProps.prevData.type } });
+      debugger;
+      _this.setState({ transcriptBuffer: transcript, dataToSend: newProps.prevData, mediaUploaded: newProps.prevData.src ? true : false, previewSource: { src: newProps.prevData.src, type: newProps.prevData.type } });
     };
 
     _this.progress = function (completed) {
