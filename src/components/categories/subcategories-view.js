@@ -14,9 +14,6 @@ import CommunicationChatBubble from 'material-ui/svg-icons/image/navigate-next';
 import GridView  from './gridview';
 import ListView  from './listview';
 
-
-import capitalize from '../stringTools'
-
 import fetchData from '../../network/fetch-data';
 
 import {
@@ -82,7 +79,7 @@ export default class SubCategoriesView extends Component {
 
     return (
       <Card style={{paddingBottom:30, minHeight:600}}>
-        <CardTitle style={{marginLeft:40}}> <h1> {capitalize(this.props.params.subcategoryId)} </h1> </CardTitle>
+        <CardTitle style={{marginLeft:40}}> <h1> {this.props.params.subcategoryId} </h1> </CardTitle>
         <Card style={{marginLeft:50,marginRight:50,padding:5}}>
 
           {/* <ListView subcategoryId = {this.props.params.subcategoryId} entries = {selectedSubCategory} /> */}

@@ -16,6 +16,7 @@ import { EditorState, convertFromHTML,convertFromRaw,convertToRaw, ContentState}
 import Editor from 'draft-js-plugins-editor'; // eslint-disable-line import/no-unresolved
 import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin'; // eslint-disable-line import/no-unresolved
 
+// import editorStyles from './editorStyles.css';
 
 import {
   URL_CONTROL_ROOM_EDIT_RECORD,
@@ -231,14 +232,24 @@ class RecordAddMedia extends Component {
             open={true}
 
           >
-        <style>{"\
-                 .rte-editor{\
-                   height:100px;\
-                   overflow-y:'scroll';\
-                   margin-bottom:10px;\
-                   padding-bottom:10px;\
-                 }\
-               "}</style>
+
+                <style>{"\
+                         .editor {\
+                           box-sizing: border-box;\
+                           border: 1px solid #ddd;\
+                           cursor: text;\
+                           padding: 16px;\
+                           border-radius: 2px;\
+                           margin-bottom: 2em;\
+                           box-shadow: inset 0px 1px 8px -3px #ABABAB;\
+                           background: #fefefe;\
+                         }\
+                 "}</style>
+                    <style>{"\
+                         .editor :global(.public-DraftEditor-content) {\
+                           min-height: 140px;\
+                         }\
+                 "}</style>
 
 
       <Card style={{padding:5,height:727,overflowY:"scroll"}}>

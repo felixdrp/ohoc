@@ -330,13 +330,26 @@ var RecordAddMedia = function (_Component) {
           'style',
           null,
           "\
-                 .rte-editor{\
-                   height:100px;\
-                   overflow-y:'scroll';\
-                   margin-bottom:10px;\
-                   padding-bottom:10px;\
-                 }\
-               "
+                         .editor {\
+                           box-sizing: border-box;\
+                           border: 1px solid #ddd;\
+                           cursor: text;\
+                           padding: 16px;\
+                           border-radius: 2px;\
+                           margin-bottom: 2em;\
+                           box-shadow: inset 0px 1px 8px -3px #ABABAB;\
+                           background: #fefefe;\
+                         }\
+                 "
+        ),
+        _react2.default.createElement(
+          'style',
+          null,
+          "\
+                         .editor :global(.public-DraftEditor-content) {\
+                           min-height: 140px;\
+                         }\
+                 "
         ),
         _react2.default.createElement(
           _Card.Card,

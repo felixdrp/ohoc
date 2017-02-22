@@ -14,7 +14,6 @@ import CommunicationChatBubble from 'material-ui/svg-icons/image/navigate-next';
 
 
 import {GridList, GridTile} from 'material-ui/GridList';
-import capitalize from '../stringTools'
 
 
 import GridView  from './gridview';
@@ -154,7 +153,7 @@ export default class CategoriesView extends Component {
 
       return (
         <Card style={{paddingBottom:30, minHeight:600}}>
-          <CardTitle style={{marginLeft:40}}> <h1> {capitalize(this.props.params.subcategoryId)} </h1> </CardTitle>
+          <CardTitle style={{marginLeft:40}}> <h1> {this.props.params.subcategoryId} </h1> {this.props.params.subcategoryId === "Sketches in Court" ? <span>Sketches in Court: drawings by Sir Kenneth Swan (courtesy of Christopher Morcom, QC)</span> : ""} </CardTitle>
           <Card style={{marginLeft:50,marginRight:50,padding:5}}>
             <GridView subcategoryId = {this.props.params.subcategoryId} entries = {selectedSubCategory} />
           </Card>
@@ -164,7 +163,7 @@ export default class CategoriesView extends Component {
     } else { // Here categories are shown if multiple subcategories are present in the data.
         return (
           <Card style={{paddingBottom:30, minHeight:600}}>
-            <CardTitle style={{marginLeft:50}}> <h1> {capitalize(this.props.params.categoryId)} </h1> </CardTitle>
+            <CardTitle style={{marginLeft:50}}> <h1> {this.props.params.categoryId} </h1> </CardTitle>
             <Card style={{marginLeft:50,marginRight:50}}>
               <CardText>
                       <GridList
@@ -172,7 +171,7 @@ export default class CategoriesView extends Component {
                           style={styles.gridList}
                           cellHeight={250}
                         >
-                          {/* <Subheader>{capitalize(this.props.subcategoryId)}</Subheader> */}
+
                           {tilesData.map((tile,i) => (
                             <Link key={i} to={tile.src} style={{ textDecoration: 'none'}}>
                               <GridTile

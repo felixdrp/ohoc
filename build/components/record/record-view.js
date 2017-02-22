@@ -62,10 +62,6 @@ var _link = require('material-ui/svg-icons/content/link');
 
 var _link2 = _interopRequireDefault(_link);
 
-var _stringTools = require('../stringTools');
-
-var _stringTools2 = _interopRequireDefault(_stringTools);
-
 var _fetchData = require('../../network/fetch-data');
 
 var _fetchData2 = _interopRequireDefault(_fetchData);
@@ -83,6 +79,10 @@ var _draftJs = require('draft-js');
 var _draftJsPluginsEditor = require('draft-js-plugins-editor');
 
 var _draftJsPluginsEditor2 = _interopRequireDefault(_draftJsPluginsEditor);
+
+var _reactMeasure = require('react-measure');
+
+var _reactMeasure2 = _interopRequireDefault(_reactMeasure);
 
 var _links = require('../../links');
 
@@ -102,7 +102,12 @@ var RecordView = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = RecordView.__proto__ || (0, _getPrototypeOf2.default)(RecordView)).call.apply(_ref, [this].concat(args))), _this), _this.getMediaPreviewers = function (arrayOfMedia, type) {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = RecordView.__proto__ || (0, _getPrototypeOf2.default)(RecordView)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      dimensions: {
+        width: -1,
+        height: -1
+      }
+    }, _this.getMediaPreviewers = function (arrayOfMedia, type) {
       if (Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0) {
 
         var allImages = [];
@@ -110,7 +115,7 @@ var RecordView = function (_Component) {
         arrayOfMedia.map(function (element, i) {
           return allImages.push(_react2.default.createElement(
             'div',
-            { key: i, style: { width: 400, height: 310, textAlign: "center" } },
+            { key: i, style: { width: "100%", height: 310, textAlign: "center" } },
             _react2.default.createElement(_recordViewMediaElement2.default, {
               key: i,
               style: { maxHeight: 300, maxWidth: 400 },
@@ -141,8 +146,12 @@ var RecordView = function (_Component) {
     }, _this.richTextToComponent = function (textStateFromDB) {
       var componentToReturn;
       try {
-        componentToReturn = _draftJs.EditorState.createWithContent((0, _draftJs.convertFromRaw)(JSON.parse(textStateFromDB)));
-        componentToReturn = _react2.default.createElement(_draftJsPluginsEditor2.default, { editorState: componentToReturn, onChange: function onChange(value) {
+        var prevContentState = JSON.parse(textStateFromDB);
+        if (prevContentState.blocks && prevContentState.blocks[0] && prevContentState.blocks[0].text.length == 0) {
+          return _react2.default.createElement('div', null);
+        }
+        componentToReturn = _draftJs.EditorState.createWithContent((0, _draftJs.convertFromRaw)(prevContentState));
+        componentToReturn = _react2.default.createElement(_draftJsPluginsEditor2.default, { readOnly: true, editorState: componentToReturn, onChange: function onChange(value) {
             return null;
           } });
       } catch (e) {
@@ -154,13 +163,13 @@ var RecordView = function (_Component) {
       switch (name) {
         case 'featuredImage':
           return _react2.default.createElement('div', null);
-        case 'name':
+        case 'Name':
           return _react2.default.createElement(
             'div',
             null,
             _react2.default.createElement(
               'h3',
-              { style: { fontSize: 18 } },
+              { style: { fontSize: 18, fontWeight: 500 } },
               data
             )
           );
@@ -171,7 +180,7 @@ var RecordView = function (_Component) {
             title,
             _react2.default.createElement(
               'span',
-              { style: { marginLeft: 10 } },
+              { style: { marginLeft: 0 } },
               data
             )
           );
@@ -223,8 +232,6 @@ var RecordView = function (_Component) {
 
       return componentDidMount;
     }()
-
-
   }, {
     key: 'render',
     value: function render() {
@@ -238,7 +245,7 @@ var RecordView = function (_Component) {
         return _react2.default.createElement('div', null);
       }
 
-      var baseImage = _links.URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg';
+      var baseImage = _links.URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg'; 
 
       var recordData = this.state.recordData;
 
@@ -252,15 +259,22 @@ var RecordView = function (_Component) {
         }
       }
 
-      var fieldsFlex = recordData.data.fields.map(function (entry, i) {
+      var fieldsFlex = recordData.structure.info.map(function (entry, i) {
+
+        for (var a in recordData.data.fields) {
+          if (recordData.data.fields[a].name == entry.name) {
+            entry = recordData.data.fields[a];
+          }
+        }
+
         var multiRows = void 0;
 
-        var fieldsToHide = ["biography", "name", ""];
+        var fieldsToHide = ["Biography", "Name", ""];
 
         var title = fieldsToHide.includes(entry.name) ? "" : _react2.default.createElement(
           'h3',
-          { style: { fontSize: 17 } },
-          (0, _stringTools2.default)(entry.name)
+          { style: { fontSize: 17, fontWeight: 500 } },
+          entry.name
         );
 
         if (!entry.data || entry.name == "featured copyright notice") {
@@ -273,10 +287,21 @@ var RecordView = function (_Component) {
             if (entry.data === "") {
               entry.data = [];
             }
+
+            if (typeof entry.data === 'string') {
+              return _react2.default.createElement(
+                'span',
+                null,
+                ' ',
+                entry.data,
+                ' '
+              );
+            }
+
             multiRows = entry.data.map(function (row, rowIndex) {
               var rowProcessed = row.map(function (cell, j) {
                 var styleBasic = {
-                  marginRight: 3
+                  marginRight: 5
                 };
 
                 switch (cell.name) {
@@ -328,7 +353,7 @@ var RecordView = function (_Component) {
 
               return _react2.default.createElement(
                 'div',
-                { style: { marginLeft: 10 }, key: rowIndex },
+                { style: { marginLeft: 5 }, key: rowIndex },
                 rowProcessed
               );
             });
@@ -363,44 +388,68 @@ var RecordView = function (_Component) {
 
       return _react2.default.createElement(
         _Card.Card,
-        { style: { padding: 50, paddingRight: 0, paddingTop: 30 } },
+        { style: { padding: 30 } },
+        _react2.default.createElement(
+          'style',
+          null,
+          "\
+                 .public-DraftEditor-content div{\
+                   word-wrap:normal;\
+                 }\
+               "
+        ),
         _react2.default.createElement(
           'span',
-          { style: { height: 300, display: "inline-block", verticalAlign: "top" } },
+          { style: { width: "100%", display: "inline-block", verticalAlign: "top" } },
           _react2.default.createElement(
-            _Card.Card,
-            {
-              style: { maxWidth: 345, maxHeight: 300, border: "1px solid black" },
-              src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage
-            },
+            'span',
+            { style: { maxHeight: 300, width: 350, maxWidth: 350, display: "inline-block", verticalAlign: "top", float: "left", margin: 5, marginRight: 10, textAlign: "center" } },
             _react2.default.createElement(
-              _Card.CardMedia,
+              _Card.Card,
               {
-                overlay: _react2.default.createElement(_Card.CardTitle, { title: copyrightNotice, style: { margin: 0, padding: 0, height: 40 }, titleStyle: { fontSize: 10, lineHeight: 1, padding: 5 } })
+                style: { maxWidth: 345, border: "1px solid black" },
+                src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage
               },
               _react2.default.createElement(
-                'span',
-                { style: { width: 345, height: 250 } },
-                _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 343 }, src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage })
+                _Card.CardMedia,
+                {
+                  overlay: _react2.default.createElement(_Card.CardTitle, { title: copyrightNotice, style: { margin: 0, padding: 0, height: 40 }, titleStyle: { fontSize: 10, lineHeight: 1, padding: 5 } })
+                },
+                _react2.default.createElement(
+                  'span',
+                  { style: { width: 345, height: 250 } },
+                  _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 343 }, src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage })
+                )
               )
             )
+          ),
+          _react2.default.createElement(
+            'span',
+            { style: { maxWidth: "50%", display: "inline-block", verticalAlign: "top", float: "right", marginLeft: 20 } },
+            this.getMediaPreviewers(recordData.data.media.picture, "picture"),
+            _react2.default.createElement('br', null),
+            this.getMediaPreviewers(recordData.data.media.audio, "audio"),
+            _react2.default.createElement('br', null),
+            this.getMediaPreviewers(recordData.data.media.video, "video"),
+            _react2.default.createElement('br', null),
+            this.getMediaPreviewers(recordData.data.media.text, "text")
+          ),
+          _react2.default.createElement(
+            _reactMeasure2.default,
+            {
+              onMeasure: function onMeasure(dimensions) {
+                _this2.setState({ dimensions: dimensions });
+              }
+            },
+            _react2.default.createElement(
+              'div',
+              { style: {
+                  paddingLeft: this.state.dimensions.width < 600 + 450 ? 0 : 365,
+                  marginTop: this.state.dimensions.width > 600 + 450 ? 0 : 290,
+                  wordWrap: "normal" } },
+              fieldsFlex
+            )
           )
-        ),
-        _react2.default.createElement(
-          'span',
-          { style: { padding: 50, paddingTop: 0, width: 750, display: "inline-block", verticalAlign: "top" } },
-          fieldsFlex
-        ),
-        _react2.default.createElement(
-          'span',
-          { style: { padding: 0, paddingTop: 0, width: 400, display: "inline-block", verticalAlign: "top", float: "right", position: "relative", right: 50 } },
-          this.getMediaPreviewers(recordData.data.media.picture, "picture"),
-          _react2.default.createElement('br', null),
-          this.getMediaPreviewers(recordData.data.media.audio, "audio"),
-          _react2.default.createElement('br', null),
-          this.getMediaPreviewers(recordData.data.media.video, "video"),
-          _react2.default.createElement('br', null),
-          this.getMediaPreviewers(recordData.data.media.text, "text")
         )
       );
     }

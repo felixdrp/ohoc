@@ -9,7 +9,6 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
-import capitalize from './stringTools'
 
 import {GridList, GridTile} from 'material-ui/GridList';
 
@@ -18,14 +17,14 @@ import { URL_CATEGORIES_LIST, URL_BASE_MULTIMEDIA_IMAGES} from '../links'
 class BrowseRecords extends Component {
 
   categoryData = {
-    "academia" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoAcademy.jpeg' ,
+    "Academia" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoAcademy.jpeg' ,
                     orderIndex : 2,
                     copyrightNotice : "(Courtesy of QM Archives)" },
-    "civil service" : { src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoCivilService.jpg' , orderIndex : 4, copyrightNotice : "(Courtesy of IP Office)" },
-    "policy formation" : { src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPolicyFormation.jpg' , orderIndex : 3, copyrightNotice : "(Courtesy of M. Freegard)" },
-    "publications" : { src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPublications.jpg' , orderIndex : 5, copyrightNotice : "(Courtesy of Henry Blanco White)" },
-    "solicitors and agents" : { src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoSolicitorsandAgents.jpg' , orderIndex : 1, copyrightNotice : "(Courtesy of Bird&Bird)" },
-    "the bar" : { src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoTheBar.jpg' , orderIndex : 0, copyrightNotice : "(Courtesy of Metropolitan Archives)"  },
+    "Civil Service" : { src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoCivilService.jpg' , orderIndex : 4, copyrightNotice : "(Courtesy of IP Office)" },
+    "Policy Formation" : { src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPolicyFormation.jpg' , orderIndex : 3, copyrightNotice : "(Courtesy of M. Freegard)" },
+    "Publications" : { src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPublications.jpg' , orderIndex : 5, copyrightNotice : "(Courtesy of Henry Blanco White)" },
+    "Solicitors and Agents" : { src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoSolicitorsandAgents.jpg' , orderIndex : 1, copyrightNotice : "(Courtesy of Bird&Bird)" },
+    "The Bar" : { src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoTheBar.jpg' , orderIndex : 0, copyrightNotice : "(Courtesy of Metropolitan Archives)"  },
   }
 
   constructor(props) {
@@ -55,7 +54,7 @@ class BrowseRecords extends Component {
                     <Link key={index} to={URL_CATEGORIES_LIST + e} style={{ textDecoration: 'none'}}>
                       <GridTile
                         key={index}
-                        title={e}
+                        title={<span style={{fontSize:25}}>{e}</span>}
                         subtitle={this.categoryData[e].copyrightNotice}
                         style={{backgroundColor:"rgb(204, 204, 204)"}}
                       >

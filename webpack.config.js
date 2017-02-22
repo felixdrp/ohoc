@@ -27,12 +27,8 @@ module.exports = {
          ],
         include: path.join(__dirname, 'src')
       },
-      {
-        test: /plugin\.css$/,
-        loaders: [
-          'style', 'css',
-         ],
-      }
+      { test: /\.css$/,
+	 loader: "style-loader!css-loader" }
     ]
   }
 };

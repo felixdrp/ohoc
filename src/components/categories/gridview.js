@@ -12,8 +12,6 @@ import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import CommunicationChatBubble from 'material-ui/svg-icons/image/navigate-next';
 
-import capitalize from '../stringTools'
-
 import fetchData from '../../network/fetch-data';
 
 import {GridList, GridTile} from 'material-ui/GridList';
@@ -80,7 +78,7 @@ export default class GridView extends Component {
                 cols={8}
                 style={styles.gridList}
               >
-                {/* <Subheader>{capitalize(this.props.subcategoryId)}</Subheader> */}
+            
                 {tilesData.map((tile,i) => (
                   <Link key={i} to={tile.src} style={{ textDecoration: 'none'}}>
                     <GridTile
@@ -93,27 +91,6 @@ export default class GridView extends Component {
                   </Link>
                 ))}
               </GridList>
-
-
-      {/* <List>
-              <Subheader style={{fontWeight:"bolder"}}>{capitalize(this.props.subcategoryId)}</Subheader>
-                  {
-                    this.props.entries.map( (entry, i) =>{
-                      return <Link to={URL_VIEW_RECORD + entry.id} key={i} style={{ textDecoration: 'none'}}> <ListItem
-                        primaryText={capitalize(entry.data.recordName)}
-                        leftAvatar={
-
-                          <img style={avatarStyle}
-                            src={ entry.data.featuredImage? URL_MULTIMEDIA + entry.data.featuredImage: baseAvatarImage }
-                          />
-                        }
-                        rightIcon={<CommunicationChatBubble />}
-                      /> </Link>
-                    })
-
-                  }
-              </List> */}
-
 
   }
 }

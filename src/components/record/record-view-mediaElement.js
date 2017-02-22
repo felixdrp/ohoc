@@ -18,7 +18,6 @@ import Editor from 'draft-js-plugins-editor';
 // import getPreviewer from './previewGenerator'
 import PreviewGenerator from './preview-generator'
 
-import capitalize from '../stringTools'
 
 export default class RecordViewMediaElement extends Component {
   constructor() {

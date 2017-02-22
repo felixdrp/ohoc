@@ -56,10 +56,6 @@ var _highlightOff = require('material-ui/svg-icons/action/highlight-off');
 
 var _highlightOff2 = _interopRequireDefault(_highlightOff);
 
-var _stringTools = require('../stringTools');
-
-var _stringTools2 = _interopRequireDefault(_stringTools);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MultipleRowInput = function (_Component) {
@@ -128,7 +124,7 @@ var MultipleRowInput = function (_Component) {
                 _react2.default.createElement(
                   'span',
                   { style: { marginRight: 15, fontWeight: "bold", fontSize: '0.8em' } },
-                  (0, _stringTools2.default)(field.name) + ":"
+                  field.name + ":"
                 ),
                 _react2.default.createElement(_TextField2.default, {
                   ref: function ref(_ref2) {

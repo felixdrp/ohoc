@@ -6,9 +6,22 @@ import TextField from 'material-ui/TextField';
 
 import { EditorState, convertFromRaw, convertToRaw, convertFromHTML, ContentState} from 'draft-js';
 import Editor from 'draft-js-plugins-editor'; // eslint-disable-line import/no-unresolved
-import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin'; // eslint-disable-line import/no-unresolved
+//import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin'; // eslint-disable-line import/no-unresolved
 
-import capitalize from '../stringTools'
+import createInlineToolbarPlugin, { Separator } from 'draft-js-inline-toolbar-plugin';
+import {
+  ItalicButton,
+  BoldButton,
+  UnderlineButton,
+  CodeButton,
+  HeadlineOneButton,
+  HeadlineTwoButton,
+  HeadlineThreeButton,
+  UnorderedListButton,
+  OrderedListButton,
+  BlockquoteButton,
+  CodeBlockButton,
+} from 'draft-js-buttons'; // eslint-disable-line import/no-unresolved
 
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -34,8 +47,8 @@ import {
   URL_VIEW_RECORD,
 } from '../../links'
 
-const inlineToolbarPlugin = createInlineToolbarPlugin();
-const { InlineToolbar } = inlineToolbarPlugin;
+
+
 
 //const sideToolbarPlugin = createSideToolbarPlugin();
 
@@ -44,6 +57,7 @@ class RecordEdit extends Component {
     super()
     this.state = {
       value: '',
+      toolbarPlugins : {},
       // value: RichTextEditor.createEmptyValue(),
       // value: RichTextEditor.createValueFromString(markup, 'html'),
     };
@@ -304,9 +318,12 @@ class RecordEdit extends Component {
     this.setState({ recordData });
   }
 
-  focus = () => {
-    // debugger;
-    this.editor.focus();
+  focus = (e) => {
+
+    this.editor[e].focus();
+
+
+    //debugger;
   };
 
   handleChange(event, index, value, name) {
@@ -372,6 +389,37 @@ class RecordEdit extends Component {
       recordData,
       updated: Date.now(),
     })
+  }
+
+  initialiseEditor(item,i,input){
+    if( !this.state.toolbarPlugins[item.name] ){
+     this.state.toolbarPlugins[item.name] = createInlineToolbarPlugin({
+       structure: [
+         BoldButton,
+         ItalicButton,
+         UnderlineButton,
+         CodeButton,
+         Separator,
+         HeadlineOneButton,
+         HeadlineTwoButton,
+         HeadlineThreeButton,
+         UnorderedListButton,
+         OrderedListButton,
+         BlockquoteButton,
+         CodeBlockButton,
+       ]
+     });
+     }
+
+    return <div>
+            <Editor editorState={input[i]}
+              onChange={(value) => this.onChangeRichText(i, item.name, value)}
+              plugins={[this.state.toolbarPlugins[item.name]]}
+              ref={(element) => { if (!this.editor) { this.editor = {} }; this.editor[item.name] = element; }}
+              placeholder={item.name}
+            />
+             {this.state.toolbarPlugins[item.name].InlineToolbar.prototype.render()}
+            </div>
   }
 
   getExistingItem(itemList,name) {
@@ -445,7 +493,7 @@ class RecordEdit extends Component {
 
             return (
               <div key={i}>
-                <span style={{marginRight:15, fontWeight:"bold"}}>{capitalize(item.name)+":"}</span>
+                <span style={{marginRight:15, fontWeight:"bold"}}>{item.name+":"}</span>
                 <MultipleRowInput
                   template={template}
                   data={data}
@@ -485,16 +533,9 @@ class RecordEdit extends Component {
 
             return (
               <div key={i}>
-                <span style={{marginRight:15, fontWeight:"bold"}}>{capitalize(item.name)+":"}</span>
-                <div style={{marginLeft:20,marginTop:15,paddingBottom:5,borderBottom:"1px solid #cccccc",height:300,overflowY:"scroll"}} onClick={this.focus}>
-                  <Editor editorState={input[i]}
-                          onChange={(value) => this.onChangeRichText(i, item.name, value)}
-                          plugins={[inlineToolbarPlugin]}
-                          ref={(element) => { this.editor = element; }}
-                          placeholder={item.name}
-
-                  />
-                   <InlineToolbar />
+                <span style={{marginRight:15, fontWeight:"bold"}}>{item.name+":"}</span>
+                <div style={{marginLeft:20,marginTop:15,paddingBottom:5,borderBottom:"1px solid #cccccc",maxHeight:300,overflowY:"scroll"}} onClick={(e) => this.focus(item.name)}>
+                  {this.initialiseEditor(item,i,input)}
                 </div>
               </div>
 
@@ -504,7 +545,7 @@ class RecordEdit extends Component {
         }
         return (
           <div key={i}>
-            <span style={{marginRight:15,fontWeight:"bold"}}>{capitalize(item.name)+":"}</span>
+            <span style={{marginRight:15,fontWeight:"bold"}}>{item.name+":"}</span>
             <TextField hintText={item.name} multiLine={true}
             rows={1}
             rowsMax={10}
@@ -520,6 +561,31 @@ class RecordEdit extends Component {
 
 
       <Card style={{padding:30}}>
+
+        <style>{"\
+               .public-DraftEditorPlaceholder-inner {\
+                 position: absolute;\
+                 color: #aaaaaa;\
+               }\
+             "}</style>
+
+    <style>{"\
+             .editor {\
+               box-sizing: border-box;\
+               border: 1px solid #ddd;\
+               cursor: text;\
+               padding: 16px;\
+               border-radius: 2px;\
+               margin-bottom: 2em;\
+               box-shadow: inset 0px 1px 8px -3px #ABABAB;\
+               background: #fefefe;\
+             }\
+     "}</style>
+        <style>{"\
+             .editor :global(.public-DraftEditor-content) {\
+               min-height: 140px;\
+             }\
+     "}</style>
 
         <AddMedia enableEditor={this.state.showMediaAdder} recordId={this.props.params.recordId} mediaAdder={this.addMediaElement} prevData={this.state.previousData}/>
 

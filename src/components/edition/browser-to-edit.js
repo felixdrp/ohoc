@@ -16,8 +16,6 @@ import Subheader from 'material-ui/Subheader';
 import CommunicationChatBubble from 'material-ui/svg-icons/image/navigate-next';
 import Delete from 'material-ui/svg-icons/action/delete';
 
-import capitalize from '../stringTools'
-
 import fetchData from '../../network/fetch-data';
 
 import {
@@ -110,7 +108,7 @@ class BrowserToEdit extends Component {
 
     return (
       <Card style={{paddingBottom:20}}>
-        <CardTitle style={{marginLeft:50}}> <h1> {capitalize(this.props.params.categoryId)} </h1> </CardTitle>
+        <CardTitle style={{marginLeft:50}}> <h1> {this.props.params.categoryId} </h1> </CardTitle>
 
         <Card style={{marginLeft:50,marginRight:50}}>
           <CardText>
@@ -118,8 +116,7 @@ class BrowserToEdit extends Component {
             Object.keys(state.templateList).map( (group, g) => (
               <List key={g}>
                 <Subheader style={{fontWeight:"bolder"}}>
-                  { capitalize(group)}
-                  {/* { capitalize(Object.keys(state.)[g])} */}
+                  { group}
                 </Subheader>
                 {
                   Object.keys(state.templateList[group]).map( (subType, j) => (
@@ -138,7 +135,7 @@ class BrowserToEdit extends Component {
                           marginLeft: 18,
                         }}
                       >
-                        {capitalize(state.templateList[group][subType])}
+                        {state.templateList[group][subType]}
                         <FlatButton
                           label="Add record"
                           primary={true}
@@ -172,10 +169,10 @@ class BrowserToEdit extends Component {
                               onMouseLeave={() => this.leaveHandler(entry.id)}
                             >
                               <ListItem
-                                primaryText={capitalize(entry.data.recordName)}
+                                primaryText={entry.data.recordName}
                                 leftAvatar={
                                   <Avatar
-                                    src={ entry.data.featuredImage? URL_MULTIMEDIA + entry.data.featuredImage: baseAvatarImage } 
+                                    src={ entry.data.featuredImage? URL_MULTIMEDIA + entry.data.featuredImage: baseAvatarImage }
                                   />
                                 }
                                 rightIcon={<CommunicationChatBubble />}

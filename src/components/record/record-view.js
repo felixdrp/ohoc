@@ -8,7 +8,6 @@ import MenuItem from 'material-ui/MenuItem';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 import ContentLinkIcon from 'material-ui/svg-icons/content/link';
-import capitalize from '../stringTools'
 
 import fetchData from '../../network/fetch-data';
 
@@ -93,8 +92,12 @@ export default class RecordView extends Component {
   richTextToComponent = (textStateFromDB) => {
     var componentToReturn
     try {
-      componentToReturn = EditorState.createWithContent(convertFromRaw(JSON.parse(textStateFromDB)))
-      componentToReturn = <Editor editorState={componentToReturn} onChange={(value) => {return null}} />
+      var prevContentState = JSON.parse(textStateFromDB)
+      if ( prevContentState.blocks && prevContentState.blocks[0] && prevContentState.blocks[0].text.length == 0  ) { //this means the text is empty
+        return <div></div>
+      }
+      componentToReturn = EditorState.createWithContent(convertFromRaw(prevContentState))
+      componentToReturn = <Editor readOnly={true} editorState={componentToReturn} onChange={(value) => {return null}} />
     } catch (e){
       componentToReturn = <div style={{marginLeft:10}} dangerouslySetInnerHTML={{__html: textStateFromDB}} />
     }
@@ -107,8 +110,8 @@ export default class RecordView extends Component {
     switch (name){
       case 'featuredImage':
         return <div></div>;
-      case 'name':
-        return <div><h3 style={{fontSize:18}}>{data}</h3></div>
+      case 'Name':
+        return <div><h3 style={{fontSize:18,fontWeight:500}}>{data}</h3></div>
       default:
         return <div>{title}<span style={{marginLeft:0}}>{data}</span></div>
     }
@@ -149,9 +152,9 @@ export default class RecordView extends Component {
 
       let multiRows
 
-      let fieldsToHide = ["biography","name",""]
+      let fieldsToHide = ["Biography","Name",""]
 
-      let title = fieldsToHide.includes(entry.name) ? "" : <h3 style={{fontSize:17}}>{capitalize(entry.name)}</h3>
+      let title = fieldsToHide.includes(entry.name) ? "" : <h3 style={{fontSize:17,fontWeight:500}}>{entry.name}</h3>
 
       if ( !entry.data || entry.name == "featured copyright notice"){ // If there is no data, we do not want to print the titles/names of the fields
         return <div key={i}></div>
@@ -173,7 +176,7 @@ export default class RecordView extends Component {
           multiRows = entry.data.map( (row, rowIndex) => {
             let rowProcessed = row.map( (cell, j) => {
               let styleBasic = {
-                marginRight: 0,
+                marginRight: 5,
               }
 
               switch (cell.name) {
@@ -235,6 +238,8 @@ export default class RecordView extends Component {
                    word-wrap:normal;\
                  }\
                "}</style>
+
+
 
           <span style={{ width:"100%", display: "inline-block", verticalAlign: "top"}}>
 

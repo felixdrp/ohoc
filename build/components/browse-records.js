@@ -54,9 +54,7 @@ var _MenuItem2 = _interopRequireDefault(_MenuItem);
 
 var _Card = require('material-ui/Card');
 
-var _stringTools = require('./stringTools');
-
-var _stringTools2 = _interopRequireDefault(_stringTools);
+var _GridList = require('material-ui/GridList');
 
 var _links = require('../links');
 
@@ -71,17 +69,19 @@ var BrowseRecords = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (BrowseRecords.__proto__ || (0, _getPrototypeOf2.default)(BrowseRecords)).call(this, props));
 
     _this.categoryData = {
-      "academia": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoAcademy.jpeg',
+      "Academia": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoAcademy.jpeg',
         orderIndex: 2,
         copyrightNotice: "(Courtesy of QM Archives)" },
-      "civil service": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoCivilService.jpg', orderIndex: 4, copyrightNotice: "(Courtesy of IP Office)" },
-      "policy formation": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPolicyFormation.jpg', orderIndex: 3, copyrightNotice: "(Courtesy of M. Freegard)" },
-      "publications": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPublications.jpg', orderIndex: 5, copyrightNotice: "(Courtesy of Henry Blanco White)" },
-      "solicitors and agents": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoSolicitorsandAgents.jpg', orderIndex: 1, copyrightNotice: "(Courtesy of Bird&Bird)" },
-      "the bar": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoTheBar.jpg', orderIndex: 0, copyrightNotice: "(Courtesy of Metropolitan Archives)" }
+      "Civil Service": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoCivilService.jpg', orderIndex: 4, copyrightNotice: "(Courtesy of IP Office)" },
+      "Policy Formation": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPolicyFormation.jpg', orderIndex: 3, copyrightNotice: "(Courtesy of M. Freegard)" },
+      "Publications": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPublications.jpg', orderIndex: 5, copyrightNotice: "(Courtesy of Henry Blanco White)" },
+      "Solicitors and Agents": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoSolicitorsandAgents.jpg', orderIndex: 1, copyrightNotice: "(Courtesy of Bird&Bird)" },
+      "The Bar": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoTheBar.jpg', orderIndex: 0, copyrightNotice: "(Courtesy of Metropolitan Archives)" }
     };
 
-    _this.state = {};
+    _this.state = {
+      isAMobile: navigator.userAgent.indexOf('Mobile') > -1 ? true : false
+    };
     return _this;
   }
 
@@ -103,52 +103,40 @@ var BrowseRecords = function (_Component) {
           _react2.default.createElement(
             'div',
             { style: { textAlign: "center" } },
-            this.props.templateList && (0, _keys2.default)(this.props.templateList).sort(function (a, b) {
-              return _this2.categoryData[a].orderIndex > _this2.categoryData[b].orderIndex;
-            }).map(function (e, index) {
-              return _react2.default.createElement(
-                _reactRouter.Link,
-                { key: index, to: _links.URL_CATEGORIES_LIST + e, style: { textDecoration: 'none' } },
-                _react2.default.createElement(
-                  _Card.Card,
-                  {
-
-                    style: {
-                      width: "26%",
-                      display: 'inline-block',
-                      marginBottom: 10,
-                      marginRight: 10,
-                      height: 250,
-                      backgroundColor: "#cccccc"
-                    },
-                    expanded: false,
-                    initiallyExpanded: false
-                  },
+            _react2.default.createElement(
+              _GridList.GridList,
+              {
+                cols: this.state.isAMobile ? 2 : 3,
+                cellHeight: 250,
+                style: { width: "80%", marginLeft: "10%" }
+              },
+              this.props.templateList && (0, _keys2.default)(this.props.templateList).sort(function (a, b) {
+                return _this2.categoryData[a].orderIndex > _this2.categoryData[b].orderIndex;
+              }).map(function (e, index) {
+                return _react2.default.createElement(
+                  _reactRouter.Link,
+                  { key: index, to: _links.URL_CATEGORIES_LIST + e, style: { textDecoration: 'none' } },
                   _react2.default.createElement(
-                    _Card.CardMedia,
+                    _GridList.GridTile,
                     {
-                      overlay: _react2.default.createElement(
-                        _Card.CardTitle,
-                        { title: (0, _stringTools2.default)(e), style: { margin: 0, padding: 4 } },
-                        ' ',
-                        _react2.default.createElement(
-                          'span',
-                          { style: { color: "white", fontSize: 10 } },
-                          ' ',
-                          _this2.categoryData[e].copyrightNotice
-                        ),
-                        ' '
-                      )
+                      key: index,
+                      title: _react2.default.createElement(
+                        'span',
+                        { style: { fontSize: 25 } },
+                        e
+                      ),
+                      subtitle: _this2.categoryData[e].copyrightNotice,
+                      style: { backgroundColor: "rgb(204, 204, 204)" }
                     },
                     _react2.default.createElement(
                       'span',
-                      { style: { width: 400, height: 250 } },
-                      _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: "100%" }, src: _this2.categoryData[e].src })
+                      { style: { width: "100%", height: "100%", textAlign: "center", verticalAlign: "middle" } },
+                      _react2.default.createElement('img', { style: { width: "100%" }, src: _this2.categoryData[e].src ? _this2.categoryData[e].src : baseAvatarImage })
                     )
                   )
-                )
-              );
-            })
+                );
+              })
+            )
           ),
           _react2.default.createElement(
             'div',
@@ -168,8 +156,8 @@ var BrowseRecords = function (_Component) {
                   'Contact details:'
                 ),
                 _react2.default.createElement(
-                  'div',
-                  { style: { margin: 20 } },
+                  'span',
+                  { style: { marginLeft: 10 } },
                   'Jos\xE9 Bellido, University of Kent ',
                   _react2.default.createElement(
                     'a',

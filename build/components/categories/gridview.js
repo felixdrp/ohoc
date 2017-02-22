@@ -62,10 +62,6 @@ var _navigateNext = require('material-ui/svg-icons/image/navigate-next');
 
 var _navigateNext2 = _interopRequireDefault(_navigateNext);
 
-var _stringTools = require('../stringTools');
-
-var _stringTools2 = _interopRequireDefault(_stringTools);
-
 var _fetchData = require('../../network/fetch-data');
 
 var _fetchData2 = _interopRequireDefault(_fetchData);
@@ -157,8 +153,6 @@ var GridView = function (_Component) {
           );
         })
       );
-
-      {}
     }
   }]);
   return GridView;

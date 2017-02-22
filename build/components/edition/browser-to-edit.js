@@ -86,10 +86,6 @@ var _delete = require('material-ui/svg-icons/action/delete');
 
 var _delete2 = _interopRequireDefault(_delete);
 
-var _stringTools = require('../stringTools');
-
-var _stringTools2 = _interopRequireDefault(_stringTools);
-
 var _fetchData = require('../../network/fetch-data');
 
 var _fetchData2 = _interopRequireDefault(_fetchData);
@@ -306,7 +302,7 @@ var BrowserToEdit = function (_Component) {
             'h1',
             null,
             ' ',
-            (0, _stringTools2.default)(this.props.params.categoryId),
+            this.props.params.categoryId,
             ' '
           ),
           ' '
@@ -324,7 +320,7 @@ var BrowserToEdit = function (_Component) {
                 _react2.default.createElement(
                   _Subheader2.default,
                   { style: { fontWeight: "bolder" } },
-                  (0, _stringTools2.default)(group)
+                  group
                 ),
                 (0, _keys2.default)(state.templateList[group]).map(function (subType, j) {
                   return _react2.default.createElement(
@@ -346,7 +342,7 @@ var BrowserToEdit = function (_Component) {
                           marginLeft: 18
                         }
                       },
-                      (0, _stringTools2.default)(state.templateList[group][subType]),
+                      state.templateList[group][subType],
                       _react2.default.createElement(_FlatButton2.default, {
                         label: 'Add record',
                         primary: true,
@@ -378,7 +374,7 @@ var BrowserToEdit = function (_Component) {
                         _react2.default.createElement(
                           _List.ListItem,
                           {
-                            primaryText: (0, _stringTools2.default)(entry.data.recordName),
+                            primaryText: entry.data.recordName,
                             leftAvatar: _react2.default.createElement(_Avatar2.default, {
                               src: entry.data.featuredImage ? _links.URL_MULTIMEDIA + entry.data.featuredImage : baseAvatarImage
                             }),

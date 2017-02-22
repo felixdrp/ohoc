@@ -76,10 +76,6 @@ var _previewGenerator = require('./preview-generator');
 
 var _previewGenerator2 = _interopRequireDefault(_previewGenerator);
 
-var _stringTools = require('../stringTools');
-
-var _stringTools2 = _interopRequireDefault(_stringTools);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RecordViewMediaElement = function (_Component) {
@@ -163,7 +159,7 @@ var RecordViewMediaElement = function (_Component) {
         ),
         _react2.default.createElement(
           'span',
-          { style: { maxWidth: "100%", fontWeight: "bold" } },
+          { style: { maxWidth: "100%", fontSize: 15 } },
           this.props.media.title
         ),
         _react2.default.createElement('br', null),
@@ -188,5 +184,7 @@ var RecordViewMediaElement = function (_Component) {
   }]);
   return RecordViewMediaElement;
 }(_react.Component);
+
+
 
 exports.default = RecordViewMediaElement;

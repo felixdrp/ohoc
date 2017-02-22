@@ -62,10 +62,6 @@ var _navigateNext = require('material-ui/svg-icons/image/navigate-next');
 
 var _navigateNext2 = _interopRequireDefault(_navigateNext);
 
-var _stringTools = require('../stringTools');
-
-var _stringTools2 = _interopRequireDefault(_stringTools);
-
 var _fetchData = require('../../network/fetch-data');
 
 var _fetchData2 = _interopRequireDefault(_fetchData);
@@ -99,7 +95,7 @@ var ListView = function (_Component) {
         _react2.default.createElement(
           _Subheader2.default,
           { style: { fontWeight: "bolder" } },
-          (0, _stringTools2.default)(this.props.subcategoryId)
+          this.props.subcategoryId
         ),
         this.props.entries.map(function (entry, i) {
           return _react2.default.createElement(
@@ -107,7 +103,7 @@ var ListView = function (_Component) {
             { to: _links.URL_VIEW_RECORD + entry.id, key: i, style: { textDecoration: 'none' } },
             ' ',
             _react2.default.createElement(_List.ListItem, {
-              primaryText: (0, _stringTools2.default)(entry.data.recordName),
+              primaryText: entry.data.recordName,
               leftAvatar: _react2.default.createElement('img', { style: avatarStyle,
                 src: entry.data.featuredImage ? _links.URL_MULTIMEDIA + entry.data.featuredImage : baseAvatarImage
               }),

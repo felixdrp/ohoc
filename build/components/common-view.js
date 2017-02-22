@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -12,21 +16,17 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
 var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _inherits2 = require('babel-runtime/helpers/inherits');
 
@@ -54,12 +54,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var CommonView = function (_Component) {
   (0, _inherits3.default)(CommonView, _Component);
-
-  function CommonView() {
-    (0, _classCallCheck3.default)(this, CommonView);
-    return (0, _possibleConstructorReturn3.default)(this, (CommonView.__proto__ || (0, _getPrototypeOf2.default)(CommonView)).apply(this, arguments));
-  }
-
   (0, _createClass3.default)(CommonView, [{
     key: 'componentWillMount',
     value: function () {
@@ -102,14 +96,27 @@ var CommonView = function (_Component) {
 
       return componentWillMount;
     }()
-  }, {
+  }]);
+
+  function CommonView() {
+    (0, _classCallCheck3.default)(this, CommonView);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (CommonView.__proto__ || (0, _getPrototypeOf2.default)(CommonView)).call(this));
+
+    _this.state = {
+      isAMobile: navigator.userAgent.indexOf('Mobile') > -1 ? true : false
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(CommonView, [{
     key: 'render',
     value: function render() {
       var logoStyle = { height: 50, marginTop: 10, marginLeft: 5 };
 
       return _react2.default.createElement(
         'div',
-        { id: 'CommonView', style: { marginLeft: "5%", minWidth: 1666, maxWidth: "90%" } },
+        { id: 'CommonView', style: { marginLeft: this.state.isAMobile ? "5%" : "10%", maxWidth: "80%", minWidth: 870 } },
         _react2.default.createElement(
           _Card.Card,
           { style: { height: 100, marginBottom: 10, paddingTop: 20, paddingLeft: 20 } },
@@ -145,7 +152,7 @@ var CommonView = function (_Component) {
         this.props.children,
         _react2.default.createElement(
           _Card.Card,
-          { style: { padding: 20, paddingTop: 1, marginTop: 5 } },
+          { style: { padding: 50, paddingTop: 1, marginTop: 5, paddingBottom: 10 } },
           _react2.default.createElement(
             'h3',
             null,

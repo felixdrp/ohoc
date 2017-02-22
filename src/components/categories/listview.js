@@ -12,8 +12,6 @@ import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import CommunicationChatBubble from 'material-ui/svg-icons/image/navigate-next';
 
-import capitalize from '../stringTools'
-
 import fetchData from '../../network/fetch-data';
 
 import {
@@ -45,11 +43,11 @@ export default class ListView extends Component {
             const baseAvatarImage = URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg'
 
       return <List>
-              <Subheader style={{fontWeight:"bolder"}}>{capitalize(this.props.subcategoryId)}</Subheader>
+              <Subheader style={{fontWeight:"bolder"}}>{this.props.subcategoryId}</Subheader>
                   {
                     this.props.entries.map( (entry, i) =>{
                       return <Link to={URL_VIEW_RECORD + entry.id} key={i} style={{ textDecoration: 'none'}}> <ListItem
-                        primaryText={capitalize(entry.data.recordName)}
+                        primaryText={entry.data.recordName}
                         leftAvatar={
 
                           <img style={avatarStyle}
@@ -63,6 +61,6 @@ export default class ListView extends Component {
                   }
               </List>
 
-    
+
   }
 }

@@ -76,10 +76,6 @@ var _listview = require('./listview');
 
 var _listview2 = _interopRequireDefault(_listview);
 
-var _stringTools = require('../stringTools');
-
-var _stringTools2 = _interopRequireDefault(_stringTools);
-
 var _fetchData = require('../../network/fetch-data');
 
 var _fetchData2 = _interopRequireDefault(_fetchData);
@@ -194,7 +190,7 @@ var SubCategoriesView = function (_Component) {
             'h1',
             null,
             ' ',
-            (0, _stringTools2.default)(this.props.params.subcategoryId),
+            this.props.params.subcategoryId,
             ' '
           ),
           ' '

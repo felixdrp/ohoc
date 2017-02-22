@@ -4,8 +4,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import HighlightOff from 'material-ui/svg-icons/action/highlight-off'
 
-import capitalize from '../stringTools'
-
 export default class MultipleRowInput extends Component {
   static propTypes = {
     // vars
@@ -54,7 +52,7 @@ export default class MultipleRowInput extends Component {
               let value = field.data || ''
               return (
                 <span key={j} style={{marginRight:15}}>
-                  <span style={{marginRight:15,fontWeight:"bold",fontSize: '0.8em'}}>{capitalize(field.name)+":"}</span>
+                  <span style={{marginRight:15,fontWeight:"bold",fontSize: '0.8em'}}>{field.name+":"}</span>
                   <TextField
                     ref={(ref) => { input['_'  + i + j] = ref; }}
                     name={'field_' + i + field.name }
