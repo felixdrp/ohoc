@@ -911,7 +911,6 @@ var GridView = function (_Component) {
       var tiles = [];
       for (var a in entries) {
 
-
         tiles.push({
           img: entries[a].data.featuredImage,
           title: entries[a].data.recordName,
@@ -1231,6 +1230,7 @@ var SubCategoriesView = function (_Component) {
                 categoriesList = _context.sent;
 
                 this.setState({ categoriesList: categoriesList });
+
                 _context.next = 12;
                 break;
 
@@ -1692,6 +1692,7 @@ var BrowserToEdit = function (_Component) {
                 templateList: templateList.templateList,
                 allRecordsList: allRecordsList.recordsAllList
               });
+
               _context2.next = 15;
               break;
 
@@ -3356,7 +3357,7 @@ var RecordEdit = function (_Component) {
 
                 prepareDataToSend = {
                   featuredImage: state.dataToSend.featuredImage,
-                  recordName: state.dataToSend.name,
+                  recordName: state.dataToSend.Name,
                   media: state.recordData.data.media,
                   fields: []
                 };

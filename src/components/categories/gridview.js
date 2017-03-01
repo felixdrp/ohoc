@@ -42,7 +42,6 @@ export default class GridView extends Component {
     var tiles = [];
     for (var a in entries) {
 
-        // for ( var b = 0; b < 15; b++){
 
         tiles.push({
           img: entries[a].data.featuredImage,
@@ -73,12 +72,12 @@ export default class GridView extends Component {
       let tilesData = this.prepareTiles(this.props.entries)
 
       const baseAvatarImage = URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg'
-
+    
       return  <GridList
                 cols={8}
                 style={styles.gridList}
               >
-            
+
                 {tilesData.map((tile,i) => (
                   <Link key={i} to={tile.src} style={{ textDecoration: 'none'}}>
                     <GridTile

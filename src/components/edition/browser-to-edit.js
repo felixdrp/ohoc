@@ -62,7 +62,7 @@ class BrowserToEdit extends Component {
         templateList: templateList.templateList,
         allRecordsList: allRecordsList.recordsAllList,
       })
-    //  debugger;
+  
     } catch(error) {
       console.error('fetching record data > ' + error)
     }

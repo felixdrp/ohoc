@@ -353,7 +353,7 @@ var RecordEdit = function (_Component) {
 
                 prepareDataToSend = {
                   featuredImage: state.dataToSend.featuredImage,
-                  recordName: state.dataToSend.name,
+                  recordName: state.dataToSend.Name,
                   media: state.recordData.data.media,
                   fields: []
                 };

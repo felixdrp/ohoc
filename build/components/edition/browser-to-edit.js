@@ -184,6 +184,7 @@ var BrowserToEdit = function (_Component) {
                 templateList: templateList.templateList,
                 allRecordsList: allRecordsList.recordsAllList
               });
+
               _context2.next = 15;
               break;
 

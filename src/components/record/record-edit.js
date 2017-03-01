@@ -185,11 +185,11 @@ class RecordEdit extends Component {
     const state = this.state
     // Data to upload
 
-    // debugger;
+
 
     let prepareDataToSend = {
       featuredImage : state.dataToSend.featuredImage,
-      recordName :  state.dataToSend.name,
+      recordName :  state.dataToSend.Name,
       media : state.recordData.data.media,
       fields : [],
     };

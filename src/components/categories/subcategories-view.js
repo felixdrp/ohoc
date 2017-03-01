@@ -33,7 +33,7 @@ export default class SubCategoriesView extends Component {
     try {
       categoriesList = await fetch.getRecordsByType(this.props.params.categoryId)
       this.setState({categoriesList})
-    //  debugger;
+
     } catch(error) {
       console.error('fetching record data > ' + error)
     }

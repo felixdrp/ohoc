@@ -98,7 +98,6 @@ var GridView = function (_Component) {
       var tiles = [];
       for (var a in entries) {
 
-
         tiles.push({
           img: entries[a].data.featuredImage,
           title: entries[a].data.recordName,
