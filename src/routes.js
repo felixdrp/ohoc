@@ -45,20 +45,20 @@ var routes = (history) => (
       <Route path="browser" component={BrowseRecords} />
 
       <Route path="categories" component={CategoriesContainer} >
-        <Route path={urlBase + "/categories/list/:categoryId"} component={CategoriesView} />
-        <Route path={urlBase + "/categories/list/:categoryId/:subcategoryId"} component={CategoriesView} />
+        <Route path={urlBase + "categories/list/:categoryId"} component={CategoriesView} />
+        <Route path={urlBase + "categories/list/:categoryId/:subcategoryId"} component={CategoriesView} />
       </Route>
 
       <Route path="records" component={RecordContainer} >
-        <Route path={urlBase + "/record/create"} component={RecordCreate} />
-        <Route path={urlBase + "/record/:recordId(/:recordName)"} component={RecordView} />
+        <Route path={urlBase + "record/create"} component={RecordCreate} />
+        <Route path={urlBase + "record/:recordId(/:recordName)"} component={RecordView} />
       </Route>
 
       <Route path="controlRoom" component={RecordContainer} >
         <IndexRoute component={BrowserToEdit} />
 
-        <Route path={urlBase + "/controlRoom/record/create"} component={RecordCreate} />
-        <Route path={urlBase + "/controlRoom/record/edit/:recordId(/:recordName)"} component={RecordEdit} />
+        <Route path={urlBase + "controlRoom/record/create"} component={RecordCreate} />
+        <Route path={urlBase + "controlRoom/record/edit/:recordId(/:recordName)"} component={RecordEdit} />
       </Route>
     </Route>
   </Router>

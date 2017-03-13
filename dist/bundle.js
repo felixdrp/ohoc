@@ -4688,19 +4688,19 @@ function toTitleCase(str) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var urlBase = "/ohoc";
+var urlBase = "/";
 
 var URL_BASE = exports.URL_BASE = urlBase;
-var URL_CATEGORIES_LIST = exports.URL_CATEGORIES_LIST = urlBase + '/categories/list/';
-var URL_VIEW_RECORD = exports.URL_VIEW_RECORD = urlBase + '/record/';
-var URL_RECORD_UPLOAD_FILE = exports.URL_RECORD_UPLOAD_FILE = urlBase + '/api/record/upload/';
-var URL_CONTROL_ROOM = exports.URL_CONTROL_ROOM = urlBase + '/controlRoom/';
-var URL_CONTROL_ROOM_EDIT_RECORD = exports.URL_CONTROL_ROOM_EDIT_RECORD = urlBase + '/controlRoom/record/edit/';
-var URL_CONTROL_ROOM_CREATE_RECORD = exports.URL_CONTROL_ROOM_CREATE_RECORD = urlBase + '/controlRoom/record/create';
+var URL_CATEGORIES_LIST = exports.URL_CATEGORIES_LIST = urlBase + 'categories/list/';
+var URL_VIEW_RECORD = exports.URL_VIEW_RECORD = urlBase + 'record/';
+var URL_RECORD_UPLOAD_FILE = exports.URL_RECORD_UPLOAD_FILE = urlBase + 'api/record/upload/';
+var URL_CONTROL_ROOM = exports.URL_CONTROL_ROOM = urlBase + 'controlRoom/';
+var URL_CONTROL_ROOM_EDIT_RECORD = exports.URL_CONTROL_ROOM_EDIT_RECORD = urlBase + 'controlRoom/record/edit/';
+var URL_CONTROL_ROOM_CREATE_RECORD = exports.URL_CONTROL_ROOM_CREATE_RECORD = urlBase + 'controlRoom/record/create';
 
-var URL_BASE_MULTIMEDIA_IMAGES = exports.URL_BASE_MULTIMEDIA_IMAGES = urlBase + '/images/';
+var URL_BASE_MULTIMEDIA_IMAGES = exports.URL_BASE_MULTIMEDIA_IMAGES = urlBase + 'images/';
 
-var URL_MULTIMEDIA = exports.URL_MULTIMEDIA = urlBase + '/multimedia/';
+var URL_MULTIMEDIA = exports.URL_MULTIMEDIA = urlBase + 'multimedia/';
 },{}],26:[function(require,module,exports){
 'use strict';
 
@@ -5221,21 +5221,21 @@ var routes = function routes(history) {
       _react2.default.createElement(
         _reactRouter.Route,
         { path: 'categories', component: _components.CategoriesContainer },
-        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "/categories/list/:categoryId", component: _components.CategoriesView }),
-        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "/categories/list/:categoryId/:subcategoryId", component: _components.CategoriesView })
+        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "categories/list/:categoryId", component: _components.CategoriesView }),
+        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "categories/list/:categoryId/:subcategoryId", component: _components.CategoriesView })
       ),
       _react2.default.createElement(
         _reactRouter.Route,
         { path: 'records', component: _components.RecordContainer },
-        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "/record/create", component: _components.RecordCreate }),
-        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "/record/:recordId(/:recordName)", component: _components.RecordView })
+        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "record/create", component: _components.RecordCreate }),
+        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "record/:recordId(/:recordName)", component: _components.RecordView })
       ),
       _react2.default.createElement(
         _reactRouter.Route,
         { path: 'controlRoom', component: _components.RecordContainer },
         _react2.default.createElement(_reactRouter.IndexRoute, { component: _components.BrowserToEdit }),
-        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "/controlRoom/record/create", component: _components.RecordCreate }),
-        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "/controlRoom/record/edit/:recordId(/:recordName)", component: _components.RecordEdit })
+        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "controlRoom/record/create", component: _components.RecordCreate }),
+        _react2.default.createElement(_reactRouter.Route, { path: urlBase + "controlRoom/record/edit/:recordId(/:recordName)", component: _components.RecordEdit })
       )
     )
   );
