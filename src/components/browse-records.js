@@ -12,7 +12,14 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 
 import {GridList, GridTile} from 'material-ui/GridList';
 
-import { URL_CATEGORIES_LIST, URL_BASE_MULTIMEDIA_IMAGES} from '../links'
+import {grey700} from 'material-ui/styles/colors';
+import SearchIcon from 'material-ui/svg-icons/action/search';
+
+import { URL_CATEGORIES_LIST, URL_BASE_MULTIMEDIA_IMAGES} from '../links';
+
+import SearchResults from './SearchResults';
+
+import QueryStore from './QueryStore';
 
 class BrowseRecords extends Component {
 
@@ -31,41 +38,67 @@ class BrowseRecords extends Component {
     super(props)
     this.state = {
       isAMobile: (navigator.userAgent.indexOf('Mobile') > -1)? true : false,
+      searchbox: QueryStore.getQuery()
     };
   }
+
+  handleChange(event, value, index) {
+    QueryStore.setQuery(value);
+    this.setState({searchbox : value})
+  };
 
   render() {
     const style = {
       margin: 12,
     };
 
-    return (
+    let results = <div style={{textAlign:"center"}} >
+                     <GridList
+                              cols={this.state.isAMobile ? 2 : 3}
+                              cellHeight={250}
+                              style={{width:"80%",marginLeft:"10%"}}
+                            >
+                           {
+                             this.props.templateList && Object.keys(this.props.templateList).sort( (a,b) => this.categoryData[a].orderIndex > this.categoryData[b].orderIndex).map(
+                                 (e, index) => (
+                                     <Link key={index} to={URL_CATEGORIES_LIST + e} style={{ textDecoration: 'none'}}>
+                                       <GridTile
+                                         key={index}
+                                         title={<span style={{fontSize:25}}>{e}</span>}
+                                         subtitle={this.categoryData[e].copyrightNotice}
+                                         style={{backgroundColor:"rgb(204, 204, 204)"}}
+                                       >
+                                         <span style={{width:"100%",height:"100%",textAlign:"center",verticalAlign:"middle"}}><img style={{width:"100%"}} src={this.categoryData[e].src ? this.categoryData[e].src : baseAvatarImage} /></span>
+                                       </GridTile>
+                                     </Link>
+                               )
+                             )
+                           }
+                     </GridList>
+                   </div>
+
+  if ( this.state.searchbox && this.state.searchbox.length > 1  ) {
+    results = <SearchResults searchText={this.state.searchbox} />
+  }
+
+  return (
       <div>
         <Card style = {{paddingTop:20,paddingBottom:10}}>
-          <div style={{textAlign:"center"}} >
-            <GridList
-                     cols={this.state.isAMobile ? 2 : 3}
-                     cellHeight={250}
-                     style={{width:"80%",marginLeft:"10%"}}
-                   >
-          {
-            this.props.templateList && Object.keys(this.props.templateList).sort( (a,b) => this.categoryData[a].orderIndex > this.categoryData[b].orderIndex).map(
-                (e, index) => (
-                    <Link key={index} to={URL_CATEGORIES_LIST + e} style={{ textDecoration: 'none'}}>
-                      <GridTile
-                        key={index}
-                        title={<span style={{fontSize:25}}>{e}</span>}
-                        subtitle={this.categoryData[e].copyrightNotice}
-                        style={{backgroundColor:"rgb(204, 204, 204)"}}
-                      >
-                        <span style={{width:"100%",height:"100%",textAlign:"center",verticalAlign:"middle"}}><img style={{width:"100%"}} src={this.categoryData[e].src ? this.categoryData[e].src : baseAvatarImage} /></span>
-                      </GridTile>
-                    </Link>
-              )
-            )
-          }
-            </GridList>
-          </div>
+
+          <Card style={{width:"80%",marginLeft:"10%",marginBottom:20}}>
+            <SearchIcon style={{width:30,height:30, marginTop:5, marginLeft:5}} color={grey700}/>
+            <TextField
+              id="search-box"
+              hintText="Type to search"
+              style={{marginLeft:10, position: "absolute",width:"40%",height: 43}}
+              defaultValue={this.state.searchbox}
+              onChange={ (event, value, index)=>this.handleChange(event, value, index) }
+            />
+          </Card>
+
+
+          {results}
+
 
         <div style={{marginLeft:"10%",fontSize:18}}>
           <div style={{marginTop:30,paddingLeft:0,paddingRight:50, width:"88%", textAlign:"justify"}}>

@@ -124,7 +124,7 @@ var CommonView = function (_Component) {
         { style: { backgroundColor: this.state.backColor, padding: 8, height: "100%" } },
         _react2.default.createElement(
           'div',
-          { id: 'CommonView', style: { marginLeft: this.state.isAMobile ? "5%" : "10%", maxWidth: "80%", minWidth: 870 } },
+          { id: 'CommonView', style: { marginLeft: "auto", marginRight: "auto", maxWidth: "70%", minWidth: 870 } },
           _react2.default.createElement(
             _Card.Card,
             { style: { height: 40, marginBottom: 10, overflowY: "scroll" } },
@@ -142,7 +142,7 @@ var CommonView = function (_Component) {
             _react2.default.createElement('img', { src: 'http://www.cipil.law.cam.ac.uk/sites/www.law.cam.ac.uk/files/images/www.cipil.law.cam.ac.uk/legacy/images/logo_cipil_3.gif', style: { height: 50, marginTop: 0, marginLeft: 5 } }),
             _react2.default.createElement(
               'span',
-              { style: { float: "right" } },
+              { style: { float: "right", marginTop: 5 } },
               _react2.default.createElement(
                 'h2',
                 { style: { margin: "0 0 0 0", marginRight: 25, marginTop: -5 } },

@@ -71,7 +71,7 @@ class CommonView extends Component {
 
     return (
       <div style={{ backgroundColor: this.state.backColor , padding:8, height:"100%"}}>
-         <div id="CommonView" style={{marginLeft: this.state.isAMobile ? "5%" : "10%", maxWidth:"80%", minWidth:870,}}>
+         <div id="CommonView" style={{marginLeft: "auto", marginRight:"auto", maxWidth:"70%", minWidth:870,}}>
 
            <Card style={{height:40, marginBottom:10,overflowY:"scroll"}}>
              {colors.map( (elem,i) => <div key={i} style={{backgroundColor:elem,width:35,height:35,margin:3,float:"left"}} onClick={ () => this.setState({backColor: elem})}></div> )}
@@ -84,7 +84,7 @@ class CommonView extends Component {
            <img src="https://www.cam.ac.uk/sites/www.cam.ac.uk/files/inner-images/logo.jpg" style={{height: 50,marginTop:0,marginLeft:5}} />
            <img src="http://www.cipil.law.cam.ac.uk/sites/www.law.cam.ac.uk/files/images/www.cipil.law.cam.ac.uk/legacy/images/logo_cipil_3.gif" style={{height: 50,marginTop:0,marginLeft:5}} />
 
-           <span style={{float:"right"}}>
+           <span style={{float:"right", marginTop: 5}}>
              <h2 style={{margin:"0 0 0 0",marginRight:25, marginTop:-5}}>
                <Link to={URL_BASE} style={{ textDecoration: 'none'}}>
                  <span style={{color:"black"}}>Intellectual Property</span> <br/> <span style={{color:"#155196"}}>Oral History Project</span>

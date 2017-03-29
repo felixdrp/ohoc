@@ -56,7 +56,21 @@ var _Card = require('material-ui/Card');
 
 var _GridList = require('material-ui/GridList');
 
+var _colors = require('material-ui/styles/colors');
+
+var _search = require('material-ui/svg-icons/action/search');
+
+var _search2 = _interopRequireDefault(_search);
+
 var _links = require('../links');
+
+var _SearchResults = require('./SearchResults');
+
+var _SearchResults2 = _interopRequireDefault(_SearchResults);
+
+var _QueryStore = require('./QueryStore');
+
+var _QueryStore2 = _interopRequireDefault(_QueryStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -80,12 +94,19 @@ var BrowseRecords = function (_Component) {
     };
 
     _this.state = {
-      isAMobile: navigator.userAgent.indexOf('Mobile') > -1 ? true : false
+      isAMobile: navigator.userAgent.indexOf('Mobile') > -1 ? true : false,
+      searchbox: _QueryStore2.default.getQuery()
     };
     return _this;
   }
 
   (0, _createClass3.default)(BrowseRecords, [{
+    key: 'handleChange',
+    value: function handleChange(event, value, index) {
+      _QueryStore2.default.setQuery(value);
+      this.setState({ searchbox: value });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -94,6 +115,49 @@ var BrowseRecords = function (_Component) {
         margin: 12
       };
 
+      var results = _react2.default.createElement(
+        'div',
+        { style: { textAlign: "center" } },
+        _react2.default.createElement(
+          _GridList.GridList,
+          {
+            cols: this.state.isAMobile ? 2 : 3,
+            cellHeight: 250,
+            style: { width: "80%", marginLeft: "10%" }
+          },
+          this.props.templateList && (0, _keys2.default)(this.props.templateList).sort(function (a, b) {
+            return _this2.categoryData[a].orderIndex > _this2.categoryData[b].orderIndex;
+          }).map(function (e, index) {
+            return _react2.default.createElement(
+              _reactRouter.Link,
+              { key: index, to: _links.URL_CATEGORIES_LIST + e, style: { textDecoration: 'none' } },
+              _react2.default.createElement(
+                _GridList.GridTile,
+                {
+                  key: index,
+                  title: _react2.default.createElement(
+                    'span',
+                    { style: { fontSize: 25 } },
+                    e
+                  ),
+                  subtitle: _this2.categoryData[e].copyrightNotice,
+                  style: { backgroundColor: "rgb(204, 204, 204)" }
+                },
+                _react2.default.createElement(
+                  'span',
+                  { style: { width: "100%", height: "100%", textAlign: "center", verticalAlign: "middle" } },
+                  _react2.default.createElement('img', { style: { width: "100%" }, src: _this2.categoryData[e].src ? _this2.categoryData[e].src : baseAvatarImage })
+                )
+              )
+            );
+          })
+        )
+      );
+
+      if (this.state.searchbox && this.state.searchbox.length > 1) {
+        results = _react2.default.createElement(_SearchResults2.default, { searchText: this.state.searchbox });
+      }
+
       return _react2.default.createElement(
         'div',
         null,
@@ -101,43 +165,20 @@ var BrowseRecords = function (_Component) {
           _Card.Card,
           { style: { paddingTop: 20, paddingBottom: 10 } },
           _react2.default.createElement(
-            'div',
-            { style: { textAlign: "center" } },
-            _react2.default.createElement(
-              _GridList.GridList,
-              {
-                cols: this.state.isAMobile ? 2 : 3,
-                cellHeight: 250,
-                style: { width: "80%", marginLeft: "10%" }
-              },
-              this.props.templateList && (0, _keys2.default)(this.props.templateList).sort(function (a, b) {
-                return _this2.categoryData[a].orderIndex > _this2.categoryData[b].orderIndex;
-              }).map(function (e, index) {
-                return _react2.default.createElement(
-                  _reactRouter.Link,
-                  { key: index, to: _links.URL_CATEGORIES_LIST + e, style: { textDecoration: 'none' } },
-                  _react2.default.createElement(
-                    _GridList.GridTile,
-                    {
-                      key: index,
-                      title: _react2.default.createElement(
-                        'span',
-                        { style: { fontSize: 25 } },
-                        e
-                      ),
-                      subtitle: _this2.categoryData[e].copyrightNotice,
-                      style: { backgroundColor: "rgb(204, 204, 204)" }
-                    },
-                    _react2.default.createElement(
-                      'span',
-                      { style: { width: "100%", height: "100%", textAlign: "center", verticalAlign: "middle" } },
-                      _react2.default.createElement('img', { style: { width: "100%" }, src: _this2.categoryData[e].src ? _this2.categoryData[e].src : baseAvatarImage })
-                    )
-                  )
-                );
-              })
-            )
+            _Card.Card,
+            { style: { width: "80%", marginLeft: "10%", marginBottom: 20 } },
+            _react2.default.createElement(_search2.default, { style: { width: 30, height: 30, marginTop: 5, marginLeft: 5 }, color: _colors.grey700 }),
+            _react2.default.createElement(_TextField2.default, {
+              id: 'search-box',
+              hintText: 'Type to search',
+              style: { marginLeft: 10, position: "absolute", width: "40%", height: 43 },
+              defaultValue: this.state.searchbox,
+              onChange: function onChange(event, value, index) {
+                return _this2.handleChange(event, value, index);
+              }
+            })
           ),
+          results,
           _react2.default.createElement(
             'div',
             { style: { marginLeft: "10%", fontSize: 18 } },
