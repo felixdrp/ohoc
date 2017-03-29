@@ -20,7 +20,11 @@ import Editor from 'draft-js-plugins-editor';
 
 import Measure from 'react-measure';
 
+import Lightbox from 'react-image-lightbox';
 
+import Preload from 'react-preload';
+
+import Halogen from 'halogen';
 
 import {
   URL_BASE_MULTIMEDIA_IMAGES,
@@ -59,10 +63,10 @@ export default class RecordView extends Component {
 
         arrayOfMedia.map(
           (element,i) => (
-            allImages.push(<div key={i} style={{width:"100%",height:310,textAlign:"center"}} >
+            allImages.push(<div key={i} style={{width:"100%", height: type == "picture" ? 310 : "auto",textAlign:"center"}} >
               <RecordViewMediaElement
                 key={i}
-                style={{maxHeight:300,maxWidth:400}}
+                style={{maxHeight:320,maxWidth:400, minHeight : type == "picture" ? 310 : "auto",marginRight:10 }}
                 media={{...element, src: URL_MULTIMEDIA + element.src}}
                 type={type}
               />
@@ -70,12 +74,21 @@ export default class RecordView extends Component {
           )
         )
 
-        return (<div style={{width:400,height:310,marginTop:0,adding:5,border: "1px dashed lightgrey",backgroundColor:"lightgrey"}}>
-                  <Carousel>
-                        {allImages}
+        var commonStyle = {marginBottom:5}
 
-                  </Carousel>
-                </div>)
+        if ( type == "audio") {
+          return allImages.map(
+            (element,i) => (
+                <span key={i} style={{...commonStyle, width:400}} >{element}</span>
+            ))
+        } else {
+          return (<div style={{...commonStyle, width:390, minHeight : type == "picture" ? 310 : "auto",marginTop:10,padding:5,border: "1px dashed lightgrey",backgroundColor:"#e8e8e8"}}>
+                    <Carousel>
+                          {allImages}
+
+                    </Carousel>
+                  </div>)
+        }
     }
 
     return <div></div>
@@ -107,10 +120,10 @@ export default class RecordView extends Component {
   prepareLine = (name,title,data) => {
 
 
-    switch (name){
-      case 'featuredImage':
+    switch (name.toLowerCase()){
+      case 'featuredimage':
         return <div></div>;
-      case 'Name':
+      case 'name':
         return <div><h3 style={{fontSize:18,fontWeight:500}}>{data}</h3></div>
       default:
         return <div>{title}<span style={{marginLeft:0}}>{data}</span></div>
@@ -154,7 +167,7 @@ export default class RecordView extends Component {
 
       let fieldsToHide = ["Biography","Name",""]
 
-      let title = fieldsToHide.includes(entry.name) ? "" : <h3 style={{fontSize:17,fontWeight:500}}>{entry.name}</h3>
+      let title = fieldsToHide.includes(entry.name) ? "" : <h3 style={{fontSize:17,fontWeight:500}}>{entry.name == 'clerks' ? "Clerks" : entry.name}</h3>
 
       if ( !entry.data || entry.name == "featured copyright notice"){ // If there is no data, we do not want to print the titles/names of the fields
         return <div key={i}></div>
@@ -179,7 +192,7 @@ export default class RecordView extends Component {
                 marginRight: 5,
               }
 
-              switch (cell.name) {
+              switch (cell.name.toLowerCase()) {
                 // case
                 case 'name':
                   return <span key={j} style={{...styleBasic,fontStyle:"italic"}}>{cell.data}</span>
@@ -231,8 +244,41 @@ export default class RecordView extends Component {
       }
     })
 
+    let allImageUrls = []
+
+    recordData.data.media.picture.map(
+      (element,i) => (
+        allImageUrls.push(URL_MULTIMEDIA + element.src)
+      )
+    )
+
+    var loadingIndicator = (<Halogen.MoonLoader color={"blue"}/>)
+
     return (
       <Card style={{padding:30}}>
+
+        {this.state.isOpen &&
+                    <Lightbox
+                        mainSrc={recordData.data.featuredImage ?
+                          URL_MULTIMEDIA + recordData.data.featuredImage:
+                          baseImage}
+                        // nextSrc={images[(photoIndex + 1) % images.length]}
+                        // prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+
+                        onCloseRequest={() => this.setState({ isOpen: false })}
+                        onMovePrevRequest={() => this.setState({
+                            photoIndex: (photoIndex + images.length - 1) % images.length,
+                        })}
+                        onMoveNextRequest={() => this.setState({
+                            photoIndex: (photoIndex + 1) % images.length,
+                        })}
+
+                        reactModalStyle = {{overlay : {zIndex:5000}}}
+                        imageCaption ={<CardTitle title={copyrightNotice} style={{margin:0,padding:0,height:40}} titleStyle={{fontSize:"1.5em",lineHeight: 1,padding:5, color:"white"}} ></CardTitle>}
+                    />
+                }
+
+
           <style>{"\
                  .public-DraftEditor-content div{\
                    word-wrap:normal;\
@@ -243,7 +289,7 @@ export default class RecordView extends Component {
 
           <span style={{ width:"100%", display: "inline-block", verticalAlign: "top"}}>
 
-            <span style ={{maxHeight:300,width:350, maxWidth:350, display: "inline-block", verticalAlign: "top", float:"left",margin:5,marginRight:10,textAlign:"center"}}>
+            <span style ={{maxHeight:300,width:350, maxWidth:350, display: "inline-block", verticalAlign: "top", float:"left",margin:5,marginRight:10,textAlign:"center"}} onClick={() => this.setState({ isOpen: true })}>
               <Card
                   style={{maxWidth:345,border:"1px solid black"}}
                   src={
@@ -251,9 +297,10 @@ export default class RecordView extends Component {
                        URL_MULTIMEDIA + recordData.data.featuredImage:
                        baseImage
                   }
+
               >
                 <CardMedia
-                  overlay={<CardTitle title={copyrightNotice} style={{margin:0,padding:0,height:40}} titleStyle={{fontSize:10,lineHeight: 1,padding:5}} ></CardTitle>}
+                  overlay={<CardTitle title={copyrightNotice} style={{margin:0,padding:0,height:20}} titleStyle={{fontSize:10,lineHeight: 1,padding:0}} ></CardTitle>}
                 >
                   <span style={{width:345,height:250}}><img style={{maxHeight: 250,maxWidth:343}} src={
                        recordData.data.featuredImage ?
@@ -265,28 +312,36 @@ export default class RecordView extends Component {
             </span>
 
 
-            <span style={{maxWidth:"50%", display: "inline-block", verticalAlign: "top", float:"right",marginLeft:20}}>
+            <span style={{maxWidth:"50%", display: "inline-block", verticalAlign: "top", float:"right",marginLeft:20,marginBottom:20}}>
               {/* { recordData.data.media.picture.length > 0 ? this.sectionTitle('Image Gallery') : "" } */}
+
               {
-                this.getMediaPreviewers(recordData.data.media.picture,"picture")
+              <Preload
+                  loadingIndicator={loadingIndicator}
+                  images={allImageUrls}
+                  autoResolveDelay={3000}
+                  onError={this._handleImageLoadError}
+                  onSuccess={() => this.setState({imagesReady : true})}
+                  resolveOnError={true}
+                  mountChildren={true}
+                  >
+                    {this.getMediaPreviewers(recordData.data.media.picture,"picture")}
+              </Preload>
+
               }
 
-              <br/>
-              {/* { recordData.data.media.audio.length > 0 ? this.sectionTitle('Audio Gallery') : "" } */}
               {
-                this.getMediaPreviewers(recordData.data.media.audio,"audio")
+                <span>{this.getMediaPreviewers(recordData.data.media.audio,"audio")}</span>
               }
 
-              <br/>
               {/* { recordData.data.media.video.length > 0 ? this.sectionTitle('Video Gallery') : ""  } */}
               {
-                this.getMediaPreviewers(recordData.data.media.video,"video")
+                <span>{this.getMediaPreviewers(recordData.data.media.video,"video")}</span>
               }
 
-              <br/>
               {/* { recordData.data.media.text.length > 0 ? this.sectionTitle('Text and PDF files') : ""  } */}
               {
-                this.getMediaPreviewers(recordData.data.media.text,"text")
+                <span>{this.getMediaPreviewers(recordData.data.media.text,"text")}</span>
               }
             </span>
 

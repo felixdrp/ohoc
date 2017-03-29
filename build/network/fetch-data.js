@@ -32,7 +32,7 @@ var _links = require('../links');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var urlBase = _links.URL_BASE + '/api/';
+var urlBase = _links.URL_BASE + 'api/';
 
 var fetchData = function () {
   function fetchData() {

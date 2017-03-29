@@ -84,6 +84,18 @@ var _reactMeasure = require('react-measure');
 
 var _reactMeasure2 = _interopRequireDefault(_reactMeasure);
 
+var _reactImageLightbox = require('react-image-lightbox');
+
+var _reactImageLightbox2 = _interopRequireDefault(_reactImageLightbox);
+
+var _reactPreload = require('react-preload');
+
+var _reactPreload2 = _interopRequireDefault(_reactPreload);
+
+var _halogen = require('halogen');
+
+var _halogen2 = _interopRequireDefault(_halogen);
+
 var _links = require('../../links');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -115,25 +127,37 @@ var RecordView = function (_Component) {
         arrayOfMedia.map(function (element, i) {
           return allImages.push(_react2.default.createElement(
             'div',
-            { key: i, style: { width: "100%", height: 310, textAlign: "center" } },
+            { key: i, style: { width: "100%", height: type == "picture" ? 310 : "auto", textAlign: "center" } },
             _react2.default.createElement(_recordViewMediaElement2.default, {
               key: i,
-              style: { maxHeight: 300, maxWidth: 400 },
+              style: { maxHeight: 320, maxWidth: 400, minHeight: type == "picture" ? 310 : "auto", marginRight: 10 },
               media: (0, _extends3.default)({}, element, { src: _links.URL_MULTIMEDIA + element.src }),
               type: type
             })
           ));
         });
 
-        return _react2.default.createElement(
-          'div',
-          { style: { width: 400, height: 310, marginTop: 0, adding: 5, border: "1px dashed lightgrey", backgroundColor: "lightgrey" } },
-          _react2.default.createElement(
-            _nukaCarousel2.default,
-            null,
-            allImages
-          )
-        );
+        var commonStyle = { marginBottom: 5 };
+
+        if (type == "audio") {
+          return allImages.map(function (element, i) {
+            return _react2.default.createElement(
+              'span',
+              { key: i, style: (0, _extends3.default)({}, commonStyle, { width: 400 }) },
+              element
+            );
+          });
+        } else {
+          return _react2.default.createElement(
+            'div',
+            { style: (0, _extends3.default)({}, commonStyle, { width: 390, minHeight: type == "picture" ? 310 : "auto", marginTop: 10, padding: 5, border: "1px dashed lightgrey", backgroundColor: "#e8e8e8" }) },
+            _react2.default.createElement(
+              _nukaCarousel2.default,
+              null,
+              allImages
+            )
+          );
+        }
       }
 
       return _react2.default.createElement('div', null);
@@ -160,10 +184,10 @@ var RecordView = function (_Component) {
       return componentToReturn;
     }, _this.prepareLine = function (name, title, data) {
 
-      switch (name) {
-        case 'featuredImage':
+      switch (name.toLowerCase()) {
+        case 'featuredimage':
           return _react2.default.createElement('div', null);
-        case 'Name':
+        case 'name':
           return _react2.default.createElement(
             'div',
             null,
@@ -274,7 +298,7 @@ var RecordView = function (_Component) {
         var title = fieldsToHide.includes(entry.name) ? "" : _react2.default.createElement(
           'h3',
           { style: { fontSize: 17, fontWeight: 500 } },
-          entry.name
+          entry.name == 'clerks' ? "Clerks" : entry.name
         );
 
         if (!entry.data || entry.name == "featured copyright notice") {
@@ -304,7 +328,7 @@ var RecordView = function (_Component) {
                   marginRight: 5
                 };
 
-                switch (cell.name) {
+                switch (cell.name.toLowerCase()) {
                   case 'name':
                     return _react2.default.createElement(
                       'span',
@@ -386,9 +410,37 @@ var RecordView = function (_Component) {
         }
       });
 
+      var allImageUrls = [];
+
+      recordData.data.media.picture.map(function (element, i) {
+        return allImageUrls.push(_links.URL_MULTIMEDIA + element.src);
+      });
+
+      var loadingIndicator = _react2.default.createElement(_halogen2.default.MoonLoader, { color: "blue" });
+
       return _react2.default.createElement(
         _Card.Card,
         { style: { padding: 30 } },
+        this.state.isOpen && _react2.default.createElement(_reactImageLightbox2.default, {
+          mainSrc: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage
+
+          , onCloseRequest: function onCloseRequest() {
+            return _this2.setState({ isOpen: false });
+          },
+          onMovePrevRequest: function onMovePrevRequest() {
+            return _this2.setState({
+              photoIndex: (photoIndex + images.length - 1) % images.length
+            });
+          },
+          onMoveNextRequest: function onMoveNextRequest() {
+            return _this2.setState({
+              photoIndex: (photoIndex + 1) % images.length
+            });
+          },
+
+          reactModalStyle: { overlay: { zIndex: 5000 } },
+          imageCaption: _react2.default.createElement(_Card.CardTitle, { title: copyrightNotice, style: { margin: 0, padding: 0, height: 40 }, titleStyle: { fontSize: "1.5em", lineHeight: 1, padding: 5, color: "white" } })
+        }),
         _react2.default.createElement(
           'style',
           null,
@@ -403,17 +455,20 @@ var RecordView = function (_Component) {
           { style: { width: "100%", display: "inline-block", verticalAlign: "top" } },
           _react2.default.createElement(
             'span',
-            { style: { maxHeight: 300, width: 350, maxWidth: 350, display: "inline-block", verticalAlign: "top", float: "left", margin: 5, marginRight: 10, textAlign: "center" } },
+            { style: { maxHeight: 300, width: 350, maxWidth: 350, display: "inline-block", verticalAlign: "top", float: "left", margin: 5, marginRight: 10, textAlign: "center" }, onClick: function onClick() {
+                return _this2.setState({ isOpen: true });
+              } },
             _react2.default.createElement(
               _Card.Card,
               {
                 style: { maxWidth: 345, border: "1px solid black" },
                 src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage
+
               },
               _react2.default.createElement(
                 _Card.CardMedia,
                 {
-                  overlay: _react2.default.createElement(_Card.CardTitle, { title: copyrightNotice, style: { margin: 0, padding: 0, height: 40 }, titleStyle: { fontSize: 10, lineHeight: 1, padding: 5 } })
+                  overlay: _react2.default.createElement(_Card.CardTitle, { title: copyrightNotice, style: { margin: 0, padding: 0, height: 20 }, titleStyle: { fontSize: 10, lineHeight: 1, padding: 0 } })
                 },
                 _react2.default.createElement(
                   'span',
@@ -425,14 +480,37 @@ var RecordView = function (_Component) {
           ),
           _react2.default.createElement(
             'span',
-            { style: { maxWidth: "50%", display: "inline-block", verticalAlign: "top", float: "right", marginLeft: 20 } },
-            this.getMediaPreviewers(recordData.data.media.picture, "picture"),
-            _react2.default.createElement('br', null),
-            this.getMediaPreviewers(recordData.data.media.audio, "audio"),
-            _react2.default.createElement('br', null),
-            this.getMediaPreviewers(recordData.data.media.video, "video"),
-            _react2.default.createElement('br', null),
-            this.getMediaPreviewers(recordData.data.media.text, "text")
+            { style: { maxWidth: "50%", display: "inline-block", verticalAlign: "top", float: "right", marginLeft: 20, marginBottom: 20 } },
+            _react2.default.createElement(
+              _reactPreload2.default,
+              {
+                loadingIndicator: loadingIndicator,
+                images: allImageUrls,
+                autoResolveDelay: 3000,
+                onError: this._handleImageLoadError,
+                onSuccess: function onSuccess() {
+                  return _this2.setState({ imagesReady: true });
+                },
+                resolveOnError: true,
+                mountChildren: true
+              },
+              this.getMediaPreviewers(recordData.data.media.picture, "picture")
+            ),
+            _react2.default.createElement(
+              'span',
+              null,
+              this.getMediaPreviewers(recordData.data.media.audio, "audio")
+            ),
+            _react2.default.createElement(
+              'span',
+              null,
+              this.getMediaPreviewers(recordData.data.media.video, "video")
+            ),
+            _react2.default.createElement(
+              'span',
+              null,
+              this.getMediaPreviewers(recordData.data.media.text, "text")
+            )
           ),
           _react2.default.createElement(
             _reactMeasure2.default,

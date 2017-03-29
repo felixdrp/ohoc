@@ -136,7 +136,12 @@ var GridView = function (_Component) {
           cols: 8,
           style: styles.gridList
         },
-        tilesData.map(function (tile, i) {
+        tilesData.sort(function (a, b) {
+          if (!a.title || !b.title) {
+            return 0;
+          }
+          return a.title.trim().localeCompare(b.title.trim());
+        }).map(function (tile, i) {
           return _react2.default.createElement(
             _reactRouter.Link,
             { key: i, to: tile.src, style: { textDecoration: 'none' } },

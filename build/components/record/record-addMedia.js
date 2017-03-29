@@ -132,7 +132,6 @@ var RecordAddMedia = function (_Component) {
         transcript = _draftJs.EditorState.createEmpty();
       }
 
-      debugger;
       _this.setState({ transcriptBuffer: transcript, dataToSend: newProps.prevData, mediaUploaded: newProps.prevData.src ? true : false, previewSource: { src: newProps.prevData.src, type: newProps.prevData.type } });
     };
 
