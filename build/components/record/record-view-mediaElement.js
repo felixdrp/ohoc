@@ -225,11 +225,10 @@ var RecordViewMediaElement = function (_Component) {
         _react2.default.createElement('br', null),
         _react2.default.createElement(
           'span',
-          null,
-          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 250, maxWidth: "95%", marginTop: 5 } })
+          { style: { float: "left", width: this.props.type === "audio" ? "50%" : "100%" } },
+          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 250, maxWidth: "100%", marginTop: 5 } })
         ),
-        _react2.default.createElement('br', null),
-        this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(_RaisedButton2.default, { label: 'Show Transcript', style: { margin: 12 },
+        this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(_RaisedButton2.default, { label: 'Show Transcript', style: { height: 30, marginTop: 5 },
           onClick: function onClick() {
             return _this2.state.showTranscript ? _this2.setState({ showTranscript: false }) : _this2.setState({ showTranscript: true });
           } }) : "",

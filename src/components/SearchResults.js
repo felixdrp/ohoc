@@ -40,13 +40,43 @@ class SearchResults extends Component {
       return false;
     }
 
+    var queryTerms = query.toLowerCase().trim().split(/[ ,]+/)
+
     if ( entry && entry.data && entry.data.recordName ){
+      // var shouldReturn = false;
 
-      return entry.data.recordName.toLowerCase().includes(query.toLowerCase());
+      for (var a in queryTerms){
 
+        if ( entry.data.recordName.toLowerCase().includes(queryTerms[a])  ){
+          return true;
+        }
+      }
+
+      //Didn't find anything on the normal fields Let's look at the transcripts
+      return this.findQueryInTranscripts(entry.data,queryTerms);
     }
-
+    
     return false;
+  }
+
+  findQueryInTranscripts = (entry,queryTerms) => {
+
+    if( entry.media && entry.media.audio){
+          for( var i in entry.media.audio){
+
+              var audioTranscript = JSON.parse(entry.media.audio[i].transcript)
+              for ( var b in audioTranscript.blocks){
+
+                    for(var t in queryTerms){
+                        var found = audioTranscript.blocks[b].text.toLowerCase().includes(queryTerms[t])
+                        if ( found ){ // We only care if we find one of the terms. Just very very simple matching. No Ranking.
+                          return true;
+                        }
+                    }
+              }
+          }
+        }
+    return false
   }
 
 

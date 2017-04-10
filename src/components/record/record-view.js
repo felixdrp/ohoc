@@ -373,6 +373,7 @@ export default class RecordView extends Component {
                     // maxWidth: this.state.dimensions.width < (600+450) ? "50%" : "100%",
                     paddingLeft: (this.state.dimensions.width < (600+450)) && this.hasAnyMedia(recordData.data.media) ? 0 : 365,
                     marginTop: (this.state.dimensions.width > (600+450)) ? 0 : ( this.hasAnyMedia(recordData.data.media) ? 290 : 0),
+                    marginRight: (this.state.dimensions.width > (600+450)) ? "10%" : 20 ,
                     wordWrap:"normal"}}>
                 { fieldsFlex }
               </div>

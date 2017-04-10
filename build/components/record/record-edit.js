@@ -129,16 +129,15 @@ var RecordEdit = function (_Component) {
     };
 
     _this.deleteMedia = function (type, i) {
-
       var recordData = _this.state.recordData;
-      var allowedTypes = ["image", "audio", "video", "text"];
+      var allowedTypes = ["image", "audio", "video", "text", "application"];
       var selectedType = type.split("/")[0];
 
       if (allowedTypes.includes(selectedType)) {
         selectedType = selectedType == "image" ? "picture" : selectedType;
+        selectedType = selectedType == "application" ? "text" : selectedType;
         recordData.data.media[selectedType].splice(i, 1);
       }
-
       _this.setState({ recordData: recordData });
     };
 

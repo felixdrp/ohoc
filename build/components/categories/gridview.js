@@ -106,6 +106,12 @@ var GridView = function (_Component) {
 
       }
       return tiles;
+    }, _this.adjustImage = function (image) {
+
+      return _react2.default.createElement('img', {
+        style: { height: "100%" },
+        src: image ? _links.URL_MULTIMEDIA + image : baseAvatarImage
+      });
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
@@ -133,7 +139,7 @@ var GridView = function (_Component) {
       return _react2.default.createElement(
         _GridList.GridList,
         {
-          cols: 8,
+          cols: tilesData.length < 8 ? tilesData.length : 8,
           style: styles.gridList
         },
         tilesData.sort(function (a, b) {
@@ -152,7 +158,10 @@ var GridView = function (_Component) {
                 title: tile.title,
                 subtitle: ""
               },
-              _react2.default.createElement('img', { src: tile.img ? _links.URL_MULTIMEDIA + tile.img : baseAvatarImage })
+              _react2.default.createElement('div', { style: { width: "100%", height: "100%", textAlign: "center",
+                  background: 'url("' + _links.URL_MULTIMEDIA + tile.img + '") no-repeat',
+                  backgroundSize: "contain",
+                  backgroundPosition: "center center" } })
             )
           );
         })

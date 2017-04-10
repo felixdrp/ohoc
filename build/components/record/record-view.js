@@ -209,6 +209,13 @@ var RecordView = function (_Component) {
             )
           );
       }
+    }, _this.hasAnyMedia = function (media) {
+
+      if (media.picture.length > 0 || media.audio.length > 0 || media.video.length > 0 || media.text.length > 0) {
+        return true;
+      }
+
+      return false;
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
@@ -265,8 +272,18 @@ var RecordView = function (_Component) {
         margin: 12
       };
 
+      var loadingIndicator = _react2.default.createElement(_halogen2.default.MoonLoader, { color: "blue" });
+
       if (!this.state || !this.state.recordData) {
-        return _react2.default.createElement('div', null);
+        return _react2.default.createElement(
+          _Card.Card,
+          { style: { height: 150, textAlign: "centered" } },
+          _react2.default.createElement(
+            'div',
+            { style: { width: 100, height: 100, marginLeft: "auto", marginRight: "auto", paddingTop: 30 } },
+            loadingIndicator
+          )
+        );
       }
 
       var baseImage = _links.URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg'; 
@@ -416,8 +433,6 @@ var RecordView = function (_Component) {
         return allImageUrls.push(_links.URL_MULTIMEDIA + element.src);
       });
 
-      var loadingIndicator = _react2.default.createElement(_halogen2.default.MoonLoader, { color: "blue" });
-
       return _react2.default.createElement(
         _Card.Card,
         { style: { padding: 30 } },
@@ -451,79 +466,80 @@ var RecordView = function (_Component) {
                "
         ),
         _react2.default.createElement(
-          'span',
-          { style: { width: "100%", display: "inline-block", verticalAlign: "top" } },
+          _reactMeasure2.default,
+          {
+            onMeasure: function onMeasure(dimensions) {
+              _this2.setState({ dimensions: dimensions });
+            }
+          },
           _react2.default.createElement(
             'span',
-            { style: { maxHeight: 300, width: 350, maxWidth: 350, display: "inline-block", verticalAlign: "top", float: "left", margin: 5, marginRight: 10, textAlign: "center" }, onClick: function onClick() {
-                return _this2.setState({ isOpen: true });
-              } },
+            { style: { width: "100%", display: "inline-block", verticalAlign: "top" } },
             _react2.default.createElement(
-              _Card.Card,
-              {
-                style: { maxWidth: 345, border: "1px solid black" },
-                src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage
-
-              },
+              'span',
+              { style: { maxHeight: 300, width: 350, maxWidth: 350, display: "inline-block", verticalAlign: "top", float: "left", margin: 5, marginRight: 10, textAlign: "center" }, onClick: function onClick() {
+                  return _this2.setState({ isOpen: true });
+                } },
               _react2.default.createElement(
-                _Card.CardMedia,
+                _Card.Card,
                 {
-                  overlay: _react2.default.createElement(_Card.CardTitle, { title: copyrightNotice, style: { margin: 0, padding: 0, height: 20 }, titleStyle: { fontSize: 10, lineHeight: 1, padding: 0 } })
+                  style: { maxWidth: 345, border: "1px solid black" },
+                  src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage
+
                 },
                 _react2.default.createElement(
-                  'span',
-                  { style: { width: 345, height: 250 } },
-                  _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 343 }, src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage })
+                  _Card.CardMedia,
+                  {
+                    overlay: _react2.default.createElement(_Card.CardTitle, { title: copyrightNotice, style: { margin: 0, padding: 0, height: 20 }, titleStyle: { fontSize: 10, lineHeight: 1, padding: 0 } })
+                  },
+                  _react2.default.createElement(
+                    'span',
+                    { style: { width: 345, height: 250 } },
+                    _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 343 }, src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage })
+                  )
                 )
               )
-            )
-          ),
-          _react2.default.createElement(
-            'span',
-            { style: { maxWidth: "50%", display: "inline-block", verticalAlign: "top", float: "right", marginLeft: 20, marginBottom: 20 } },
+            ),
             _react2.default.createElement(
-              _reactPreload2.default,
-              {
-                loadingIndicator: loadingIndicator,
-                images: allImageUrls,
-                autoResolveDelay: 3000,
-                onError: this._handleImageLoadError,
-                onSuccess: function onSuccess() {
-                  return _this2.setState({ imagesReady: true });
+              'span',
+              { style: { maxWidth: "50%", display: "inline-block", verticalAlign: "top", float: "right", marginLeft: 20, marginBottom: 20 } },
+              _react2.default.createElement(
+                _reactPreload2.default,
+                {
+                  loadingIndicator: loadingIndicator,
+                  images: allImageUrls,
+                  autoResolveDelay: 3000,
+                  onError: this._handleImageLoadError,
+                  onSuccess: function onSuccess() {
+                    return _this2.setState({ imagesReady: true });
+                  },
+                  resolveOnError: true,
+                  mountChildren: true
                 },
-                resolveOnError: true,
-                mountChildren: true
-              },
-              this.getMediaPreviewers(recordData.data.media.picture, "picture")
+                this.getMediaPreviewers(recordData.data.media.picture, "picture")
+              ),
+              _react2.default.createElement(
+                'span',
+                null,
+                this.getMediaPreviewers(recordData.data.media.audio, "audio")
+              ),
+              _react2.default.createElement(
+                'span',
+                null,
+                this.getMediaPreviewers(recordData.data.media.video, "video")
+              ),
+              _react2.default.createElement(
+                'span',
+                null,
+                this.getMediaPreviewers(recordData.data.media.text, "text")
+              )
             ),
-            _react2.default.createElement(
-              'span',
-              null,
-              this.getMediaPreviewers(recordData.data.media.audio, "audio")
-            ),
-            _react2.default.createElement(
-              'span',
-              null,
-              this.getMediaPreviewers(recordData.data.media.video, "video")
-            ),
-            _react2.default.createElement(
-              'span',
-              null,
-              this.getMediaPreviewers(recordData.data.media.text, "text")
-            )
-          ),
-          _react2.default.createElement(
-            _reactMeasure2.default,
-            {
-              onMeasure: function onMeasure(dimensions) {
-                _this2.setState({ dimensions: dimensions });
-              }
-            },
             _react2.default.createElement(
               'div',
               { style: {
-                  paddingLeft: this.state.dimensions.width < 600 + 450 ? 0 : 365,
-                  marginTop: this.state.dimensions.width > 600 + 450 ? 0 : 290,
+                  paddingLeft: this.state.dimensions.width < 600 + 450 && this.hasAnyMedia(recordData.data.media) ? 0 : 365,
+                  marginTop: this.state.dimensions.width > 600 + 450 ? 0 : this.hasAnyMedia(recordData.data.media) ? 290 : 0,
+                  marginRight: this.state.dimensions.width > 600 + 450 ? "10%" : 20,
                   wordWrap: "normal" } },
               fieldsFlex
             )

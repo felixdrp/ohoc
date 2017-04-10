@@ -19,6 +19,7 @@ import IconButton from 'material-ui/IconButton';
 
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 
+
 import {
   URL_VIEW_RECORD,
   URL_BASE_MULTIMEDIA_IMAGES,
@@ -55,6 +56,15 @@ export default class GridView extends Component {
   }
 
 
+  adjustImage = (image) =>{
+
+    return <img
+        style={ {height:"100%"}}
+        src={image ? URL_MULTIMEDIA + image: baseAvatarImage}
+      />
+  }
+
+
   render() {
 
       let styles = {
@@ -74,7 +84,7 @@ export default class GridView extends Component {
       const baseAvatarImage = URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg'
 
       return  <GridList
-                cols={8}
+                cols={tilesData.length < 8 ? tilesData.length : 8}
                 style={styles.gridList}
               >
 
@@ -92,7 +102,11 @@ export default class GridView extends Component {
                       title={tile.title}
                       subtitle={""}
                     >
-                      <img src={tile.img ? URL_MULTIMEDIA + tile.img: baseAvatarImage} />
+                      <div style={{width:"100%",height:"100%",textAlign:"center",
+                         background: 'url("'+URL_MULTIMEDIA+tile.img+'") no-repeat',
+                         backgroundSize:"contain",
+                         backgroundPosition: "center center"}}>
+                      </div>
                     </GridTile>
                   </Link>
                 ))}

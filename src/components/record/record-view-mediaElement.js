@@ -127,7 +127,7 @@ export default class RecordViewMediaElement extends Component {
         </span>
         <br/>
 
-        <span style={{float:"left",width:"50%"}}>
+        <span style={{float:"left",width: this.props.type === "audio" ? "50%" : "100%"}}>
           <PreviewGenerator element={this.props.media} style={{maxHeight:250,maxWidth:"100%",marginTop:5}} />
         </span>
 
