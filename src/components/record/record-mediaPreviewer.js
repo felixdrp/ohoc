@@ -7,6 +7,8 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import EditIcon from 'material-ui/svg-icons/editor/border-color';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
+import RW from 'material-ui/svg-icons/av/fast-rewind';
+import FW from 'material-ui/svg-icons/av/fast-forward';
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
@@ -32,15 +34,26 @@ export default class RecordMediaPreviewer extends Component {
          <IconButton style={{float:"right"}} onClick={() => this.props.mediaDeleter(this.props.media.type,this.props.index)}>
             <ClearIcon />
           </IconButton>
+
           <span style={{maxWidth:"60%"}}>
             {
               this.props.media.title
             }
           </span>
             <br/>
-        <span>
+        <span style={{width:200}}>
           <PreviewGenerator element={this.props.media} style={{height:100,maxWidth:100}} />
         </span>
+
+        <IconButton onClick={() => this.props.mediaShifter(this.props.media.type,this.props.index,false)}>
+           <RW />
+         </IconButton>
+
+        <IconButton onClick={() => this.props.mediaShifter(this.props.media.type,this.props.index,true)}>
+            <FW />
+        </IconButton>
+
+
 
 
       </Card>

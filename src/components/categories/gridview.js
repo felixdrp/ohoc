@@ -84,7 +84,7 @@ export default class GridView extends Component {
       const baseAvatarImage = URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg'
 
       return  <GridList
-                cols={tilesData.length < 8 ? tilesData.length : 8}
+                cols={tilesData.length < 8 ? (tilesData.length < 4 ? 4 : tilesData.length) : 8}
                 style={styles.gridList}
               >
 
