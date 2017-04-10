@@ -130,13 +130,31 @@ export default class RecordView extends Component {
     }
   }
 
+  hasAnyMedia = ( media ) => {
+
+    if ( media.picture.length > 0 ||
+      media.audio.length > 0 ||
+      media.video.length > 0 ||
+      media.text.length > 0
+    ) {
+      return true;
+    }
+
+    return false;
+
+  }
+
   render() {
     const style = {
       margin: 12,
     };
 
+    var loadingIndicator = (<Halogen.MoonLoader color={"blue"}/>)
+
     if ( !this.state || !this.state.recordData ){
-      return <div></div>
+      return <Card style={{height:150,textAlign:"centered"}}>
+                <div style={{width:100,height:100, marginLeft: "auto", marginRight: "auto" ,paddingTop: 30}}>{loadingIndicator}</div>
+              </Card>
     }
 
     const baseImage = URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg' // This is the image used by default when we have no image to show.
@@ -252,7 +270,7 @@ export default class RecordView extends Component {
       )
     )
 
-    var loadingIndicator = (<Halogen.MoonLoader color={"blue"}/>)
+
 
     return (
       <Card style={{padding:30}}>
@@ -285,7 +303,11 @@ export default class RecordView extends Component {
                  }\
                "}</style>
 
-
+         <Measure
+           onMeasure={(dimensions) => {
+             this.setState({dimensions})
+           }}
+         >
 
           <span style={{ width:"100%", display: "inline-block", verticalAlign: "top"}}>
 
@@ -345,19 +367,17 @@ export default class RecordView extends Component {
               }
             </span>
 
-            <Measure
-              onMeasure={(dimensions) => {
-                this.setState({dimensions})
-              }}
-            >
+
               <div style={{
-                    paddingLeft: this.state.dimensions.width < (600+450) ? 0 : 365,
-                    marginTop: this.state.dimensions.width > (600+450) ? 0 : 290,
+                    // float: this.state.dimensions.width < (600+450) ? "left" : "none",
+                    // maxWidth: this.state.dimensions.width < (600+450) ? "50%" : "100%",
+                    paddingLeft: (this.state.dimensions.width < (600+450)) && this.hasAnyMedia(recordData.data.media) ? 0 : 365,
+                    marginTop: (this.state.dimensions.width > (600+450)) ? 0 : ( this.hasAnyMedia(recordData.data.media) ? 290 : 0),
                     wordWrap:"normal"}}>
                 { fieldsFlex }
               </div>
-          </Measure>
           </span>
+          </Measure>
       </Card>
     );
   }

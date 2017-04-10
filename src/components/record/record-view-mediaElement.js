@@ -127,12 +127,12 @@ export default class RecordViewMediaElement extends Component {
         </span>
         <br/>
 
-        <span>
-          <PreviewGenerator element={this.props.media} style={{maxHeight:250,maxWidth:"95%",marginTop:5}} />
+        <span style={{float:"left",width:"50%"}}>
+          <PreviewGenerator element={this.props.media} style={{maxHeight:250,maxWidth:"100%",marginTop:5}} />
         </span>
-        <br/>
+
         { (this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video"))
-                      ? <RaisedButton label="Show Transcript" style={{margin:12}}
+                      ? <RaisedButton label="Show Transcript" style={{height:30,marginTop:5}}
                         onClick={ () => this.state.showTranscript ? this.setState({showTranscript : false}) : this.setState({showTranscript : true})}/>
                       : ""}
 
