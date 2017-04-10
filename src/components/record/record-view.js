@@ -152,7 +152,7 @@ export default class RecordView extends Component {
     var loadingIndicator = (<Halogen.MoonLoader color={"blue"}/>)
 
     if ( !this.state || !this.state.recordData ){
-      return <Card style={{height:150,textAlign:"centered"}}>
+      return <Card style={{minHeight:600,textAlign:"centered"}}>
                 <div style={{width:100,height:100, marginLeft: "auto", marginRight: "auto" ,paddingTop: 30}}>{loadingIndicator}</div>
               </Card>
     }
@@ -273,7 +273,7 @@ export default class RecordView extends Component {
 
 
     return (
-      <Card style={{padding:30}}>
+      <Card style={{padding:30, minHeight:600}}>
 
         {this.state.isOpen &&
                     <Lightbox

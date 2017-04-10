@@ -73,9 +73,9 @@ class CommonView extends Component {
       <div style={{ backgroundColor: this.state.backColor , padding:8, height:"100%"}}>
          <div id="CommonView" style={{marginLeft: "auto", marginRight:"auto", maxWidth:"70%", minWidth:870,}}>
 
-           <Card style={{height:40, marginBottom:10,overflowY:"scroll"}}>
+           {/* <Card style={{height:40, marginBottom:10,overflowY:"scroll"}}>
              {colors.map( (elem,i) => <div key={i} style={{backgroundColor:elem,width:35,height:35,margin:3,float:"left"}} onClick={ () => this.setState({backColor: elem})}></div> )}
-           </Card>
+           </Card> */}
 
            <Card style={{height:100, marginBottom:10,paddingTop:20,paddingLeft:20}}>
 

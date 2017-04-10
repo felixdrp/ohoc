@@ -19,6 +19,7 @@ import IconButton from 'material-ui/IconButton';
 
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 
+import Measure from 'react-measure';
 
 import {
   URL_VIEW_RECORD,
@@ -28,6 +29,13 @@ import {
 
 export default class GridView extends Component {
 
+  constructor() {
+    super()
+      this.state = {
+        imgDimensions : {},
+    };
+
+  }
   // componentWillReceiveProps = (newprops) =>{
   //
   //
@@ -58,10 +66,21 @@ export default class GridView extends Component {
 
   adjustImage = (image) =>{
 
-    return <img
-        style={ {height:"100%"}}
-        src={image ? URL_MULTIMEDIA + image: baseAvatarImage}
-      />
+      return <Measure
+        onMeasure={(dimensions) => {
+          //if ( !dims[image] ){
+            var dims  = this.state.imgDimensions
+            dims[image] = dimensions;
+            this.setState({imgDimensions : dims})
+        //  }
+        }}
+      >
+      <img
+          style={ this.state.imgDimensions[image] ? (this.state.imgDimensions[image].width > this.state.imgDimensions[image].height ? {width : "100%"} : {height : "100%"} ): {} }
+          src={image ? URL_MULTIMEDIA + image: baseAvatarImage}
+        />
+      </Measure>
+
   }
 
 
@@ -83,13 +102,16 @@ export default class GridView extends Component {
 
       const baseAvatarImage = URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg'
 
-      return  <GridList
-                cols={tilesData.length < 8 ? (tilesData.length < 4 ? 4 : tilesData.length) : 8}
+      return  <Measure
+        onMeasure={(dimensions) => {
+            this.setState({dimensions})
+        }}
+      ><GridList
+                cols={ this.state.dimensions ? Math.floor(this.state.dimensions.width / 150) : 4}
                 style={styles.gridList}
               >
 
                 {tilesData.sort(function(a, b) {
-                  // debugger;
                     if ( !a.title || !b.title){
                       return 0;
                     }
@@ -103,14 +125,17 @@ export default class GridView extends Component {
                       subtitle={""}
                     >
                       <div style={{width:"100%",height:"100%",textAlign:"center",
-                         background: 'url("'+URL_MULTIMEDIA+tile.img+'") no-repeat',
-                         backgroundSize:"contain",
-                         backgroundPosition: "center center"}}>
+                        //  background: 'url("'+URL_MULTIMEDIA+tile.img+'") no-repeat',
+                        //  backgroundSize:"contain",
+                        //  backgroundPosition: "center center"
+                       }}>
+                         {this.adjustImage(tile.img)}
                       </div>
                     </GridTile>
                   </Link>
                 ))}
               </GridList>
+            </Measure>
 
   }
 }

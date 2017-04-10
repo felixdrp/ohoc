@@ -277,7 +277,7 @@ var RecordView = function (_Component) {
       if (!this.state || !this.state.recordData) {
         return _react2.default.createElement(
           _Card.Card,
-          { style: { height: 150, textAlign: "centered" } },
+          { style: { minHeight: 600, textAlign: "centered" } },
           _react2.default.createElement(
             'div',
             { style: { width: 100, height: 100, marginLeft: "auto", marginRight: "auto", paddingTop: 30 } },
@@ -435,7 +435,7 @@ var RecordView = function (_Component) {
 
       return _react2.default.createElement(
         _Card.Card,
-        { style: { padding: 30 } },
+        { style: { padding: 30, minHeight: 600 } },
         this.state.isOpen && _react2.default.createElement(_reactImageLightbox2.default, {
           mainSrc: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage
 

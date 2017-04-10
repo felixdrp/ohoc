@@ -16,10 +16,6 @@ var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
-var _stringify = require('babel-runtime/core-js/json/stringify');
-
-var _stringify2 = _interopRequireDefault(_stringify);
-
 var _keys = require('babel-runtime/core-js/object/keys');
 
 var _keys2 = _interopRequireDefault(_keys);
@@ -27,6 +23,10 @@ var _keys2 = _interopRequireDefault(_keys);
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
 
 var _from = require('babel-runtime/core-js/array/from');
 
@@ -137,6 +137,35 @@ var RecordEdit = function (_Component) {
         selectedType = selectedType == "image" ? "picture" : selectedType;
         selectedType = selectedType == "application" ? "text" : selectedType;
         recordData.data.media[selectedType].splice(i, 1);
+      }
+      _this.setState({ recordData: recordData });
+    };
+
+    _this.shiftPosition = function (type, i, forward) {
+      var recordData = _this.state.recordData;
+      var allowedTypes = ["image", "audio", "video", "text", "application"];
+      var selectedType = type.split("/")[0];
+
+      if (allowedTypes.includes(selectedType)) {
+        selectedType = selectedType == "image" ? "picture" : selectedType;
+        selectedType = selectedType == "application" ? "text" : selectedType;
+
+        if (forward) {
+          if (!(i + 1 >= recordData.data.media[selectedType].length)) {
+
+            var shift = JSON.parse((0, _stringify2.default)(recordData.data.media[selectedType][i]));
+            var shift2 = JSON.parse((0, _stringify2.default)(recordData.data.media[selectedType][i + 1]));
+            recordData.data.media[selectedType][i + 1] = shift;
+            recordData.data.media[selectedType][i] = shift2;
+          }
+        } else {
+          if (!(i - 1 < 0)) {
+            var shift = JSON.parse((0, _stringify2.default)(recordData.data.media[selectedType][i]));
+            var shift2 = JSON.parse((0, _stringify2.default)(recordData.data.media[selectedType][i - 1]));
+            recordData.data.media[selectedType][i - 1] = shift;
+            recordData.data.media[selectedType][i] = shift2;
+          }
+        }
       }
       _this.setState({ recordData: recordData });
     };
@@ -438,6 +467,7 @@ var RecordEdit = function (_Component) {
               media: (0, _extends3.default)({}, element, { src: _links.URL_MULTIMEDIA + element.src }),
               mediaDeleter: _this2.deleteMedia,
               mediaUpdater: _this2.updateMedia,
+              mediaShifter: _this2.shiftPosition,
               index: i
             });
           })

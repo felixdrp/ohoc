@@ -21,6 +21,9 @@ import ListView  from './listview';
 
 import fetchData from '../../network/fetch-data';
 
+
+import Halogen from 'halogen';
+
 import {
   URL_VIEW_RECORD,
   URL_BASE_MULTIMEDIA_IMAGES,
@@ -116,7 +119,13 @@ export default class CategoriesView extends Component {
     const baseAvatarImage = URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg'
 
     if ( !this.state || !this.state.categoriesList ){
-      return <div></div>
+      var loadingIndicator = (<Halogen.MoonLoader color={"blue"}/>)
+
+      if ( !this.state || !this.state.recordData ){
+        return <Card style={{minHeight:600,textAlign:"centered"}}>
+                  <div style={{width:100,height:100, marginLeft: "auto", marginRight: "auto" ,paddingTop: 30}}>{loadingIndicator}</div>
+                </Card>
+      }
     }
 
     let styles = {

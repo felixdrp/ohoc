@@ -88,6 +88,10 @@ var _fetchData = require('../../network/fetch-data');
 
 var _fetchData2 = _interopRequireDefault(_fetchData);
 
+var _halogen = require('halogen');
+
+var _halogen2 = _interopRequireDefault(_halogen);
+
 var _links = require('../../links');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -215,7 +219,19 @@ var CategoriesView = function (_Component) {
       var baseAvatarImage = _links.URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg';
 
       if (!this.state || !this.state.categoriesList) {
-        return _react2.default.createElement('div', null);
+        var loadingIndicator = _react2.default.createElement(_halogen2.default.MoonLoader, { color: "blue" });
+
+        if (!this.state || !this.state.recordData) {
+          return _react2.default.createElement(
+            _Card.Card,
+            { style: { minHeight: 600, textAlign: "centered" } },
+            _react2.default.createElement(
+              'div',
+              { style: { width: 100, height: 100, marginLeft: "auto", marginRight: "auto", paddingTop: 30 } },
+              loadingIndicator
+            )
+          );
+        }
       }
 
       var styles = {

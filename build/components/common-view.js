@@ -113,8 +113,6 @@ var CommonView = function (_Component) {
   (0, _createClass3.default)(CommonView, [{
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       var logoStyle = { height: 50, marginTop: 10, marginLeft: 5 };
 
       var colors = ["#a9b3bf", "#85aad6", "#bd9d6d", "#f2f2f2", "#779077", "#0079BF", "#155196", "#78a2d4", "#eeecf1", "#607d8b", "#795548", "#a58e50", "#ceb163", "#b7b9bb", "#C63D0F", "#3B3738", "#FDF3E7", "#7E8F7C", "#A8CD1B", "#CBE32D", "#F3FAB6", "#558C89", "#74AFAD", "#D9853B", "#ECECEA", "#7D1935", "#4A96AD", "#F5F3EE", "#FFFFFF", "#E44424", "#67BCDB", "#A2AB58", "#FFFFFF", "#585858", "#118C4E", "#FF9009"];
@@ -125,15 +123,6 @@ var CommonView = function (_Component) {
         _react2.default.createElement(
           'div',
           { id: 'CommonView', style: { marginLeft: "auto", marginRight: "auto", maxWidth: "70%", minWidth: 870 } },
-          _react2.default.createElement(
-            _Card.Card,
-            { style: { height: 40, marginBottom: 10, overflowY: "scroll" } },
-            colors.map(function (elem, i) {
-              return _react2.default.createElement('div', { key: i, style: { backgroundColor: elem, width: 35, height: 35, margin: 3, float: "left" }, onClick: function onClick() {
-                  return _this2.setState({ backColor: elem });
-                } });
-            })
-          ),
           _react2.default.createElement(
             _Card.Card,
             { style: { height: 100, marginBottom: 10, paddingTop: 20, paddingLeft: 20 } },

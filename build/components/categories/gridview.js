@@ -76,6 +76,10 @@ var _starBorder = require('material-ui/svg-icons/toggle/star-border');
 
 var _starBorder2 = _interopRequireDefault(_starBorder);
 
+var _reactMeasure = require('react-measure');
+
+var _reactMeasure2 = _interopRequireDefault(_reactMeasure);
+
 var _links = require('../../links');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -84,17 +88,11 @@ var GridView = function (_Component) {
   (0, _inherits3.default)(GridView, _Component);
 
   function GridView() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
     (0, _classCallCheck3.default)(this, GridView);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    var _this = (0, _possibleConstructorReturn3.default)(this, (GridView.__proto__ || (0, _getPrototypeOf2.default)(GridView)).call(this));
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = GridView.__proto__ || (0, _getPrototypeOf2.default)(GridView)).call.apply(_ref, [this].concat(args))), _this), _this.prepareTiles = function (entries) {
+    _this.prepareTiles = function (entries) {
       var tiles = [];
       for (var a in entries) {
 
@@ -106,19 +104,37 @@ var GridView = function (_Component) {
 
       }
       return tiles;
-    }, _this.adjustImage = function (image) {
+    };
 
-      return _react2.default.createElement('img', {
-        style: { height: "100%" },
-        src: image ? _links.URL_MULTIMEDIA + image : baseAvatarImage
-      });
-    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+    _this.adjustImage = function (image) {
+
+      return _react2.default.createElement(
+        _reactMeasure2.default,
+        {
+          onMeasure: function onMeasure(dimensions) {
+            var dims = _this.state.imgDimensions;
+            dims[image] = dimensions;
+            _this.setState({ imgDimensions: dims });
+          }
+        },
+        _react2.default.createElement('img', {
+          style: _this.state.imgDimensions[image] ? _this.state.imgDimensions[image].width > _this.state.imgDimensions[image].height ? { width: "100%" } : { height: "100%" } : {},
+          src: image ? _links.URL_MULTIMEDIA + image : baseAvatarImage
+        })
+      );
+    };
+
+    _this.state = {
+      imgDimensions: {}
+    };
+
+    return _this;
   }
-
 
   (0, _createClass3.default)(GridView, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
 
       var styles = {
         root: {
@@ -137,34 +153,44 @@ var GridView = function (_Component) {
       var baseAvatarImage = _links.URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg';
 
       return _react2.default.createElement(
-        _GridList.GridList,
+        _reactMeasure2.default,
         {
-          cols: tilesData.length < 8 ? tilesData.length : 8,
-          style: styles.gridList
-        },
-        tilesData.sort(function (a, b) {
-          if (!a.title || !b.title) {
-            return 0;
+          onMeasure: function onMeasure(dimensions) {
+            _this2.setState({ dimensions: dimensions });
           }
-          return a.title.trim().localeCompare(b.title.trim());
-        }).map(function (tile, i) {
-          return _react2.default.createElement(
-            _reactRouter.Link,
-            { key: i, to: tile.src, style: { textDecoration: 'none' } },
-            _react2.default.createElement(
-              _GridList.GridTile,
-              {
-                key: tile.img,
-                title: tile.title,
-                subtitle: ""
-              },
-              _react2.default.createElement('div', { style: { width: "100%", height: "100%", textAlign: "center",
-                  background: 'url("' + _links.URL_MULTIMEDIA + tile.img + '") no-repeat',
-                  backgroundSize: "contain",
-                  backgroundPosition: "center center" } })
-            )
-          );
-        })
+        },
+        _react2.default.createElement(
+          _GridList.GridList,
+          {
+            cols: this.state.dimensions ? Math.floor(this.state.dimensions.width / 150) : 4,
+            style: styles.gridList
+          },
+          tilesData.sort(function (a, b) {
+            if (!a.title || !b.title) {
+              return 0;
+            }
+            return a.title.trim().localeCompare(b.title.trim());
+          }).map(function (tile, i) {
+            return _react2.default.createElement(
+              _reactRouter.Link,
+              { key: i, to: tile.src, style: { textDecoration: 'none' } },
+              _react2.default.createElement(
+                _GridList.GridTile,
+                {
+                  key: tile.img,
+                  title: tile.title,
+                  subtitle: ""
+                },
+                _react2.default.createElement(
+                  'div',
+                  { style: { width: "100%", height: "100%", textAlign: "center"
+                    } },
+                  _this2.adjustImage(tile.img)
+                )
+              )
+            );
+          })
+        )
       );
     }
   }]);
