@@ -67,7 +67,7 @@ var AppContainer = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { id: 'maincontainer', style: { height: "100%" } },
+        { id: 'maincontainer' },
         _react2.default.createElement(
           _MuiThemeProvider2.default,
           { muiTheme: muiTheme },

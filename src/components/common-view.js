@@ -8,6 +8,9 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 
 import {URL_BASE} from '../links'
 
+
+import Measure from 'react-measure';
+
 class CommonView extends Component {
   async componentWillMount() {
     let fetch = new fetchData();
@@ -30,67 +33,33 @@ class CommonView extends Component {
   render() {
     let logoStyle = {height: 50,marginTop:10,marginLeft:5}
 
-    var colors = [
-                  "#a9b3bf",
-                  "#85aad6",
-                  "#bd9d6d",
-                  "#f2f2f2",
-                  "#779077",
-                  "#0079BF",
-                  "#155196",
-                  "#78a2d4",
-                  "#eeecf1",
-                  "#607d8b",
-                  "#795548",
-                  "#a58e50",
-                  "#ceb163",
-                  "#b7b9bb",
-                  "#C63D0F",
-                  "#3B3738",
-                  "#FDF3E7",
-                  "#7E8F7C",
-                  "#A8CD1B",
-                  "#CBE32D",
-                  "#F3FAB6",
-                  "#558C89",
-                  "#74AFAD",
-                  "#D9853B",
-                  "#ECECEA",
-                  "#7D1935",
-                  "#4A96AD",
-                  "#F5F3EE",
-                  "#FFFFFF",
-                  "#E44424",
-                  "#67BCDB",
-                  "#A2AB58",
-                  "#FFFFFF",
-                  "#585858",
-                  "#118C4E",
-                  "#FF9009",
-                  ]
-
     return (
-      <div style={{ backgroundColor: this.state.backColor , padding:8, height:"100%"}}>
-         <div id="CommonView" style={{marginLeft: "auto", marginRight:"auto", maxWidth:"70%", minWidth:870,}}>
+      <Measure
+        onMeasure={(dimensions) => {
+            this.setState({dimensions})
+        }}>
+      <div style={{ backgroundColor: this.state.backColor , padding:8, height:"100vh", width:"95vw"}}>
+
+         <div id="CommonView" style={{marginLeft: "auto", marginRight:"auto", width: (this.state.isAMobile) || (this.state.dimensions ? this.state.dimensions.width < 750 : false) ? "95vw" : "70vw", height:"100vh"}}>
 
            {/* <Card style={{height:40, marginBottom:10,overflowY:"scroll"}}>
              {colors.map( (elem,i) => <div key={i} style={{backgroundColor:elem,width:35,height:35,margin:3,float:"left"}} onClick={ () => this.setState({backColor: elem})}></div> )}
            </Card> */}
 
-           <Card style={{height:100, marginBottom:10,paddingTop:20,paddingLeft:20}}>
+           <Card style={{minHeight:100, marginBottom:10,paddingTop:20,paddingLeft:20,paddingBottom:10}}>
 
-           {/* <img src="http://www.create.ac.uk/wp-content/uploads/logos/create_primary_logo_160.jpg" style={logoStyle} /> */}
-           <img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/13/University_of_Kent_logo.svg/1280px-University_of_Kent_logo.svg.png" style={{height:55,marginTop:0,marginLeft:5}}/>
-           <img src="https://www.cam.ac.uk/sites/www.cam.ac.uk/files/inner-images/logo.jpg" style={{height: 50,marginTop:0,marginLeft:5}} />
-           <img src="http://www.cipil.law.cam.ac.uk/sites/www.law.cam.ac.uk/files/images/www.cipil.law.cam.ac.uk/legacy/images/logo_cipil_3.gif" style={{height: 50,marginTop:0,marginLeft:5}} />
+             {/* <img src="http://www.create.ac.uk/wp-content/uploads/logos/create_primary_logo_160.jpg" style={logoStyle} /> */}
+             <img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/13/University_of_Kent_logo.svg/1280px-University_of_Kent_logo.svg.png" style={{maxHeight:50,marginTop:0,marginLeft:5}}/>
+             <img src="https://www.cam.ac.uk/sites/www.cam.ac.uk/files/inner-images/logo.jpg" style={{maxHeight: 50,marginTop:0,marginLeft:5}} />
+             <img src="http://www.cipil.law.cam.ac.uk/sites/www.law.cam.ac.uk/files/images/www.cipil.law.cam.ac.uk/legacy/images/logo_cipil_3.gif" style={{maxHeight: 50,marginTop:0,marginLeft:5}} />
 
-           <span style={{float:"right", marginTop: 5}}>
-             <h2 style={{margin:"0 0 0 0",marginRight:25, marginTop:-5}}>
-               <Link to={URL_BASE} style={{ textDecoration: 'none'}}>
-                 <span style={{color:"black"}}>Intellectual Property</span> <br/> <span style={{color:"#155196"}}>Oral History Project</span>
-               </Link>
-             </h2>
-           </span>
+             <span style={{ marginTop: 5,maxHeight: 50}}>
+               <h2 style={{margin:"0 0 0 0",marginRight:25, marginTop:-5}}>
+                 <Link to={URL_BASE} style={{ textDecoration: 'none'}}>
+                   <span style={{color:"black"}}>Intellectual Property</span> <br/> <span style={{color:"#155196"}}>Oral History Project</span>
+                 </Link>
+               </h2>
+             </span>
 
            </Card>
            {this.props.children}
@@ -106,7 +75,9 @@ class CommonView extends Component {
            <img src="http://www.gla.ac.uk/media/media_434161_en.jpg" style={logoStyle} />
            </Card>
          </div>
+
      </div>
+      </Measure>
     );
   }
 }

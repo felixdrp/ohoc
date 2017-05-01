@@ -185,7 +185,7 @@ var GridView = function (_Component) {
                   'div',
                   { style: { width: "100%", height: "100%", textAlign: "center"
                     } },
-                  _this2.adjustImage(tile.img)
+                  _react2.default.createElement('img', { style: { height: "100%" }, src: tile.img ? _links.URL_MULTIMEDIA + tile.img : baseAvatarImage })
                 )
               )
             );

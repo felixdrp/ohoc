@@ -548,7 +548,7 @@ var AppContainer = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { id: 'maincontainer', style: { height: "100%" } },
+        { id: 'maincontainer' },
         _react2.default.createElement(
           _MuiThemeProvider2.default,
           { muiTheme: muiTheme },
@@ -1399,7 +1399,7 @@ var GridView = function (_Component) {
                   'div',
                   { style: { width: "100%", height: "100%", textAlign: "center"
                     } },
-                  _this2.adjustImage(tile.img)
+                  _react2.default.createElement('img', { style: { height: "100%" }, src: tile.img ? _links.URL_MULTIMEDIA + tile.img : baseAvatarImage })
                 )
               )
             );
@@ -1867,13 +1867,13 @@ var CommonView = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { style: { backgroundColor: this.state.backColor, padding: 8, height: "100%" } },
+        { style: { backgroundColor: this.state.backColor, padding: 8, height: "100vh", width: "95vw" } },
         _react2.default.createElement(
           'div',
-          { id: 'CommonView', style: { marginLeft: "auto", marginRight: "auto", maxWidth: "70%", minWidth: 870 } },
+          { id: 'CommonView', style: { marginLeft: "auto", marginRight: "auto", minWidth: 770, width: this.state.isAMobile || window.innerWidth < window.innerHeight ? "95vw" : "70%", height: "100vh" } },
           _react2.default.createElement(
             _Card.Card,
-            { style: { height: 100, marginBottom: 10, paddingTop: 20, paddingLeft: 20 } },
+            { style: { minHeight: 100, marginBottom: 10, paddingTop: 20, paddingLeft: 20, paddingBottom: 10 } },
             _react2.default.createElement('img', { src: 'https://upload.wikimedia.org/wikipedia/en/thumb/1/13/University_of_Kent_logo.svg/1280px-University_of_Kent_logo.svg.png', style: { height: 55, marginTop: 0, marginLeft: 5 } }),
             _react2.default.createElement('img', { src: 'https://www.cam.ac.uk/sites/www.cam.ac.uk/files/inner-images/logo.jpg', style: { height: 50, marginTop: 0, marginLeft: 5 } }),
             _react2.default.createElement('img', { src: 'http://www.cipil.law.cam.ac.uk/sites/www.law.cam.ac.uk/files/images/www.cipil.law.cam.ac.uk/legacy/images/logo_cipil_3.gif', style: { height: 50, marginTop: 0, marginLeft: 5 } }),
@@ -2669,7 +2669,7 @@ function PreviewGenerator(props) {
 
   if (elem && elem.src) {
     if (elem.type.includes("image/")) {
-      return _react2.default.createElement("img", { style: (0, _extends3.default)({}, style, { width: "100%" }), src: elem.src });
+      return _react2.default.createElement("img", { style: (0, _extends3.default)({}, style, { height: "100%", maxWidth: "100%" }), src: elem.src });
     } else if (elem.type.includes("audio/")) {
       return _react2.default.createElement("audio", { style: (0, _extends3.default)({}, style, { width: "95%" }), controls: true, src: elem.src });
     } else if (elem.type.includes("video/")) {

@@ -127,9 +127,10 @@ export default class GridView extends Component {
                       <div style={{width:"100%",height:"100%",textAlign:"center",
                         //  background: 'url("'+URL_MULTIMEDIA+tile.img+'") no-repeat',
                         //  backgroundSize:"contain",
-                        //  backgroundPosition: "center center"
+                        // //  backgroundPosition: "center center"
                        }}>
-                         {this.adjustImage(tile.img)}
+                        <img style={{height:"100%"}} src ={ tile.img ? URL_MULTIMEDIA + tile.img : baseAvatarImage }/>
+                         {/* {this.adjustImage(tile.img ? tile.img : baseAvatarImage)} */}
                       </div>
                     </GridTile>
                   </Link>
