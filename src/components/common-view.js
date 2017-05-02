@@ -6,12 +6,21 @@ import { templateListSet } from '../actions/actions';
 import fetchData from '../network/fetch-data';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
-import {URL_BASE} from '../links'
+import NavigationBar from './navigation-bar/navigation-bar'
 
+import {URL_BASE} from '../links'
 
 import Measure from 'react-measure';
 
 class CommonView extends Component {
+  constructor() {
+    super()
+    this.state = {
+      isAMobile: (navigator.userAgent.indexOf('Mobile') > -1)? true : false,
+      backColor : "#f2f2f2"
+    };
+  }
+
   async componentWillMount() {
     let fetch = new fetchData();
     // Load the templateList
@@ -21,14 +30,6 @@ class CommonView extends Component {
     // Get and dispatch the template list
     this.props.setTemplateList( await fetch.templateListGet() )
   }
-  constructor() {
-    super()
-    this.state = {
-      isAMobile: (navigator.userAgent.indexOf('Mobile') > -1)? true : false,
-      backColor : "#f2f2f2"
-    };
-  }
-
 
   render() {
     let logoStyle = {height: 50,marginTop:10,marginLeft:5}
@@ -76,7 +77,13 @@ class CommonView extends Component {
                    </Link>
                  </h2>
                </span>
-
+               <div
+                 style={{
+                   flexBasis: '100%'
+                 }}
+               >
+                 <NavigationBar />
+               </div>
              </Card>
 
              {this.props.children}

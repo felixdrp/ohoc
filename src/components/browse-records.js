@@ -22,18 +22,6 @@ import SearchResults from './SearchResults';
 import QueryStore from './QueryStore';
 
 class BrowseRecords extends Component {
-
-  categoryData = {
-    "Academia" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoAcademy.jpeg' ,
-                    orderIndex : 2,
-                    copyrightNotice : "(Courtesy of QM Archives)" },
-    "Civil Service" : { src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoCivilService.jpg' , orderIndex : 4, copyrightNotice : "(Courtesy of IP Office)" },
-    "Policy Formation" : { src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPolicyFormation.jpg' , orderIndex : 3, copyrightNotice : "(Courtesy of M. Freegard)" },
-    "Publications" : { src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPublications.jpg' , orderIndex : 5, copyrightNotice : "(Courtesy of Henry Blanco White)" },
-    "Solicitors and Agents" : { src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoSolicitorsandAgents.jpg' , orderIndex : 1, copyrightNotice : "(Courtesy of Bird&Bird)" },
-    "The Bar" : { src : URL_BASE_MULTIMEDIA_IMAGES + '/PhotoTheBar.jpg' , orderIndex : 0, copyrightNotice : "(Courtesy of Metropolitan Archives)"  },
-  }
-
   constructor(props) {
     super(props)
     this.state = {
@@ -52,30 +40,35 @@ class BrowseRecords extends Component {
       margin: 12,
     };
 
-    let results = <div style={{textAlign:"center"}} >
-                     <GridList
-                              cols={this.state.isAMobile ? 2 : 3}
-                              cellHeight={250}
-                              style={{width:"80%",marginLeft:"10%"}}
-                            >
-                           {
-                             this.props.templateList && Object.keys(this.props.templateList).sort( (a,b) => this.categoryData[a].orderIndex > this.categoryData[b].orderIndex).map(
-                                 (e, index) => (
-                                     <Link key={index} to={URL_CATEGORIES_LIST + e} style={{ textDecoration: 'none'}}>
-                                       <GridTile
-                                         key={index}
-                                         title={<span style={{fontSize:25}}>{e}</span>}
-                                         subtitle={this.categoryData[e].copyrightNotice}
-                                         style={{backgroundColor:"rgb(204, 204, 204)"}}
-                                       >
-                                         <span style={{width:"100%",height:"100%",textAlign:"center",verticalAlign:"middle"}}><img style={{width:"100%"}} src={this.categoryData[e].src ? this.categoryData[e].src : baseAvatarImage} /></span>
-                                       </GridTile>
-                                     </Link>
-                               )
-                             )
-                           }
-                     </GridList>
-                   </div>
+    let results = (
+      <div style={{textAlign:"center"}} >
+        <GridList
+          cols={this.state.isAMobile ? 2 : 3}
+          cellHeight={250}
+          style={{width:"80%",marginLeft:"10%"}}
+        >
+        {
+         this.props.templateList &&
+         Object.keys(this.props.templateList).sort( (a,b) => this.props.categoryData[a].orderIndex > this.props.categoryData[b].orderIndex).map(
+           (e, index) => (
+             <Link key={index} to={URL_CATEGORIES_LIST + e} style={{ textDecoration: 'none'}}>
+               <GridTile
+                 key={index}
+                 title={<span style={{fontSize:25}}>{e}</span>}
+                 subtitle={this.props.categoryData[e].copyrightNotice}
+                 style={{backgroundColor:"rgb(204, 204, 204)"}}
+               >
+                 <span style={{width:"100%",height:"100%",textAlign:"center",verticalAlign:"middle"}}>
+                   <img style={{width:"100%"}} src={this.props.categoryData[e].src ? this.props.categoryData[e].src : baseAvatarImage} />
+                 </span>
+               </GridTile>
+             </Link>
+           )
+         )
+        }
+        </GridList>
+      </div>
+    )
 
   if ( this.state.searchbox && this.state.searchbox.length > 1  ) {
     results = <SearchResults searchText={this.state.searchbox} />
@@ -129,6 +122,7 @@ class BrowseRecords extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   templateList: state.templateList || null,
+  categoryData: state.categoryData || null,
   // if route contains params
   params: ownProps.params,
   location: ownProps.location

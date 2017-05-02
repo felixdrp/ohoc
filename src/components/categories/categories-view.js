@@ -21,7 +21,6 @@ import ListView  from './listview';
 
 import fetchData from '../../network/fetch-data';
 
-
 import Halogen from 'halogen';
 
 import {
@@ -32,9 +31,6 @@ import {
 } from '../../links'
 
 export default class CategoriesView extends Component {
-
-
-
     subCategoryData = {
       "Practice" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Practice/Grays Inn Gateway.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "The Bench" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Bench/PortadaBench.jpg' , orderIndex : 2, copyrightNotice : "" },
@@ -56,16 +52,13 @@ export default class CategoriesView extends Component {
 
     }
 
-
-
-
-  async componentDidMount() {
+  async loadCategoriesList(categoryId) {
     let fetch = new fetchData();
     // Load the templateList
     let categoriesList
 
     try {
-      categoriesList = await fetch.getRecordsByType(this.props.params.categoryId)
+      categoriesList = await fetch.getRecordsByType(categoryId)
       this.setState({categoriesList})
     //  debugger;
     } catch(error) {
@@ -73,25 +66,31 @@ export default class CategoriesView extends Component {
     }
   }
 
-  entriesToSubtypeGroups = (list) => {
+  componentDidMount() {
+    console.log('XD')
+    return this.loadCategoriesList(this.props.params.categoryId)
+  }
 
+  componentWillReceiveProps(nextProps) {
+    console.log('mlk')
+    return this.loadCategoriesList(nextProps.params.categoryId)
+  }
+
+  entriesToSubtypeGroups = (list) => {
     var groupedEntries = {}
-    for ( var entry in list){
+
+    for ( var entry in list ){
       entry = list[entry]
-      if( !groupedEntries[entry.subtype] ){
+      if ( !groupedEntries[entry.subtype] ){
         groupedEntries[entry.subtype] = []
       }
-
       groupedEntries[entry.subtype].push(entry)
-
     }
-
     return groupedEntries;
   }
 
   prepareTiles = (entries) => {
     var tiles = [];
-
     var subtypesInTiles = []
 
     for (var a in entries) {
