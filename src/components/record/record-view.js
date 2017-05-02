@@ -39,7 +39,7 @@ export default class RecordView extends Component {
       }
     }
 
-  async componentDidMount() {
+  async componentWillMount() {
     let fetch = new fetchData();
     // Load the templateListdialog
     let recordData
@@ -118,8 +118,6 @@ export default class RecordView extends Component {
   }
 
   prepareLine = (name,title,data) => {
-
-
     switch (name.toLowerCase()){
       case 'featuredimage':
         return <div></div>;
@@ -141,7 +139,6 @@ export default class RecordView extends Component {
     }
 
     return false;
-
   }
 
   render() {
@@ -273,55 +270,75 @@ export default class RecordView extends Component {
 
 
     return (
-      <Card style={{padding:30, minHeight:600}}>
+      <Card
+        expandable={false}
+        initiallyExpanded={true}
+        style={{
+          // display: 'flex',
+          padding:30,
+          minHeight:600,
+          transition: 'all 0ms'
+        }}
+      >
 
         {this.state.isOpen &&
-                    <Lightbox
-                        mainSrc={recordData.data.featuredImage ?
-                          URL_MULTIMEDIA + recordData.data.featuredImage:
-                          baseImage}
-                        // nextSrc={images[(photoIndex + 1) % images.length]}
-                        // prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+            <Lightbox
+                mainSrc={recordData.data.featuredImage ?
+                  URL_MULTIMEDIA + recordData.data.featuredImage:
+                  baseImage}
+                // nextSrc={images[(photoIndex + 1) % images.length]}
+                // prevSrc={images[(photoIndex + images.length - 1) % images.length]}
 
-                        onCloseRequest={() => this.setState({ isOpen: false })}
-                        onMovePrevRequest={() => this.setState({
-                            photoIndex: (photoIndex + images.length - 1) % images.length,
-                        })}
-                        onMoveNextRequest={() => this.setState({
-                            photoIndex: (photoIndex + 1) % images.length,
-                        })}
+                onCloseRequest={() => this.setState({ isOpen: false })}
+                onMovePrevRequest={() => this.setState({
+                    photoIndex: (photoIndex + images.length - 1) % images.length,
+                })}
+                onMoveNextRequest={() => this.setState({
+                    photoIndex: (photoIndex + 1) % images.length,
+                })}
 
-                        reactModalStyle = {{overlay : {zIndex:5000}}}
-                        imageCaption ={<CardTitle title={copyrightNotice} style={{margin:0,padding:0,height:40}} titleStyle={{fontSize:"1.5em",lineHeight: 1,padding:5, color:"white"}} ></CardTitle>}
-                    />
-                }
+                reactModalStyle = {{overlay : {zIndex:5000}}}
+                imageCaption ={<CardTitle title={copyrightNotice} style={{margin:0,padding:0,height:40}} titleStyle={{fontSize:"1.5em",lineHeight: 1,padding:5, color:"white"}} ></CardTitle>}
+            />
+        }
 
-
-          <style>{"\
-                 .public-DraftEditor-content div{\
-                   word-wrap:normal;\
-                 }\
-               "}</style>
+        <style>
+        {"\
+         .public-DraftEditor-content div{\
+           word-wrap:normal;\
+         }\
+        "}
+        </style>
 
          <Measure
            onMeasure={(dimensions) => {
              this.setState({dimensions})
            }}
          >
-
           <span style={{ width:"100%", display: "inline-block", verticalAlign: "top"}}>
-
-            <span style ={{maxHeight:300,width:350, maxWidth:350, display: "inline-block", verticalAlign: "top", float:"left",margin:5,marginRight:10,textAlign:"center"}} onClick={() => this.setState({ isOpen: true })}>
+            <span
+              style={{maxHeight:300,width:350, maxWidth:350, display: "inline-block", verticalAlign: "top", float:"left",margin:5,marginRight:10,textAlign:"center"}} onClick={() => this.setState({ isOpen: true })}>
               <Card
-                  style={{maxWidth:345,border:"1px solid black"}}
-                  src={
-                     recordData.data.featuredImage ?
-                       URL_MULTIMEDIA + recordData.data.featuredImage:
-                       baseImage
-                  }
-
+                expandable={false}
+                initiallyExpanded={true}
+                containerStyle={{
+                  transition: 'all 0ms'
+                }}
+                style={{
+                  maxWidth:345,
+                  border:"1px solid black",
+                  transition: 'all 0ms'
+                }}
+                src={
+                   recordData.data.featuredImage ?
+                     URL_MULTIMEDIA + recordData.data.featuredImage:
+                     baseImage
+                }
               >
                 <CardMedia
+                  style={{
+                    transition: 'all 0ms'
+                  }}
                   overlay={<CardTitle title={copyrightNotice} style={{margin:0,padding:0,height:20}} titleStyle={{fontSize:10,lineHeight: 1,padding:0}} ></CardTitle>}
                 >
                   <span style={{width:345,height:250}}><img style={{maxHeight: 250,maxWidth:343}} src={
@@ -333,52 +350,42 @@ export default class RecordView extends Component {
               </Card>
             </span>
 
-
+            {/* Right Multimedia panel */}
             <span style={{maxWidth:"50%", display: "inline-block", verticalAlign: "top", float:"right",marginLeft:20,marginBottom:20}}>
               {/* { recordData.data.media.picture.length > 0 ? this.sectionTitle('Image Gallery') : "" } */}
 
-              {
               <Preload
-                  loadingIndicator={loadingIndicator}
-                  images={allImageUrls}
-                  autoResolveDelay={3000}
-                  onError={this._handleImageLoadError}
-                  onSuccess={() => this.setState({imagesReady : true})}
-                  resolveOnError={true}
-                  mountChildren={true}
-                  >
-                    {this.getMediaPreviewers(recordData.data.media.picture,"picture")}
+                loadingIndicator={loadingIndicator}
+                images={allImageUrls}
+                autoResolveDelay={3000}
+                onError={this._handleImageLoadError}
+                onSuccess={() => this.setState({imagesReady : true})}
+                resolveOnError={true}
+                mountChildren={true}
+              >
+                  {this.getMediaPreviewers(recordData.data.media.picture,"picture")}
               </Preload>
 
-              }
-
-              {
-                <span>{this.getMediaPreviewers(recordData.data.media.audio,"audio")}</span>
-              }
+              <span>{this.getMediaPreviewers(recordData.data.media.audio,"audio")}</span>
 
               {/* { recordData.data.media.video.length > 0 ? this.sectionTitle('Video Gallery') : ""  } */}
-              {
-                <span>{this.getMediaPreviewers(recordData.data.media.video,"video")}</span>
-              }
+              <span>{this.getMediaPreviewers(recordData.data.media.video,"video")}</span>
 
               {/* { recordData.data.media.text.length > 0 ? this.sectionTitle('Text and PDF files') : ""  } */}
-              {
-                <span>{this.getMediaPreviewers(recordData.data.media.text,"text")}</span>
-              }
+              <span>{this.getMediaPreviewers(recordData.data.media.text,"text")}</span>
             </span>
 
-
-              <div style={{
-                    // float: this.state.dimensions.width < (600+450) ? "left" : "none",
-                    // maxWidth: this.state.dimensions.width < (600+450) ? "50%" : "100%",
-                    paddingLeft: (this.state.dimensions.width < (600+450)) && this.hasAnyMedia(recordData.data.media) ? 0 : 365,
-                    marginTop: (this.state.dimensions.width > (600+450)) ? 0 : ( this.hasAnyMedia(recordData.data.media) ? 290 : 0),
-                    marginRight: (this.state.dimensions.width > (600+450)) ? "10%" : 20 ,
-                    wordWrap:"normal"}}>
-                { fieldsFlex }
-              </div>
+            <div style={{
+                  // float: this.state.dimensions.width < (600+450) ? "left" : "none",
+                  // maxWidth: this.state.dimensions.width < (600+450) ? "50%" : "100%",
+                  paddingLeft: (this.state.dimensions.width < (600+450)) && this.hasAnyMedia(recordData.data.media) ? 0 : 365,
+                  marginTop: (this.state.dimensions.width > (600+450)) ? 0 : ( this.hasAnyMedia(recordData.data.media) ? 290 : 0),
+                  marginRight: (this.state.dimensions.width > (600+450)) ? "10%" : 20 ,
+                  wordWrap:"normal"}}>
+              { fieldsFlex }
+            </div>
           </span>
-          </Measure>
+        </Measure>
       </Card>
     );
   }
