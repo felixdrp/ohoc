@@ -58,11 +58,24 @@ export default class RecordView extends Component {
     }
   }
 
+  async componentWillReceiveProps(nextProps) {
+    let fetch = new fetchData();
+    // Load the templateListdialog
+    let recordData
+
+    try {
+      recordData = await fetch.getRecordData(nextProps.params.recordId)
+      this.setState({recordData: recordData.recordById[0]})
+    } catch(error) {
+      console.error('fetching record data > ' + error)
+    }
+  }
+
   componentWillUnmount() {
     document.body.scrollTop = this._initialScroll
   }
 
-  getMediaPreviewers = (arrayOfMedia,type) => {
+  getMediaPreviewers = (arrayOfMedia, type) => {
     // if the array is empty there is no reason to draw the preview container at all.
     if ( Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0){
 
@@ -136,8 +149,8 @@ export default class RecordView extends Component {
   }
 
   hasAnyMedia = ( media ) => {
-
-    if ( media.picture.length > 0 ||
+    if (
+      media.picture.length > 0 ||
       media.audio.length > 0 ||
       media.video.length > 0 ||
       media.text.length > 0
