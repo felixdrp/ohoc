@@ -7,6 +7,10 @@ import fetchData from '../network/fetch-data';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 import NavigationBar from './navigation-bar/navigation-bar'
+import SearchBar from './search-bar/search-bar'
+
+import SearchIcon from 'material-ui/svg-icons/action/search';
+import IconButton from 'material-ui/IconButton';
 
 import {URL_BASE} from '../links'
 
@@ -17,6 +21,7 @@ class CommonView extends Component {
     super()
     this.state = {
       isAMobile: (navigator.userAgent.indexOf('Mobile') > -1)? true : false,
+      showSearchBar: false,
       backColor : "#f2f2f2"
     };
   }
@@ -30,6 +35,8 @@ class CommonView extends Component {
     // Get and dispatch the template list
     this.props.setTemplateList( await fetch.templateListGet() )
   }
+
+  toggleSearchBar = () => this.setState({showSearchBar: !this.state.showSearchBar})
 
   render() {
     let logoStyle = {height: 50,marginTop:10,marginLeft:5}
@@ -83,6 +90,20 @@ class CommonView extends Component {
                  }}
                >
                  <NavigationBar />
+                 <IconButton
+                    // iconStyle={styles.smallIcon}
+                    // style={styles.small}
+                    onClick={this.toggleSearchBar}
+                  >
+                    <SearchIcon />
+                  </IconButton>
+               </div>
+               <div
+                 style={{
+                   flexBasis: '100%'
+                 }}
+               >
+                 { this.state.showSearchBar && <SearchBar /> }
                </div>
              </Card>
 

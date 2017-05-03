@@ -19,7 +19,7 @@ class CategoryButton extends Component {
     let category = this.props.category
 
     return (
-      <span>
+      <div style={{display: 'inline-block'}}>
        <Link to={URL_CATEGORIES_LIST + category} style={{ textDecoration: 'none'}}>
          <FlatButton
            label={category}
@@ -57,7 +57,7 @@ class CategoryButton extends Component {
            )
           }
         </IconMenu>
-      </span>
+      </div>
     )
   }
 }

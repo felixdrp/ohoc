@@ -67,12 +67,10 @@ export default class CategoriesView extends Component {
   }
 
   componentDidMount() {
-    console.log('XD')
     return this.loadCategoriesList(this.props.params.categoryId)
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('mlk')
     return this.loadCategoriesList(nextProps.params.categoryId)
   }
 

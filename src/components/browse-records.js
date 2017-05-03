@@ -8,8 +8,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-
-
 import {GridList, GridTile} from 'material-ui/GridList';
 
 import {grey700} from 'material-ui/styles/colors';
@@ -70,7 +68,7 @@ class BrowseRecords extends Component {
       </div>
     )
 
-  if ( this.state.searchbox && this.state.searchbox.length > 1  ) {
+  if ( this.state.searchbox && this.state.searchbox.length > 1 ) {
     results = <SearchResults searchText={this.state.searchbox} />
   }
 

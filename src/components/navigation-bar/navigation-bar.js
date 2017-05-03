@@ -41,7 +41,7 @@ class NavigationBar extends Component {
 
   render() {
     return (
-      <div>
+      <span>
         {
          this.props.templateList &&
          Object.keys(this.props.templateList)
@@ -53,7 +53,7 @@ class NavigationBar extends Component {
            )
          )
         }
-      </div>
+      </span>
     );
   }
 }
