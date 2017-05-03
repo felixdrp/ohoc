@@ -44,16 +44,23 @@ export default class RecordView extends Component {
     // Load the templateListdialog
     let recordData
 
-    try {
 
+    try {
       recordData = await fetch.getRecordData(this.props.params.recordId)
 
+      // Save the scroll position to return on unmount.
+      this._initialScroll = document.body.scrollTop
+      // Go to the top of the page
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
       this.setState({recordData: recordData.recordById[0]})
     } catch(error) {
       console.error('fetching record data > ' + error)
     }
   }
 
+  componentWillUnmount() {
+    document.body.scrollTop = this._initialScroll
+  }
 
   getMediaPreviewers = (arrayOfMedia,type) => {
     // if the array is empty there is no reason to draw the preview container at all.
