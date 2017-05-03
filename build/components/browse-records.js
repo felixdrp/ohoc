@@ -64,13 +64,13 @@ var _search2 = _interopRequireDefault(_search);
 
 var _links = require('../links');
 
-var _SearchResults = require('./SearchResults');
+var _searchResults = require('./search-results');
 
-var _SearchResults2 = _interopRequireDefault(_SearchResults);
+var _searchResults2 = _interopRequireDefault(_searchResults);
 
-var _QueryStore = require('./QueryStore');
+var _queryStore = require('./query-store');
 
-var _QueryStore2 = _interopRequireDefault(_QueryStore);
+var _queryStore2 = _interopRequireDefault(_queryStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -82,20 +82,9 @@ var BrowseRecords = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (BrowseRecords.__proto__ || (0, _getPrototypeOf2.default)(BrowseRecords)).call(this, props));
 
-    _this.categoryData = {
-      "Academia": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoAcademy.jpeg',
-        orderIndex: 2,
-        copyrightNotice: "(Courtesy of QM Archives)" },
-      "Civil Service": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoCivilService.jpg', orderIndex: 4, copyrightNotice: "(Courtesy of IP Office)" },
-      "Policy Formation": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPolicyFormation.jpg', orderIndex: 3, copyrightNotice: "(Courtesy of M. Freegard)" },
-      "Publications": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoPublications.jpg', orderIndex: 5, copyrightNotice: "(Courtesy of Henry Blanco White)" },
-      "Solicitors and Agents": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoSolicitorsandAgents.jpg', orderIndex: 1, copyrightNotice: "(Courtesy of Bird&Bird)" },
-      "The Bar": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/PhotoTheBar.jpg', orderIndex: 0, copyrightNotice: "(Courtesy of Metropolitan Archives)" }
-    };
-
     _this.state = {
       isAMobile: navigator.userAgent.indexOf('Mobile') > -1 ? true : false,
-      searchbox: _QueryStore2.default.getQuery()
+      searchbox: _queryStore2.default.getQuery()
     };
     return _this;
   }
@@ -103,7 +92,7 @@ var BrowseRecords = function (_Component) {
   (0, _createClass3.default)(BrowseRecords, [{
     key: 'handleChange',
     value: function handleChange(event, value, index) {
-      _QueryStore2.default.setQuery(value);
+      _queryStore2.default.setQuery(value);
       this.setState({ searchbox: value });
     }
   }, {
@@ -126,7 +115,7 @@ var BrowseRecords = function (_Component) {
             style: { width: "80%", marginLeft: "10%" }
           },
           this.props.templateList && (0, _keys2.default)(this.props.templateList).sort(function (a, b) {
-            return _this2.categoryData[a].orderIndex > _this2.categoryData[b].orderIndex;
+            return _this2.props.categoryData[a].orderIndex > _this2.props.categoryData[b].orderIndex;
           }).map(function (e, index) {
             return _react2.default.createElement(
               _reactRouter.Link,
@@ -140,13 +129,13 @@ var BrowseRecords = function (_Component) {
                     { style: { fontSize: 25 } },
                     e
                   ),
-                  subtitle: _this2.categoryData[e].copyrightNotice,
+                  subtitle: _this2.props.categoryData[e].copyrightNotice,
                   style: { backgroundColor: "rgb(204, 204, 204)" }
                 },
                 _react2.default.createElement(
                   'span',
                   { style: { width: "100%", height: "100%", textAlign: "center", verticalAlign: "middle" } },
-                  _react2.default.createElement('img', { style: { width: "100%" }, src: _this2.categoryData[e].src ? _this2.categoryData[e].src : baseAvatarImage })
+                  _react2.default.createElement('img', { style: { width: "100%" }, src: _this2.props.categoryData[e].src ? _this2.props.categoryData[e].src : baseAvatarImage })
                 )
               )
             );
@@ -155,7 +144,7 @@ var BrowseRecords = function (_Component) {
       );
 
       if (this.state.searchbox && this.state.searchbox.length > 1) {
-        results = _react2.default.createElement(_SearchResults2.default, { searchText: this.state.searchbox });
+        results = _react2.default.createElement(_searchResults2.default, { searchText: this.state.searchbox });
       }
 
       return _react2.default.createElement(
@@ -225,6 +214,7 @@ var BrowseRecords = function (_Component) {
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     templateList: state.templateList || null,
+    categoryData: state.categoryData || null,
     params: ownProps.params,
     location: ownProps.location
   };

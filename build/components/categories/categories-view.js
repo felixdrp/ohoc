@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _keys = require('babel-runtime/core-js/object/keys');
 
@@ -130,21 +131,18 @@ var CategoriesView = function (_Component) {
       "Campaigns": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Campaigns/PublicLendingRight2.jpg', orderIndex: 2, copyrightNotice: "" }
 
     }, _this.entriesToSubtypeGroups = function (list) {
-
       var groupedEntries = {};
+
       for (var entry in list) {
         entry = list[entry];
         if (!groupedEntries[entry.subtype]) {
           groupedEntries[entry.subtype] = [];
         }
-
         groupedEntries[entry.subtype].push(entry);
       }
-
       return groupedEntries;
     }, _this.prepareTiles = function (entries) {
       var tiles = [];
-
       var subtypesInTiles = [];
 
       for (var a in entries) {
@@ -165,9 +163,9 @@ var CategoriesView = function (_Component) {
   }
 
   (0, _createClass3.default)(CategoriesView, [{
-    key: 'componentDidMount',
+    key: 'loadCategoriesList',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(categoryId) {
         var fetch, categoriesList;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -178,7 +176,7 @@ var CategoriesView = function (_Component) {
                 categoriesList = void 0;
                 _context.prev = 2;
                 _context.next = 5;
-                return fetch.getRecordsByType(this.props.params.categoryId);
+                return fetch.getRecordsByType(categoryId);
 
               case 5:
                 categoriesList = _context.sent;
@@ -201,12 +199,22 @@ var CategoriesView = function (_Component) {
         }, _callee, this, [[2, 9]]);
       }));
 
-      function componentDidMount() {
+      function loadCategoriesList(_x) {
         return _ref2.apply(this, arguments);
       }
 
-      return componentDidMount;
+      return loadCategoriesList;
     }()
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      return this.loadCategoriesList(this.props.params.categoryId);
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      return this.loadCategoriesList(nextProps.params.categoryId);
+    }
   }, {
     key: 'render',
     value: function render() {

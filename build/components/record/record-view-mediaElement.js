@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -153,7 +154,6 @@ var RecordViewMediaElement = function (_Component) {
 
           reactModalStyle: { overlay: { zIndex: 5000 } },
           imageCaption: _react2.default.createElement(_Card.CardTitle, { title: this.props.media.copyright ? this.props.media.copyright : "", style: { margin: 0, padding: 0, height: 40 }, titleStyle: { fontSize: "1.5em", lineHeight: 1, padding: 5, color: "white" } })
-
         }),
         _react2.default.createElement(
           _Dialog2.default,
@@ -225,10 +225,15 @@ var RecordViewMediaElement = function (_Component) {
         _react2.default.createElement('br', null),
         _react2.default.createElement(
           'span',
-          { style: { float: "left", width: this.props.type === "audio" ? "50%" : "100%" } },
-          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 250, maxWidth: "100%", marginTop: 5 } })
+          {
+            style: {
+              float: "left",
+              width: this.props.type === "audio" ? "50%" : "100%",
+              minWidth: 240
+            } },
+          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 250, maxWidth: "100%", minWidth: 100, marginTop: 5 } })
         ),
-        this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(_RaisedButton2.default, { label: 'Show Transcript', style: { height: 30, marginTop: 5 },
+        this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(_RaisedButton2.default, { label: 'Transcript', style: { height: 30, marginTop: 5 },
           onClick: function onClick() {
             return _this2.state.showTranscript ? _this2.setState({ showTranscript: false }) : _this2.setState({ showTranscript: true });
           } }) : "",

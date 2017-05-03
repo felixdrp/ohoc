@@ -92,7 +92,9 @@ class CommonView extends Component {
                  <NavigationBar />
                  <IconButton
                     // iconStyle={styles.smallIcon}
-                    // style={styles.small}
+                    style={{
+                      top: 8,
+                    }}
                     onClick={this.toggleSearchBar}
                   >
                     <SearchIcon />

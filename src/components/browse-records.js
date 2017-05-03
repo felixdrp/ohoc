@@ -15,9 +15,9 @@ import SearchIcon from 'material-ui/svg-icons/action/search';
 
 import { URL_CATEGORIES_LIST, URL_BASE_MULTIMEDIA_IMAGES} from '../links';
 
-import SearchResults from './SearchResults';
+import SearchResults from './search-results';
 
-import QueryStore from './QueryStore';
+import QueryStore from './query-store';
 
 class BrowseRecords extends Component {
   constructor(props) {

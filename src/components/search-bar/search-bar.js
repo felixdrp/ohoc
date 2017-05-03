@@ -11,8 +11,8 @@ import TextField from 'material-ui/TextField';
 
 import {grey700} from 'material-ui/styles/colors';
 
-import SearchResults from '../SearchResults';
-import QueryStore from '../QueryStore';
+import SearchResults from '../search-results';
+import QueryStore from '../query-store';
 // import fetchData from '../../network/fetch-data';
 
 import { URL_CATEGORIES_LIST } from '../../links';
@@ -53,7 +53,7 @@ class NavigationBar extends Component {
           <TextField
             id="search-box"
             hintText="Type to search"
-            style={{marginLeft:10, position: "absolute",width:"40%",height: 43}}
+            style={{marginLeft:10, position: "absolute",width:"80%",height: 43}}
             // defaultValue={this.state.searchbox}
             value={this.state.searchbox}
             onChange={ (event, value, index)=>this.handleChange(event, value, index) }

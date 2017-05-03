@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -35,6 +36,8 @@ var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorRet
 var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _dec, _class;
 
 var _react = require('react');
 
@@ -98,9 +101,30 @@ var _halogen2 = _interopRequireDefault(_halogen);
 
 var _links = require('../../links');
 
+var _reactJss = require('react-jss');
+
+var _reactJss2 = _interopRequireDefault(_reactJss);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var RecordView = function (_Component) {
+var styles = {
+  button: {
+    backgroundColor: 'yellow'
+  },
+  label: {
+    fontWeight: 'bold'
+  },
+  mediaPanel: {
+    float: 'right'
+  },
+  '@media (max-width: 1000px)': {
+    mediaPanel: {
+      float: 'none'
+    }
+  }
+};
+
+var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function (_Component) {
   (0, _inherits3.default)(RecordView, _Component);
 
   function RecordView() {
@@ -183,7 +207,6 @@ var RecordView = function (_Component) {
       }
       return componentToReturn;
     }, _this.prepareLine = function (name, title, data) {
-
       switch (name.toLowerCase()) {
         case 'featuredimage':
           return _react2.default.createElement('div', null);
@@ -210,7 +233,6 @@ var RecordView = function (_Component) {
           );
       }
     }, _this.hasAnyMedia = function (media) {
-
       if (media.picture.length > 0 || media.audio.length > 0 || media.video.length > 0 || media.text.length > 0) {
         return true;
       }
@@ -220,7 +242,7 @@ var RecordView = function (_Component) {
   }
 
   (0, _createClass3.default)(RecordView, [{
-    key: 'componentDidMount',
+    key: 'componentWillMount',
     value: function () {
       var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         var fetch, recordData;
@@ -239,35 +261,89 @@ var RecordView = function (_Component) {
                 recordData = _context.sent;
 
 
+                this._initialScroll = document.body.scrollTop;
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
                 this.setState({ recordData: recordData.recordById[0] });
-                _context.next = 12;
+                _context.next = 14;
                 break;
 
-              case 9:
-                _context.prev = 9;
+              case 11:
+                _context.prev = 11;
                 _context.t0 = _context['catch'](2);
 
                 console.error('fetching record data > ' + _context.t0);
 
-              case 12:
+              case 14:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[2, 9]]);
+        }, _callee, this, [[2, 11]]);
       }));
 
-      function componentDidMount() {
+      function componentWillMount() {
         return _ref2.apply(this, arguments);
       }
 
-      return componentDidMount;
+      return componentWillMount;
     }()
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function () {
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(nextProps) {
+        var fetch, recordData;
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                fetch = new _fetchData2.default();
+
+                recordData = void 0;
+                _context2.prev = 2;
+                _context2.next = 5;
+                return fetch.getRecordData(nextProps.params.recordId);
+
+              case 5:
+                recordData = _context2.sent;
+
+                this.setState({ recordData: recordData.recordById[0] });
+                _context2.next = 12;
+                break;
+
+              case 9:
+                _context2.prev = 9;
+                _context2.t0 = _context2['catch'](2);
+
+                console.error('fetching record data > ' + _context2.t0);
+
+              case 12:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this, [[2, 9]]);
+      }));
+
+      function componentWillReceiveProps(_x) {
+        return _ref3.apply(this, arguments);
+      }
+
+      return componentWillReceiveProps;
+    }()
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      document.body.scrollTop = this._initialScroll;
+    }
   }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
 
+      var classes = this.props.classes;
+
+      console.log('classes');
+      console.log(classes);
       var style = {
         margin: 12
       };
@@ -435,7 +511,15 @@ var RecordView = function (_Component) {
 
       return _react2.default.createElement(
         _Card.Card,
-        { style: { padding: 30, minHeight: 600 } },
+        {
+          expandable: false,
+          initiallyExpanded: true,
+          style: {
+            padding: 30,
+            minHeight: 600,
+            transition: 'all 0ms'
+          }
+        },
         this.state.isOpen && _react2.default.createElement(_reactImageLightbox2.default, {
           mainSrc: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage
 
@@ -460,10 +544,10 @@ var RecordView = function (_Component) {
           'style',
           null,
           "\
-                 .public-DraftEditor-content div{\
-                   word-wrap:normal;\
-                 }\
-               "
+         .public-DraftEditor-content div{\
+           word-wrap:normal;\
+         }\
+        "
         ),
         _react2.default.createElement(
           _reactMeasure2.default,
@@ -477,19 +561,31 @@ var RecordView = function (_Component) {
             { style: { width: "100%", display: "inline-block", verticalAlign: "top" } },
             _react2.default.createElement(
               'span',
-              { style: { maxHeight: 300, width: 350, maxWidth: 350, display: "inline-block", verticalAlign: "top", float: "left", margin: 5, marginRight: 10, textAlign: "center" }, onClick: function onClick() {
+              {
+                style: { maxHeight: 300, width: 350, maxWidth: 350, display: "inline-block", verticalAlign: "top", float: "left", margin: 5, marginRight: 10, textAlign: "center" }, onClick: function onClick() {
                   return _this2.setState({ isOpen: true });
                 } },
               _react2.default.createElement(
                 _Card.Card,
                 {
-                  style: { maxWidth: 345, border: "1px solid black" },
+                  expandable: false,
+                  initiallyExpanded: true,
+                  containerStyle: {
+                    transition: 'all 0ms'
+                  },
+                  style: {
+                    maxWidth: 345,
+                    border: "1px solid black",
+                    transition: 'all 0ms'
+                  },
                   src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage
-
                 },
                 _react2.default.createElement(
                   _Card.CardMedia,
                   {
+                    style: {
+                      transition: 'all 0ms'
+                    },
                     overlay: _react2.default.createElement(_Card.CardTitle, { title: copyrightNotice, style: { margin: 0, padding: 0, height: 20 }, titleStyle: { fontSize: 10, lineHeight: 1, padding: 0 } })
                   },
                   _react2.default.createElement(
@@ -502,7 +598,15 @@ var RecordView = function (_Component) {
             ),
             _react2.default.createElement(
               'span',
-              { style: { maxWidth: "50%", display: "inline-block", verticalAlign: "top", float: "right", marginLeft: 20, marginBottom: 20 } },
+              {
+                className: classes.mediaPanel,
+                style: {
+                  display: "inline-block",
+                  verticalAlign: "top",
+                  marginLeft: 20,
+                  marginBottom: 20
+                }
+              },
               _react2.default.createElement(
                 _reactPreload2.default,
                 {
@@ -536,11 +640,14 @@ var RecordView = function (_Component) {
             ),
             _react2.default.createElement(
               'div',
-              { style: {
+              {
+                style: {
                   paddingLeft: this.state.dimensions.width < 600 + 450 && this.hasAnyMedia(recordData.data.media) ? 0 : 365,
                   marginTop: this.state.dimensions.width > 600 + 450 ? 0 : this.hasAnyMedia(recordData.data.media) ? 290 : 0,
                   marginRight: this.state.dimensions.width > 600 + 450 ? "10%" : 20,
-                  wordWrap: "normal" } },
+                  wordWrap: "normal"
+                }
+              },
               fieldsFlex
             )
           )
@@ -549,6 +656,5 @@ var RecordView = function (_Component) {
     }
   }]);
   return RecordView;
-}(_react.Component);
-
+}(_react.Component)) || _class);
 exports.default = RecordView;

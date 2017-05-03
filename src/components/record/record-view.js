@@ -31,6 +31,26 @@ import {
   URL_MULTIMEDIA,
 } from '../../links'
 
+import injectSheet from 'react-jss'
+
+const styles = {
+  button: {
+    backgroundColor: 'yellow'
+  },
+  label: {
+    fontWeight: 'bold'
+  },
+  mediaPanel: {
+    float: 'right'
+  },
+  '@media (max-width: 1000px)': {
+    mediaPanel: {
+      float: 'none'
+    }
+  }
+}
+
+@injectSheet(styles)
 export default class RecordView extends Component {
   state = {
       dimensions: {
@@ -162,6 +182,9 @@ export default class RecordView extends Component {
   }
 
   render() {
+    const {classes} = this.props
+    console.log('classes')
+    console.log(classes)
     const style = {
       margin: 12,
     };
@@ -287,8 +310,6 @@ export default class RecordView extends Component {
       )
     )
 
-
-
     return (
       <Card
         expandable={false}
@@ -297,6 +318,7 @@ export default class RecordView extends Component {
           // display: 'flex',
           padding:30,
           minHeight:600,
+          // minWidth: 450,
           transition: 'all 0ms'
         }}
       >
@@ -337,7 +359,19 @@ export default class RecordView extends Component {
          >
           <span style={{ width:"100%", display: "inline-block", verticalAlign: "top"}}>
             <span
-              style={{maxHeight:300,width:350, maxWidth:350, display: "inline-block", verticalAlign: "top", float:"left",margin:5,marginRight:10,textAlign:"center"}} onClick={() => this.setState({ isOpen: true })}>
+              style={{
+                maxHeight:300,
+                width:350,
+                maxWidth:350,
+                display: "inline-block",
+                verticalAlign: "top",
+                float:"left",
+                margin:5,
+                marginRight:10,
+                textAlign:"center"
+              }}
+              onClick={() => this.setState({ isOpen: true })}
+            >
               <Card
                 expandable={false}
                 initiallyExpanded={true}
@@ -371,7 +405,15 @@ export default class RecordView extends Component {
             </span>
 
             {/* Right Multimedia panel */}
-            <span style={{maxWidth:"50%", display: "inline-block", verticalAlign: "top", float:"right",marginLeft:20,marginBottom:20}}>
+            <span
+              className={classes.mediaPanel}
+              style={{
+                display: "inline-block",
+                verticalAlign: "top",
+                marginLeft:20,
+                marginBottom:20
+              }}
+            >
               {/* { recordData.data.media.picture.length > 0 ? this.sectionTitle('Image Gallery') : "" } */}
 
               <Preload
@@ -395,13 +437,18 @@ export default class RecordView extends Component {
               <span>{this.getMediaPreviewers(recordData.data.media.text,"text")}</span>
             </span>
 
-            <div style={{
-                  // float: this.state.dimensions.width < (600+450) ? "left" : "none",
-                  // maxWidth: this.state.dimensions.width < (600+450) ? "50%" : "100%",
-                  paddingLeft: (this.state.dimensions.width < (600+450)) && this.hasAnyMedia(recordData.data.media) ? 0 : 365,
-                  marginTop: (this.state.dimensions.width > (600+450)) ? 0 : ( this.hasAnyMedia(recordData.data.media) ? 290 : 0),
-                  marginRight: (this.state.dimensions.width > (600+450)) ? "10%" : 20 ,
-                  wordWrap:"normal"}}>
+            <div
+              style={{
+                // float: this.state.dimensions.width < (600+450) ? "left" : "none",
+                // maxWidth: this.state.dimensions.width < (600+450) ? "50%" : "100%",
+                // marginTop: (this.state.dimensions.width > (600+450)) ? 0 : ( this.hasAnyMedia(recordData.data.media) ? 290 : 0),
+                paddingLeft: (this.state.dimensions.width < (600+450)) && this.hasAnyMedia(recordData.data.media) ? 0 : 365,
+                marginRight: (this.state.dimensions.width > (600+450)) ? "10%" : 20 ,
+                wordWrap: "normal",
+                clear: (this.state.dimensions.width > (600+450)) ? 'none' : ( this.hasAnyMedia(recordData.data.media) ? 'left' : 'none'),
+                // minWidth: '20%'
+              }}
+            >
               { fieldsFlex }
             </div>
           </span>

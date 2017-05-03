@@ -1,5 +1,9 @@
 'use strict';
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -24,15 +28,26 @@ var _templateList = require('./reducers/template-list');
 
 var _templateList2 = _interopRequireDefault(_templateList);
 
+var _categoriesData = require('./categories-data');
+
+var _categoriesData2 = _interopRequireDefault(_categoriesData);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var initialState = window.__INITIAL_STATE__ || {};
+var initialState = (0, _extends3.default)({}, window.__INITIAL_STATE__ || {}, {
+  categoryData: _categoriesData2.default
+});
 
 var middleware = (0, _reactRouterRedux.routerMiddleware)(_reactRouter.browserHistory);
 
 var store = (0, _redux.createStore)((0, _redux.combineReducers)({
   routing: _reactRouterRedux.routerReducer,
-  templateList: _templateList2.default
+  templateList: _templateList2.default,
+  categoryData: function categoryData() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+    return state;
+  }
 }), initialState, (0, _redux.compose)((0, _redux.applyMiddleware)(middleware),
 window.devToolsExtension ? window.devToolsExtension() : function (f) {
   return f;
