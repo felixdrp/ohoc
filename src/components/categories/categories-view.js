@@ -182,7 +182,7 @@ export default class CategoriesView extends Component {
 
       return (
         <Card style={{paddingBottom:30, minHeight:600}}>
-          <CardTitle style={{marginLeft:40}}> <h1> {onlyOneCategory ? this.props.params.categoryId : this.props.params.subcategoryId} </h1> {this.props.params.subcategoryId === "Sketches in Court" ? <span>Sketches in Court: drawings by Sir Kenneth Swan (courtesy of Christopher Morcom, QC)</span> : ""} </CardTitle>
+          <CardTitle style={{marginLeft:40}}> <h1> {onlyOneCategory ? this.props.params.categoryId : this.props.params.subcategoryId} </h1> </CardTitle>
           {paragraph}
           <Card style={{marginLeft:50,marginRight:50,padding:5}}>
             <GridView subcategoryId = {this.props.params.subcategoryId} entries = {selectedSubCategory} />

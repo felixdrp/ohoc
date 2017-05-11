@@ -76,7 +76,7 @@ class BrowseRecords extends Component {
       <div>
         <Card style = {{paddingTop:20,paddingBottom:10}}>
 
-          <Card style={{width:"80%",marginLeft:"10%",marginBottom:20}}>
+          {/* <Card style={{width:"80%",marginLeft:"10%",marginBottom:20}}>
             <SearchIcon style={{width:30,height:30, marginTop:5, marginLeft:5}} color={grey700}/>
             <TextField
               id="search-box"
@@ -86,7 +86,7 @@ class BrowseRecords extends Component {
               onChange={ (event, value, index)=>this.handleChange(event, value, index) }
             />
           </Card>
-
+*/}
 
           {results}
 

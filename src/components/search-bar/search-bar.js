@@ -46,7 +46,8 @@ class NavigationBar extends Component {
             position: 'relative',
             width:"80%",
             marginLeft:"10%",
-            marginBottom:20
+            marginBottom:20,
+            marginTop:10,
           }}
         >
           <SearchIcon style={{width:30,height:30, marginTop:5, marginLeft:5}} color={grey700}/>
