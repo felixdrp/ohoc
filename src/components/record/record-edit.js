@@ -347,11 +347,7 @@ class RecordEdit extends Component {
   }
 
   focus = (e) => {
-
     this.editor[e].focus();
-
-
-    //debugger;
   };
 
   handleChange(event, index, value, name) {

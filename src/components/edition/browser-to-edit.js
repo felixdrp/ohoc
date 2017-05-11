@@ -18,6 +18,8 @@ import Delete from 'material-ui/svg-icons/action/delete';
 
 import fetchData from '../../network/fetch-data';
 
+import EditCategoryParagraph from '../categories/edit-category-paragraph';
+
 import {
   URL_VIEW_RECORD,
   URL_BASE_MULTIMEDIA_IMAGES,
@@ -26,6 +28,13 @@ import {
 } from '../../links'
 
 class BrowserToEdit extends Component {
+
+
+  constructor(props) {
+    super()
+    this.state = { activeEditors: {} };
+  }
+
   state = { over: null };
   async componentDidMount() {
     await this.loadRecords()
@@ -62,7 +71,7 @@ class BrowserToEdit extends Component {
         templateList: templateList.templateList,
         allRecordsList: allRecordsList.recordsAllList,
       })
-  
+
     } catch(error) {
       console.error('fetching record data > ' + error)
     }
@@ -86,6 +95,34 @@ class BrowserToEdit extends Component {
     // console.log(newRecordId)
   }
 
+  async updateParagraph(template, subtemplate, paragraph) {
+
+    if (!template || !subtemplate) {
+      return
+    }
+
+    let newRecordId
+    let fetch = new fetchData();
+    // Get and dispatch the template list
+    newRecordId = await fetch.updateParagraph({
+      template: template,
+      subtemplate: subtemplate,
+      paragraph: paragraph
+    })
+
+    //this.props.editNewRecord(newRecordId.recordId)
+    // console.log(newRecordId)
+  }
+
+  openParagraphEditor (subtemplate) {
+    var aeds = this.state.activeEditors;
+    aeds[subtemplate] = aeds[subtemplate] ? false : true;
+    this.setState({activeEditors : aeds})
+  }
+
+  // newRecordId = await fetch.getParagraph({
+  //   template: template,
+  //   subtemplate: subtemplate})
 
   render() {
     const style = {
@@ -150,7 +187,29 @@ class BrowserToEdit extends Component {
                           }
                           // icon={<ActionAndroid />}
                         />
+
+                        <FlatButton
+                          label="Change Paragraph"
+                          primary={true}
+                          style={{
+                            marginLeft: 10,
+                          }}
+                          onClick={
+                            () => this.openParagraphEditor(
+                                    state.templateList[group][subType]
+                                  )
+                          }
+                          // icon={<ActionAndroid />}
+                        />
                       </h5>
+
+                      <EditCategoryParagraph
+                        type = {group}
+                        subtype = {state.templateList[group][subType]}
+                        isActive= {this.state.activeEditors[state.templateList[group][subType]]}
+                      />
+
+
                       {
                         // Records List
                         state.allRecordsList

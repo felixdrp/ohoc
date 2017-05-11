@@ -52,6 +52,29 @@ export default class fetchData {
     return newRecordId
   }
 
+  async updateParagraph(template, subtemplate, paragraph) {
+    let result
+    let body = JSON.stringify(paragraph)
+    try {
+      result = await this.httpClient.send(
+        body,
+        {
+          method: 'POST',
+          path: urlBase + 'category/paragraphUpdate/' + template + "/" + subtemplate,
+          headers: {'content-type': 'application/json'},
+        })
+      result = JSON.parse(result)
+    } catch(error) {
+      console.error('fetching template list error > ' + error)
+    }
+
+    return result
+  }
+
+  async getParagraph(template,subtemplate) {
+    return await this.getGeneric( urlBase + 'category/getParagraph/' + template + "/" + subtemplate )
+  }
+
   async getRecordData(recordId) {
     return await this.getGeneric( urlBase + 'getRecord/' + recordId )
   }

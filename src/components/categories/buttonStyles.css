@@ -1,0 +1,44 @@
+.buttonWrapper {
+  display: inline-block;
+}
+
+.tooly button {
+  background: #fbfbfb;
+  color: #888;
+  font-size: 18px;
+  border: 0;
+  padding-top: 5px;
+  vertical-align: top;
+  height: 34px;
+  width: 35px;
+}
+/*
+.tooly button svg {
+  fill: #888;
+}*/
+
+.tooly button:hover{
+  background: gray;
+  outline: 0;
+}
+
+.tooly button:focus {
+ background: #f3f3f3;
+ outline: 0;
+}
+
+.tooly .active {
+  background: #efefef;
+  color: #444;
+}
+
+.tooly .active svg {
+  fill: #444;
+}
+
+.tooly .separator {
+  display: inline-block;
+  border-right: 1px solid #ddd;
+  height: 24px;
+  margin: 0 0.5em;
+}
