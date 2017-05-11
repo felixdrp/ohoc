@@ -54,7 +54,8 @@ export default class fetchData {
 
   async updateParagraph(template, subtemplate, paragraph) {
     let result
-    let body = JSON.stringify(paragraph)
+    let body = paragraph
+    console.log(template +" "+subtemplate+" "+paragraph)
     try {
       result = await this.httpClient.send(
         body,

@@ -20,6 +20,8 @@ import fetchData from '../../network/fetch-data';
 
 import EditCategoryParagraph from '../categories/edit-category-paragraph';
 
+import styles from './BrowserToEdit.css'
+
 import {
   URL_VIEW_RECORD,
   URL_BASE_MULTIMEDIA_IMAGES,
@@ -153,7 +155,25 @@ class BrowserToEdit extends Component {
             Object.keys(state.templateList).map( (group, g) => (
               <List key={g}>
                 <Subheader style={{fontWeight:"bolder"}}>
-                  { group}
+                  { group} <FlatButton
+                    label="Change Paragraph"
+                    primary={true}
+                    style={{
+                      marginLeft: 10,
+                    }}
+                    onClick={
+                      () => this.openParagraphEditor(
+                              group
+                            )
+                    }
+                  />
+                <span className="categoryParaEditor">
+                <EditCategoryParagraph
+                  type = {group}
+                  subtype = {group}
+                  isActive= {this.state.activeEditors[group]}
+                />
+                </span>
                 </Subheader>
                 {
                   Object.keys(state.templateList[group]).map( (subType, j) => (

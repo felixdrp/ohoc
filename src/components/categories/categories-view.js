@@ -23,6 +23,9 @@ import fetchData from '../../network/fetch-data';
 
 import Halogen from 'halogen';
 
+import { EditorState, convertFromRaw, convertToRaw, convertFromHTML, ContentState} from 'draft-js';
+import Editor from 'draft-js-plugins-editor';
+
 import {
   URL_VIEW_RECORD,
   URL_BASE_MULTIMEDIA_IMAGES,
@@ -52,26 +55,39 @@ export default class CategoriesView extends Component {
 
     }
 
-  async loadCategoriesList(categoryId) {
+  async loadCategoriesList(categoryId,subCategory) {
     let fetch = new fetchData();
     // Load the templateList
     let categoriesList
+    let paragraph
 
     try {
       categoriesList = await fetch.getRecordsByType(categoryId)
-      this.setState({categoriesList})
-    //  debugger;
+
+      console.log(categoryId+" -- "+subCategory)
+      if ( subCategory ){
+        paragraph = (await fetch.getParagraph(categoryId, subCategory)).paragraph
+      } else {
+        paragraph = (await fetch.getParagraph(categoryId, categoryId)).paragraph
+      }
+
+      paragraph = paragraph ? EditorState.createWithContent(convertFromRaw(paragraph)) : EditorState.createEmpty()
+      this.setState({categoriesList,paragraph})
     } catch(error) {
       console.error('fetching record data > ' + error)
     }
+  //  alert("LOADED:!"+categoryId+"=="+subCategory+" -- "+JSON.stringify(this.props.params)+" -- "+JSON.stringify(this.state.paragraph))
   }
 
   componentDidMount() {
-    return this.loadCategoriesList(this.props.params.categoryId)
+    this.setState({paragraph : null})
+    return this.loadCategoriesList(this.props.params.categoryId,this.props.params.subcategoryId)
   }
 
   componentWillReceiveProps(nextProps) {
-    return this.loadCategoriesList(nextProps.params.categoryId)
+    this.setState({paragraph : null})
+    return this.loadCategoriesList(nextProps.params.categoryId,nextProps.params.subcategoryId)
+    //return this.loadCategoriesList(nextProps.params.categoryId)
   }
 
   entriesToSubtypeGroups = (list) => {
@@ -115,7 +131,7 @@ export default class CategoriesView extends Component {
 
     const baseAvatarImage = URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg'
 
-    if ( !this.state || !this.state.categoriesList ){
+    if ( !this.state || !this.state.categoriesList || !this.state.paragraph ){
       var loadingIndicator = (<Halogen.MoonLoader color={"blue"}/>)
 
       if ( !this.state || !this.state.recordData ){
@@ -149,6 +165,13 @@ export default class CategoriesView extends Component {
     var onlyOneCategory = Object.keys(subtypes).length == 1;
 
 
+    let paragraph = this.state.paragraph ? <div style={{marginLeft:50,marginRight:50}}>
+                        <Editor readOnly={true}
+                            editorState={this.state.paragraph}
+                            onChange={(value) => {return null}}
+                        />
+                    </div> : <span></span>
+
     // if there is a single category, or we have explicitly selected a subcategory, then we show the records as a grid.
     if ( onlyOneCategory || this.props.params.subcategoryId ){
 
@@ -159,7 +182,8 @@ export default class CategoriesView extends Component {
 
       return (
         <Card style={{paddingBottom:30, minHeight:600}}>
-          <CardTitle style={{marginLeft:40}}> <h1> {this.props.params.subcategoryId} </h1> {this.props.params.subcategoryId === "Sketches in Court" ? <span>Sketches in Court: drawings by Sir Kenneth Swan (courtesy of Christopher Morcom, QC)</span> : ""} </CardTitle>
+          <CardTitle style={{marginLeft:40}}> <h1> {onlyOneCategory ? this.props.params.categoryId : this.props.params.subcategoryId} </h1> {this.props.params.subcategoryId === "Sketches in Court" ? <span>Sketches in Court: drawings by Sir Kenneth Swan (courtesy of Christopher Morcom, QC)</span> : ""} </CardTitle>
+          {paragraph}
           <Card style={{marginLeft:50,marginRight:50,padding:5}}>
             <GridView subcategoryId = {this.props.params.subcategoryId} entries = {selectedSubCategory} />
           </Card>
@@ -169,9 +193,11 @@ export default class CategoriesView extends Component {
     } else { // Here categories are shown if multiple subcategories are present in the data.
         return (
           <Card style={{paddingBottom:30, minHeight:600}}>
-            <CardTitle style={{marginLeft:50}}> <h1> {this.props.params.categoryId} </h1> </CardTitle>
+            <CardTitle style={{marginLeft:40}}> <h1> {this.props.params.categoryId} </h1> </CardTitle>
+            {paragraph}
             <Card style={{marginLeft:50,marginRight:50}}>
               <CardText>
+
                       <GridList
                           cols={3}
                           style={styles.gridList}

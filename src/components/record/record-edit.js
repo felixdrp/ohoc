@@ -140,24 +140,8 @@ class RecordEdit extends Component {
       console.error(e)
     };
 
-    // Listen to the upload progress.
-    xhr.upload.onprogress = function(e) {
-      // if (e.lengthComputable) {
-      //   // console.log('e.loaded>> ' + e.loaded)
-      //   // console.log('%>> ' + e.total)
-      //
-      //   // Update uploadList
-      //   uploadList[uploadId].finishPercentage = (addFileNumber * 100 ) / totalFiles,
-      //   uploadList[uploadId].sizeUploaded = sizeUploaded,
-      //
-      //   // Send data to ALL the uploaders Objects
-      //   updateAllUploaders()
-      //
-      //   // If upload end
-      //   if (uploadList[uploadId].finishPercentage == 100) {
-      //     uploadList[uploadId].state = UPLOAD_STATUS_FINISHED
-      //   }
-      // }
+      // Listen to the upload progress.
+      xhr.upload.onprogress = function(e) {
     };
 
     for (let file of files) {
