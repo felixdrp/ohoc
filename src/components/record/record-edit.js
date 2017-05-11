@@ -185,11 +185,11 @@ class RecordEdit extends Component {
     const state = this.state
     // Data to upload
 
-    // debugger;
+
 
     let prepareDataToSend = {
       featuredImage : state.dataToSend.featuredImage,
-      recordName :  state.dataToSend.name,
+      recordName :  state.dataToSend.Name,
       media : state.recordData.data.media,
       fields : [],
     };
@@ -236,17 +236,44 @@ class RecordEdit extends Component {
   * the type determines which media array to use when splicing at index i
   */
   deleteMedia = (type, i) => {
-    //alert("imagine we delete "+type+" "+i)
-
     var recordData = this.state.recordData
-    var allowedTypes = ["image","audio","video","text"];
+    var allowedTypes = ["image","audio","video","text","application"];
     var selectedType = type.split("/")[0];
 
     if ( allowedTypes.includes(selectedType)){
-        selectedType = selectedType == "image" ? "picture" : selectedType;
-        recordData.data.media[selectedType].splice(i,1)
+      selectedType = selectedType == "image" ? "picture" : selectedType;
+      selectedType = selectedType == "application" ? "text" : selectedType;
+      recordData.data.media[selectedType].splice(i,1)
     }
+    this.setState({ recordData });
+  }
 
+  shiftPosition = (type, i, forward) => {
+    var recordData = this.state.recordData
+    var allowedTypes = ["image","audio","video","text","application"];
+    var selectedType = type.split("/")[0];
+
+    if ( allowedTypes.includes(selectedType)){
+      selectedType = selectedType == "image" ? "picture" : selectedType;
+      selectedType = selectedType == "application" ? "text" : selectedType;
+
+      if (forward){
+         if ( !((i+1) >= recordData.data.media[selectedType].length ) ){
+
+           var shift = JSON.parse(JSON.stringify(recordData.data.media[selectedType][i]))
+           var shift2 = JSON.parse(JSON.stringify(recordData.data.media[selectedType][i+1]))
+           recordData.data.media[selectedType][i+1] = shift
+           recordData.data.media[selectedType][i] = shift2
+         }
+      } else {
+        if ( !(i-1 < 0) ){
+          var shift = JSON.parse(JSON.stringify(recordData.data.media[selectedType][i]))
+          var shift2 = JSON.parse(JSON.stringify(recordData.data.media[selectedType][i-1]))
+          recordData.data.media[selectedType][i-1] = shift
+          recordData.data.media[selectedType][i] = shift2
+        }
+      }
+    }
     this.setState({ recordData });
   }
 
@@ -270,6 +297,7 @@ class RecordEdit extends Component {
               media={{...element, src: URL_MULTIMEDIA + element.src}}
               mediaDeleter={this.deleteMedia}
               mediaUpdater={this.updateMedia}
+              mediaShifter={this.shiftPosition}
               index={i}
             />)
           )

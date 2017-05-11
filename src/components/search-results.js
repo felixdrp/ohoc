@@ -16,16 +16,16 @@ import Subheader from 'material-ui/Subheader';
 import CommunicationChatBubble from 'material-ui/svg-icons/image/navigate-next';
 import Delete from 'material-ui/svg-icons/action/delete';
 
-import fetchData from '../../network/fetch-data';
+import fetchData from '../network/fetch-data';
 
 import {
   URL_VIEW_RECORD,
   URL_BASE_MULTIMEDIA_IMAGES,
   URL_MULTIMEDIA,
   URL_CONTROL_ROOM_EDIT_RECORD,
-} from '../../links'
+} from '../links'
 
-class BrowserToEdit extends Component {
+class SearchResults extends Component {
   state = { over: null };
   async componentDidMount() {
     await this.loadRecords()
@@ -33,21 +33,52 @@ class BrowserToEdit extends Component {
 
   overHandler = (recordId) => { this.setState({over: recordId}) }
   leaveHandler = (recordId) => { this.setState({over: null}) }
-  deleteRecord = async (recordId) => {
-    let fetch = new fetchData();
-    let deleteRecord
-    try {
-      deleteRecord = await fetch.deleteRecord(recordId)
 
-      this.setState({
-        over: null
-      })
+  foundQuery = (entry, query) => {
 
-      await this.loadRecords()
-    } catch(error) {
-      console.error('Delete record error > ' + error)
+    if ( query.length < 2 ){
+      return false;
     }
+
+    var queryTerms = query.toLowerCase().trim().split(/[ ,]+/)
+
+    if ( entry && entry.data && entry.data.recordName ){
+      // var shouldReturn = false;
+
+      for (var a in queryTerms){
+
+        if ( entry.data.recordName.toLowerCase().includes(queryTerms[a])  ){
+          return true;
+        }
+      }
+
+      //Didn't find anything on the normal fields Let's look at the transcripts
+      return this.findQueryInTranscripts(entry.data,queryTerms);
+    }
+    
+    return false;
   }
+
+  findQueryInTranscripts = (entry,queryTerms) => {
+
+    if( entry.media && entry.media.audio){
+          for( var i in entry.media.audio){
+
+              var audioTranscript = JSON.parse(entry.media.audio[i].transcript)
+              for ( var b in audioTranscript.blocks){
+
+                    for(var t in queryTerms){
+                        var found = audioTranscript.blocks[b].text.toLowerCase().includes(queryTerms[t])
+                        if ( found ){ // We only care if we find one of the terms. Just very very simple matching. No Ranking.
+                          return true;
+                        }
+                    }
+              }
+          }
+        }
+    return false
+  }
+
 
   loadRecords = async () => {
     let fetch = new fetchData();
@@ -62,29 +93,13 @@ class BrowserToEdit extends Component {
         templateList: templateList.templateList,
         allRecordsList: allRecordsList.recordsAllList,
       })
-  
+
     } catch(error) {
       console.error('fetching record data > ' + error)
     }
   }
 
-  async createRecord(template, subtemplate) {
 
-    if (!template || !subtemplate) {
-      return
-    }
-
-    let newRecordId
-    let fetch = new fetchData();
-    // Get and dispatch the template list
-    newRecordId = await fetch.createRecord({
-      template: template,
-      subtemplate: subtemplate,
-    })
-
-    this.props.editNewRecord(newRecordId.recordId)
-    // console.log(newRecordId)
-  }
 
 
   render() {
@@ -96,64 +111,35 @@ class BrowserToEdit extends Component {
 
     const baseAvatarImage = URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg'
 
-    if ( !this.state || !this.state.allRecordsList ){
+    if ( !this.state || !this.state.allRecordsList || !this.props.searchText){
       return <div></div>
     }
 
-
-
-    // let list = this.state.categoriesList.recordsByType;
-    //
-    // let entriesBySubtype = this.entriesToSubtypeGroups(list);
+    let filteredResults = state.allRecordsList
+      .filter(
+        entry => (
+          this.foundQuery(entry,this.props.searchText)
+        )
+      )
 
     return (
-      <Card style={{paddingBottom:20}}>
-        <CardTitle style={{marginLeft:50}}> <h1> {this.props.params.categoryId} </h1> </CardTitle>
-
-        <Card style={{marginLeft:50,marginRight:50}}>
+        <Card style={{marginLeft: "10%",marginRight:50,width:"80%"}}>
           <CardText>
+            <List>
           {
             Object.keys(state.templateList).map( (group, g) => (
-              <List key={g}>
-                <Subheader style={{fontWeight:"bolder"}}>
-                  { group}
-                </Subheader>
+                <span key={g} >
                 {
                   Object.keys(state.templateList[group]).map( (subType, j) => (
-                    <div
+                    <span
                       key={j}
                       style={{
                         marginLeft: 18,
                       }}
                     >
-                      <h5
-                        style={{
-                          color: 'rgba(51, 51, 51, 0.6)',
-                          fontWeight:"bolder",
-                          marginTop: 0,
-                          marginBottom: 5,
-                          marginLeft: 18,
-                        }}
-                      >
-                        {state.templateList[group][subType]}
-                        <FlatButton
-                          label="Add record"
-                          primary={true}
-                          style={{
-                            marginLeft: 10,
-                          }}
-                          onClick={
-                            () => this.createRecord(
-                                    group,
-                                    state.templateList[group][subType]
-                                  )
-                          }
-                          // icon={<ActionAndroid />}
-                        />
-                      </h5>
                       {
                         // Records List
-                        state.allRecordsList
+                        filteredResults
                           .filter(
                             entry => (
                               entry.type == group &&
@@ -162,7 +148,7 @@ class BrowserToEdit extends Component {
                           )
                           .map( (entry, i) => (
                             <Link
-                              to={URL_CONTROL_ROOM_EDIT_RECORD + entry.id}
+                              to={URL_VIEW_RECORD + entry.id}
                               key={i}
                               style={{ textDecoration: 'none'}}
                               onMouseOver={() => this.overHandler(entry.id)}
@@ -172,41 +158,25 @@ class BrowserToEdit extends Component {
                                 primaryText={entry.data.recordName}
                                 leftAvatar={
                                   <Avatar
-                                    src={ entry.data.featuredImage? URL_MULTIMEDIA + entry.data.featuredImage: baseAvatarImage }
+                                    src={ entry.data.featuredImage ? URL_MULTIMEDIA + entry.data.featuredImage: baseAvatarImage }
                                   />
                                 }
                                 rightIcon={<CommunicationChatBubble />}
                               >
-                                {
-                                  state.over == entry.id?
-                                    <span
-                                      style={{float:'right'}}
-                                      onClick={
-                                        (event) => {
-                                          console.log('delete')
-                                          event.preventDefault()
-                                          this.deleteRecord(entry.id)
-                                        }
-                                      }
-                                    >
-                                      <Delete />
-                                    </span>
-                                  : ''
-                                }
                               </ListItem>
                             </Link>
                           )
                         )
                       }
-                    </div>
+                    </span>
                   ))
                 }
-              </List>
-            ))
+
+            </span>))
           }
+            </List>
           </CardText>
         </Card>
-      </Card>
     );
   }
 }
@@ -223,4 +193,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(BrowserToEdit);
+)(SearchResults);

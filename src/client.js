@@ -9,9 +9,13 @@ import Routes from './routes';
 
 import templateList from './reducers/template-list';
 
+import categoryData from './categories-data'
 // The initial state from server-generated HTML
 // have a look to server code.
-const initialState = window.__INITIAL_STATE__ || {}
+const initialState = {
+  ...(window.__INITIAL_STATE__ || {}),
+  categoryData,
+}
 
 // https://github.com/reactjs/react-router-redux
 const middleware = routerMiddleware(browserHistory)
@@ -21,6 +25,7 @@ const store = createStore(
   combineReducers({
     routing: routerReducer,
     templateList,
+    categoryData: function(state = null, action) { return state },
     // task,
   }),
   initialState,

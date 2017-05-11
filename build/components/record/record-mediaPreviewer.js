@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -56,6 +57,14 @@ var _clear = require('material-ui/svg-icons/content/clear');
 
 var _clear2 = _interopRequireDefault(_clear);
 
+var _fastRewind = require('material-ui/svg-icons/av/fast-rewind');
+
+var _fastRewind2 = _interopRequireDefault(_fastRewind);
+
+var _fastForward = require('material-ui/svg-icons/av/fast-forward');
+
+var _fastForward2 = _interopRequireDefault(_fastForward);
+
 var _Card = require('material-ui/Card');
 
 var _previewGenerator = require('./preview-generator');
@@ -107,8 +116,22 @@ var RecordMediaPreviewer = function (_Component) {
         _react2.default.createElement('br', null),
         _react2.default.createElement(
           'span',
-          null,
+          { style: { width: 200 } },
           _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { height: 100, maxWidth: 100 } })
+        ),
+        _react2.default.createElement(
+          _IconButton2.default,
+          { onClick: function onClick() {
+              return _this2.props.mediaShifter(_this2.props.media.type, _this2.props.index, false);
+            } },
+          _react2.default.createElement(_fastRewind2.default, null)
+        ),
+        _react2.default.createElement(
+          _IconButton2.default,
+          { onClick: function onClick() {
+              return _this2.props.mediaShifter(_this2.props.media.type, _this2.props.index, true);
+            } },
+          _react2.default.createElement(_fastForward2.default, null)
         )
       );
     }

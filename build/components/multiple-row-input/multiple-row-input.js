@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _extends2 = require('babel-runtime/helpers/extends');
 
@@ -36,6 +37,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _class, _temp2;
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -58,7 +61,7 @@ var _highlightOff2 = _interopRequireDefault(_highlightOff);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var MultipleRowInput = function (_Component) {
+var MultipleRowInput = (_temp2 = _class = function (_Component) {
   (0, _inherits3.default)(MultipleRowInput, _Component);
 
   function MultipleRowInput() {
@@ -177,11 +180,9 @@ var MultipleRowInput = function (_Component) {
     }
   }]);
   return MultipleRowInput;
-}(_react.Component);
-
-MultipleRowInput.propTypes = {
+}(_react.Component), _class.propTypes = {
   template: _react2.default.PropTypes.array,
   data: _react2.default.PropTypes.array,
   updateData: _react2.default.PropTypes.func
-};
+}, _temp2);
 exports.default = MultipleRowInput;

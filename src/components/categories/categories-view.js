@@ -21,6 +21,8 @@ import ListView  from './listview';
 
 import fetchData from '../../network/fetch-data';
 
+import Halogen from 'halogen';
+
 import {
   URL_VIEW_RECORD,
   URL_BASE_MULTIMEDIA_IMAGES,
@@ -29,9 +31,6 @@ import {
 } from '../../links'
 
 export default class CategoriesView extends Component {
-
-
-
     subCategoryData = {
       "Practice" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Practice/Grays Inn Gateway.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "The Bench" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Bench/PortadaBench.jpg' , orderIndex : 2, copyrightNotice : "" },
@@ -53,16 +52,13 @@ export default class CategoriesView extends Component {
 
     }
 
-
-
-
-  async componentDidMount() {
+  async loadCategoriesList(categoryId) {
     let fetch = new fetchData();
     // Load the templateList
     let categoriesList
 
     try {
-      categoriesList = await fetch.getRecordsByType(this.props.params.categoryId)
+      categoriesList = await fetch.getRecordsByType(categoryId)
       this.setState({categoriesList})
     //  debugger;
     } catch(error) {
@@ -70,25 +66,29 @@ export default class CategoriesView extends Component {
     }
   }
 
-  entriesToSubtypeGroups = (list) => {
+  componentDidMount() {
+    return this.loadCategoriesList(this.props.params.categoryId)
+  }
 
+  componentWillReceiveProps(nextProps) {
+    return this.loadCategoriesList(nextProps.params.categoryId)
+  }
+
+  entriesToSubtypeGroups = (list) => {
     var groupedEntries = {}
-    for ( var entry in list){
+
+    for ( var entry in list ){
       entry = list[entry]
-      if( !groupedEntries[entry.subtype] ){
+      if ( !groupedEntries[entry.subtype] ){
         groupedEntries[entry.subtype] = []
       }
-
       groupedEntries[entry.subtype].push(entry)
-
     }
-
     return groupedEntries;
   }
 
   prepareTiles = (entries) => {
     var tiles = [];
-
     var subtypesInTiles = []
 
     for (var a in entries) {
@@ -116,7 +116,13 @@ export default class CategoriesView extends Component {
     const baseAvatarImage = URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg'
 
     if ( !this.state || !this.state.categoriesList ){
-      return <div></div>
+      var loadingIndicator = (<Halogen.MoonLoader color={"blue"}/>)
+
+      if ( !this.state || !this.state.recordData ){
+        return <Card style={{minHeight:600,textAlign:"centered"}}>
+                  <div style={{width:100,height:100, marginLeft: "auto", marginRight: "auto" ,paddingTop: 30}}>{loadingIndicator}</div>
+                </Card>
+      }
     }
 
     let styles = {

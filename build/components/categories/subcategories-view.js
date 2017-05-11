@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -134,6 +135,7 @@ var SubCategoriesView = function (_Component) {
                 categoriesList = _context.sent;
 
                 this.setState({ categoriesList: categoriesList });
+
                 _context.next = 12;
                 break;
 

@@ -8,13 +8,13 @@ export default function PreviewGenerator(props)
 
   if ( elem && elem.src ) {
     if ( elem.type.includes("image/") ) {
-       return <img style={style} src={elem.src} />
+       return <img style={{...style, height:"100%", maxWidth:"100%"}} src={elem.src} />
     } else if (elem.type.includes("audio/")){
-       return <audio style={{width:"95%"}} controls src={elem.src}  />
+       return <audio style={{...style, width:"95%"}} controls src={elem.src}  />
     } else if (elem.type.includes("video/")){
-       return <video style={{width:"95%"}} controls src={elem.src}  />
+       return <video style={{...style,width:"95%"}} controls src={elem.src}  />
     } else {
-      return <a style={{width:"95%"}} href={elem.src} target={"_blank"} >{elem.title}</a>
+      return <a style={{...style,width:"95%"}} href={elem.src} target={"_blank"} >{elem.title}</a>
     }
   }
 

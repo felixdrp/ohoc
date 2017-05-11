@@ -22,7 +22,8 @@ gulp.task('deploy', function () {
               // async function foo() { await bar(); }
               "transform-async-to-generator",
               "transform-regenerator",
-              "transform-runtime"
+              "transform-runtime",
+              "transform-decorators-legacy"
             ],
             ignore: [
                 // "src/components/core/upload/upload-shared-web-worker.js"

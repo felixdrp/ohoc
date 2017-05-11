@@ -72,7 +72,7 @@ class RecordAddMedia extends Component {
     }
 
 
-    debugger
+    // debugger
     this.setState({ transcriptBuffer: transcript, dataToSend : newProps.prevData, mediaUploaded: newProps.prevData.src ? true : false, previewSource: {src : newProps.prevData.src, type: newProps.prevData.type } })
   }
 

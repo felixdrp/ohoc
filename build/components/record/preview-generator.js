@@ -3,6 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _extends2 = require("babel-runtime/helpers/extends");
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 exports.default = PreviewGenerator;
 
 var _react = require("react");
@@ -19,15 +24,15 @@ function PreviewGenerator(props) {
 
   if (elem && elem.src) {
     if (elem.type.includes("image/")) {
-      return _react2.default.createElement("img", { style: style, src: elem.src });
+      return _react2.default.createElement("img", { style: (0, _extends3.default)({}, style, { height: "100%", maxWidth: "100%" }), src: elem.src });
     } else if (elem.type.includes("audio/")) {
-      return _react2.default.createElement("audio", { style: { width: "95%" }, controls: true, src: elem.src });
+      return _react2.default.createElement("audio", { style: (0, _extends3.default)({}, style, { width: "95%" }), controls: true, src: elem.src });
     } else if (elem.type.includes("video/")) {
-      return _react2.default.createElement("video", { style: { width: "95%" }, controls: true, src: elem.src });
+      return _react2.default.createElement("video", { style: (0, _extends3.default)({}, style, { width: "95%" }), controls: true, src: elem.src });
     } else {
       return _react2.default.createElement(
         "a",
-        { style: { width: "95%" }, href: elem.src, target: "_blank" },
+        { style: (0, _extends3.default)({}, style, { width: "95%" }), href: elem.src, target: "_blank" },
         elem.title
       );
     }

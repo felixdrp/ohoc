@@ -19,6 +19,8 @@ import IconButton from 'material-ui/IconButton';
 
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 
+import Measure from 'react-measure';
+
 import {
   URL_VIEW_RECORD,
   URL_BASE_MULTIMEDIA_IMAGES,
@@ -27,6 +29,13 @@ import {
 
 export default class GridView extends Component {
 
+  constructor() {
+    super()
+      this.state = {
+        imgDimensions : {},
+    };
+
+  }
   // componentWillReceiveProps = (newprops) =>{
   //
   //
@@ -42,7 +51,6 @@ export default class GridView extends Component {
     var tiles = [];
     for (var a in entries) {
 
-        // for ( var b = 0; b < 15; b++){
 
         tiles.push({
           img: entries[a].data.featuredImage,
@@ -53,6 +61,26 @@ export default class GridView extends Component {
         // }
     }
     return tiles;
+  }
+
+
+  adjustImage = (image) =>{
+
+      return <Measure
+        onMeasure={(dimensions) => {
+          //if ( !dims[image] ){
+            var dims  = this.state.imgDimensions
+            dims[image] = dimensions;
+            this.setState({imgDimensions : dims})
+        //  }
+        }}
+      >
+      <img
+          style={ this.state.imgDimensions[image] ? (this.state.imgDimensions[image].width > this.state.imgDimensions[image].height ? {width : "100%"} : {height : "100%"} ): {} }
+          src={image ? URL_MULTIMEDIA + image: baseAvatarImage}
+        />
+      </Measure>
+
   }
 
 
@@ -74,23 +102,41 @@ export default class GridView extends Component {
 
       const baseAvatarImage = URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg'
 
-      return  <GridList
-                cols={8}
+      return  <Measure
+        onMeasure={(dimensions) => {
+            this.setState({dimensions})
+        }}
+      ><GridList
+                cols={ this.state.dimensions ? Math.floor(this.state.dimensions.width / 150) : 4}
                 style={styles.gridList}
               >
-            
-                {tilesData.map((tile,i) => (
+
+                {tilesData.sort(function(a, b) {
+                    if ( !a.title || !b.title){
+                      return 0;
+                    }
+                    return a.title.trim().localeCompare(b.title.trim());
+                })
+              .map((tile,i) => (
                   <Link key={i} to={tile.src} style={{ textDecoration: 'none'}}>
                     <GridTile
                       key={tile.img}
                       title={tile.title}
                       subtitle={""}
                     >
-                      <img src={tile.img ? URL_MULTIMEDIA + tile.img: baseAvatarImage} />
+                      <div style={{width:"100%",height:"100%",textAlign:"center",
+                        //  background: 'url("'+URL_MULTIMEDIA+tile.img+'") no-repeat',
+                        //  backgroundSize:"contain",
+                        // //  backgroundPosition: "center center"
+                       }}>
+                        <img style={{height:"100%"}} src ={ tile.img ? URL_MULTIMEDIA + tile.img : baseAvatarImage }/>
+                         {/* {this.adjustImage(tile.img ? tile.img : baseAvatarImage)} */}
+                      </div>
                     </GridTile>
                   </Link>
                 ))}
               </GridList>
+            </Measure>
 
   }
 }

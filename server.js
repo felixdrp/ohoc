@@ -1,27 +1,32 @@
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
-var urlBase = '/ohoc'
+// var urlBase = '/ohoc/'
+var urlBase = '/'
+
+// var targetUrl = "http://iporalhistory.co.uk"
+var targetUrl = "http://localhost:3001"
+
 
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
   hot: true,
   historyApiFallback: true,
   proxy: {
-    [urlBase + '/images']: {
-      target: 'http://localhost:3001',
+    [urlBase + 'images']: {
+      target: targetUrl,
       // pathRewrite: {'^/api' : ''}
     },
-    [urlBase + '/api']: {
-      target: 'http://localhost:3001',
+    [urlBase + 'api']: {
+      target: targetUrl,
       // pathRewrite: {'^/api' : ''}
     },
-    [urlBase + '/upload']: {
-      target: 'http://localhost:3001',
+    [urlBase + 'upload']: {
+      target: targetUrl,
       // pathRewrite: {'^/api' : ''}
     },
-    [urlBase + '/multimedia']: {
-      target: 'http://localhost:3001',
+    [urlBase + 'multimedia']: {
+      target: targetUrl,
       // pathRewrite: {'^/api' : ''}
     }
   }

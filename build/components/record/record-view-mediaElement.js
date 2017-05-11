@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -76,6 +77,10 @@ var _previewGenerator = require('./preview-generator');
 
 var _previewGenerator2 = _interopRequireDefault(_previewGenerator);
 
+var _reactImageLightbox = require('react-image-lightbox');
+
+var _reactImageLightbox2 = _interopRequireDefault(_reactImageLightbox);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RecordViewMediaElement = function (_Component) {
@@ -129,54 +134,112 @@ var RecordViewMediaElement = function (_Component) {
 
       return _react2.default.createElement(
         _Card.Card,
-        { style: { padding: 3, maxWidth: 400, height: 300, marginLeft: 5, marginTop: 5, display: "inline-block" }, onClick: this.openExtendedView },
+        { style: { padding: 3, paddingTop: 5, minWidth: 380, maxWidth: 400, marginLeft: 5, marginTop: 5, display: "inline-block", zIndex: this.state.isOpen ? 200 : 1500 }, onClick: this.openExtendedView },
+        this.state.isOpen && _react2.default.createElement(_reactImageLightbox2.default, {
+          mainSrc: this.props.media.src
+
+          , onCloseRequest: function onCloseRequest() {
+            return _this2.setState({ isOpen: false });
+          },
+          onMovePrevRequest: function onMovePrevRequest() {
+            return _this2.setState({
+              photoIndex: (photoIndex + images.length - 1) % images.length
+            });
+          },
+          onMoveNextRequest: function onMoveNextRequest() {
+            return _this2.setState({
+              photoIndex: (photoIndex + 1) % images.length
+            });
+          },
+
+          reactModalStyle: { overlay: { zIndex: 5000 } },
+          imageCaption: _react2.default.createElement(_Card.CardTitle, { title: this.props.media.copyright ? this.props.media.copyright : "", style: { margin: 0, padding: 0, height: 40 }, titleStyle: { fontSize: "1.5em", lineHeight: 1, padding: 5, color: "white" } })
+        }),
         _react2.default.createElement(
           _Dialog2.default,
           {
-            title: this.props.media.title || "",
+            title: _react2.default.createElement(
+              'h2',
+              null,
+              ' ',
+              this.props.media.title || "",
+              ' ',
+              _react2.default.createElement('br', null),
+              ' ',
+              _react2.default.createElement('hr', null),
+              ' '
+            ),
             actions: actions,
             modal: true,
             open: this.state.showExtendedDialog,
-            style: { textAlign: "center" }
+            style: { textAlign: "left" },
+            contentStyle: {
+              width: '70%',
+              maxWidth: 'none',
+              minWidth: 900
+            }
           },
           _react2.default.createElement(
             'span',
-            null,
-            _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 450, maxWidth: "95%" } })
+            { onClick: function onClick() {
+                return _this2.setState({ isOpen: true });
+              }, style: { float: "left", width: "40%", textAlign: "center", marginRight: "1%", cursor: "pointer" } },
+            _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 450, maxWidth: "100%" } }),
+            ' ',
+            _react2.default.createElement('br', null),
+            _react2.default.createElement('br', null),
+            ' ',
+            _react2.default.createElement(
+              'span',
+              null,
+              'Click to enlarge picture'
+            )
           ),
-          _react2.default.createElement('br', null),
-          _react2.default.createElement('br', null),
           _react2.default.createElement(
             'span',
-            null,
-            'Description'
-          ),
-          _react2.default.createElement(
-            'div',
-            { style: { width: "100%", minHeight: 200, maxHeight: 250, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
-            this.props.media.transcript ? this.richTextToComponent(this.props.media.transcript) : _react2.default.createElement('span', null)
+            { style: { float: "left", width: "59%", textAlign: "left" } },
+            _react2.default.createElement(
+              'span',
+              null,
+              this.props.media.copyright ? "Copyright: " + this.props.media.copyright : ""
+            ),
+            _react2.default.createElement('br', null),
+            _react2.default.createElement('br', null),
+            _react2.default.createElement(
+              'span',
+              null,
+              'Description:'
+            ),
+            _react2.default.createElement(
+              'div',
+              { style: { width: "100%", minHeight: 350, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
+              this.props.media.transcript ? this.richTextToComponent(this.props.media.transcript) : _react2.default.createElement('span', null)
+            )
           )
         ),
         _react2.default.createElement(
           'span',
-          { style: { maxWidth: "100%", fontSize: 15 } },
+          { style: { maxWidth: "100%", fontSize: 15, height: 30 } },
           this.props.media.title
         ),
         _react2.default.createElement('br', null),
         _react2.default.createElement(
           'span',
-          null,
-          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 250, maxWidth: "95%" } })
+          {
+            style: {
+              float: "left",
+              width: this.props.type === "audio" ? "50%" : "100%",
+              minWidth: 240
+            } },
+          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 250, maxWidth: "100%", minWidth: 100, marginTop: 5 } })
         ),
-        _react2.default.createElement('br', null),
-        this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(
-          'span',
-          { style: { fontWeight: "bold" } },
-          'Transcript'
-        ) : "",
-        this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(
+        this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(_RaisedButton2.default, { label: 'Transcript', style: { height: 30, marginTop: 5 },
+          onClick: function onClick() {
+            return _this2.state.showTranscript ? _this2.setState({ showTranscript: false }) : _this2.setState({ showTranscript: true });
+          } }) : "",
+        this.state.showTranscript && this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(
           'div',
-          { style: { width: "100%", height: 200, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
+          { style: { width: "100%", height: 170, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
           this.props.media.transcript ? this.richTextToComponent(this.props.media.transcript) : _react2.default.createElement('span', null)
         ) : _react2.default.createElement('div', null)
       );
@@ -184,7 +247,5 @@ var RecordViewMediaElement = function (_Component) {
   }]);
   return RecordViewMediaElement;
 }(_react.Component);
-
-
 
 exports.default = RecordViewMediaElement;
