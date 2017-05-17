@@ -2,6 +2,8 @@
 
 Content Management Software, based on React.
 
+We are testing the site with BrowserStack <a href="https://www.browserstack.com"> <img src="https://d2ogrdw2mh0rsl.cloudfront.net/production/images/static/header/header-logo.svg" /> </a> which is quite a convenient way to test your project in multiple platforms and browsers at the same time.
+
 
 The MIT License (MIT)
 
