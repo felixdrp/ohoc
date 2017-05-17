@@ -1,5 +1,8 @@
 # ohoc
 
+Content Management Software, based on React.
+
+
 The MIT License (MIT)
 
 Copyright (c) 2017 Felix Rodriguez Perez and Jesus Rodriguez Perez
