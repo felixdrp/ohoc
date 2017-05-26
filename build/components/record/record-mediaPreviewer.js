@@ -117,8 +117,9 @@ var RecordMediaPreviewer = function (_Component) {
         _react2.default.createElement(
           'span',
           { style: { width: 200 } },
-          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { height: 100, maxWidth: 100 } })
+          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { height: 100, maxWidth: "80%", maxHeight: 120 } })
         ),
+        _react2.default.createElement('br', null),
         _react2.default.createElement(
           _IconButton2.default,
           { onClick: function onClick() {

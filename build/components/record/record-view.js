@@ -558,7 +558,7 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
           },
           _react2.default.createElement(
             'span',
-            { style: { width: "100%", display: "inline-block", verticalAlign: "top" } },
+            { className: "beingmeasured", style: { width: "100%", display: "inline-block", verticalAlign: "top" } },
             _react2.default.createElement(
               'span',
               {
@@ -615,7 +615,6 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
                 style: {
                   display: "inline-block",
                   verticalAlign: "top",
-                  marginLeft: 20,
                   marginBottom: 20
                 }
               },
@@ -654,7 +653,8 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
               'div',
               {
                 style: {
-                  marginTop: this.state.dimensions.width > 626 || this.state.dimensions.width < 382 ? 0 : 280,
+                  marginTop: this.state.dimensions.width > 626 ? "auto" : 0,
+                  paddingTop: this.state.dimensions.width > 626 ? "auto" : 0,
                   paddingLeft: this.state.dimensions.width < 626 || this.hasAnyMedia(recordData.data.media) ? 0 : 365,
                   marginRight: this.state.dimensions.width > 626 ? "10%" : 20,
                   wordWrap: "normal",

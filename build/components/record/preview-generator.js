@@ -24,7 +24,7 @@ function PreviewGenerator(props) {
 
   if (elem && elem.src) {
     if (elem.type.includes("image/")) {
-      return _react2.default.createElement("img", { style: (0, _extends3.default)({}, style, { height: "100%", maxWidth: "100%" }), src: elem.src });
+      return _react2.default.createElement("img", { style: (0, _extends3.default)({}, style), src: elem.src });
     } else if (elem.type.includes("audio/")) {
       return _react2.default.createElement("audio", { style: (0, _extends3.default)({}, style, { width: "95%", minWidth: 300 }), controls: true, src: elem.src });
     } else if (elem.type.includes("video/")) {

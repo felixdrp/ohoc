@@ -3061,7 +3061,7 @@ function PreviewGenerator(props) {
 
   if (elem && elem.src) {
     if (elem.type.includes("image/")) {
-      return _react2.default.createElement("img", { style: (0, _extends3.default)({}, style, { height: "100%", maxWidth: "100%" }), src: elem.src });
+      return _react2.default.createElement("img", { style: (0, _extends3.default)({}, style), src: elem.src });
     } else if (elem.type.includes("audio/")) {
       return _react2.default.createElement("audio", { style: (0, _extends3.default)({}, style, { width: "95%", minWidth: 300 }), controls: true, src: elem.src });
     } else if (elem.type.includes("video/")) {
@@ -3199,7 +3199,7 @@ var RecordAddMedia = function (_Component) {
 
     _this.componentWillReceiveProps = function (newProps) {
 
-      var transcript = newProps.prevData.transcript;
+      var transcript = newProps.prevData ? newProps.prevData.transcript : null;
 
       if (transcript) {
         try {
@@ -3488,7 +3488,7 @@ var RecordAddMedia = function (_Component) {
           _react2.default.createElement(
             _Card.Card,
             { style: { textAlign: "center" } },
-            _react2.default.createElement(_previewGenerator2.default, { element: this.state.previewSource, style: { height: 300, maxWidth: 700 } })
+            _react2.default.createElement(_previewGenerator2.default, { element: this.state.previewSource, style: { height: 300, maxWidth: 700, maxHeight: 300 } })
           ),
           _react2.default.createElement('br', null),
           _react2.default.createElement(
@@ -4306,7 +4306,7 @@ var RecordEdit = function (_Component) {
       if (Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0) {
         return _react2.default.createElement(
           'div',
-          { style: { width: "100%", height: 200, border: "1px dashed lightgrey", backgroundColor: "lightgrey" } },
+          { style: { width: "100%", height: 200, border: "1px dashed lightgrey", backgroundColor: "lightgrey", overflowY: "scroll" } },
           arrayOfMedia.map(function (element, i) {
             return _react2.default.createElement(_recordMediaPreviewer2.default, {
               key: i,
@@ -4887,8 +4887,9 @@ var RecordMediaPreviewer = function (_Component) {
         _react2.default.createElement(
           'span',
           { style: { width: 200 } },
-          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { height: 100, maxWidth: 100 } })
+          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { height: 100, maxWidth: "80%", maxHeight: 120 } })
         ),
+        _react2.default.createElement('br', null),
         _react2.default.createElement(
           _IconButton2.default,
           { onClick: function onClick() {
@@ -5723,7 +5724,7 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
           },
           _react2.default.createElement(
             'span',
-            { style: { width: "100%", display: "inline-block", verticalAlign: "top" } },
+            { className: "beingmeasured", style: { width: "100%", display: "inline-block", verticalAlign: "top" } },
             _react2.default.createElement(
               'span',
               {
@@ -5780,7 +5781,6 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
                 style: {
                   display: "inline-block",
                   verticalAlign: "top",
-                  marginLeft: 20,
                   marginBottom: 20
                 }
               },
@@ -5819,7 +5819,8 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
               'div',
               {
                 style: {
-                  marginTop: this.state.dimensions.width > 626 || this.state.dimensions.width < 382 ? 0 : 280,
+                  marginTop: this.state.dimensions.width > 626 ? "auto" : 0,
+                  paddingTop: this.state.dimensions.width > 626 ? "auto" : 0,
                   paddingLeft: this.state.dimensions.width < 626 || this.hasAnyMedia(recordData.data.media) ? 0 : 365,
                   marginRight: this.state.dimensions.width > 626 ? "10%" : 20,
                   wordWrap: "normal",

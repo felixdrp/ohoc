@@ -55,6 +55,11 @@ export default class CategoriesView extends Component {
 
     }
 
+    // Here we define rules if we want to skip the "show subcategories behavior directly"
+    shortcuts = {
+      "EIPR" : "/record/122"
+    }
+
   async loadCategoriesList(categoryId,subCategory) {
     let fetch = new fetchData();
     // Load the templateList
@@ -205,7 +210,7 @@ export default class CategoriesView extends Component {
                         >
 
                           {tilesData.map((tile,i) => (
-                            <Link key={i} to={tile.src} style={{ textDecoration: 'none'}}>
+                            <Link key={i} to={this.shortcuts[tile.title] ? this.shortcuts[tile.title] : tile.src} style={{ textDecoration: 'none'}}>
                               <GridTile
 
                                 title={tile.title}

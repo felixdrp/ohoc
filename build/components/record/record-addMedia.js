@@ -117,7 +117,7 @@ var RecordAddMedia = function (_Component) {
 
     _this.componentWillReceiveProps = function (newProps) {
 
-      var transcript = newProps.prevData.transcript;
+      var transcript = newProps.prevData ? newProps.prevData.transcript : null;
 
       if (transcript) {
         try {
@@ -406,7 +406,7 @@ var RecordAddMedia = function (_Component) {
           _react2.default.createElement(
             _Card.Card,
             { style: { textAlign: "center" } },
-            _react2.default.createElement(_previewGenerator2.default, { element: this.state.previewSource, style: { height: 300, maxWidth: 700 } })
+            _react2.default.createElement(_previewGenerator2.default, { element: this.state.previewSource, style: { height: 300, maxWidth: 700, maxHeight: 300 } })
           ),
           _react2.default.createElement('br', null),
           _react2.default.createElement(

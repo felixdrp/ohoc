@@ -273,7 +273,7 @@ class RecordEdit extends Component {
   getMediaPreviewers (arrayOfMedia){
     if ( Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0){ // if the array is empty there is no reason to draw the preview container at all.
       return (
-        <div style={{width:"100%",height:200,border: "1px dashed lightgrey",backgroundColor:"lightgrey"}}>
+        <div style={{width:"100%",height:200,border: "1px dashed lightgrey",backgroundColor:"lightgrey", overflowY:"scroll"}}>
         {
           arrayOfMedia.map( (element,i) => (
             <RecordMediaPreviewer

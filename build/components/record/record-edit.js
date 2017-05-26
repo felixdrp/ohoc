@@ -457,7 +457,7 @@ var RecordEdit = function (_Component) {
       if (Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0) {
         return _react2.default.createElement(
           'div',
-          { style: { width: "100%", height: 200, border: "1px dashed lightgrey", backgroundColor: "lightgrey" } },
+          { style: { width: "100%", height: 200, border: "1px dashed lightgrey", backgroundColor: "lightgrey", overflowY: "scroll" } },
           arrayOfMedia.map(function (element, i) {
             return _react2.default.createElement(_recordMediaPreviewer2.default, {
               key: i,
