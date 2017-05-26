@@ -13,6 +13,9 @@ import fetchData from '../../network/fetch-data';
 
 import { URL_CATEGORIES_LIST } from '../../links';
 
+import ActionHome from 'material-ui/svg-icons/action/home';
+import IconButton from 'material-ui/IconButton';
+
 class NavigationBar extends Component {
   constructor(props) {
     super(props);
@@ -42,6 +45,19 @@ class NavigationBar extends Component {
   render() {
     return (
       <span>
+        <Link to={"/"}>
+          <IconButton
+            //  iconStyle={{position: 'absolute',top: 0}}
+             style={{
+              //  position: 'absolute',
+               bottom: -5,
+              //  right: 0
+             }}
+            //  onClick={}
+           >
+             <ActionHome />
+           </IconButton>
+         </Link>
         {
          this.props.templateList &&
          Object.keys(this.props.templateList)

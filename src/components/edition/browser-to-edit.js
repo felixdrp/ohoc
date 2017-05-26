@@ -167,7 +167,7 @@ class BrowserToEdit extends Component {
                             )
                     }
                   />
-                <span className="categoryParaEditor">
+                <span className="categoryParaEditor" >
                 <EditCategoryParagraph
                   type = {group}
                   subtype = {group}

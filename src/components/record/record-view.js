@@ -357,7 +357,7 @@ export default class RecordView extends Component {
              this.setState({dimensions})
            }}
          >
-          <span style={{ width:"100%", display: "inline-block", verticalAlign: "top"}}>
+          <span className={"beingmeasured"} style={{ width:"100%", display: "inline-block", verticalAlign: "top"}}>
             <span
               style={{
                 maxHeight:300,
@@ -410,7 +410,7 @@ export default class RecordView extends Component {
               style={{
                 display: "inline-block",
                 verticalAlign: "top",
-                marginLeft:20,
+                // marginLeft:20,
                 marginBottom:20
               }}
             >
@@ -441,11 +441,12 @@ export default class RecordView extends Component {
               style={{
                 // float: this.state.dimensions.width < (600+450) ? "left" : "none",
                 // maxWidth: this.state.dimensions.width < (600+450) ? "50%" : "100%",
-                // marginTop: (this.state.dimensions.width > (600+450)) ? 0 : ( this.hasAnyMedia(recordData.data.media) ? 290 : 0),
-                paddingLeft: (this.state.dimensions.width < (600+450)) && this.hasAnyMedia(recordData.data.media) ? 0 : 365,
-                marginRight: (this.state.dimensions.width > (600+450)) ? "10%" : 20 ,
+                marginTop: (this.state.dimensions.width > 626) ? "auto" : 0,
+                paddingTop: (this.state.dimensions.width > 626) ? "auto" : 0,
+                paddingLeft: (this.state.dimensions.width < (626)) || this.hasAnyMedia(recordData.data.media) ? 0 : 365,
+                marginRight: (this.state.dimensions.width > (626)) ? "10%" : 20 ,
                 wordWrap: "normal",
-                clear: (this.state.dimensions.width > (600+450)) ? 'none' : ( this.hasAnyMedia(recordData.data.media) ? 'left' : 'none'),
+                clear: (this.state.dimensions.width > (626)) ? 'none' : ( this.hasAnyMedia(recordData.data.media) ? 'left' : 'none'),
                 // minWidth: '20%'
               }}
             >

@@ -8,8 +8,21 @@
   box-shadow: inset 0px 1px 8px -3px #ABABAB;
   background: #fefefe;
   position: relative;
+  line-height: normal;
 }
 
 .editor :global(.public-DraftEditor-content) {
-  min-height: 380px;
+  min-height: 300px;
+}
+
+.editor .public-DraftEditor-content {
+  min-height: 300px;
+}
+
+.editor :global(.DraftEditor-root) {
+  min-height: 300px;
+}
+
+.editor .DraftEditor-root {
+  min-height: 300px;
 }

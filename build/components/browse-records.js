@@ -153,20 +153,6 @@ var BrowseRecords = function (_Component) {
         _react2.default.createElement(
           _Card.Card,
           { style: { paddingTop: 20, paddingBottom: 10 } },
-          _react2.default.createElement(
-            _Card.Card,
-            { style: { width: "80%", marginLeft: "10%", marginBottom: 20 } },
-            _react2.default.createElement(_search2.default, { style: { width: 30, height: 30, marginTop: 5, marginLeft: 5 }, color: _colors.grey700 }),
-            _react2.default.createElement(_TextField2.default, {
-              id: 'search-box',
-              hintText: 'Type to search',
-              style: { marginLeft: 10, position: "absolute", width: "40%", height: 43 },
-              defaultValue: this.state.searchbox,
-              onChange: function onChange(event, value, index) {
-                return _this2.handleChange(event, value, index);
-              }
-            })
-          ),
           results,
           _react2.default.createElement(
             'div',

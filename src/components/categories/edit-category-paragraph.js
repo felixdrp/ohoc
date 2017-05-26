@@ -99,7 +99,7 @@ export default class EditCategoryParagraph extends Component {
     console.log(data)
     let fetch = new fetchData()
     fetch.updateParagraph(this.state.type, this.state.subtype, data)
-    
+
   }
 
   render() {
@@ -116,7 +116,7 @@ export default class EditCategoryParagraph extends Component {
           ref={(element) => { if (!this.editor) { this.editor = {} }; this.editor = element; }}
         />
         </span>
-        <span className="tooly" style={{display:"inline-block",position:"absolute", top:15, right:0}}>{this.state.plugins.SideToolbar.prototype.render()}</span>
+        <span className="tooly" style={{display:"inline-block",position:"absolute", top: 0, right: -40}}>{this.state.plugins.SideToolbar.prototype.render()}</span>
         <RaisedButton
           label="Submit"
           primary={true}

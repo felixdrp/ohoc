@@ -1,6 +1,8 @@
 #!/bin/bash
 #
 
+gulp deploycss
+
 gulp deploy
 
 NODE_ENV=production browserify -g browserify-css ./build/client.js -g [envify --NODE_ENV 'production']  > dist/bundle.js

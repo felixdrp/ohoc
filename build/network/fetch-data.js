@@ -220,29 +220,108 @@ var fetchData = function () {
       return createRecord;
     }()
   }, {
-    key: 'getRecordData',
+    key: 'updateParagraph',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(recordId) {
+      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(template, subtemplate, paragraph) {
+        var result, body;
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                _context6.next = 2;
-                return this.getGeneric(urlBase + 'getRecord/' + recordId);
+                result = void 0;
+                body = paragraph;
 
-              case 2:
-                return _context6.abrupt('return', _context6.sent);
+                console.log(template + " " + subtemplate + " " + paragraph);
+                _context6.prev = 3;
+                _context6.next = 6;
+                return this.httpClient.send(body, {
+                  method: 'POST',
+                  path: urlBase + 'category/paragraphUpdate/' + template + "/" + subtemplate,
+                  headers: { 'content-type': 'application/json' }
+                });
 
-              case 3:
+              case 6:
+                result = _context6.sent;
+
+                result = JSON.parse(result);
+                _context6.next = 13;
+                break;
+
+              case 10:
+                _context6.prev = 10;
+                _context6.t0 = _context6['catch'](3);
+
+                console.error('fetching template list error > ' + _context6.t0);
+
+              case 13:
+                return _context6.abrupt('return', result);
+
+              case 14:
               case 'end':
                 return _context6.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee6, this, [[3, 10]]);
       }));
 
-      function getRecordData(_x4) {
+      function updateParagraph(_x4, _x5, _x6) {
         return _ref6.apply(this, arguments);
+      }
+
+      return updateParagraph;
+    }()
+  }, {
+    key: 'getParagraph',
+    value: function () {
+      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(template, subtemplate) {
+        return _regenerator2.default.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _context7.next = 2;
+                return this.getGeneric(urlBase + 'category/getParagraph/' + template + "/" + subtemplate);
+
+              case 2:
+                return _context7.abrupt('return', _context7.sent);
+
+              case 3:
+              case 'end':
+                return _context7.stop();
+            }
+          }
+        }, _callee7, this);
+      }));
+
+      function getParagraph(_x7, _x8) {
+        return _ref7.apply(this, arguments);
+      }
+
+      return getParagraph;
+    }()
+  }, {
+    key: 'getRecordData',
+    value: function () {
+      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(recordId) {
+        return _regenerator2.default.wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                _context8.next = 2;
+                return this.getGeneric(urlBase + 'getRecord/' + recordId);
+
+              case 2:
+                return _context8.abrupt('return', _context8.sent);
+
+              case 3:
+              case 'end':
+                return _context8.stop();
+            }
+          }
+        }, _callee8, this);
+      }));
+
+      function getRecordData(_x9) {
+        return _ref8.apply(this, arguments);
       }
 
       return getRecordData;
@@ -250,16 +329,16 @@ var fetchData = function () {
   }, {
     key: 'setRecordData',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(recordId, data) {
+      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(recordId, data) {
         var result, body;
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
+        return _regenerator2.default.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
                 result = void 0;
                 body = (0, _stringify2.default)(data);
-                _context7.prev = 2;
-                _context7.next = 5;
+                _context9.prev = 2;
+                _context9.next = 5;
                 return this.httpClient.send(body, {
                   method: 'POST',
                   path: urlBase + 'setRecord/' + recordId,
@@ -267,31 +346,31 @@ var fetchData = function () {
                 });
 
               case 5:
-                result = _context7.sent;
+                result = _context9.sent;
 
                 result = JSON.parse(result);
-                _context7.next = 12;
+                _context9.next = 12;
                 break;
 
               case 9:
-                _context7.prev = 9;
-                _context7.t0 = _context7['catch'](2);
+                _context9.prev = 9;
+                _context9.t0 = _context9['catch'](2);
 
-                console.error('fetching template list error > ' + _context7.t0);
+                console.error('fetching template list error > ' + _context9.t0);
 
               case 12:
-                return _context7.abrupt('return', result);
+                return _context9.abrupt('return', result);
 
               case 13:
               case 'end':
-                return _context7.stop();
+                return _context9.stop();
             }
           }
-        }, _callee7, this, [[2, 9]]);
+        }, _callee9, this, [[2, 9]]);
       }));
 
-      function setRecordData(_x5, _x6) {
-        return _ref7.apply(this, arguments);
+      function setRecordData(_x10, _x11) {
+        return _ref9.apply(this, arguments);
       }
 
       return setRecordData;
@@ -299,46 +378,46 @@ var fetchData = function () {
   }, {
     key: 'deleteRecord',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(recordId) {
+      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(recordId) {
         var result;
-        return _regenerator2.default.wrap(function _callee8$(_context8) {
+        return _regenerator2.default.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 result = void 0;
-                _context8.prev = 1;
-                _context8.next = 4;
+                _context10.prev = 1;
+                _context10.next = 4;
                 return this.httpClient.send('Delete Record', {
                   method: 'POST',
                   path: urlBase + 'deleteRecord/' + recordId
                 });
 
               case 4:
-                result = _context8.sent;
+                result = _context10.sent;
 
                 result = JSON.parse(result);
-                _context8.next = 11;
+                _context10.next = 11;
                 break;
 
               case 8:
-                _context8.prev = 8;
-                _context8.t0 = _context8['catch'](1);
+                _context10.prev = 8;
+                _context10.t0 = _context10['catch'](1);
 
-                console.error('fetching template list error > ' + _context8.t0);
+                console.error('fetching template list error > ' + _context10.t0);
 
               case 11:
-                return _context8.abrupt('return', result);
+                return _context10.abrupt('return', result);
 
               case 12:
               case 'end':
-                return _context8.stop();
+                return _context10.stop();
             }
           }
-        }, _callee8, this, [[1, 8]]);
+        }, _callee10, this, [[1, 8]]);
       }));
 
-      function deleteRecord(_x7) {
-        return _ref8.apply(this, arguments);
+      function deleteRecord(_x12) {
+        return _ref10.apply(this, arguments);
       }
 
       return deleteRecord;

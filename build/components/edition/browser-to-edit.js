@@ -90,6 +90,14 @@ var _fetchData = require('../../network/fetch-data');
 
 var _fetchData2 = _interopRequireDefault(_fetchData);
 
+var _editCategoryParagraph = require('../categories/edit-category-paragraph');
+
+var _editCategoryParagraph2 = _interopRequireDefault(_editCategoryParagraph);
+
+var _BrowserToEdit = require('./BrowserToEdit.css');
+
+var _BrowserToEdit2 = _interopRequireDefault(_BrowserToEdit);
+
 var _links = require('../../links');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -97,24 +105,25 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var BrowserToEdit = function (_Component) {
   (0, _inherits3.default)(BrowserToEdit, _Component);
 
-  function BrowserToEdit() {
-    var _ref,
-        _this2 = this;
-
-    var _temp, _this, _ret;
+  function BrowserToEdit(props) {
+    var _this2 = this;
 
     (0, _classCallCheck3.default)(this, BrowserToEdit);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    var _this = (0, _possibleConstructorReturn3.default)(this, (BrowserToEdit.__proto__ || (0, _getPrototypeOf2.default)(BrowserToEdit)).call(this));
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = BrowserToEdit.__proto__ || (0, _getPrototypeOf2.default)(BrowserToEdit)).call.apply(_ref, [this].concat(args))), _this), _this.state = { over: null }, _this.overHandler = function (recordId) {
+    _this.state = { over: null };
+
+    _this.overHandler = function (recordId) {
       _this.setState({ over: recordId });
-    }, _this.leaveHandler = function (recordId) {
+    };
+
+    _this.leaveHandler = function (recordId) {
       _this.setState({ over: null });
-    }, _this.deleteRecord = function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(recordId) {
+    };
+
+    _this.deleteRecord = function () {
+      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(recordId) {
         var fetch, deleteRecord;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -156,9 +165,11 @@ var BrowserToEdit = function (_Component) {
       }));
 
       return function (_x) {
-        return _ref2.apply(this, arguments);
+        return _ref.apply(this, arguments);
       };
-    }(), _this.loadRecords = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+    }();
+
+    _this.loadRecords = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
       var fetch, templateList, allRecordsList;
       return _regenerator2.default.wrap(function _callee2$(_context2) {
         while (1) {
@@ -200,13 +211,16 @@ var BrowserToEdit = function (_Component) {
           }
         }
       }, _callee2, _this2, [[2, 12]]);
-    })), _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+    }));
+
+    _this.state = { activeEditors: {} };
+    return _this;
   }
 
   (0, _createClass3.default)(BrowserToEdit, [{
     key: 'componentDidMount',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -223,7 +237,7 @@ var BrowserToEdit = function (_Component) {
       }));
 
       function componentDidMount() {
-        return _ref4.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return componentDidMount;
@@ -231,7 +245,7 @@ var BrowserToEdit = function (_Component) {
   }, {
     key: 'createRecord',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(template, subtemplate) {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(template, subtemplate) {
         var newRecordId, fetch;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
@@ -269,11 +283,64 @@ var BrowserToEdit = function (_Component) {
       }));
 
       function createRecord(_x2, _x3) {
-        return _ref5.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       }
 
       return createRecord;
     }()
+  }, {
+    key: 'updateParagraph',
+    value: function () {
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(template, subtemplate, paragraph) {
+        var newRecordId, fetch;
+        return _regenerator2.default.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                if (!(!template || !subtemplate)) {
+                  _context5.next = 2;
+                  break;
+                }
+
+                return _context5.abrupt('return');
+
+              case 2:
+                newRecordId = void 0;
+                fetch = new _fetchData2.default();
+
+                _context5.next = 6;
+                return fetch.updateParagraph({
+                  template: template,
+                  subtemplate: subtemplate,
+                  paragraph: paragraph
+                });
+
+              case 6:
+                newRecordId = _context5.sent;
+
+              case 7:
+              case 'end':
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function updateParagraph(_x4, _x5, _x6) {
+        return _ref5.apply(this, arguments);
+      }
+
+      return updateParagraph;
+    }()
+  }, {
+    key: 'openParagraphEditor',
+    value: function openParagraphEditor(subtemplate) {
+      var aeds = this.state.activeEditors;
+      aeds[subtemplate] = aeds[subtemplate] ? false : true;
+      this.setState({ activeEditors: aeds });
+    }
+
+
   }, {
     key: 'render',
     value: function render() {
@@ -321,7 +388,27 @@ var BrowserToEdit = function (_Component) {
                 _react2.default.createElement(
                   _Subheader2.default,
                   { style: { fontWeight: "bolder" } },
-                  group
+                  group,
+                  ' ',
+                  _react2.default.createElement(_FlatButton2.default, {
+                    label: 'Change Paragraph',
+                    primary: true,
+                    style: {
+                      marginLeft: 10
+                    },
+                    onClick: function onClick() {
+                      return _this3.openParagraphEditor(group);
+                    }
+                  }),
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'categoryParaEditor' },
+                    _react2.default.createElement(_editCategoryParagraph2.default, {
+                      type: group,
+                      subtype: group,
+                      isActive: _this3.state.activeEditors[group]
+                    })
+                  )
                 ),
                 (0, _keys2.default)(state.templateList[group]).map(function (subType, j) {
                   return _react2.default.createElement(
@@ -353,8 +440,23 @@ var BrowserToEdit = function (_Component) {
                         onClick: function onClick() {
                           return _this3.createRecord(group, state.templateList[group][subType]);
                         }
+                      }),
+                      _react2.default.createElement(_FlatButton2.default, {
+                        label: 'Change Paragraph',
+                        primary: true,
+                        style: {
+                          marginLeft: 10
+                        },
+                        onClick: function onClick() {
+                          return _this3.openParagraphEditor(state.templateList[group][subType]);
+                        }
                       })
                     ),
+                    _react2.default.createElement(_editCategoryParagraph2.default, {
+                      type: group,
+                      subtype: state.templateList[group][subType],
+                      isActive: _this3.state.activeEditors[state.templateList[group][subType]]
+                    }),
 
                     state.allRecordsList.filter(function (entry) {
                       return entry.type == group && entry.subtype == state.templateList[group][subType];

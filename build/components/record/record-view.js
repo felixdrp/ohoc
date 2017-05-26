@@ -562,9 +562,21 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
             _react2.default.createElement(
               'span',
               {
-                style: { maxHeight: 300, width: 350, maxWidth: 350, display: "inline-block", verticalAlign: "top", float: "left", margin: 5, marginRight: 10, textAlign: "center" }, onClick: function onClick() {
+                style: {
+                  maxHeight: 300,
+                  width: 350,
+                  maxWidth: 350,
+                  display: "inline-block",
+                  verticalAlign: "top",
+                  float: "left",
+                  margin: 5,
+                  marginRight: 10,
+                  textAlign: "center"
+                },
+                onClick: function onClick() {
                   return _this2.setState({ isOpen: true });
-                } },
+                }
+              },
               _react2.default.createElement(
                 _Card.Card,
                 {
@@ -642,10 +654,11 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
               'div',
               {
                 style: {
-                  paddingLeft: this.state.dimensions.width < 600 + 450 && this.hasAnyMedia(recordData.data.media) ? 0 : 365,
-                  marginTop: this.state.dimensions.width > 600 + 450 ? 0 : this.hasAnyMedia(recordData.data.media) ? 290 : 0,
-                  marginRight: this.state.dimensions.width > 600 + 450 ? "10%" : 20,
-                  wordWrap: "normal"
+                  marginTop: this.state.dimensions.width > 626 || this.state.dimensions.width < 382 ? 0 : 280,
+                  paddingLeft: this.state.dimensions.width < 626 || this.hasAnyMedia(recordData.data.media) ? 0 : 365,
+                  marginRight: this.state.dimensions.width > 626 ? "10%" : 20,
+                  wordWrap: "normal",
+                  clear: this.state.dimensions.width > 626 ? 'none' : this.hasAnyMedia(recordData.data.media) ? 'left' : 'none'
                 }
               },
               fieldsFlex

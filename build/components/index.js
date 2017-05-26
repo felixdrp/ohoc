@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.BrowserToEdit = exports.RecordEdit = exports.RecordView = exports.RecordCreate = exports.RecordContainer = exports.SubCategoriesView = exports.CategoriesView = exports.CategoriesContainer = exports.BrowseRecords = exports.AppContainer = undefined;
 
+require('babel-polyfill');
+
 var _appContainer = require('./app-container');
 
 var _appContainer2 = _interopRequireDefault(_appContainer);
@@ -47,7 +49,8 @@ var _browserToEdit2 = _interopRequireDefault(_browserToEdit);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.AppContainer = _appContainer2.default; 
+
+exports.AppContainer = _appContainer2.default;
 
 
 exports.BrowseRecords = _browseRecords2.default;

@@ -3,6 +3,7 @@
  *
  */
 
+import "babel-polyfill";
 
 // Generic
 

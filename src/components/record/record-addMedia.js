@@ -45,7 +45,7 @@ class RecordAddMedia extends Component {
 
   componentWillReceiveProps = (newProps) => {
 
-    var transcript = newProps.prevData.transcript
+    var transcript = newProps.prevData ? newProps.prevData.transcript : null
 
     if ( transcript ){
       try{ // Should be a contentState from raw
@@ -292,7 +292,7 @@ class RecordAddMedia extends Component {
         <br/>
         <span style={{fontWeight:"bold"}}>Media Preview: </span>
         <Card style={{textAlign:"center"}}>
-          <PreviewGenerator element={this.state.previewSource} style={{height:300,maxWidth:700}} />
+          <PreviewGenerator element={this.state.previewSource} style={{height:300,maxWidth:700,maxHeight:300}} />
         </Card>
 
         <br/>

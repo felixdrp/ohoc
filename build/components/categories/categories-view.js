@@ -93,6 +93,12 @@ var _halogen = require('halogen');
 
 var _halogen2 = _interopRequireDefault(_halogen);
 
+var _draftJs = require('draft-js');
+
+var _draftJsPluginsEditor = require('draft-js-plugins-editor');
+
+var _draftJsPluginsEditor2 = _interopRequireDefault(_draftJsPluginsEditor);
+
 var _links = require('../../links');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -165,8 +171,8 @@ var CategoriesView = function (_Component) {
   (0, _createClass3.default)(CategoriesView, [{
     key: 'loadCategoriesList',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(categoryId) {
-        var fetch, categoriesList;
+      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(categoryId, subCategory) {
+        var fetch, categoriesList, paragraph;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -174,32 +180,59 @@ var CategoriesView = function (_Component) {
                 fetch = new _fetchData2.default();
 
                 categoriesList = void 0;
-                _context.prev = 2;
-                _context.next = 5;
+                paragraph = void 0;
+                _context.prev = 3;
+                _context.next = 6;
                 return fetch.getRecordsByType(categoryId);
 
-              case 5:
+              case 6:
                 categoriesList = _context.sent;
 
-                this.setState({ categoriesList: categoriesList });
-                _context.next = 12;
+
+                console.log(categoryId + " -- " + subCategory);
+
+                if (!subCategory) {
+                  _context.next = 14;
+                  break;
+                }
+
+                _context.next = 11;
+                return fetch.getParagraph(categoryId, subCategory);
+
+              case 11:
+                paragraph = _context.sent.paragraph;
+                _context.next = 17;
                 break;
 
-              case 9:
-                _context.prev = 9;
-                _context.t0 = _context['catch'](2);
+              case 14:
+                _context.next = 16;
+                return fetch.getParagraph(categoryId, categoryId);
+
+              case 16:
+                paragraph = _context.sent.paragraph;
+
+              case 17:
+
+                paragraph = paragraph ? _draftJs.EditorState.createWithContent((0, _draftJs.convertFromRaw)(paragraph)) : _draftJs.EditorState.createEmpty();
+                this.setState({ categoriesList: categoriesList, paragraph: paragraph });
+                _context.next = 24;
+                break;
+
+              case 21:
+                _context.prev = 21;
+                _context.t0 = _context['catch'](3);
 
                 console.error('fetching record data > ' + _context.t0);
 
-              case 12:
+              case 24:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[2, 9]]);
+        }, _callee, this, [[3, 21]]);
       }));
 
-      function loadCategoriesList(_x) {
+      function loadCategoriesList(_x, _x2) {
         return _ref2.apply(this, arguments);
       }
 
@@ -208,12 +241,14 @@ var CategoriesView = function (_Component) {
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      return this.loadCategoriesList(this.props.params.categoryId);
+      this.setState({ paragraph: null });
+      return this.loadCategoriesList(this.props.params.categoryId, this.props.params.subcategoryId);
     }
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      return this.loadCategoriesList(nextProps.params.categoryId);
+      this.setState({ paragraph: null });
+      return this.loadCategoriesList(nextProps.params.categoryId, nextProps.params.subcategoryId);
     }
   }, {
     key: 'render',
@@ -226,7 +261,7 @@ var CategoriesView = function (_Component) {
 
       var baseAvatarImage = _links.URL_BASE_MULTIMEDIA_IMAGES + '/institution-default.jpg';
 
-      if (!this.state || !this.state.categoriesList) {
+      if (!this.state || !this.state.categoriesList || !this.state.paragraph) {
         var loadingIndicator = _react2.default.createElement(_halogen2.default.MoonLoader, { color: "blue" });
 
         if (!this.state || !this.state.recordData) {
@@ -263,6 +298,17 @@ var CategoriesView = function (_Component) {
       }
       var onlyOneCategory = (0, _keys2.default)(subtypes).length == 1;
 
+      var paragraph = this.state.paragraph ? _react2.default.createElement(
+        'div',
+        { style: { marginLeft: 50, marginRight: 50 } },
+        _react2.default.createElement(_draftJsPluginsEditor2.default, { readOnly: true,
+          editorState: this.state.paragraph,
+          onChange: function onChange(value) {
+            return null;
+          }
+        })
+      ) : _react2.default.createElement('span', null);
+
       if (onlyOneCategory || this.props.params.subcategoryId) {
 
         var entriesBySubtype = this.entriesToSubtypeGroups(list);
@@ -281,17 +327,12 @@ var CategoriesView = function (_Component) {
               'h1',
               null,
               ' ',
-              this.props.params.subcategoryId,
+              onlyOneCategory ? this.props.params.categoryId : this.props.params.subcategoryId,
               ' '
             ),
-            ' ',
-            this.props.params.subcategoryId === "Sketches in Court" ? _react2.default.createElement(
-              'span',
-              null,
-              'Sketches in Court: drawings by Sir Kenneth Swan (courtesy of Christopher Morcom, QC)'
-            ) : "",
             ' '
           ),
+          paragraph,
           _react2.default.createElement(
             _Card.Card,
             { style: { marginLeft: 50, marginRight: 50, padding: 5 } },
@@ -304,7 +345,7 @@ var CategoriesView = function (_Component) {
           { style: { paddingBottom: 30, minHeight: 600 } },
           _react2.default.createElement(
             _Card.CardTitle,
-            { style: { marginLeft: 50 } },
+            { style: { marginLeft: 40 } },
             ' ',
             _react2.default.createElement(
               'h1',
@@ -315,6 +356,7 @@ var CategoriesView = function (_Component) {
             ),
             ' '
           ),
+          paragraph,
           _react2.default.createElement(
             _Card.Card,
             { style: { marginLeft: 50, marginRight: 50 } },

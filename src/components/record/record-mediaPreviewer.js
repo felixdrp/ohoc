@@ -42,9 +42,9 @@ export default class RecordMediaPreviewer extends Component {
           </span>
             <br/>
         <span style={{width:200}}>
-          <PreviewGenerator element={this.props.media} style={{height:100,maxWidth:100}} />
+          <PreviewGenerator element={this.props.media} style={{height:100,maxWidth:"80%",maxHeight:120}} />
         </span>
-
+        <br/>
         <IconButton onClick={() => this.props.mediaShifter(this.props.media.type,this.props.index,false)}>
            <RW />
          </IconButton>

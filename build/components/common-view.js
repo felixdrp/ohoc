@@ -153,7 +153,7 @@ var CommonView = function (_Component) {
           { style: { backgroundColor: this.state.backColor, padding: 8, height: "100vh", width: "95vw" } },
           _react2.default.createElement(
             'div',
-            { id: 'CommonView', style: { marginLeft: "auto", marginRight: "auto", width: this.state.isAMobile || (this.state.dimensions ? this.state.dimensions.width < 750 : false) ? "95vw" : "70vw", height: "100vh" } },
+            { id: 'CommonView', style: { marginLeft: "auto", marginRight: "auto", width: this.state.isAMobile || (this.state.dimensions ? this.state.dimensions.width < 900 : false) ? "95vw" : "70vw", height: "100vh" } },
             _react2.default.createElement(
               _Card.Card,
               {
@@ -172,30 +172,30 @@ var CommonView = function (_Component) {
               },
               _react2.default.createElement(
                 'div',
-                null,
+                { style: { width: "100%" } },
                 _react2.default.createElement('img', { src: 'https://upload.wikimedia.org/wikipedia/en/thumb/1/13/University_of_Kent_logo.svg/1280px-University_of_Kent_logo.svg.png', style: { maxHeight: 50, marginTop: 0, marginLeft: 5 } }),
                 _react2.default.createElement('img', { src: 'https://www.cam.ac.uk/sites/www.cam.ac.uk/files/inner-images/logo.jpg', style: { maxHeight: 50, marginTop: 0, marginLeft: 5 } }),
-                _react2.default.createElement('img', { src: 'http://www.cipil.law.cam.ac.uk/sites/www.law.cam.ac.uk/files/images/www.cipil.law.cam.ac.uk/legacy/images/logo_cipil_3.gif', style: { maxHeight: 50, marginTop: 0, marginLeft: 5 } })
-              ),
-              _react2.default.createElement(
-                'span',
-                { style: { marginTop: 5, maxHeight: 50 } },
+                _react2.default.createElement('img', { src: 'http://www.cipil.law.cam.ac.uk/sites/www.law.cam.ac.uk/files/images/www.cipil.law.cam.ac.uk/legacy/images/logo_cipil_3.gif', style: { maxHeight: 50, marginTop: 0, marginLeft: 5 } }),
                 _react2.default.createElement(
-                  'h2',
-                  { style: { margin: "0 0 0 0", marginRight: 25, marginTop: -5 } },
+                  'span',
+                  { style: { marginTop: 5, maxHeight: 50, display: "inline-block", marginLeft: 7, float: this.state.dimensions && this.state.dimensions.width > 1023 ? "right" : "none" } },
                   _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: _links.URL_BASE, style: { textDecoration: 'none' } },
+                    'h2',
+                    { style: { margin: "0 0 0 0", marginRight: 25, marginTop: -5 } },
                     _react2.default.createElement(
-                      'span',
-                      { style: { color: "black" } },
-                      'Intellectual Property'
-                    ),
-                    _react2.default.createElement('br', null),
-                    _react2.default.createElement(
-                      'span',
-                      { style: { color: "#155196" } },
-                      'Oral History Project'
+                      _reactRouter.Link,
+                      { to: _links.URL_BASE, style: { textDecoration: 'none' } },
+                      _react2.default.createElement(
+                        'span',
+                        { style: { color: "black" } },
+                        'Intellectual Property'
+                      ),
+                      _react2.default.createElement('br', null),
+                      _react2.default.createElement(
+                        'span',
+                        { style: { color: "#155196" } },
+                        'Oral History Project'
+                      )
                     )
                   )
                 )

@@ -209,9 +209,7 @@ var RecordEdit = function (_Component) {
     };
 
     _this.focus = function (e) {
-
       _this.editor[e].focus();
-
     };
 
     _this.onChangeRichText = function (index, name, value) {
@@ -336,8 +334,7 @@ var RecordEdit = function (_Component) {
         console.error(e);
       };
 
-      xhr.upload.onprogress = function (e) {
-      };
+      xhr.upload.onprogress = function (e) {};
 
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
