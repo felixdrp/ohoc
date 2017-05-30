@@ -26,7 +26,7 @@ function PreviewGenerator(props) {
     if (elem.type.includes("image/")) {
       return _react2.default.createElement("img", { style: (0, _extends3.default)({}, style), src: elem.src });
     } else if (elem.type.includes("audio/")) {
-      return _react2.default.createElement("audio", { style: (0, _extends3.default)({}, style, { width: "95%", minWidth: 300 }), controls: true, src: elem.src });
+      return _react2.default.createElement("audio", { style: (0, _extends3.default)({}, style), controls: true, src: elem.src });
     } else if (elem.type.includes("video/")) {
       return _react2.default.createElement("video", { style: (0, _extends3.default)({}, style, { width: "95%" }), controls: true, src: elem.src });
     } else {

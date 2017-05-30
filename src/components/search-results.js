@@ -55,7 +55,7 @@ class SearchResults extends Component {
       //Didn't find anything on the normal fields Let's look at the transcripts
       return this.findQueryInTranscripts(entry.data,queryTerms);
     }
-    
+
     return false;
   }
 

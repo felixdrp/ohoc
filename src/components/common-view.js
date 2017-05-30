@@ -38,6 +38,18 @@ class CommonView extends Component {
 
   toggleSearchBar = () => this.setState({showSearchBar: !this.state.showSearchBar})
 
+  commputeWidth = (w, maxw, minw) => {
+    var width = Math.round(((-30/1205)*w) + (141500/1205))
+    if (width > maxw) {
+      width = maxw;
+    }
+    if (width < minw) {
+      width = minw;
+    }
+    return width;
+  }
+
+
   render() {
     let logoStyle = {height: 50,marginTop:10,marginLeft:5}
 
@@ -47,8 +59,8 @@ class CommonView extends Component {
             this.setState({dimensions})
         }}
       >
-        <div style={{ backgroundColor: this.state.backColor , padding:8, height:"100vh", width:"95vw"}}>
-           <div id="CommonView" style={{marginLeft: "auto", marginRight:"auto", width: (this.state.isAMobile) || (this.state.dimensions ? this.state.dimensions.width < 900 : false) ? "95vw" : "70vw", height:"100vh"}}>
+        <div style={{ backgroundColor: this.state.backColor ,  height:"100vh"}}>
+           <div id="CommonView" style={{marginLeft: "auto", marginRight:"auto", width: (this.state.dimensions ? this.commputeWidth(this.state.dimensions.width,95,70)+"vw" : "70vw") , height:"100vh"}}>
 
              {/* <Card style={{height:40, marginBottom:10,overflowY:"scroll"}}>
                {colors.map( (elem,i) => <div key={i} style={{backgroundColor:elem,width:35,height:35,margin:3,float:"left"}} onClick={ () => this.setState({backColor: elem})}></div> )}
@@ -75,7 +87,7 @@ class CommonView extends Component {
                  <img src="http://www.cipil.law.cam.ac.uk/sites/www.law.cam.ac.uk/files/images/www.cipil.law.cam.ac.uk/legacy/images/logo_cipil_3.gif" style={{maxHeight: 50,marginTop:0,marginLeft:5}} />
 
 
-               <span style={{ marginTop: 5,maxHeight: 50, display: "inline-block", marginLeft:7, float:  this.state.dimensions && (this.state.dimensions.width > 1023) ? "right" : "none"}}>
+               <span style={{ marginTop: 5,maxHeight: 50, display: "inline-block", marginLeft:7, float:  this.state.dimensions && (this.state.dimensions.width > 750) ? "right" : "none"}}>
                  <h2 style={{margin:"0 0 0 0",marginRight:25, marginTop:-5}}>
                    <Link to={URL_BASE} style={{ textDecoration: 'none'}}>
                      <span style={{color:"black"}}>Intellectual Property</span>

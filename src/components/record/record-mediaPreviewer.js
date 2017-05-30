@@ -35,14 +35,14 @@ export default class RecordMediaPreviewer extends Component {
             <ClearIcon />
           </IconButton>
 
-          <span style={{maxWidth:"60%"}}>
-            {
-              this.props.media.title
-            }
-          </span>
-            <br/>
+        <span style={{maxWidth:"60%"}}>
+          {
+            this.props.media.title
+          }
+        </span>
+        <br/>
         <span style={{width:200}}>
-          <PreviewGenerator element={this.props.media} style={{height:100,maxWidth:"80%",maxHeight:120}} />
+          <PreviewGenerator element={this.props.media} style={{maxWidth:"100%",maxHeight:100,maxWidth:this.props.type =="picture" ? 136 : "100%"}} />
         </span>
         <br/>
         <IconButton onClick={() => this.props.mediaShifter(this.props.media.type,this.props.index,false)}>

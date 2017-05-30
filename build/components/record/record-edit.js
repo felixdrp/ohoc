@@ -727,41 +727,6 @@ var RecordEdit = function (_Component) {
       return _react2.default.createElement(
         _Card.Card,
         { style: { padding: 30 } },
-        _react2.default.createElement(
-          'style',
-          null,
-          "\
-               .public-DraftEditorPlaceholder-inner {\
-                 position: absolute;\
-                 color: #aaaaaa;\
-               }\
-             "
-        ),
-        _react2.default.createElement(
-          'style',
-          null,
-          "\
-             .editor {\
-               box-sizing: border-box;\
-               border: 1px solid #ddd;\
-               cursor: text;\
-               padding: 16px;\
-               border-radius: 2px;\
-               margin-bottom: 2em;\
-               box-shadow: inset 0px 1px 8px -3px #ABABAB;\
-               background: #fefefe;\
-             }\
-     "
-        ),
-        _react2.default.createElement(
-          'style',
-          null,
-          "\
-             .editor :global(.public-DraftEditor-content) {\
-               min-height: 140px;\
-             }\
-     "
-        ),
         _react2.default.createElement(_recordAddMedia2.default, { enableEditor: this.state.showMediaAdder, recordId: this.props.params.recordId, mediaAdder: this.addMediaElement, prevData: this.state.previousData }),
         _react2.default.createElement(
           'h1',

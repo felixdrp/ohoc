@@ -570,7 +570,7 @@ class RecordEdit extends Component {
 
       <Card style={{padding:30}}>
 
-        <style>{"\
+        {/* <style>{"\
                .public-DraftEditorPlaceholder-inner {\
                  position: absolute;\
                  color: #aaaaaa;\
@@ -593,7 +593,7 @@ class RecordEdit extends Component {
              .editor :global(.public-DraftEditor-content) {\
                min-height: 140px;\
              }\
-     "}</style>
+     "}</style> */}
 
         <AddMedia enableEditor={this.state.showMediaAdder} recordId={this.props.params.recordId} mediaAdder={this.addMediaElement} prevData={this.state.previousData}/>
 

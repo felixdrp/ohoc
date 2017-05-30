@@ -84,6 +84,17 @@ var CommonView = function (_Component) {
       return _this.setState({ showSearchBar: !_this.state.showSearchBar });
     };
 
+    _this.commputeWidth = function (w, maxw, minw) {
+      var width = Math.round(-30 / 1205 * w + 141500 / 1205);
+      if (width > maxw) {
+        width = maxw;
+      }
+      if (width < minw) {
+        width = minw;
+      }
+      return width;
+    };
+
     _this.state = {
       isAMobile: navigator.userAgent.indexOf('Mobile') > -1 ? true : false,
       showSearchBar: false,
@@ -150,10 +161,10 @@ var CommonView = function (_Component) {
         },
         _react2.default.createElement(
           'div',
-          { style: { backgroundColor: this.state.backColor, padding: 8, height: "100vh", width: "95vw" } },
+          { style: { backgroundColor: this.state.backColor, height: "100vh" } },
           _react2.default.createElement(
             'div',
-            { id: 'CommonView', style: { marginLeft: "auto", marginRight: "auto", width: this.state.isAMobile || (this.state.dimensions ? this.state.dimensions.width < 900 : false) ? "95vw" : "70vw", height: "100vh" } },
+            { id: 'CommonView', style: { marginLeft: "auto", marginRight: "auto", width: this.state.dimensions ? this.commputeWidth(this.state.dimensions.width, 95, 70) + "vw" : "70vw", height: "100vh" } },
             _react2.default.createElement(
               _Card.Card,
               {
@@ -178,7 +189,7 @@ var CommonView = function (_Component) {
                 _react2.default.createElement('img', { src: 'http://www.cipil.law.cam.ac.uk/sites/www.law.cam.ac.uk/files/images/www.cipil.law.cam.ac.uk/legacy/images/logo_cipil_3.gif', style: { maxHeight: 50, marginTop: 0, marginLeft: 5 } }),
                 _react2.default.createElement(
                   'span',
-                  { style: { marginTop: 5, maxHeight: 50, display: "inline-block", marginLeft: 7, float: this.state.dimensions && this.state.dimensions.width > 1023 ? "right" : "none" } },
+                  { style: { marginTop: 5, maxHeight: 50, display: "inline-block", marginLeft: 7, float: this.state.dimensions && this.state.dimensions.width > 750 ? "right" : "none" } },
                   _react2.default.createElement(
                     'h2',
                     { style: { margin: "0 0 0 0", marginRight: 25, marginTop: -5 } },

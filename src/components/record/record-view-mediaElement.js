@@ -20,6 +20,7 @@ import PreviewGenerator from './preview-generator'
 import Lightbox from 'react-image-lightbox';
 
 
+import Measure from 'react-measure';
 
 export default class RecordViewMediaElement extends Component {
   constructor() {
@@ -41,7 +42,7 @@ export default class RecordViewMediaElement extends Component {
 
     try {
       componentToReturn = EditorState.createWithContent(convertFromRaw(JSON.parse(textStateFromDB)))
-      componentToReturn = <Editor editorState={componentToReturn} onChange={(value) => {return null}} />
+      componentToReturn = <Editor editorState={componentToReturn} readOnly={true} onChange={(value) => {return null}} />
     } catch (e){
       console.log(e)
       componentToReturn = <div style={{marginLeft:10}} dangerouslySetInnerHTML={{__html: textStateFromDB}} />
@@ -60,17 +61,45 @@ export default class RecordViewMediaElement extends Component {
       />,
     ];
 
+    let pictureMediaElement = <CardMedia
+              style={{
+                transition: 'all 0ms'
+              }}
+              overlay={<CardTitle title={this.props.media.title} style={{margin:0,padding:0,height: this.props.media.title  ? 20 : 0}} titleStyle={{fontSize:10,lineHeight: 1,padding:0}} ></CardTitle>}
+            >
+              <span style={{width:345,height:250}}>
+                <PreviewGenerator element={this.props.media} style={{maxHeight: 250,maxWidth:343}} />
+              </span>
+            </CardMedia>
+
+    let otherMediaElement =
+          <span>
+            <span style={{maxWidth:"100%",fontSize:15,height:30}}>
+              {
+                this.props.media.title
+              }
+            </span>
+            <br/>
+            <span
+              style={{
+                float:"left",
+                width: this.props.type === "audio" ? 260 : "100%",
+
+              }}>
+              <PreviewGenerator element={this.props.media} style={{maxHeight:250,maxWidth:"100%", minWidth: 100,marginTop:5}} />
+            </span>
+
+          </span>
+
+
 
     return (
 
-      <Card style={{padding:3,paddingTop:5, minWidth:380, maxWidth:400,marginLeft:5,marginTop:5,display: "inline-block",zIndex: this.state.isOpen ? 200 : 1500}} onClick={this.openExtendedView}>
+      <Card style={{padding:3,paddingTop:5, display: "inline-block",zIndex: this.state.isOpen ? 200 : 1500}} onClick={this.openExtendedView}>
 
         {this.state.isOpen &&
           <Lightbox
               mainSrc={this.props.media.src}
-              // nextSrc={images[(photoIndex + 1) % images.length]}
-              // prevSrc={images[(photoIndex + images.length - 1) % images.length]}
-
               onCloseRequest={() => this.setState({ isOpen: false })}
               onMovePrevRequest={() => this.setState({
                   photoIndex: (photoIndex + images.length - 1) % images.length,
@@ -84,56 +113,54 @@ export default class RecordViewMediaElement extends Component {
           />
         }
 
+        {/* <Measure
+          onMeasure={(dimensions) => {
+            this.setState({dimensions})
+          }}
+        > */}
         <Dialog
-          title={ <h2> {this.props.media.title || ""} <br/> <hr/> </h2>}
+          title={ this.props.media.title ? <h2> {this.props.media.title} <hr/> </h2> : ""}
           actions={actions}
           modal={true}
           open={this.state.showExtendedDialog}
-          style={{textAlign:"left"}}
+          style={{paddingTop:0,marginTop:0, top: -40}}
+          autoDetectWindowHeight={{false}}
+          autoScrollBodyContent={{true}}
           contentStyle={{
-            width: '70%',
-            maxWidth: 'none',
-            minWidth:900
+            width: '94vw',
+            maxWidth: 1000,
+            minWidth:300,
+            height:"100%"
           }}
+          actionsContainerStyle	={{marginTop:0,paddingTop:0}}
+          repositionOnUpdate={{false}}
         >
-          <span onClick={() => this.setState({ isOpen: true })} style={{float:"left",width:"40%",textAlign:"center",marginRight:"1%", cursor:"pointer"}}>
-            <PreviewGenerator element={this.props.media} style={{maxHeight:450,maxWidth:"100%"}} /> <br/><br/> <span>Click to enlarge picture</span>
-          </span>
 
-          <span style={{float:"left", width:"59%", textAlign:"left"}}>
-            <span>{this.props.media.copyright ? "Copyright: "+ this.props.media.copyright : ""}</span><br/><br/>
-            <span>Description:</span>
-              <div style={{width:"100%",minHeight:350,overflowY:"scroll",border: "1px dashed lightgrey",textAlign:"center"}}>
+          <div onClick={() => this.setState({ isOpen: true })} style={{width:"100%",textAlign:"center",marginRight:"1%", cursor:"pointer", marginBottom:15}}>
+            <PreviewGenerator element={this.props.media} style={{maxHeight:450,maxWidth:"100%"}} /> <br/><span>Click to enlarge picture</span>
+          </div>
+
+          <div style={{width:"100%", textAlign:"left",marginBottom:0, padding:0}}>
+
+            <div style={{margin:10}}>Description:</div>
+              <div style={{width:"95%",padding:"1%",margin:10,overflowY:"scroll",border: "1px dashed lightgrey",textAlign:"left"}}>
                 {
                   this.props.media.transcript ? this.richTextToComponent(this.props.media.transcript) : <span></span>
                 }
               </div>
-          </span>
+
+              <div style={{marginTop:10,marginLeft:10}}>{this.props.media.copyright ? ""+ this.props.media.copyright : ""}</div>
+          </div>
+
+
          </Dialog>
+       {/* </Measure> */}
 
-
-         {/* <IconButton style={{float:"right"}} onClick={() => this.props.mediaDeleter(this.props.media.type,this.props.index)}>
-            <ClearIcon />
-          </IconButton> */}
-        <span style={{maxWidth:"100%",fontSize:15,height:30}}>
-          {
-            this.props.media.title
-          }
-        </span>
-        <br/>
-
-        <span
-          style={{
-            float:"left",
-            width: this.props.type === "audio" ? "50%" : "100%",
-            minWidth: 240
-          }}>
-          <PreviewGenerator element={this.props.media} style={{maxHeight:250,maxWidth:"100%", minWidth: 100,marginTop:5}} />
-        </span>
+        {this.props.type == "picture" ? pictureMediaElement : otherMediaElement}
 
         { (this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video"))
-                      ? <RaisedButton label="Transcript" style={{height:30,marginTop:5}}
-                        onClick={ () => this.state.showTranscript ? this.setState({showTranscript : false}) : this.setState({showTranscript : true})}/>
+                      ? <span style={{}}><RaisedButton label="Transcript" style={{height:31,marginTop:5}} labelStyle={{paddingLeft:10,paddingRight:10,marginLeft:10}}
+                        onClick={ () => this.state.showTranscript ? this.setState({showTranscript : false}) : this.setState({showTranscript : true})}/></span>
                       : ""}
 
         { (this.state.showTranscript && this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video")) ?

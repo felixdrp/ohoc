@@ -51,6 +51,8 @@ class NavigationBar extends Component {
              style={{
               //  position: 'absolute',
                bottom: -5,
+               marginRight: 5,
+               marginLeft: 5,
               //  right: 0
              }}
             //  onClick={}

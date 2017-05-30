@@ -101,6 +101,10 @@ var _halogen2 = _interopRequireDefault(_halogen);
 
 var _links = require('../../links');
 
+var _referenceStyles = require('./referenceStyles.css');
+
+var _referenceStyles2 = _interopRequireDefault(_referenceStyles);
+
 var _reactJss = require('react-jss');
 
 var _reactJss2 = _interopRequireDefault(_reactJss);
@@ -174,7 +178,7 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
         } else {
           return _react2.default.createElement(
             'div',
-            { style: (0, _extends3.default)({}, commonStyle, { width: 390, minHeight: type == "picture" ? 310 : "auto", marginTop: 10, padding: 5, border: "1px dashed lightgrey", backgroundColor: "#e8e8e8" }) },
+            { style: (0, _extends3.default)({}, commonStyle, { width: 360, minHeight: type == "picture" ? 310 : "auto", marginTop: 10, border: "1px dashed lightgrey", backgroundColor: "#e8e8e8" }) },
             _react2.default.createElement(
               _nukaCarousel2.default,
               null,
@@ -421,51 +425,11 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
                   marginRight: 5
                 };
 
-                switch (cell.name.toLowerCase()) {
-                  case 'name':
-                    return _react2.default.createElement(
-                      'span',
-                      { key: j, style: (0, _extends3.default)({}, styleBasic, { fontStyle: "italic" }) },
-                      cell.data
-                    );
-                  case 'date':
-                    return _react2.default.createElement(
-                      'span',
-                      { key: j, style: (0, _extends3.default)({}, styleBasic) },
-                      cell.data
-                    );
-                  case 'reference':
-                    return _react2.default.createElement(
-                      'span',
-                      { key: j, style: (0, _extends3.default)({}, styleBasic) },
-                      cell.data
-                    );
-                  case 'autor':
-                    return _react2.default.createElement(
-                      'span',
-                      { key: j, style: (0, _extends3.default)({}, styleBasic) },
-                      cell.data
-                    );
-                  case 'title':
-                    return _react2.default.createElement(
-                      'span',
-                      { key: j, style: (0, _extends3.default)({}, styleBasic, { fontStyle: "italic" }) },
-                      cell.data
-                    );
-                  case 'publication info':
-                    return _react2.default.createElement(
-                      'span',
-                      { key: j, style: (0, _extends3.default)({}, styleBasic) },
-                      cell.data
-                    );
-
-                  default:
-                    return _react2.default.createElement(
-                      'span',
-                      { key: j, style: (0, _extends3.default)({}, styleBasic) },
-                      cell.data
-                    );
-                }
+                return _react2.default.createElement(
+                  'span',
+                  { className: entry.name.toLowerCase() + " " + cell.name.toLowerCase(), key: j, style: (0, _extends3.default)({}, styleBasic) },
+                  cell.data
+                );
               });
 
               return _react2.default.createElement(
@@ -478,7 +442,7 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
             return _react2.default.createElement(
               'div',
               { key: i },
-              title,
+              entry.data.length > 0 ? title : _react2.default.createElement('span', null),
               _react2.default.createElement(
                 'div',
                 null,
@@ -564,13 +528,14 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
               {
                 style: {
                   maxHeight: 300,
-                  width: 350,
-                  maxWidth: 350,
+                  width: 360,
+                  maxWidth: 360,
                   display: "inline-block",
                   verticalAlign: "top",
                   float: "left",
-                  margin: 5,
+                  margin: 2,
                   marginRight: 10,
+                  marginTop: 10,
                   textAlign: "center"
                 },
                 onClick: function onClick() {
@@ -586,7 +551,7 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
                     transition: 'all 0ms'
                   },
                   style: {
-                    maxWidth: 345,
+                    maxWidth: 360,
                     border: "1px solid black",
                     transition: 'all 0ms'
                   },
@@ -602,8 +567,8 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
                   },
                   _react2.default.createElement(
                     'span',
-                    { style: { width: 345, height: 250 } },
-                    _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 343 }, src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage })
+                    { style: { width: 360, height: 250 } },
+                    _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 360 }, src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage })
                   )
                 )
               )
@@ -653,10 +618,6 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
               'div',
               {
                 style: {
-                  marginTop: this.state.dimensions.width > 626 ? "auto" : 0,
-                  paddingTop: this.state.dimensions.width > 626 ? "auto" : 0,
-                  paddingLeft: this.state.dimensions.width < 626 || this.hasAnyMedia(recordData.data.media) ? 0 : 365,
-                  marginRight: this.state.dimensions.width > 626 ? "10%" : 20,
                   wordWrap: "normal",
                   clear: this.state.dimensions.width > 626 ? 'none' : this.hasAnyMedia(recordData.data.media) ? 'left' : 'none'
                 }

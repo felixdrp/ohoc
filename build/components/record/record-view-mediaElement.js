@@ -81,6 +81,10 @@ var _reactImageLightbox = require('react-image-lightbox');
 
 var _reactImageLightbox2 = _interopRequireDefault(_reactImageLightbox);
 
+var _reactMeasure = require('react-measure');
+
+var _reactMeasure2 = _interopRequireDefault(_reactMeasure);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RecordViewMediaElement = function (_Component) {
@@ -104,7 +108,7 @@ var RecordViewMediaElement = function (_Component) {
 
       try {
         componentToReturn = _draftJs.EditorState.createWithContent((0, _draftJs.convertFromRaw)(JSON.parse(textStateFromDB)));
-        componentToReturn = _react2.default.createElement(_draftJsPluginsEditor2.default, { editorState: componentToReturn, onChange: function onChange(value) {
+        componentToReturn = _react2.default.createElement(_draftJsPluginsEditor2.default, { editorState: componentToReturn, readOnly: true, onChange: function onChange(value) {
             return null;
           } });
       } catch (e) {
@@ -132,13 +136,48 @@ var RecordViewMediaElement = function (_Component) {
         }
       })];
 
+      var pictureMediaElement = _react2.default.createElement(
+        _Card.CardMedia,
+        {
+          style: {
+            transition: 'all 0ms'
+          },
+          overlay: _react2.default.createElement(_Card.CardTitle, { title: this.props.media.title, style: { margin: 0, padding: 0, height: this.props.media.title ? 20 : 0 }, titleStyle: { fontSize: 10, lineHeight: 1, padding: 0 } })
+        },
+        _react2.default.createElement(
+          'span',
+          { style: { width: 345, height: 250 } },
+          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 250, maxWidth: 343 } })
+        )
+      );
+
+      var otherMediaElement = _react2.default.createElement(
+        'span',
+        null,
+        _react2.default.createElement(
+          'span',
+          { style: { maxWidth: "100%", fontSize: 15, height: 30 } },
+          this.props.media.title
+        ),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement(
+          'span',
+          {
+            style: {
+              float: "left",
+              width: this.props.type === "audio" ? 260 : "100%"
+
+            } },
+          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 250, maxWidth: "100%", minWidth: 100, marginTop: 5 } })
+        )
+      );
+
       return _react2.default.createElement(
         _Card.Card,
-        { style: { padding: 3, paddingTop: 5, minWidth: 380, maxWidth: 400, marginLeft: 5, marginTop: 5, display: "inline-block", zIndex: this.state.isOpen ? 200 : 1500 }, onClick: this.openExtendedView },
+        { style: { padding: 3, paddingTop: 5, display: "inline-block", zIndex: this.state.isOpen ? 200 : 1500 }, onClick: this.openExtendedView },
         this.state.isOpen && _react2.default.createElement(_reactImageLightbox2.default, {
-          mainSrc: this.props.media.src
-
-          , onCloseRequest: function onCloseRequest() {
+          mainSrc: this.props.media.src,
+          onCloseRequest: function onCloseRequest() {
             return _this2.setState({ isOpen: false });
           },
           onMovePrevRequest: function onMovePrevRequest() {
@@ -158,37 +197,38 @@ var RecordViewMediaElement = function (_Component) {
         _react2.default.createElement(
           _Dialog2.default,
           {
-            title: _react2.default.createElement(
+            title: this.props.media.title ? _react2.default.createElement(
               'h2',
               null,
               ' ',
-              this.props.media.title || "",
-              ' ',
-              _react2.default.createElement('br', null),
+              this.props.media.title,
               ' ',
               _react2.default.createElement('hr', null),
               ' '
-            ),
+            ) : "",
             actions: actions,
             modal: true,
             open: this.state.showExtendedDialog,
-            style: { textAlign: "left" },
+            style: { paddingTop: 0, marginTop: 0, top: -40 },
+            autoDetectWindowHeight: { false: false },
+            autoScrollBodyContent: { true: true },
             contentStyle: {
-              width: '70%',
-              maxWidth: 'none',
-              minWidth: 900
-            }
+              width: '94vw',
+              maxWidth: 1000,
+              minWidth: 300,
+              height: "100%"
+            },
+            actionsContainerStyle: { marginTop: 0, paddingTop: 0 },
+            repositionOnUpdate: { false: false }
           },
           _react2.default.createElement(
-            'span',
+            'div',
             { onClick: function onClick() {
                 return _this2.setState({ isOpen: true });
-              }, style: { float: "left", width: "40%", textAlign: "center", marginRight: "1%", cursor: "pointer" } },
+              }, style: { width: "100%", textAlign: "center", marginRight: "1%", cursor: "pointer", marginBottom: 15 } },
             _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 450, maxWidth: "100%" } }),
             ' ',
             _react2.default.createElement('br', null),
-            _react2.default.createElement('br', null),
-            ' ',
             _react2.default.createElement(
               'span',
               null,
@@ -196,47 +236,34 @@ var RecordViewMediaElement = function (_Component) {
             )
           ),
           _react2.default.createElement(
-            'span',
-            { style: { float: "left", width: "59%", textAlign: "left" } },
+            'div',
+            { style: { width: "100%", textAlign: "left", marginBottom: 0, padding: 0 } },
             _react2.default.createElement(
-              'span',
-              null,
-              this.props.media.copyright ? "Copyright: " + this.props.media.copyright : ""
-            ),
-            _react2.default.createElement('br', null),
-            _react2.default.createElement('br', null),
-            _react2.default.createElement(
-              'span',
-              null,
+              'div',
+              { style: { margin: 10 } },
               'Description:'
             ),
             _react2.default.createElement(
               'div',
-              { style: { width: "100%", minHeight: 350, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
+              { style: { width: "95%", padding: "1%", margin: 10, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "left" } },
               this.props.media.transcript ? this.richTextToComponent(this.props.media.transcript) : _react2.default.createElement('span', null)
+            ),
+            _react2.default.createElement(
+              'div',
+              { style: { marginTop: 10, marginLeft: 10 } },
+              this.props.media.copyright ? "" + this.props.media.copyright : ""
             )
           )
         ),
-        _react2.default.createElement(
+        this.props.type == "picture" ? pictureMediaElement : otherMediaElement,
+        this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(
           'span',
-          { style: { maxWidth: "100%", fontSize: 15, height: 30 } },
-          this.props.media.title
-        ),
-        _react2.default.createElement('br', null),
-        _react2.default.createElement(
-          'span',
-          {
-            style: {
-              float: "left",
-              width: this.props.type === "audio" ? "50%" : "100%",
-              minWidth: 240
-            } },
-          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 250, maxWidth: "100%", minWidth: 100, marginTop: 5 } })
-        ),
-        this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(_RaisedButton2.default, { label: 'Transcript', style: { height: 30, marginTop: 5 },
-          onClick: function onClick() {
-            return _this2.state.showTranscript ? _this2.setState({ showTranscript: false }) : _this2.setState({ showTranscript: true });
-          } }) : "",
+          { style: {} },
+          _react2.default.createElement(_RaisedButton2.default, { label: 'Transcript', style: { height: 31, marginTop: 5 }, labelStyle: { paddingLeft: 10, paddingRight: 10, marginLeft: 10 },
+            onClick: function onClick() {
+              return _this2.state.showTranscript ? _this2.setState({ showTranscript: false }) : _this2.setState({ showTranscript: true });
+            } })
+        ) : "",
         this.state.showTranscript && this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(
           'div',
           { style: { width: "100%", height: 170, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
@@ -247,5 +274,7 @@ var RecordViewMediaElement = function (_Component) {
   }]);
   return RecordViewMediaElement;
 }(_react.Component);
+
+
 
 exports.default = RecordViewMediaElement;

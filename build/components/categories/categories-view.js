@@ -136,6 +136,8 @@ var CategoriesView = function (_Component) {
       "Magazines": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Magazines/TW_0002.jpg', orderIndex: 2, copyrightNotice: "" },
       "Campaigns": { src: _links.URL_BASE_MULTIMEDIA_IMAGES + '/cat/Campaigns/PublicLendingRight2.jpg', orderIndex: 2, copyrightNotice: "" }
 
+    }, _this.shortcuts = {
+      "EIPR": "/record/122"
     }, _this.entriesToSubtypeGroups = function (list) {
       var groupedEntries = {};
 
@@ -167,6 +169,8 @@ var CategoriesView = function (_Component) {
       return tiles;
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
+
+
 
   (0, _createClass3.default)(CategoriesView, [{
     key: 'loadCategoriesList',
@@ -373,7 +377,7 @@ var CategoriesView = function (_Component) {
                 tilesData.map(function (tile, i) {
                   return _react2.default.createElement(
                     _reactRouter.Link,
-                    { key: i, to: tile.src, style: { textDecoration: 'none' } },
+                    { key: i, to: _this2.shortcuts[tile.title] ? _this2.shortcuts[tile.title] : tile.src, style: { textDecoration: 'none' } },
                     _react2.default.createElement(
                       _GridList.GridTile,
                       {

@@ -31,6 +31,9 @@ import {
   URL_MULTIMEDIA,
 } from '../../links'
 
+import referenceStyles from './referenceStyles.css';
+
+
 import injectSheet from 'react-jss'
 
 const styles = {
@@ -106,7 +109,7 @@ export default class RecordView extends Component {
             allImages.push(<div key={i} style={{width:"100%", height: type == "picture" ? 310 : "auto",textAlign:"center"}} >
               <RecordViewMediaElement
                 key={i}
-                style={{maxHeight:320,maxWidth:400, minHeight : type == "picture" ? 310 : "auto",marginRight:10 }}
+                style={{maxHeight:320,maxWidth:400, minHeight : type == "picture" ? 310 : "auto",marginRight:10}}
                 media={{...element, src: URL_MULTIMEDIA + element.src}}
                 type={type}
               />
@@ -122,10 +125,9 @@ export default class RecordView extends Component {
                 <span key={i} style={{...commonStyle, width:400}} >{element}</span>
             ))
         } else {
-          return (<div style={{...commonStyle, width:390, minHeight : type == "picture" ? 310 : "auto",marginTop:10,padding:5,border: "1px dashed lightgrey",backgroundColor:"#e8e8e8"}}>
+          return (<div style={{...commonStyle, width:360, minHeight : type == "picture" ? 310 : "auto", marginTop:10, border: "1px dashed lightgrey",backgroundColor:"#e8e8e8"}}>
                     <Carousel>
                           {allImages}
-
                     </Carousel>
                   </div>)
         }
@@ -250,25 +252,8 @@ export default class RecordView extends Component {
                 marginRight: 5,
               }
 
-              switch (cell.name.toLowerCase()) {
-                // case
-                case 'name':
-                  return <span key={j} style={{...styleBasic,fontStyle:"italic"}}>{cell.data}</span>
-                case 'date':
-                  return <span key={j} style={{...styleBasic}}>{cell.data}</span>
-                case 'reference':
-                  return <span key={j} style={{...styleBasic}}>{cell.data}</span>
-                // references
-                case 'autor':
-                  return <span key={j} style={{...styleBasic}}>{cell.data}</span>
-                case 'title':
-                  return <span key={j} style={{...styleBasic,fontStyle:"italic"}}>{cell.data}</span>
-                case 'publication info':
-                  return <span key={j} style={{...styleBasic}}>{cell.data}</span>
+              return <span className={entry.name.toLowerCase()+" "+cell.name.toLowerCase()} key={j} style={{...styleBasic}}>{cell.data}</span>
 
-                default:
-                  return <span key={j} style={{...styleBasic}}>{cell.data}</span>
-              }
             })
 
             return <div style={{marginLeft:5}} key={rowIndex}>{rowProcessed}</div>
@@ -277,7 +262,7 @@ export default class RecordView extends Component {
 
           return (
             <div key={i}>
-              { title }
+              { entry.data.length > 0 ? title : <span></span> }
               <div>
                 {multiRows}
               </div>
@@ -289,7 +274,6 @@ export default class RecordView extends Component {
           <div key={i}>
             {title}
             {this.richTextToComponent(entry.data)}
-            {/* <div style={{marginLeft:10}} dangerouslySetInnerHTML={{__html: entry.data}} /> */}
           </div>
         )
 
@@ -361,13 +345,14 @@ export default class RecordView extends Component {
             <span
               style={{
                 maxHeight:300,
-                width:350,
-                maxWidth:350,
+                width:360,
+                maxWidth:360,
                 display: "inline-block",
                 verticalAlign: "top",
                 float:"left",
-                margin:5,
+                margin:2,
                 marginRight:10,
+                marginTop:10,
                 textAlign:"center"
               }}
               onClick={() => this.setState({ isOpen: true })}
@@ -379,7 +364,7 @@ export default class RecordView extends Component {
                   transition: 'all 0ms'
                 }}
                 style={{
-                  maxWidth:345,
+                  maxWidth:360,
                   border:"1px solid black",
                   transition: 'all 0ms'
                 }}
@@ -395,7 +380,7 @@ export default class RecordView extends Component {
                   }}
                   overlay={<CardTitle title={copyrightNotice} style={{margin:0,padding:0,height:20}} titleStyle={{fontSize:10,lineHeight: 1,padding:0}} ></CardTitle>}
                 >
-                  <span style={{width:345,height:250}}><img style={{maxHeight: 250,maxWidth:343}} src={
+                  <span style={{width:360,height:250}}><img style={{maxHeight: 250,maxWidth:360}} src={
                        recordData.data.featuredImage ?
                        URL_MULTIMEDIA + recordData.data.featuredImage:
                        baseImage
@@ -441,18 +426,19 @@ export default class RecordView extends Component {
               style={{
                 // float: this.state.dimensions.width < (600+450) ? "left" : "none",
                 // maxWidth: this.state.dimensions.width < (600+450) ? "50%" : "100%",
-                marginTop: (this.state.dimensions.width > 626) ? "auto" : 0,
-                paddingTop: (this.state.dimensions.width > 626) ? "auto" : 0,
-                paddingLeft: (this.state.dimensions.width < (626)) || this.hasAnyMedia(recordData.data.media) ? 0 : 365,
-                marginRight: (this.state.dimensions.width > (626)) ? "10%" : 20 ,
+                // marginTop: (this.state.dimensions.width > 626) ? "auto" : 0,
+                // paddingTop: (this.state.dimensions.width > 626) ? "auto" : 0,
+                // paddingLeft: (this.state.dimensions.width < (626)) || this.hasAnyMedia(recordData.data.media) ? 0 : 365,
+                // marginRight: (this.state.dimensions.width > (626)) ? "10%" : 20 ,
                 wordWrap: "normal",
                 clear: (this.state.dimensions.width > (626)) ? 'none' : ( this.hasAnyMedia(recordData.data.media) ? 'left' : 'none'),
-                // minWidth: '20%'
               }}
             >
               { fieldsFlex }
             </div>
+            
           </span>
+
         </Measure>
       </Card>
     );

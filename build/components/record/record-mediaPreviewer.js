@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -117,7 +121,7 @@ var RecordMediaPreviewer = function (_Component) {
         _react2.default.createElement(
           'span',
           { style: { width: 200 } },
-          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { height: 100, maxWidth: "80%", maxHeight: 120 } })
+          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: (0, _defineProperty3.default)({ maxWidth: "100%", maxHeight: 100 }, 'maxWidth', this.props.type == "picture" ? 136 : "100%") })
         ),
         _react2.default.createElement('br', null),
         _react2.default.createElement(
