@@ -86,7 +86,7 @@ export default class RecordViewMediaElement extends Component {
                 width: this.props.type === "audio" ? 260 : "100%",
 
               }}>
-              <PreviewGenerator element={this.props.media} style={{maxHeight:250,maxWidth:"100%", minWidth: 100,marginTop:5}} />
+              <PreviewGenerator element={this.props.media} style={{maxHeight:250,width:"100%", minWidth: 100,marginTop:5}} />
             </span>
 
           </span>
@@ -124,8 +124,8 @@ export default class RecordViewMediaElement extends Component {
           modal={true}
           open={this.state.showExtendedDialog}
           style={{paddingTop:0,marginTop:0, top: -40}}
-          autoDetectWindowHeight={{false}}
-          autoScrollBodyContent={{true}}
+          autoDetectWindowHeight={false}
+          autoScrollBodyContent={true}
           contentStyle={{
             width: '94vw',
             maxWidth: 1000,
@@ -133,7 +133,7 @@ export default class RecordViewMediaElement extends Component {
             height:"100%"
           }}
           actionsContainerStyle	={{marginTop:0,paddingTop:0}}
-          repositionOnUpdate={{false}}
+          repositionOnUpdate={false}
         >
 
           <div onClick={() => this.setState({ isOpen: true })} style={{width:"100%",textAlign:"center",marginRight:"1%", cursor:"pointer", marginBottom:15}}>
@@ -154,17 +154,17 @@ export default class RecordViewMediaElement extends Component {
 
 
          </Dialog>
-       {/* </Measure> */}
+        {/* </Measure> */}
 
         {this.props.type == "picture" ? pictureMediaElement : otherMediaElement}
 
         { (this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video"))
-                      ? <span style={{}}><RaisedButton label="Transcript" style={{height:31,marginTop:5}} labelStyle={{paddingLeft:10,paddingRight:10,marginLeft:10}}
+                      ? <span style={{}}><RaisedButton label="Transcript" style={{height:31,marginTop:5}} labelStyle={{paddingLeft:2,paddingRight:5,marginLeft:5}}
                         onClick={ () => this.state.showTranscript ? this.setState({showTranscript : false}) : this.setState({showTranscript : true})}/></span>
                       : ""}
 
         { (this.state.showTranscript && this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video")) ?
-              <div style = {{width:"100%", height:170, overflowY:"scroll",border: "1px dashed lightgrey",textAlign:"center"}}>
+              <div style = {{width:"100%",maxWidth:354, height:170, overflowY:"scroll",border: "1px dashed lightgrey",textAlign:"center"}}>
                 {
                   this.props.media.transcript ? this.richTextToComponent(this.props.media.transcript) : <span></span>
                 }

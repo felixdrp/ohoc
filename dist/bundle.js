@@ -251,7 +251,7 @@ var _search2 = _interopRequireDefault(_search);
 
 var _links = require('../links');
 
-var _searchResults = require('./search-results');
+var _searchResults = require('./search-bar/search-results');
 
 var _searchResults2 = _interopRequireDefault(_searchResults);
 
@@ -398,7 +398,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(BrowseRecords);
-},{"../links":38,"./query-store":25,"./search-results":36,"babel-runtime/core-js/object/get-prototype-of":51,"babel-runtime/core-js/object/keys":52,"babel-runtime/helpers/classCallCheck":58,"babel-runtime/helpers/createClass":59,"babel-runtime/helpers/inherits":62,"babel-runtime/helpers/possibleConstructorReturn":64,"material-ui/Card":805,"material-ui/GridList":817,"material-ui/MenuItem":833,"material-ui/RaisedButton":841,"material-ui/SelectField":843,"material-ui/TextField":853,"material-ui/styles/colors":869,"material-ui/svg-icons/action/search":878,"react":1150,"react-redux":1073,"react-router":1109}],7:[function(require,module,exports){
+},{"../links":38,"./query-store":25,"./search-bar/search-results":36,"babel-runtime/core-js/object/get-prototype-of":51,"babel-runtime/core-js/object/keys":52,"babel-runtime/helpers/classCallCheck":58,"babel-runtime/helpers/createClass":59,"babel-runtime/helpers/inherits":62,"babel-runtime/helpers/possibleConstructorReturn":64,"material-ui/Card":805,"material-ui/GridList":817,"material-ui/MenuItem":833,"material-ui/RaisedButton":841,"material-ui/SelectField":843,"material-ui/TextField":853,"material-ui/styles/colors":869,"material-ui/svg-icons/action/search":878,"react":1150,"react-redux":1073,"react-router":1109}],7:[function(require,module,exports){
 var css = ".blockType {\n  box-sizing: border-box;\n  border: 1px solid #ddd;\n  background: #fff;\n  padding: 5px;\n  margin: 0;\n  border-radius: 18px;\n  cursor: pointer;\n  height: 36px;\n  width: 36px;\n  line-height: 36px;\n  text-align: center;\n}\n.blockType svg {\n  fill: #888;\n}\n.spacer {\n  position: absolute;\n  left: 50%;\n  transform: translate(-50%);\n  width: 74px;\n  height: 8px;\n}\n.popup {\n  position: absolute;\n  left: 50%;\n  transform: translate(-50%);\n  background: #efefef;\n  border: 1px solid #ddd;\n  background: #fff;\n  border-radius: 2px;\n  box-shadow: 0px 1px 3px 0px rgba(220,220,220,1);\n  z-index: 3;\n  box-sizing: border-box;\n  width: 74px;\n  margin-top: 8px;\n}\n.popup:after,\n.popup:before {\n  bottom: 100%;\n  left: 50%;\n  border: solid transparent;\n  content: \" \";\n  height: 0;\n  width: 0;\n  position: absolute;\n  pointer-events: none;\n}\n.popup:after {\n  border-color: rgba(251, 251, 251, 0);\n  border-bottom-color: #fbfbfb;\n  border-width: 4px;\n  margin-left: -4px;\n}\n.popup:before {\n  border-color: rgba(221, 221, 221, 0);\n  border-bottom-color: #ddd;\n  border-width: 6px;\n  margin-left: -6px;\n}\n"; (require("browserify-css").createStyle(css, { "href": "build/components/categories/blockTypeSelectStyles.css" }, { "insertAt": "bottom" })); module.exports = css;
 },{"browserify-css":70}],8:[function(require,module,exports){
 var css = ".buttonWrapper {\n  display: inline-block;\n}\n.tooly button {\n  background: #fbfbfb;\n  color: #888;\n  font-size: 18px;\n  border: 0;\n  padding-top: 5px;\n  vertical-align: top;\n  height: 34px;\n  width: 35px;\n}\n/*\n.tooly button svg {\n  fill: #888;\n}*/\n.tooly button:hover {\n  background: gray;\n  outline: 0;\n}\n.tooly button:focus {\n  background: #f3f3f3;\n  outline: 0;\n}\n.tooly .active {\n  background: #efefef;\n  color: #444;\n}\n.tooly .active svg {\n  fill: #444;\n}\n.tooly .separator {\n  display: inline-block;\n  border-right: 1px solid #ddd;\n  height: 24px;\n  margin: 0 0.5em;\n}\n"; (require("browserify-css").createStyle(css, { "href": "build/components/categories/buttonStyles.css" }, { "insertAt": "bottom" })); module.exports = css;
@@ -5166,7 +5166,7 @@ var RecordViewMediaElement = function (_Component) {
         ) : "",
         this.state.showTranscript && this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(
           'div',
-          { style: { width: "100%", height: 170, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
+          { style: { width: "100%", maxWidth: 380, height: 170, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
           this.props.media.transcript ? this.richTextToComponent(this.props.media.transcript) : _react2.default.createElement('span', null)
         ) : _react2.default.createElement('div', null)
       );
@@ -5301,11 +5301,6 @@ var styles = {
   },
   mediaPanel: {
     float: 'right'
-  },
-  '@media (max-width: 1000px)': {
-    mediaPanel: {
-      float: 'none'
-    }
   }
 };
 
@@ -5870,7 +5865,7 @@ var _TextField2 = _interopRequireDefault(_TextField);
 
 var _colors = require('material-ui/styles/colors');
 
-var _searchResults = require('../search-results');
+var _searchResults = require('./search-results');
 
 var _searchResults2 = _interopRequireDefault(_searchResults);
 
@@ -5975,7 +5970,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(NavigationBar);
-},{"../../links":38,"../query-store":25,"../search-results":36,"babel-runtime/core-js/object/get-prototype-of":51,"babel-runtime/helpers/classCallCheck":58,"babel-runtime/helpers/createClass":59,"babel-runtime/helpers/inherits":62,"babel-runtime/helpers/possibleConstructorReturn":64,"material-ui/Card":805,"material-ui/IconButton":819,"material-ui/TextField":853,"material-ui/styles/colors":869,"material-ui/svg-icons/action/search":878,"material-ui/svg-icons/content/backspace":881,"react":1150,"react-redux":1073,"react-router":1109}],36:[function(require,module,exports){
+},{"../../links":38,"../query-store":25,"./search-results":36,"babel-runtime/core-js/object/get-prototype-of":51,"babel-runtime/helpers/classCallCheck":58,"babel-runtime/helpers/createClass":59,"babel-runtime/helpers/inherits":62,"babel-runtime/helpers/possibleConstructorReturn":64,"material-ui/Card":805,"material-ui/IconButton":819,"material-ui/TextField":853,"material-ui/styles/colors":869,"material-ui/svg-icons/action/search":878,"material-ui/svg-icons/content/backspace":881,"react":1150,"react-redux":1073,"react-router":1109}],36:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6064,11 +6059,11 @@ var _delete = require('material-ui/svg-icons/action/delete');
 
 var _delete2 = _interopRequireDefault(_delete);
 
-var _fetchData = require('../network/fetch-data');
+var _fetchData = require('../../network/fetch-data');
 
 var _fetchData2 = _interopRequireDefault(_fetchData);
 
-var _links = require('../links');
+var _links = require('../../links');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6294,7 +6289,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SearchResults);
-},{"../links":38,"../network/fetch-data":40,"babel-runtime/core-js/object/get-prototype-of":51,"babel-runtime/core-js/object/keys":52,"babel-runtime/helpers/asyncToGenerator":57,"babel-runtime/helpers/classCallCheck":58,"babel-runtime/helpers/createClass":59,"babel-runtime/helpers/inherits":62,"babel-runtime/helpers/possibleConstructorReturn":64,"babel-runtime/regenerator":68,"material-ui/Avatar":797,"material-ui/Card":805,"material-ui/FlatButton":812,"material-ui/List":827,"material-ui/MenuItem":833,"material-ui/RaisedButton":841,"material-ui/SelectField":843,"material-ui/Subheader":845,"material-ui/TextField":853,"material-ui/svg-icons/action/delete":875,"material-ui/svg-icons/image/navigate-next":887,"react":1150,"react-redux":1073,"react-router":1109,"react-router-redux":1079}],37:[function(require,module,exports){
+},{"../../links":38,"../../network/fetch-data":40,"babel-runtime/core-js/object/get-prototype-of":51,"babel-runtime/core-js/object/keys":52,"babel-runtime/helpers/asyncToGenerator":57,"babel-runtime/helpers/classCallCheck":58,"babel-runtime/helpers/createClass":59,"babel-runtime/helpers/inherits":62,"babel-runtime/helpers/possibleConstructorReturn":64,"babel-runtime/regenerator":68,"material-ui/Avatar":797,"material-ui/Card":805,"material-ui/FlatButton":812,"material-ui/List":827,"material-ui/MenuItem":833,"material-ui/RaisedButton":841,"material-ui/SelectField":843,"material-ui/Subheader":845,"material-ui/TextField":853,"material-ui/svg-icons/action/delete":875,"material-ui/svg-icons/image/navigate-next":887,"react":1150,"react-redux":1073,"react-router":1109,"react-router-redux":1079}],37:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

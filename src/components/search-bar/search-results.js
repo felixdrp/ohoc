@@ -16,14 +16,14 @@ import Subheader from 'material-ui/Subheader';
 import CommunicationChatBubble from 'material-ui/svg-icons/image/navigate-next';
 import Delete from 'material-ui/svg-icons/action/delete';
 
-import fetchData from '../network/fetch-data';
+import fetchData from '../../network/fetch-data';
 
 import {
   URL_VIEW_RECORD,
   URL_BASE_MULTIMEDIA_IMAGES,
   URL_MULTIMEDIA,
   URL_CONTROL_ROOM_EDIT_RECORD,
-} from '../links'
+} from '../../links'
 
 class SearchResults extends Component {
   state = { over: null };
@@ -44,22 +44,28 @@ class SearchResults extends Component {
 
     if ( entry && entry.data && entry.data.recordName ){
       // var shouldReturn = false;
+      //debugger
 
       for (var a in queryTerms){
-
         if ( entry.data.recordName.toLowerCase().includes(queryTerms[a])  ){
-          return true;
+          return {found: true, where: "recordName" };
         }
       }
 
       //Didn't find anything on the normal fields Let's look at the transcripts
-      return this.findQueryInTranscripts(entry.data,queryTerms);
+      var foundInTranscripts = this.findQueryInTranscripts(entry.data,queryTerms);
+      if ( foundInTranscripts.length > 0){
+        return {found: true, where: "transcripts", transcripts: foundInTranscripts };;
+      }
+
     }
 
-    return false;
+    return {found: false};;
   }
 
   findQueryInTranscripts = (entry,queryTerms) => {
+
+    var foundInTranscripts = [];
 
     if( entry.media && entry.media.audio){
           for( var i in entry.media.audio){
@@ -70,13 +76,15 @@ class SearchResults extends Component {
                     for(var t in queryTerms){
                         var found = audioTranscript.blocks[b].text.toLowerCase().includes(queryTerms[t])
                         if ( found ){ // We only care if we find one of the terms. Just very very simple matching. No Ranking.
-                          return true;
+                          //return true;
+                          foundInTranscripts.push(entry.media.audio[i])
                         }
                     }
               }
           }
+
         }
-    return false
+    return foundInTranscripts
   }
 
 
@@ -115,15 +123,21 @@ class SearchResults extends Component {
       return <div></div>
     }
 
+    for ( var e in state.allRecordsList ){
+      var res = this.foundQuery(state.allRecordsList[e],this.props.searchText)
+      state.allRecordsList[e].filterData = res;
+      //debugger;
+    }
+
     let filteredResults = state.allRecordsList
       .filter(
         entry => (
-          this.foundQuery(entry,this.props.searchText)
+          entry.filterData.found
         )
       )
 
     return (
-        <Card style={{marginLeft: "10%",marginRight:50,width:"80%"}}>
+        <Card style={{marginRight:50,width:this.props.customWith ? this.props.customWith : "90%",position:"absolute"}}>
           <CardText>
             <List>
           {
@@ -155,7 +169,7 @@ class SearchResults extends Component {
                               onMouseLeave={() => this.leaveHandler(entry.id)}
                             >
                               <ListItem
-                                primaryText={entry.data.recordName}
+                                primaryText={entry.data.recordName + " -- " +entry.filterData.where}
                                 leftAvatar={
                                   <Avatar
                                     src={ entry.data.featuredImage ? URL_MULTIMEDIA + entry.data.featuredImage: baseAvatarImage }

@@ -120,11 +120,6 @@ var styles = {
   },
   mediaPanel: {
     float: 'right'
-  },
-  '@media (max-width: 1000px)': {
-    mediaPanel: {
-      float: 'none'
-    }
   }
 };
 

@@ -11,9 +11,12 @@ import TextField from 'material-ui/TextField';
 
 import {grey700} from 'material-ui/styles/colors';
 
-import SearchResults from '../search-results';
+import SearchResults from './search-results';
 import QueryStore from '../query-store';
 // import fetchData from '../../network/fetch-data';
+
+import Measure from 'react-measure';
+
 
 import { URL_CATEGORIES_LIST } from '../../links';
 
@@ -36,10 +39,15 @@ class NavigationBar extends Component {
   render() {
     let results = ''
     if ( this.state.searchbox && this.state.searchbox.length > 1  ) {
-      results = <SearchResults searchText={this.state.searchbox} />
+      results = <SearchResults searchText={this.state.searchbox} customWith={this.state.dimensions ? this.state.dimensions.width : null} />
     }
 
     return (
+      <Measure
+        onMeasure={(dimensions) => {
+          this.setState({dimensions})
+        }}
+      >
       <div>
         <Card
           style={{
@@ -58,6 +66,7 @@ class NavigationBar extends Component {
             // defaultValue={this.state.searchbox}
             value={this.state.searchbox}
             onChange={ (event, value, index)=>this.handleChange(event, value, index) }
+            onKeyDown={ (event,k,i ) => { (event.which || event.keyCode) == 27 ? this.cleanQuery() : null }}
           />
           <IconButton
             //  iconStyle={{position: 'absolute',top: 0}}
@@ -74,6 +83,7 @@ class NavigationBar extends Component {
 
         {results}
       </div>
+      </Measure>
     );
   }
 }

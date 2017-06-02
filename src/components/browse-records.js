@@ -15,7 +15,7 @@ import SearchIcon from 'material-ui/svg-icons/action/search';
 
 import { URL_CATEGORIES_LIST, URL_BASE_MULTIMEDIA_IMAGES} from '../links';
 
-import SearchResults from './search-results';
+import SearchResults from './search-bar/search-results';
 
 import QueryStore from './query-store';
 

@@ -44,13 +44,14 @@ const styles = {
     fontWeight: 'bold'
   },
   mediaPanel: {
-    float: 'right'
+    float: 'right',
+    marginLeft: 10
   },
-  '@media (max-width: 1000px)': {
-    mediaPanel: {
-      float: 'none'
-    }
-  }
+  // '@media (max-width: 1000px)': {
+  //   mediaPanel: {
+  //     float: 'none'
+  //   }
+  // }
 }
 
 @injectSheet(styles)
@@ -122,7 +123,7 @@ export default class RecordView extends Component {
         if ( type == "audio") {
           return allImages.map(
             (element,i) => (
-                <span key={i} style={{...commonStyle, width:400}} >{element}</span>
+                <span key={i} style={{...commonStyle, width:360}} >{element}</span>
             ))
         } else {
           return (<div style={{...commonStyle, width:360, minHeight : type == "picture" ? 310 : "auto", marginTop:10, border: "1px dashed lightgrey",backgroundColor:"#e8e8e8"}}>
@@ -436,7 +437,7 @@ export default class RecordView extends Component {
             >
               { fieldsFlex }
             </div>
-            
+
           </span>
 
         </Measure>

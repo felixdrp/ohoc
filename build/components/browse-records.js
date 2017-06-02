@@ -64,7 +64,7 @@ var _search2 = _interopRequireDefault(_search);
 
 var _links = require('../links');
 
-var _searchResults = require('./search-results');
+var _searchResults = require('./search-bar/search-results');
 
 var _searchResults2 = _interopRequireDefault(_searchResults);
 

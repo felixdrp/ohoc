@@ -266,7 +266,7 @@ var RecordViewMediaElement = function (_Component) {
         ) : "",
         this.state.showTranscript && this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(
           'div',
-          { style: { width: "100%", height: 170, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
+          { style: { width: "100%", maxWidth: 380, height: 170, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
           this.props.media.transcript ? this.richTextToComponent(this.props.media.transcript) : _react2.default.createElement('span', null)
         ) : _react2.default.createElement('div', null)
       );
