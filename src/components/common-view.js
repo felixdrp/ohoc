@@ -15,6 +15,7 @@ import IconButton from 'material-ui/IconButton';
 import {URL_BASE} from '../links'
 
 import Measure from 'react-measure';
+import QueryStore from './query-store';
 
 class CommonView extends Component {
   constructor() {
@@ -89,7 +90,7 @@ class CommonView extends Component {
 
                <span style={{ marginTop: 5,maxHeight: 50, display: "inline-block", marginLeft:7, float:  this.state.dimensions && (this.state.dimensions.width > 750) ? "right" : "none"}}>
                  <h2 style={{margin:"0 0 0 0",marginRight:25, marginTop:-5}}>
-                   <Link to={URL_BASE} style={{ textDecoration: 'none'}}>
+                   <Link to={URL_BASE} style={{ textDecoration: 'none'}} onClick={() => QueryStore.setQuery("")}>
                      <span style={{color:"black"}}>Intellectual Property</span>
                      <br/>
                      <span style={{color:"#155196"}}>Oral History Project</span>

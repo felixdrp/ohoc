@@ -5068,7 +5068,7 @@ var RecordViewMediaElement = function (_Component) {
               width: this.props.type === "audio" ? 260 : "100%"
 
             } },
-          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 250, maxWidth: "100%", minWidth: 100, marginTop: 5 } })
+          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 250, width: "100%", minWidth: 100, marginTop: 5 } })
         )
       );
 
@@ -5110,8 +5110,8 @@ var RecordViewMediaElement = function (_Component) {
             modal: true,
             open: this.state.showExtendedDialog,
             style: { paddingTop: 0, marginTop: 0, top: -40 },
-            autoDetectWindowHeight: { false: false },
-            autoScrollBodyContent: { true: true },
+            autoDetectWindowHeight: false,
+            autoScrollBodyContent: true,
             contentStyle: {
               width: '94vw',
               maxWidth: 1000,
@@ -5119,7 +5119,7 @@ var RecordViewMediaElement = function (_Component) {
               height: "100%"
             },
             actionsContainerStyle: { marginTop: 0, paddingTop: 0 },
-            repositionOnUpdate: { false: false }
+            repositionOnUpdate: false
           },
           _react2.default.createElement(
             'div',
@@ -5159,14 +5159,14 @@ var RecordViewMediaElement = function (_Component) {
         this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(
           'span',
           { style: {} },
-          _react2.default.createElement(_RaisedButton2.default, { label: 'Transcript', style: { height: 31, marginTop: 5 }, labelStyle: { paddingLeft: 10, paddingRight: 10, marginLeft: 10 },
+          _react2.default.createElement(_RaisedButton2.default, { label: 'Transcript', style: { height: 31, marginTop: 5 }, labelStyle: { paddingLeft: 2, paddingRight: 5, marginLeft: 5 },
             onClick: function onClick() {
               return _this2.state.showTranscript ? _this2.setState({ showTranscript: false }) : _this2.setState({ showTranscript: true });
             } })
         ) : "",
         this.state.showTranscript && this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(
           'div',
-          { style: { width: "100%", maxWidth: 380, height: 170, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
+          { style: { width: "100%", maxWidth: 354, height: 170, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
           this.props.media.transcript ? this.richTextToComponent(this.props.media.transcript) : _react2.default.createElement('span', null)
         ) : _react2.default.createElement('div', null)
       );
@@ -5300,7 +5300,8 @@ var styles = {
     fontWeight: 'bold'
   },
   mediaPanel: {
-    float: 'right'
+    float: 'right',
+    marginLeft: 10
   }
 };
 
@@ -5347,7 +5348,7 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
           return allImages.map(function (element, i) {
             return _react2.default.createElement(
               'span',
-              { key: i, style: (0, _extends3.default)({}, commonStyle, { width: 400 }) },
+              { key: i, style: (0, _extends3.default)({}, commonStyle, { width: 360 }) },
               element
             );
           });
@@ -5873,9 +5874,14 @@ var _queryStore = require('../query-store');
 
 var _queryStore2 = _interopRequireDefault(_queryStore);
 
+var _reactMeasure = require('react-measure');
+
+var _reactMeasure2 = _interopRequireDefault(_reactMeasure);
+
 var _links = require('../../links');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 
 var NavigationBar = function (_Component) {
   (0, _inherits3.default)(NavigationBar, _Component);
@@ -5909,47 +5915,58 @@ var NavigationBar = function (_Component) {
 
       var results = '';
       if (this.state.searchbox && this.state.searchbox.length > 1) {
-        results = _react2.default.createElement(_searchResults2.default, { searchText: this.state.searchbox });
+        results = _react2.default.createElement(_searchResults2.default, { searchText: this.state.searchbox, clearQuery: this.cleanQuery, customWith: this.state.dimensions ? this.state.dimensions.width * 0.99 : null });
       }
 
       return _react2.default.createElement(
-        'div',
-        null,
+        _reactMeasure2.default,
+        {
+          onMeasure: function onMeasure(dimensions) {
+            _this2.setState({ dimensions: dimensions });
+          }
+        },
         _react2.default.createElement(
-          _Card.Card,
-          {
-            style: {
-              position: 'relative',
-              width: "80%",
-              marginLeft: "10%",
-              marginBottom: 20,
-              marginTop: 10
-            }
-          },
-          _react2.default.createElement(_search2.default, { style: { width: 30, height: 30, marginTop: 5, marginLeft: 5 }, color: _colors.grey700 }),
-          _react2.default.createElement(_TextField2.default, {
-            id: 'search-box',
-            hintText: 'Type to search',
-            style: { marginLeft: 10, position: "absolute", width: "80%", height: 43 }
-            , value: this.state.searchbox,
-            onChange: function onChange(event, value, index) {
-              return _this2.handleChange(event, value, index);
-            }
-          }),
+          'div',
+          null,
           _react2.default.createElement(
-            _IconButton2.default
-            ,
-            { style: {
-                position: 'absolute',
-                bottom: -4,
-                right: 0
-              },
-              onClick: this.cleanQuery
+            _Card.Card,
+            {
+              style: {
+                position: 'relative',
+                width: "80%",
+                marginLeft: "10%",
+                marginBottom: 20,
+                marginTop: 10
+              }
             },
-            _react2.default.createElement(_backspace2.default, null)
-          )
-        ),
-        results
+            _react2.default.createElement(_search2.default, { style: { width: 30, height: 30, marginTop: 5, marginLeft: 5 }, color: _colors.grey700 }),
+            _react2.default.createElement(_TextField2.default, {
+              id: 'search-box',
+              hintText: 'Type to search',
+              style: { marginLeft: 10, position: "absolute", width: "80%", height: 43 }
+              , value: this.state.searchbox,
+              onChange: function onChange(event, value, index) {
+                return _this2.handleChange(event, value, index);
+              },
+              onKeyDown: function onKeyDown(event, k, i) {
+                (event.which || event.keyCode) == 27 ? _this2.cleanQuery() : null;
+              }
+            }),
+            _react2.default.createElement(
+              _IconButton2.default
+              ,
+              { style: {
+                  position: 'absolute',
+                  bottom: -4,
+                  right: 0
+                },
+                onClick: this.cleanQuery
+              },
+              _react2.default.createElement(_backspace2.default, null)
+            )
+          ),
+          results
+        )
       );
     }
   }]);
@@ -5970,7 +5987,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(NavigationBar);
-},{"../../links":38,"../query-store":25,"./search-results":36,"babel-runtime/core-js/object/get-prototype-of":51,"babel-runtime/helpers/classCallCheck":58,"babel-runtime/helpers/createClass":59,"babel-runtime/helpers/inherits":62,"babel-runtime/helpers/possibleConstructorReturn":64,"material-ui/Card":805,"material-ui/IconButton":819,"material-ui/TextField":853,"material-ui/styles/colors":869,"material-ui/svg-icons/action/search":878,"material-ui/svg-icons/content/backspace":881,"react":1150,"react-redux":1073,"react-router":1109}],36:[function(require,module,exports){
+},{"../../links":38,"../query-store":25,"./search-results":36,"babel-runtime/core-js/object/get-prototype-of":51,"babel-runtime/helpers/classCallCheck":58,"babel-runtime/helpers/createClass":59,"babel-runtime/helpers/inherits":62,"babel-runtime/helpers/possibleConstructorReturn":64,"material-ui/Card":805,"material-ui/IconButton":819,"material-ui/TextField":853,"material-ui/styles/colors":869,"material-ui/svg-icons/action/search":878,"material-ui/svg-icons/content/backspace":881,"react":1150,"react-measure":1056,"react-redux":1073,"react-router":1109}],36:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6097,17 +6114,21 @@ var SearchResults = function (_Component) {
       if (entry && entry.data && entry.data.recordName) {
 
         for (var a in queryTerms) {
-
           if (entry.data.recordName.toLowerCase().includes(queryTerms[a])) {
-            return true;
+            return { found: true, where: "recordName" };
           }
         }
 
-        return _this.findQueryInTranscripts(entry.data, queryTerms);
+        var foundInTranscripts = _this.findQueryInTranscripts(entry.data, queryTerms);
+        if (foundInTranscripts.length > 0) {
+          return { found: true, where: "transcripts", transcripts: foundInTranscripts };;
+        }
       }
 
-      return false;
+      return { found: false };;
     }, _this.findQueryInTranscripts = function (entry, queryTerms) {
+
+      var foundInTranscripts = [];
 
       if (entry.media && entry.media.audio) {
         for (var i in entry.media.audio) {
@@ -6118,13 +6139,13 @@ var SearchResults = function (_Component) {
             for (var t in queryTerms) {
               var found = audioTranscript.blocks[b].text.toLowerCase().includes(queryTerms[t]);
               if (found) {
-                return true;
+                foundInTranscripts.push(entry.media.audio[i]);
               }
             }
           }
         }
       }
-      return false;
+      return foundInTranscripts;
     }, _this.loadRecords = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
       var fetch, templateList, allRecordsList;
       return _regenerator2.default.wrap(function _callee$(_context) {
@@ -6212,13 +6233,18 @@ var SearchResults = function (_Component) {
         return _react2.default.createElement('div', null);
       }
 
+      for (var e in state.allRecordsList) {
+        var res = this.foundQuery(state.allRecordsList[e], this.props.searchText);
+        state.allRecordsList[e].filterData = res;
+      }
+
       var filteredResults = state.allRecordsList.filter(function (entry) {
-        return _this3.foundQuery(entry, _this3.props.searchText);
+        return entry.filterData.found;
       });
 
       return _react2.default.createElement(
         _Card.Card,
-        { style: { marginLeft: "10%", marginRight: 50, width: "80%" } },
+        { style: { marginRight: 50, width: this.props.customWith ? this.props.customWith : "90%", position: "absolute" } },
         _react2.default.createElement(
           _Card.CardText,
           null,
@@ -6248,6 +6274,7 @@ var SearchResults = function (_Component) {
                           to: _links.URL_VIEW_RECORD + entry.id,
                           key: i,
                           style: { textDecoration: 'none' },
+                          onClick: _this3.props.clearQuery,
                           onMouseOver: function onMouseOver() {
                             return _this3.overHandler(entry.id);
                           },
@@ -6256,7 +6283,7 @@ var SearchResults = function (_Component) {
                           }
                         },
                         _react2.default.createElement(_List.ListItem, {
-                          primaryText: entry.data.recordName,
+                          primaryText: entry.data.recordName + " -- " + entry.filterData.where,
                           leftAvatar: _react2.default.createElement(_Avatar2.default, {
                             src: entry.data.featuredImage ? _links.URL_MULTIMEDIA + entry.data.featuredImage : baseAvatarImage
                           }),

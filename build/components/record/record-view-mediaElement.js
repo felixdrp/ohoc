@@ -168,7 +168,7 @@ var RecordViewMediaElement = function (_Component) {
               width: this.props.type === "audio" ? 260 : "100%"
 
             } },
-          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 250, maxWidth: "100%", minWidth: 100, marginTop: 5 } })
+          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 250, width: "100%", minWidth: 100, marginTop: 5 } })
         )
       );
 
@@ -210,8 +210,8 @@ var RecordViewMediaElement = function (_Component) {
             modal: true,
             open: this.state.showExtendedDialog,
             style: { paddingTop: 0, marginTop: 0, top: -40 },
-            autoDetectWindowHeight: { false: false },
-            autoScrollBodyContent: { true: true },
+            autoDetectWindowHeight: false,
+            autoScrollBodyContent: true,
             contentStyle: {
               width: '94vw',
               maxWidth: 1000,
@@ -219,7 +219,7 @@ var RecordViewMediaElement = function (_Component) {
               height: "100%"
             },
             actionsContainerStyle: { marginTop: 0, paddingTop: 0 },
-            repositionOnUpdate: { false: false }
+            repositionOnUpdate: false
           },
           _react2.default.createElement(
             'div',
@@ -259,14 +259,14 @@ var RecordViewMediaElement = function (_Component) {
         this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(
           'span',
           { style: {} },
-          _react2.default.createElement(_RaisedButton2.default, { label: 'Transcript', style: { height: 31, marginTop: 5 }, labelStyle: { paddingLeft: 10, paddingRight: 10, marginLeft: 10 },
+          _react2.default.createElement(_RaisedButton2.default, { label: 'Transcript', style: { height: 31, marginTop: 5 }, labelStyle: { paddingLeft: 2, paddingRight: 5, marginLeft: 5 },
             onClick: function onClick() {
               return _this2.state.showTranscript ? _this2.setState({ showTranscript: false }) : _this2.setState({ showTranscript: true });
             } })
         ) : "",
         this.state.showTranscript && this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(
           'div',
-          { style: { width: "100%", maxWidth: 380, height: 170, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
+          { style: { width: "100%", maxWidth: 354, height: 170, overflowY: "scroll", border: "1px dashed lightgrey", textAlign: "center" } },
           this.props.media.transcript ? this.richTextToComponent(this.props.media.transcript) : _react2.default.createElement('span', null)
         ) : _react2.default.createElement('div', null)
       );

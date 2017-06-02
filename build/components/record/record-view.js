@@ -119,7 +119,8 @@ var styles = {
     fontWeight: 'bold'
   },
   mediaPanel: {
-    float: 'right'
+    float: 'right',
+    marginLeft: 10
   }
 };
 
@@ -166,7 +167,7 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
           return allImages.map(function (element, i) {
             return _react2.default.createElement(
               'span',
-              { key: i, style: (0, _extends3.default)({}, commonStyle, { width: 400 }) },
+              { key: i, style: (0, _extends3.default)({}, commonStyle, { width: 360 }) },
               element
             );
           });

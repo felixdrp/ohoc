@@ -16,6 +16,8 @@ import { URL_CATEGORIES_LIST } from '../../links';
 import ActionHome from 'material-ui/svg-icons/action/home';
 import IconButton from 'material-ui/IconButton';
 
+import QueryStore from '../query-store';
+
 class NavigationBar extends Component {
   constructor(props) {
     super(props);
@@ -55,7 +57,7 @@ class NavigationBar extends Component {
                marginLeft: 5,
               //  right: 0
              }}
-            //  onClick={}
+             onClick={() => QueryStore.setQuery("")}
            >
              <ActionHome />
            </IconButton>

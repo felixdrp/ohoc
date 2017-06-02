@@ -162,9 +162,10 @@ class SearchResults extends Component {
                           )
                           .map( (entry, i) => (
                             <Link
-                              to={URL_VIEW_RECORD + entry.id}
+                              to={ URL_VIEW_RECORD + entry.id}
                               key={i}
                               style={{ textDecoration: 'none'}}
+                              onClick={ this.props.clearQuery }
                               onMouseOver={() => this.overHandler(entry.id)}
                               onMouseLeave={() => this.leaveHandler(entry.id)}
                             >

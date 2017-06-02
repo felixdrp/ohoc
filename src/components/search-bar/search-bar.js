@@ -39,7 +39,7 @@ class NavigationBar extends Component {
   render() {
     let results = ''
     if ( this.state.searchbox && this.state.searchbox.length > 1  ) {
-      results = <SearchResults searchText={this.state.searchbox} customWith={this.state.dimensions ? this.state.dimensions.width : null} />
+      results = <SearchResults searchText={this.state.searchbox} clearQuery={this.cleanQuery} customWith={this.state.dimensions ? this.state.dimensions.width*0.99 : null} />
     }
 
     return (
