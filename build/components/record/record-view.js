@@ -614,6 +614,8 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
               'div',
               {
                 style: {
+                  paddingLeft: this.state.dimensions.width < 626 || this.hasAnyMedia(recordData.data.media) ? 0 : 365,
+                  maxWidth: this.state.dimensions.width < 626 ? "100%" : "80%",
                   wordWrap: "normal",
                   clear: this.state.dimensions.width > 626 ? 'none' : this.hasAnyMedia(recordData.data.media) ? 'left' : 'none'
                 }

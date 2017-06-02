@@ -70,6 +70,10 @@ var _reactMeasure = require('react-measure');
 
 var _reactMeasure2 = _interopRequireDefault(_reactMeasure);
 
+var _queryStore = require('./query-store');
+
+var _queryStore2 = _interopRequireDefault(_queryStore);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CommonView = function (_Component) {
@@ -195,7 +199,9 @@ var CommonView = function (_Component) {
                     { style: { margin: "0 0 0 0", marginRight: 25, marginTop: -5 } },
                     _react2.default.createElement(
                       _reactRouter.Link,
-                      { to: _links.URL_BASE, style: { textDecoration: 'none' } },
+                      { to: _links.URL_BASE, style: { textDecoration: 'none' }, onClick: function onClick() {
+                          return _queryStore2.default.setQuery("");
+                        } },
                       _react2.default.createElement(
                         'span',
                         { style: { color: "black" } },

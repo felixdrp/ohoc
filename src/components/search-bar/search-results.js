@@ -18,6 +18,8 @@ import Delete from 'material-ui/svg-icons/action/delete';
 
 import fetchData from '../../network/fetch-data';
 
+import SearchBarMediaPreview from './search-bar-media-preview'
+
 import {
   URL_VIEW_RECORD,
   URL_BASE_MULTIMEDIA_IMAGES,
@@ -49,7 +51,7 @@ class SearchResults extends Component {
       for (var a in queryTerms){
         if ( entry.data.recordName.toLowerCase().includes(queryTerms[a])  ){
           return {found: true, where: "recordName" };
-        }
+        }SearchBarMediaPreview
       }
 
       //Didn't find anything on the normal fields Let's look at the transcripts
@@ -107,8 +109,13 @@ class SearchResults extends Component {
     }
   }
 
+  showMediaPreview = (title) => {
+    var obj = {}; obj[title] = true; this.setState(obj);
+  }
 
-
+  previewCloser = (title) => {
+    var obj = {}; obj[title] = false; this.setState(obj);
+  }
 
   render() {
     const style = {
@@ -178,7 +185,19 @@ class SearchResults extends Component {
                                 }
                                 rightIcon={<CommunicationChatBubble />}
                               >
+
                               </ListItem>
+                              <List style={{marginLeft:"5%"}}>
+                                {entry.filterData.transcripts
+                                  ? entry.filterData.transcripts.filter((trans, index, self) => self.findIndex(t => t.title === trans.title) === index)
+                                  .map( (trans, i ) => <ListItem key={i}
+                                                                 primaryText={trans.title}
+                                                                 onClick={(e)=> {this.showMediaPreview(trans.title); e.stopPropagation(); e.preventDefault()}}>
+                                                                 <SearchBarMediaPreview recordData={entry.data} visible={this.state[trans.title]} media={trans} closeHandler={this.previewCloser}/>
+                                                       </ListItem>)
+                                  : <span></span>}
+                              </List>
+
                             </Link>
                           )
                         )

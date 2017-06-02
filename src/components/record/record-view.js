@@ -423,21 +423,27 @@ export default class RecordView extends Component {
               <span>{this.getMediaPreviewers(recordData.data.media.text,"text")}</span>
             </span>
 
+            {/* <Measure
+              onMeasure={(textDimensions) => {
+                this.setState({textDimensions})
+              }}
+            > */}
             <div
               style={{
                 // float: this.state.dimensions.width < (600+450) ? "left" : "none",
                 // maxWidth: this.state.dimensions.width < (600+450) ? "50%" : "100%",
                 // marginTop: (this.state.dimensions.width > 626) ? "auto" : 0,
                 // paddingTop: (this.state.dimensions.width > 626) ? "auto" : 0,
-                // paddingLeft: (this.state.dimensions.width < (626)) || this.hasAnyMedia(recordData.data.media) ? 0 : 365,
+                paddingLeft: (this.state.dimensions.width < (626)) || this.hasAnyMedia(recordData.data.media) ? 0 : 365,
                 // marginRight: (this.state.dimensions.width > (626)) ? "10%" : 20 ,
+                maxWidth: (this.state.dimensions.width < (626)) ? "100%" : "80%",
                 wordWrap: "normal",
                 clear: (this.state.dimensions.width > (626)) ? 'none' : ( this.hasAnyMedia(recordData.data.media) ? 'left' : 'none'),
               }}
             >
               { fieldsFlex }
             </div>
-
+            {/* </Measure> */}
           </span>
 
         </Measure>
