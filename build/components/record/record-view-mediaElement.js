@@ -174,7 +174,7 @@ var RecordViewMediaElement = function (_Component) {
 
       return _react2.default.createElement(
         _Card.Card,
-        { style: { padding: 3, paddingTop: 5, display: "inline-block", zIndex: this.state.isOpen ? 200 : 1500 }, onClick: this.openExtendedView },
+        { style: { marginBottom: 5, padding: 3, paddingTop: 5, display: "inline-block", zIndex: this.state.isOpen ? 200 : 1500 }, onClick: this.openExtendedView },
         this.state.isOpen && _react2.default.createElement(_reactImageLightbox2.default, {
           mainSrc: this.props.media.src,
           onCloseRequest: function onCloseRequest() {

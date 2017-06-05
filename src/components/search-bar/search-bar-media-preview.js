@@ -58,11 +58,11 @@ class SearchBarMediaPreview extends Component {
         <img style={{maxWidth:"30%",maxHeight:"30vh",float:"left" }} src={this.props.recordData.featuredImage ? URL_MULTIMEDIA + this.props.recordData.featuredImage: baseAvatarImage}/>
         <span style={{marginLeft:"1%",width:"69%",maxHeight:"30vh",float:"left"}} >
           <span >
-            <h2 style={{marginTop:0}}>{this.props.recordData.recordName}</h2>
+            <a href={this.props.entryURL}><h2 style={{marginTop:0}}>{this.props.recordData.recordName}</h2></a>
             <h3>{this.props.media.title}</h3>
           </span>
         </span>
-        
+
         <div ><audio style={{width:"100%"}} controls src={URL_MULTIMEDIA+this.props.media.src}  /></div>
         <div style={{marginTop:10,overflowY:"scroll",height:"50vh",float:"left"}}>{this.richTextToComponent(this.props.media.transcript)}</div>
 

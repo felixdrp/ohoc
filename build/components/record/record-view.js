@@ -117,10 +117,6 @@ var styles = {
   },
   label: {
     fontWeight: 'bold'
-  },
-  mediaPanel: {
-    float: 'right',
-    marginLeft: 10
   }
 };
 
@@ -146,10 +142,10 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
     }, _this.getMediaPreviewers = function (arrayOfMedia, type) {
       if (Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0) {
 
-        var allImages = [];
+        var allMedia = [];
 
         arrayOfMedia.map(function (element, i) {
-          return allImages.push(_react2.default.createElement(
+          return allMedia.push(_react2.default.createElement(
             'div',
             { key: i, style: { width: "100%", height: type == "picture" ? 310 : "auto", textAlign: "center" } },
             _react2.default.createElement(_recordViewMediaElement2.default, {
@@ -164,7 +160,7 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
         var commonStyle = { marginBottom: 5 };
 
         if (type == "audio") {
-          return allImages.map(function (element, i) {
+          return allMedia.map(function (element, i) {
             return _react2.default.createElement(
               'span',
               { key: i, style: (0, _extends3.default)({}, commonStyle, { width: 360 }) },
@@ -178,7 +174,7 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
             _react2.default.createElement(
               _nukaCarousel2.default,
               null,
-              allImages
+              allMedia
             )
           );
         }
@@ -576,6 +572,8 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
                 style: {
                   display: "inline-block",
                   verticalAlign: "top",
+                  marginLeft: this.state.dimensions.width < 746 ? 0 : 10,
+                  float: this.state.dimensions.width < 747 ? 'none' : 'right',
                   marginBottom: 20
                 }
               },
@@ -615,9 +613,8 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
               {
                 style: {
                   paddingLeft: this.state.dimensions.width < 626 || this.hasAnyMedia(recordData.data.media) ? 0 : 365,
-                  maxWidth: this.state.dimensions.width < 626 ? "100%" : "80%",
-                  wordWrap: "normal",
-                  clear: this.state.dimensions.width > 626 ? 'none' : this.hasAnyMedia(recordData.data.media) ? 'left' : 'none'
+                  clear: this.hasAnyMedia(recordData.data.media) ? this.state.dimensions.width < 1100 ? "both" : "none" : this.state.dimensions.width < 626 ? "both" : "none",
+                  maxWidth: "90%"
                 }
               },
               fieldsFlex

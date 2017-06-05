@@ -41,7 +41,6 @@ export default class CategoriesView extends Component {
       "Clerks" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Clerks/PortadaClerks.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "Chambers" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Chambers/6PumpCourtTres.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "Sketches in Court" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Sketches in Court/Sketches.png' ,orderIndex : 3,copyrightNotice : "" },
-
       "Solicitors and Agents" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Solicitors and Agents/GraysInnSquare001BirdandBird.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "Textbooks" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Textbooks/Photograph1.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "Treatises" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Treatises/ShelleyOnPatents.jpg' ,orderIndex : 2,copyrightNotice : "" },
@@ -52,6 +51,7 @@ export default class CategoriesView extends Component {
       "Civil Service" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Civil Service/PatentOfficeLibrary.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "Magazines" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Magazines/TW_0002.jpg' ,orderIndex : 2,copyrightNotice : "" },
       "Campaigns" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Campaigns/PublicLendingRight2.jpg' ,orderIndex : 2,copyrightNotice : "" },
+      "Committees" : {  src : URL_BASE_MULTIMEDIA_IMAGES + '/cat/Committees/268_Johnston.jpg' ,orderIndex : 2,copyrightNotice : "" },
 
     }
 

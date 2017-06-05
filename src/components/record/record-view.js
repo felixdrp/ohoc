@@ -43,15 +43,6 @@ const styles = {
   label: {
     fontWeight: 'bold'
   },
-  mediaPanel: {
-    float: 'right',
-    marginLeft: 10
-  },
-  // '@media (max-width: 1000px)': {
-  //   mediaPanel: {
-  //     float: 'none'
-  //   }
-  // }
 }
 
 @injectSheet(styles)
@@ -103,11 +94,11 @@ export default class RecordView extends Component {
     // if the array is empty there is no reason to draw the preview container at all.
     if ( Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0){
 
-        var allImages = []
+        var allMedia = []
 
         arrayOfMedia.map(
           (element,i) => (
-            allImages.push(<div key={i} style={{width:"100%", height: type == "picture" ? 310 : "auto",textAlign:"center"}} >
+            allMedia.push(<div key={i} style={{width:"100%", height: type == "picture" ? 310 : "auto",textAlign:"center"}} >
               <RecordViewMediaElement
                 key={i}
                 style={{maxHeight:320,maxWidth:400, minHeight : type == "picture" ? 310 : "auto",marginRight:10}}
@@ -121,14 +112,14 @@ export default class RecordView extends Component {
         var commonStyle = {marginBottom:5}
 
         if ( type == "audio") {
-          return allImages.map(
+          return allMedia.map(
             (element,i) => (
                 <span key={i} style={{...commonStyle, width:360}} >{element}</span>
             ))
         } else {
           return (<div style={{...commonStyle, width:360, minHeight : type == "picture" ? 310 : "auto", marginTop:10, border: "1px dashed lightgrey",backgroundColor:"#e8e8e8"}}>
                     <Carousel>
-                          {allImages}
+                          {allMedia}
                     </Carousel>
                   </div>)
         }
@@ -396,11 +387,11 @@ export default class RecordView extends Component {
               style={{
                 display: "inline-block",
                 verticalAlign: "top",
-                // marginLeft:20,
+                marginLeft: (this.state.dimensions.width < 746) ? 0 : 10,
+                float: (this.state.dimensions.width < 747) ? 'none' : 'right',
                 marginBottom:20
               }}
             >
-              {/* { recordData.data.media.picture.length > 0 ? this.sectionTitle('Image Gallery') : "" } */}
 
               <Preload
                 loadingIndicator={loadingIndicator}
@@ -415,37 +406,23 @@ export default class RecordView extends Component {
               </Preload>
 
               <span>{this.getMediaPreviewers(recordData.data.media.audio,"audio")}</span>
-
-              {/* { recordData.data.media.video.length > 0 ? this.sectionTitle('Video Gallery') : ""  } */}
               <span>{this.getMediaPreviewers(recordData.data.media.video,"video")}</span>
-
-              {/* { recordData.data.media.text.length > 0 ? this.sectionTitle('Text and PDF files') : ""  } */}
               <span>{this.getMediaPreviewers(recordData.data.media.text,"text")}</span>
             </span>
 
-            {/* <Measure
-              onMeasure={(textDimensions) => {
-                this.setState({textDimensions})
-              }}
-            > */}
+            {/* Text in the Middle */}
             <div
               style={{
-                // float: this.state.dimensions.width < (600+450) ? "left" : "none",
-                // maxWidth: this.state.dimensions.width < (600+450) ? "50%" : "100%",
-                // marginTop: (this.state.dimensions.width > 626) ? "auto" : 0,
-                // paddingTop: (this.state.dimensions.width > 626) ? "auto" : 0,
                 paddingLeft: (this.state.dimensions.width < (626)) || this.hasAnyMedia(recordData.data.media) ? 0 : 365,
-                // marginRight: (this.state.dimensions.width > (626)) ? "10%" : 20 ,
-                maxWidth: (this.state.dimensions.width < (626)) ? "100%" : "80%",
-                wordWrap: "normal",
-                clear: (this.state.dimensions.width > (626)) ? 'none' : ( this.hasAnyMedia(recordData.data.media) ? 'left' : 'none'),
+                clear: this.hasAnyMedia(recordData.data.media) ?
+                                  ((this.state.dimensions.width < 1100 ) ? "both" : "none" ) :
+                                  ((this.state.dimensions.width < 626 ) ? "both" : "none" ),
+                maxWidth: "90%",
               }}
             >
               { fieldsFlex }
             </div>
-            {/* </Measure> */}
           </span>
-
         </Measure>
       </Card>
     );

@@ -37,8 +37,9 @@ class CategoryButton extends Component {
               <ArrowDropDown />
             </IconButton>
           )}
-          anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
           targetOrigin={{horizontal: 'left', vertical: 'top'}}
+          animated={true}
           style={{
             top: 8,
             right: 10,

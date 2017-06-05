@@ -16,6 +16,8 @@ import Subheader from 'material-ui/Subheader';
 import CommunicationChatBubble from 'material-ui/svg-icons/image/navigate-next';
 import Delete from 'material-ui/svg-icons/action/delete';
 
+import PlayIcon from 'material-ui/svg-icons/av/play-circle-outline';
+
 import fetchData from '../../network/fetch-data';
 
 import SearchBarMediaPreview from './search-bar-media-preview'
@@ -177,7 +179,7 @@ class SearchResults extends Component {
                               onMouseLeave={() => this.leaveHandler(entry.id)}
                             >
                               <ListItem
-                                primaryText={entry.data.recordName + " -- " +entry.filterData.where}
+                                primaryText={entry.data.recordName } //+ " -- " +entry.filterData.where
                                 leftAvatar={
                                   <Avatar
                                     src={ entry.data.featuredImage ? URL_MULTIMEDIA + entry.data.featuredImage: baseAvatarImage }
@@ -192,8 +194,9 @@ class SearchResults extends Component {
                                   ? entry.filterData.transcripts.filter((trans, index, self) => self.findIndex(t => t.title === trans.title) === index)
                                   .map( (trans, i ) => <ListItem key={i}
                                                                  primaryText={trans.title}
+                                                                 leftIcon={<PlayIcon />}
                                                                  onClick={(e)=> {this.showMediaPreview(trans.title); e.stopPropagation(); e.preventDefault()}}>
-                                                                 <SearchBarMediaPreview recordData={entry.data} visible={this.state[trans.title]} media={trans} closeHandler={this.previewCloser}/>
+                                                                 <SearchBarMediaPreview entryURL={URL_VIEW_RECORD + entry.id} recordData={entry.data} visible={this.state[trans.title]} media={trans} closeHandler={this.previewCloser}/>
                                                        </ListItem>)
                                   : <span></span>}
                               </List>

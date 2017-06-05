@@ -95,7 +95,7 @@ export default class RecordViewMediaElement extends Component {
 
     return (
 
-      <Card style={{padding:3,paddingTop:5, display: "inline-block",zIndex: this.state.isOpen ? 200 : 1500}} onClick={this.openExtendedView}>
+      <Card style={{marginBottom:5,padding:3,paddingTop:5, display: "inline-block",zIndex: this.state.isOpen ? 200 : 1500}} onClick={this.openExtendedView}>
 
         {this.state.isOpen &&
           <Lightbox
