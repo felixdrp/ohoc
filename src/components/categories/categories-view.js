@@ -185,6 +185,7 @@ export default class CategoriesView extends Component {
       let selectedSubCategory =  entriesBySubtype[selectedType]
       let showAsGrid = true
 
+      // debugger;
       return (
         <Card style={{paddingBottom:30, minHeight:600}}>
           <CardTitle style={{marginLeft:40}}> <h1> {onlyOneCategory ? this.props.params.categoryId : this.props.params.subcategoryId} </h1> </CardTitle>

@@ -28,6 +28,43 @@ class NavigationBar extends Component {
     };
   }
 
+  async componentDidMount() {
+    this.setState({paragraph : null})
+    let fetch = new fetchData();
+    var tempList = await fetch.templateListGet()
+    var shortcuts = {}
+
+    for ( var i in tempList.templateList ){
+      if ( tempList.templateList[i].length == 1 ){
+
+          var catLists = await this.loadCategoriesList(i,tempList.templateList[i][0])
+          var items = {};
+
+          for ( var j in catLists.recordsByType){
+              items[catLists.recordsByType[j].data.recordName] = catLists.recordsByType[j].id
+          }
+
+          shortcuts[i] = items
+      }
+    }
+
+    this.setState({shortcuts})
+  }
+
+  async loadCategoriesList(categoryId,subCategory) {
+    let fetch = new fetchData();
+    let categoriesList
+    let paragraph
+
+    try {
+      categoriesList = await fetch.getRecordsByType(categoryId)
+      return categoriesList
+    } catch(error) {
+      console.error('fetching record data > ' + error)
+    }
+  }
+
+
   handleTouchTap = (event) => {
     // This prevents ghost click.
     event.preventDefault();
@@ -45,17 +82,19 @@ class NavigationBar extends Component {
   };
 
   render() {
+
+    if ( !this.state.shortcuts ){
+      return <div></div>
+    }
+
     return (
       <span>
         <Link to={"/"}>
           <IconButton
-            //  iconStyle={{position: 'absolute',top: 0}}
              style={{
-              //  position: 'absolute',
                bottom: -5,
                marginRight: 5,
                marginLeft: 5,
-              //  right: 0
              }}
              onClick={() => QueryStore.setQuery("")}
            >
@@ -69,7 +108,7 @@ class NavigationBar extends Component {
            (a,b) => this.props.categoryData[a].orderIndex > this.props.categoryData[b].orderIndex)
          .map(
            (e, index) => (
-             <CategoryButton key={index} category={e} subcategories={this.props.templateList[e].sort()} />
+             <CategoryButton key={index} category={e} subcategories={this.props.templateList[e].sort()} shortcuts={this.state.shortcuts}/>
            )
          )
         }

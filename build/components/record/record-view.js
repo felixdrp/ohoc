@@ -338,8 +338,6 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
 
       var classes = this.props.classes;
 
-      console.log('classes');
-      console.log(classes);
       var style = {
         margin: 12
       };
@@ -560,7 +558,7 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
                   _react2.default.createElement(
                     'span',
                     { style: { width: 360, height: 250 } },
-                    _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 360 }, src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage })
+                    _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 360, borderRadius: 25 }, src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage })
                   )
                 )
               )

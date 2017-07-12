@@ -177,8 +177,8 @@ export default class RecordView extends Component {
 
   render() {
     const {classes} = this.props
-    console.log('classes')
-    console.log(classes)
+    // console.log('classes')
+    // console.log(classes)
     const style = {
       margin: 12,
     };
@@ -372,7 +372,7 @@ export default class RecordView extends Component {
                   }}
                   overlay={<CardTitle title={copyrightNotice} style={{margin:0,padding:0,height:20}} titleStyle={{fontSize:10,lineHeight: 1,padding:0}} ></CardTitle>}
                 >
-                  <span style={{width:360,height:250}}><img style={{maxHeight: 250,maxWidth:360}} src={
+                  <span style={{width:360,height:250}}><img style={{maxHeight: 250,maxWidth:360, borderRadius: 25}} src={
                        recordData.data.featuredImage ?
                        URL_MULTIMEDIA + recordData.data.featuredImage:
                        baseImage

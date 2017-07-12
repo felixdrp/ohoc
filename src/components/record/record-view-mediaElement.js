@@ -44,7 +44,7 @@ export default class RecordViewMediaElement extends Component {
       componentToReturn = EditorState.createWithContent(convertFromRaw(JSON.parse(textStateFromDB)))
       componentToReturn = <Editor editorState={componentToReturn} readOnly={true} onChange={(value) => {return null}} />
     } catch (e){
-      console.log(e)
+    //  console.log(e)
       componentToReturn = <div style={{marginLeft:10}} dangerouslySetInnerHTML={{__html: textStateFromDB}} />
     }
     return componentToReturn
@@ -52,7 +52,7 @@ export default class RecordViewMediaElement extends Component {
 
   render() {
 
-    console.log(this.props.media)
+  //  console.log(this.props.media)
     const actions = [
       <FlatButton
         label="Close [X]"

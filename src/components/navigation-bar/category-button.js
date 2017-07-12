@@ -9,7 +9,7 @@ import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import ArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 
-import { URL_CATEGORIES_LIST } from '../../links';
+import { URL_CATEGORIES_LIST,URL_VIEW_RECORD } from '../../links';
 
 class CategoryButton extends Component {
   linkTo = (url) => this.props.linkTo(url)
@@ -17,6 +17,29 @@ class CategoryButton extends Component {
   render() {
     let logoStyle = {height: 50,marginTop:10,marginLeft:5}
     let category = this.props.category
+
+    let subcategories = this.props.subcategories.map(
+      (subcategory, index) => (
+        <MenuItem
+          key={index}
+          primaryText={subcategory}
+          onClick={() => this.linkTo(URL_CATEGORIES_LIST + category + '/' + subcategory)}
+        />
+      )
+    );
+
+    if ( this.props.shortcuts[category] ) {
+      subcategories = Object.keys(this.props.shortcuts[category]).map(
+        (subcategory, index) => (
+          <MenuItem
+            key={index}
+            primaryText={subcategory}
+            onClick={() => this.linkTo(URL_VIEW_RECORD +  this.props.shortcuts[category][subcategory] )}
+          />
+        )
+      );
+    }
+
 
     return (
       <div style={{display: 'inline-block'}}>
@@ -46,17 +69,7 @@ class CategoryButton extends Component {
           }}
 
         >
-          {
-           this.props.subcategories.map(
-             (subcategory, index) => (
-               <MenuItem
-                 key={index}
-                 primaryText={subcategory}
-                 onClick={() => this.linkTo(URL_CATEGORIES_LIST + category + '/' + subcategory)}
-               />
-             )
-           )
-          }
+          {subcategories}
         </IconMenu>
       </div>
     )

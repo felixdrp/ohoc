@@ -112,7 +112,6 @@ var RecordViewMediaElement = function (_Component) {
             return null;
           } });
       } catch (e) {
-        console.log(e);
         componentToReturn = _react2.default.createElement('div', { style: { marginLeft: 10 }, dangerouslySetInnerHTML: { __html: textStateFromDB } });
       }
       return componentToReturn;
@@ -127,7 +126,6 @@ var RecordViewMediaElement = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      console.log(this.props.media);
       var actions = [_react2.default.createElement(_FlatButton2.default, {
         label: 'Close [X]',
         primary: true,

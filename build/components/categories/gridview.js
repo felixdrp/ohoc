@@ -63,10 +63,6 @@ var _navigateNext = require('material-ui/svg-icons/image/navigate-next');
 
 var _navigateNext2 = _interopRequireDefault(_navigateNext);
 
-var _fetchData = require('../../network/fetch-data');
-
-var _fetchData2 = _interopRequireDefault(_fetchData);
-
 var _GridList = require('material-ui/GridList');
 
 var _IconButton = require('material-ui/IconButton');
@@ -96,13 +92,11 @@ var GridView = function (_Component) {
     _this.prepareTiles = function (entries) {
       var tiles = [];
       for (var a in entries) {
-
         tiles.push({
           img: entries[a].data.featuredImage,
           title: entries[a].data.recordName,
           src: _links.URL_VIEW_RECORD + entries[a].id
         });
-
       }
       return tiles;
     };

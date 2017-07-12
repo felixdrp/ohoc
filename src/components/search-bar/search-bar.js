@@ -20,7 +20,7 @@ import Measure from 'react-measure';
 
 import { URL_CATEGORIES_LIST } from '../../links';
 
-class NavigationBar extends Component {
+class SearchBar extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -102,4 +102,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NavigationBar);
+)(SearchBar);

@@ -12,8 +12,6 @@ import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import CommunicationChatBubble from 'material-ui/svg-icons/image/navigate-next';
 
-import fetchData from '../../network/fetch-data';
-
 import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 
@@ -36,29 +34,15 @@ export default class GridView extends Component {
     };
 
   }
-  // componentWillReceiveProps = (newprops) =>{
-  //
-  //
-  //
-  // }
-  //
-  // entriesToSubtypeGroups = (list) => {
-  //
-  //
-  // }
 
   prepareTiles = (entries) => {
     var tiles = [];
     for (var a in entries) {
-
-
         tiles.push({
           img: entries[a].data.featuredImage,
           title: entries[a].data.recordName,
           src: URL_VIEW_RECORD + entries[a].id,
         });
-
-        // }
     }
     return tiles;
   }
@@ -68,11 +52,9 @@ export default class GridView extends Component {
 
       return <Measure
         onMeasure={(dimensions) => {
-          //if ( !dims[image] ){
             var dims  = this.state.imgDimensions
             dims[image] = dimensions;
             this.setState({imgDimensions : dims})
-        //  }
         }}
       >
       <img
