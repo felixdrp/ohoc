@@ -170,8 +170,6 @@ var CategoriesView = function (_Component) {
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
-
-
   (0, _createClass3.default)(CategoriesView, [{
     key: 'loadCategoriesList',
     value: function () {

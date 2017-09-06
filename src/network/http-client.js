@@ -1,51 +1,29 @@
-import http from 'http'
+import axios from 'axios'
 
 export default class HttpClient {
   constructor(config={}) {
     this.config = config;
 
-    this.standardOptions = {
-      host: (typeof location != "undefined") ? location.hostname : '',
-      port: (typeof location != "undefined") ? location.port : 0,
-      method: 'GET',
-      // path: '/graphql?query=' + escape( query ),
-      // headers: {'http-client-custom': 'v1; client version'}
-    };
+    this.host = (typeof location != "undefined") ? location.hostname : ''
+    this.port = (typeof location != "undefined") ? location.port : 0
+    this.location = "http://"+this.host+":"+this.port
 
-    this.standardOptions = {
-      ...this.standardOptions,
-      ...config
-    };
+    axios.defaults.baseURL = this.location;
+
   }
 
   send(messageBody='', options={}) {
     return new Promise(
       (resolve, reject) => {
-        http.request(
-          // mix the this.standardOptions with method options
-          {
-            ...this.standardOptions,
-            ...options
-          },
-          ( response ) => {
-            var data = '';
 
-            response.on('error', (err) => {
-              reject('Communication error: ' + err);
-              console.error(err);
-            });
+        axios(options)
+        .then(function(response) {
+          resolve(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
 
-            response.on('data', (chunk) => {
-              data += chunk;
-            });
-
-            response.on('end', () => {
-              // console.log('http-client: ' + data);
-              resolve(data);
-            });
-          }
-        )
-        .end(messageBody);
       }
     );
   }

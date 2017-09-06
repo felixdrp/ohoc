@@ -93,7 +93,7 @@ class CommonView extends Component {
                    <Link to={URL_BASE} style={{ textDecoration: 'none'}} onClick={() => QueryStore.setQuery("")}>
                      <span style={{color:"black"}}>Intellectual Property</span>
                      <br/>
-                     <span style={{color:"#155196"}}>Oral History Project</span>
+                     <span style={{color:"#155196",marginLeft:35}}>Oral Histories</span>
                    </Link>
                  </h2>
                </span>

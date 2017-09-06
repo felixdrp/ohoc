@@ -163,16 +163,17 @@ var RecordViewMediaElement = function (_Component) {
           {
             style: {
               float: "left",
-              width: this.props.type === "audio" ? 260 : "100%"
+              width: this.props.type === "audio" ? 246 : 345,
+              display: this.props.type === "text" ? "block" : "inherit"
 
             } },
-          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 250, width: "100%", minWidth: 100, marginTop: 5 } })
+          _react2.default.createElement(_previewGenerator2.default, { element: this.props.media, style: { maxHeight: 250, width: "100%", minWidth: 100 } })
         )
       );
 
       return _react2.default.createElement(
         _Card.Card,
-        { style: { marginBottom: 5, padding: 3, paddingTop: 5, display: "inline-block", zIndex: this.state.isOpen ? 200 : 1500 }, onClick: this.openExtendedView },
+        { style: { width: 355, marginBottom: 5, padding: 3, paddingTop: 5, display: "inline-block", zIndex: this.state.isOpen ? 200 : 1500 }, onClick: this.openExtendedView },
         this.state.isOpen && _react2.default.createElement(_reactImageLightbox2.default, {
           mainSrc: this.props.media.src,
           onCloseRequest: function onCloseRequest() {

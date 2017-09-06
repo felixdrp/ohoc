@@ -210,8 +210,8 @@ var CommonView = function (_Component) {
                       _react2.default.createElement('br', null),
                       _react2.default.createElement(
                         'span',
-                        { style: { color: "#155196" } },
-                        'Oral History Project'
+                        { style: { color: "#155196", marginLeft: 35 } },
+                        'Oral Histories'
                       )
                     )
                   )

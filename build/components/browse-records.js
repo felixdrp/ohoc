@@ -115,8 +115,12 @@ var BrowseRecords = function (_Component) {
             style: { width: "80%", marginLeft: "10%" }
           },
           this.props.templateList && (0, _keys2.default)(this.props.templateList).sort(function (a, b) {
-            return _this2.props.categoryData[a].orderIndex > _this2.props.categoryData[b].orderIndex;
+
+            if (_this2.props.categoryData[a].orderIndex > _this2.props.categoryData[b].orderIndex) return 1;
+            if (_this2.props.categoryData[a].orderIndex < _this2.props.categoryData[b].orderIndex) return -1;
+            return 0;
           }).map(function (e, index) {
+
             return _react2.default.createElement(
               _reactRouter.Link,
               { key: index, to: _links.URL_CATEGORIES_LIST + e, style: { textDecoration: 'none' } },
@@ -130,7 +134,7 @@ var BrowseRecords = function (_Component) {
                     e
                   ),
                   subtitle: _this2.props.categoryData[e].copyrightNotice,
-                  style: { backgroundColor: "rgb(204, 204, 204)" }
+                  style: { backgroundColor: "rgb(204, 204, 204)", borderRadius: 25 }
                 },
                 _react2.default.createElement(
                   'span',

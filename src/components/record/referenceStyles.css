@@ -5,3 +5,18 @@
 .further.references.publication.info {
   font-style: italic;
 }
+
+.carouselButton{
+
+    background-color: rgba(210, 210, 210, 0.3);
+}
+
+.carouselButton:hover{
+    cursor: pointer;
+    background-color: rgba(210, 210, 210, 0.9);
+}
+
+
+.journal.articles.journal.title {
+    font-style: italic;
+}

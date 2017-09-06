@@ -99,6 +99,14 @@ var _halogen = require('halogen');
 
 var _halogen2 = _interopRequireDefault(_halogen);
 
+var _keyboardArrowLeft = require('material-ui/svg-icons/hardware/keyboard-arrow-left');
+
+var _keyboardArrowLeft2 = _interopRequireDefault(_keyboardArrowLeft);
+
+var _keyboardArrowRight = require('material-ui/svg-icons/hardware/keyboard-arrow-right');
+
+var _keyboardArrowRight2 = _interopRequireDefault(_keyboardArrowRight);
+
 var _links = require('../../links');
 
 var _referenceStyles = require('./referenceStyles.css');
@@ -110,6 +118,8 @@ var _reactJss = require('react-jss');
 var _reactJss2 = _interopRequireDefault(_reactJss);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createReactClass = require('create-react-class');
 
 var styles = {
   button: {
@@ -140,17 +150,68 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
         height: -1
       }
     }, _this.getMediaPreviewers = function (arrayOfMedia, type) {
+
+      var buttonSize = 35;
       if (Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0) {
+
+        var Decorators = [{
+          component: createReactClass({
+            render: function render() {
+              return _react2.default.createElement(
+                'span',
+                {
+                  onClick: this.props.previousSlide },
+                _react2.default.createElement(_keyboardArrowLeft2.default, { className: "carouselButton", style: { width: buttonSize, height: buttonSize } })
+              );
+            }
+          }),
+          position: 'CenterLeft'
+        }, {
+          component: createReactClass({
+            render: function render() {
+              return _react2.default.createElement(
+                'span',
+                {
+                  onClick: this.props.nextSlide },
+                _react2.default.createElement(_keyboardArrowRight2.default, { className: "carouselButton", style: { width: buttonSize, height: buttonSize } })
+              );
+            }
+          }),
+          position: 'CenterRight'
+        }];
+
+        var minHeight;
+        var maxWidth;
+        var marginLeft = "1%";
+
+        switch (type) {
+          case "picture":
+            minHeight = 310;
+            maxWidth = 400;
+
+            break;
+          case "audio":
+            minHeight = "auto";
+            maxWidth = 400;
+            break;
+          case "text":
+            minHeight = 100;
+            maxWidth = 250;
+            marginLeft = "1%";
+            break;
+          default:
+            minHeight = "auto";
+        }
 
         var allMedia = [];
 
         arrayOfMedia.map(function (element, i) {
           return allMedia.push(_react2.default.createElement(
             'div',
-            { key: i, style: { width: "100%", height: type == "picture" ? 310 : "auto", textAlign: "center" } },
+            { key: i, style: { width: "98%", height: minHeight, textAlign: "center", marginTop: 5, marginLeft: marginLeft } },
             _react2.default.createElement(_recordViewMediaElement2.default, {
               key: i,
-              style: { maxHeight: 320, maxWidth: 400, minHeight: type == "picture" ? 310 : "auto", marginRight: 10 },
+              style: { maxHeight: 320, maxWidth: maxWidth, minHeight: minHeight, marginRight: 10 },
               media: (0, _extends3.default)({}, element, { src: _links.URL_MULTIMEDIA + element.src }),
               type: type
             })
@@ -170,10 +231,10 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
         } else {
           return _react2.default.createElement(
             'div',
-            { style: (0, _extends3.default)({}, commonStyle, { width: 360, minHeight: type == "picture" ? 310 : "auto", marginTop: 10, border: "1px dashed lightgrey", backgroundColor: "#e8e8e8" }) },
+            { style: (0, _extends3.default)({}, commonStyle, { width: 360, minHeight: minHeight, marginTop: 10, border: "1px dashed lightgrey", backgroundColor: "#e8e8e8" }) },
             _react2.default.createElement(
               _nukaCarousel2.default,
-              null,
+              { decorators: Decorators },
               allMedia
             )
           );
@@ -558,7 +619,7 @@ var RecordView = (_dec = (0, _reactJss2.default)(styles), _dec(_class = function
                   _react2.default.createElement(
                     'span',
                     { style: { width: 360, height: 250 } },
-                    _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 360, borderRadius: 25 }, src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage })
+                    _react2.default.createElement('img', { style: { maxHeight: 250, maxWidth: 360 }, src: recordData.data.featuredImage ? _links.URL_MULTIMEDIA + recordData.data.featuredImage : baseImage })
                   )
                 )
               )

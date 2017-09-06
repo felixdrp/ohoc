@@ -52,32 +52,31 @@ var fetchData = function () {
             switch (_context.prev = _context.next) {
               case 0:
                 result = void 0;
+
                 _context.prev = 1;
                 _context.next = 4;
                 return this.httpClient.send('', { path: path });
 
               case 4:
                 result = _context.sent;
-
-                result = JSON.parse(result);
-                _context.next = 11;
+                _context.next = 10;
                 break;
 
-              case 8:
-                _context.prev = 8;
+              case 7:
+                _context.prev = 7;
                 _context.t0 = _context['catch'](1);
 
                 console.error('fetching template list error > ' + _context.t0);
 
-              case 11:
+              case 10:
                 return _context.abrupt('return', result);
 
-              case 12:
+              case 11:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[1, 8]]);
+        }, _callee, this, [[1, 7]]);
       }));
 
       function getGeneric(_x) {

@@ -87,6 +87,7 @@ class NavigationBar extends Component {
       return <div></div>
     }
 
+
     return (
       <span>
         <Link to={"/"}>
@@ -105,7 +106,13 @@ class NavigationBar extends Component {
          this.props.templateList &&
          Object.keys(this.props.templateList)
          .sort(
-           (a,b) => this.props.categoryData[a].orderIndex > this.props.categoryData[b].orderIndex)
+           (a,b) => {
+             if ( this.props.categoryData[a].orderIndex > this.props.categoryData[b].orderIndex )
+              return 1;
+            if ( this.props.categoryData[a].orderIndex < this.props.categoryData[b].orderIndex )
+              return -1;
+            return 0;
+           } )
          .map(
            (e, index) => (
              <CategoryButton key={index} category={e} subcategories={this.props.templateList[e].sort()} shortcuts={this.state.shortcuts}/>

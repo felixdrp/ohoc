@@ -26,6 +26,12 @@ import Preload from 'react-preload';
 
 import Halogen from 'halogen';
 
+
+import Backkey from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
+import Rightkey from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+
+var createReactClass = require('create-react-class');
+
 import {
   URL_BASE_MULTIMEDIA_IMAGES,
   URL_MULTIMEDIA,
@@ -92,16 +98,77 @@ export default class RecordView extends Component {
 
   getMediaPreviewers = (arrayOfMedia, type) => {
     // if the array is empty there is no reason to draw the preview container at all.
+
+    var buttonSize = 35
     if ( Array.isArray(arrayOfMedia) && arrayOfMedia.length > 0){
+
+      var Decorators = [{
+        component: createReactClass({
+          render() {
+            return (
+              <span
+                onClick={this.props.previousSlide}>
+                <Backkey className={"carouselButton"} style={{width:buttonSize,height:buttonSize}} ></Backkey>
+              </span>
+            )
+          }
+        }),
+        position: 'CenterLeft',
+        // style: {
+        //   padding: 20
+        // }
+      },
+      {
+        component: createReactClass({
+          render() {
+            return (
+              <span
+                onClick={this.props.nextSlide}>
+                <Rightkey className={"carouselButton"} style={{width:buttonSize,height:buttonSize}}></Rightkey>
+              </span>
+            )
+          }
+        }),
+        position: 'CenterRight',
+        // style: {
+        //   padding: 20
+        // }
+      }];
+
+
+
+       var minHeight;
+       var maxWidth;
+       var marginLeft = "1%"
+
+       switch (type) {
+         case "picture":
+            minHeight =  310
+            maxWidth = 400
+
+           break;
+         case "audio":
+            minHeight =  "auto"
+            maxWidth = 400
+           break;
+         case "text":
+            minHeight =  100
+            maxWidth = 250
+            marginLeft = "1%"
+           break;
+         default:
+           minHeight =  "auto"
+       }
+
 
         var allMedia = []
 
         arrayOfMedia.map(
           (element,i) => (
-            allMedia.push(<div key={i} style={{width:"100%", height: type == "picture" ? 310 : "auto",textAlign:"center"}} >
+            allMedia.push(<div key={i} style={{width:"98%", height: minHeight,textAlign:"center", marginTop:5, marginLeft: marginLeft}} >
               <RecordViewMediaElement
                 key={i}
-                style={{maxHeight:320,maxWidth:400, minHeight : type == "picture" ? 310 : "auto",marginRight:10}}
+                style={{maxHeight:320,maxWidth:maxWidth, minHeight: minHeight, marginRight:10}}
                 media={{...element, src: URL_MULTIMEDIA + element.src}}
                 type={type}
               />
@@ -111,14 +178,15 @@ export default class RecordView extends Component {
 
         var commonStyle = {marginBottom:5}
 
+
         if ( type == "audio") {
           return allMedia.map(
             (element,i) => (
                 <span key={i} style={{...commonStyle, width:360}} >{element}</span>
             ))
         } else {
-          return (<div style={{...commonStyle, width:360, minHeight : type == "picture" ? 310 : "auto", marginTop:10, border: "1px dashed lightgrey",backgroundColor:"#e8e8e8"}}>
-                    <Carousel>
+          return (<div style={{...commonStyle, width:360, minHeight : minHeight, marginTop:10, border: "1px dashed lightgrey",backgroundColor:"#e8e8e8"}}>
+                    <Carousel decorators={Decorators}>
                           {allMedia}
                     </Carousel>
                   </div>)
@@ -370,9 +438,9 @@ export default class RecordView extends Component {
                   style={{
                     transition: 'all 0ms'
                   }}
-                  overlay={<CardTitle title={copyrightNotice} style={{margin:0,padding:0,height:20}} titleStyle={{fontSize:10,lineHeight: 1,padding:0}} ></CardTitle>}
+                  overlay={<CardTitle title={copyrightNotice} style={{margin:0, padding:0, height:20}} titleStyle={{fontSize:10, lineHeight:1, padding:0}} ></CardTitle>}
                 >
-                  <span style={{width:360,height:250}}><img style={{maxHeight: 250,maxWidth:360, borderRadius: 25}} src={
+                  <span style={{width:360,height:250}}><img style={{maxHeight:250, maxWidth:360}} src={
                        recordData.data.featuredImage ?
                        URL_MULTIMEDIA + recordData.data.featuredImage:
                        baseImage

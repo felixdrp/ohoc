@@ -83,10 +83,11 @@ export default class RecordViewMediaElement extends Component {
             <span
               style={{
                 float:"left",
-                width: this.props.type === "audio" ? 260 : "100%",
+                width: this.props.type === "audio" ? 246 : 345,
+                display: this.props.type === "text" ? "block" : "inherit",
 
               }}>
-              <PreviewGenerator element={this.props.media} style={{maxHeight:250,width:"100%", minWidth: 100,marginTop:5}} />
+              <PreviewGenerator element={this.props.media} style={{maxHeight:250,width:"100%", minWidth: 100}} />
             </span>
 
           </span>
@@ -95,7 +96,7 @@ export default class RecordViewMediaElement extends Component {
 
     return (
 
-      <Card style={{marginBottom:5,padding:3,paddingTop:5, display: "inline-block",zIndex: this.state.isOpen ? 200 : 1500}} onClick={this.openExtendedView}>
+      <Card style={{width:355, marginBottom:5,padding:3,paddingTop:5, display: "inline-block",zIndex: this.state.isOpen ? 200 : 1500}} onClick={this.openExtendedView}>
 
         {this.state.isOpen &&
           <Lightbox
@@ -113,11 +114,6 @@ export default class RecordViewMediaElement extends Component {
           />
         }
 
-        {/* <Measure
-          onMeasure={(dimensions) => {
-            this.setState({dimensions})
-          }}
-        > */}
         <Dialog
           title={ this.props.media.title ? <h2> {this.props.media.title} <hr/> </h2> : ""}
           actions={actions}
@@ -154,7 +150,6 @@ export default class RecordViewMediaElement extends Component {
 
 
          </Dialog>
-        {/* </Measure> */}
 
         {this.props.type == "picture" ? pictureMediaElement : otherMediaElement}
 

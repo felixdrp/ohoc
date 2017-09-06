@@ -47,21 +47,29 @@ class BrowseRecords extends Component {
         >
         {
          this.props.templateList &&
-         Object.keys(this.props.templateList).sort( (a,b) => this.props.categoryData[a].orderIndex > this.props.categoryData[b].orderIndex).map(
-           (e, index) => (
-             <Link key={index} to={URL_CATEGORIES_LIST + e} style={{ textDecoration: 'none'}}>
+         Object.keys(this.props.templateList).sort( (a,b) => {
+
+             if ( this.props.categoryData[a].orderIndex > this.props.categoryData[b].orderIndex )
+              return 1;
+            if ( this.props.categoryData[a].orderIndex < this.props.categoryData[b].orderIndex )
+              return -1;
+            return 0;
+         }).map(
+           (e, index) => {
+
+             return <Link key={index} to={URL_CATEGORIES_LIST + e} style={{ textDecoration: 'none'}}>
                <GridTile
                  key={index}
                  title={<span style={{fontSize:25}}>{e}</span>}
                  subtitle={this.props.categoryData[e].copyrightNotice}
-                 style={{backgroundColor:"rgb(204, 204, 204)"}}
+                 style={{backgroundColor:"rgb(204, 204, 204)", borderRadius: 25}}
                >
                  <span style={{width:"100%",height:"100%",textAlign:"center",verticalAlign:"middle"}}>
                    <img style={{width:"100%"}} src={this.props.categoryData[e].src ? this.props.categoryData[e].src : baseAvatarImage} />
                  </span>
                </GridTile>
              </Link>
-           )
+             }
          )
         }
         </GridList>
@@ -89,7 +97,7 @@ class BrowseRecords extends Component {
 */}
 
           {results}
-
+      
 
         <div style={{marginLeft:"10%",fontSize:18}}>
           <div style={{marginTop:30,paddingLeft:0,paddingRight:50, width:"88%", textAlign:"justify"}}>

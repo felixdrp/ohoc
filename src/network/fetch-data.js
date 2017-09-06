@@ -11,9 +11,9 @@ export default class fetchData {
 
   async getGeneric(path) {
     let result
+
     try {
-      result = await this.httpClient.send('', { path })
-      result = JSON.parse(result)
+      result = await this.httpClient.send('', { url : path })
     } catch(error) {
       console.error('fetching template list error > ' + error)
     }
@@ -36,15 +36,16 @@ export default class fetchData {
   async createRecord(data) {
     let newRecordId
     let body = JSON.stringify(data)
+
     try {
       newRecordId = await this.httpClient.send(
         body,
         {
           method: 'PUT',
-          path: urlBase + 'record/create',
+          url: urlBase + 'record/create',
           headers: {'content-type': 'application/json'},
+          data: body
         })
-      newRecordId = JSON.parse(newRecordId)
     } catch(error) {
       console.error('fetching template list error > ' + error)
     }
@@ -55,16 +56,16 @@ export default class fetchData {
   async updateParagraph(template, subtemplate, paragraph) {
     let result
     let body = paragraph
-    console.log(template +" "+subtemplate+" "+paragraph)
+
     try {
       result = await this.httpClient.send(
         body,
         {
           method: 'POST',
-          path: urlBase + 'category/paragraphUpdate/' + template + "/" + subtemplate,
+          url: urlBase + 'category/paragraphUpdate/' + template + "/" + subtemplate,
           headers: {'content-type': 'application/json'},
+          data: body
         })
-      result = JSON.parse(result)
     } catch(error) {
       console.error('fetching template list error > ' + error)
     }
@@ -82,16 +83,16 @@ export default class fetchData {
 
   async setRecordData(recordId, data) {
     let result
-    let body = JSON.stringify(data)
+    let body = data
     try {
       result = await this.httpClient.send(
         body,
         {
           method: 'POST',
-          path: urlBase + 'setRecord/' + recordId,
+          url: urlBase + 'setRecord/' + recordId,
           headers: {'content-type': 'application/json'},
+          data: body,
         })
-      result = JSON.parse(result)
     } catch(error) {
       console.error('fetching template list error > ' + error)
     }
@@ -101,14 +102,15 @@ export default class fetchData {
 
   async deleteRecord(recordId) {
     let result
+
     try {
       result = await this.httpClient.send(
         'Delete Record',
         {
           method: 'POST',
-          path: urlBase + 'deleteRecord/' + recordId,
+          url: urlBase + 'deleteRecord/' + recordId,
         })
-      result = JSON.parse(result)
+
     } catch(error) {
       console.error('fetching template list error > ' + error)
     }
