@@ -52,10 +52,9 @@ var fetchData = function () {
             switch (_context.prev = _context.next) {
               case 0:
                 result = void 0;
-
                 _context.prev = 1;
                 _context.next = 4;
-                return this.httpClient.send('', { path: path });
+                return this.httpClient.send('', { url: path });
 
               case 4:
                 result = _context.sent;
@@ -184,32 +183,31 @@ var fetchData = function () {
                 _context5.next = 5;
                 return this.httpClient.send(body, {
                   method: 'PUT',
-                  path: urlBase + 'record/create',
-                  headers: { 'content-type': 'application/json' }
+                  url: urlBase + 'record/create',
+                  headers: { 'content-type': 'application/json' },
+                  data: body
                 });
 
               case 5:
                 newRecordId = _context5.sent;
-
-                newRecordId = JSON.parse(newRecordId);
-                _context5.next = 12;
+                _context5.next = 11;
                 break;
 
-              case 9:
-                _context5.prev = 9;
+              case 8:
+                _context5.prev = 8;
                 _context5.t0 = _context5['catch'](2);
 
                 console.error('fetching template list error > ' + _context5.t0);
 
-              case 12:
+              case 11:
                 return _context5.abrupt('return', newRecordId);
 
-              case 13:
+              case 12:
               case 'end':
                 return _context5.stop();
             }
           }
-        }, _callee5, this, [[2, 9]]);
+        }, _callee5, this, [[2, 8]]);
       }));
 
       function createRecord(_x3) {
@@ -229,38 +227,35 @@ var fetchData = function () {
               case 0:
                 result = void 0;
                 body = paragraph;
-
-                console.log(template + " " + subtemplate + " " + paragraph);
-                _context6.prev = 3;
-                _context6.next = 6;
+                _context6.prev = 2;
+                _context6.next = 5;
                 return this.httpClient.send(body, {
                   method: 'POST',
-                  path: urlBase + 'category/paragraphUpdate/' + template + "/" + subtemplate,
-                  headers: { 'content-type': 'application/json' }
+                  url: urlBase + 'category/paragraphUpdate/' + template + "/" + subtemplate,
+                  headers: { 'content-type': 'application/json' },
+                  data: body
                 });
 
-              case 6:
+              case 5:
                 result = _context6.sent;
-
-                result = JSON.parse(result);
-                _context6.next = 13;
+                _context6.next = 11;
                 break;
 
-              case 10:
-                _context6.prev = 10;
-                _context6.t0 = _context6['catch'](3);
+              case 8:
+                _context6.prev = 8;
+                _context6.t0 = _context6['catch'](2);
 
                 console.error('fetching template list error > ' + _context6.t0);
 
-              case 13:
+              case 11:
                 return _context6.abrupt('return', result);
 
-              case 14:
+              case 12:
               case 'end':
                 return _context6.stop();
             }
           }
-        }, _callee6, this, [[3, 10]]);
+        }, _callee6, this, [[2, 8]]);
       }));
 
       function updateParagraph(_x4, _x5, _x6) {
@@ -335,37 +330,36 @@ var fetchData = function () {
             switch (_context9.prev = _context9.next) {
               case 0:
                 result = void 0;
-                body = (0, _stringify2.default)(data);
+                body = data;
                 _context9.prev = 2;
                 _context9.next = 5;
                 return this.httpClient.send(body, {
                   method: 'POST',
-                  path: urlBase + 'setRecord/' + recordId,
-                  headers: { 'content-type': 'application/json' }
+                  url: urlBase + 'setRecord/' + recordId,
+                  headers: { 'content-type': 'application/json' },
+                  data: body
                 });
 
               case 5:
                 result = _context9.sent;
-
-                result = JSON.parse(result);
-                _context9.next = 12;
+                _context9.next = 11;
                 break;
 
-              case 9:
-                _context9.prev = 9;
+              case 8:
+                _context9.prev = 8;
                 _context9.t0 = _context9['catch'](2);
 
                 console.error('fetching template list error > ' + _context9.t0);
 
-              case 12:
+              case 11:
                 return _context9.abrupt('return', result);
 
-              case 13:
+              case 12:
               case 'end':
                 return _context9.stop();
             }
           }
-        }, _callee9, this, [[2, 9]]);
+        }, _callee9, this, [[2, 8]]);
       }));
 
       function setRecordData(_x10, _x11) {
@@ -388,31 +382,29 @@ var fetchData = function () {
                 _context10.next = 4;
                 return this.httpClient.send('Delete Record', {
                   method: 'POST',
-                  path: urlBase + 'deleteRecord/' + recordId
+                  url: urlBase + 'deleteRecord/' + recordId
                 });
 
               case 4:
                 result = _context10.sent;
-
-                result = JSON.parse(result);
-                _context10.next = 11;
+                _context10.next = 10;
                 break;
 
-              case 8:
-                _context10.prev = 8;
+              case 7:
+                _context10.prev = 7;
                 _context10.t0 = _context10['catch'](1);
 
                 console.error('fetching template list error > ' + _context10.t0);
 
-              case 11:
+              case 10:
                 return _context10.abrupt('return', result);
 
-              case 12:
+              case 11:
               case 'end':
                 return _context10.stop();
             }
           }
-        }, _callee10, this, [[1, 8]]);
+        }, _callee10, this, [[1, 7]]);
       }));
 
       function deleteRecord(_x12) {

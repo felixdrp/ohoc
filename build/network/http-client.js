@@ -23,8 +23,6 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-
-
 var HttpClient = function () {
   function HttpClient() {
     var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -47,15 +45,15 @@ var HttpClient = function () {
 
       return new _promise2.default(function (resolve, reject) {
 
-        _axios2.default.get(options.path).then(function (response) {
+        (0, _axios2.default)(options).then(function (response) {
           resolve(response.data);
+        }).catch(function (error) {
+          console.log(error);
         });
-
       });
     }
   }]);
   return HttpClient;
-}(); 
-
+}();
 
 exports.default = HttpClient;

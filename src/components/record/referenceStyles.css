@@ -20,3 +20,20 @@
 .journal.articles.journal.title {
     font-style: italic;
 }
+
+
+.journal.articles.essay.title {
+    font-style: normal;
+}
+
+.newspapers.newspaper.title {
+      font-style: italic;
+}
+
+.edited.books.title {
+      font-style: italic;
+}
+
+.books.title {
+      font-style: italic;
+}
