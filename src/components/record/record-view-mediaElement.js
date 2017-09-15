@@ -83,7 +83,7 @@ export default class RecordViewMediaElement extends Component {
             <span
               style={{
                 float:"left",
-                width: this.props.type === "audio" ? 246 : 345,
+                width: this.props.type === "audio" ? 260 : 345,
                 display: this.props.type === "text" ? "block" : "inherit",
 
               }}>
@@ -154,7 +154,7 @@ export default class RecordViewMediaElement extends Component {
         {this.props.type == "picture" ? pictureMediaElement : otherMediaElement}
 
         { (this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video"))
-                      ? <span style={{}}><RaisedButton label="Transcript" style={{height:31,marginTop:5}} labelStyle={{paddingLeft:2,paddingRight:5,marginLeft:5}}
+                      ? <span style={{}}><RaisedButton label="Transcript" style={{height:31,marginTop:0}} labelStyle={{paddingLeft:2,paddingRight:5,marginLeft:5,fontSize:12}}
                         onClick={ () => this.state.showTranscript ? this.setState({showTranscript : false}) : this.setState({showTranscript : true})}/></span>
                       : ""}
 

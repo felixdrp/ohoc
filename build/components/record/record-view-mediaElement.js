@@ -163,7 +163,7 @@ var RecordViewMediaElement = function (_Component) {
           {
             style: {
               float: "left",
-              width: this.props.type === "audio" ? 246 : 345,
+              width: this.props.type === "audio" ? 260 : 345,
               display: this.props.type === "text" ? "block" : "inherit"
 
             } },
@@ -258,7 +258,7 @@ var RecordViewMediaElement = function (_Component) {
         this.props.media.transcript && this.props.media.transcript.length > 0 && (this.props.type === "audio" || this.props.type === "video") ? _react2.default.createElement(
           'span',
           { style: {} },
-          _react2.default.createElement(_RaisedButton2.default, { label: 'Transcript', style: { height: 31, marginTop: 5 }, labelStyle: { paddingLeft: 2, paddingRight: 5, marginLeft: 5 },
+          _react2.default.createElement(_RaisedButton2.default, { label: 'Transcript', style: { height: 31, marginTop: 0 }, labelStyle: { paddingLeft: 2, paddingRight: 5, marginLeft: 5, fontSize: 12 },
             onClick: function onClick() {
               return _this2.state.showTranscript ? _this2.setState({ showTranscript: false }) : _this2.setState({ showTranscript: true });
             } })
